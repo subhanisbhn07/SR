@@ -9,18 +9,29 @@ import { ConsumerDashboard } from './components/dashboard/ConsumerDashboard';
 import { EnterpriseDashboard } from './components/dashboard/EnterpriseDashboard';
 import { SessionCard } from './components/sessions/SessionCard';
 import { SessionPlayer } from './components/sessions/SessionPlayer';
+import { Homepage } from './pages/Homepage';
 
 function App() {
   const { isAuthenticated, mode } = useAuthStore();
   const { sessions, startSession, currentSession } = useWellnessStore();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showHomepage, setShowHomepage] = useState(true);
   
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center p-4">
         <LoginForm />
       </div>
+    );
+  }
+
+  // Show the new homepage design
+  if (showHomepage) {
+    return (
+      <Router>
+        <Homepage />
+      </Router>
     );
   }
   

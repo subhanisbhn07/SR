@@ -31,17 +31,17 @@ export default {
           950: '#40160a',
         },
         accent: {
-          50: '#f0f4ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+          50: '#fef7ee',
+          100: '#fdecd7',
+          200: '#fad5ae',
+          300: '#f6b87a',
+          400: '#f19344',
+          500: '#FAA546', // Main accent color from spec
+          600: '#de5a16',
+          700: '#b84414',
+          800: '#933618',
+          900: '#762e16',
+          950: '#40160a',
         },
         success: {
           50: '#f0fdf4',
@@ -84,7 +84,7 @@ export default {
         },
         neutral: {
           50: '#fafafa',
-          100: '#f5f5f5',
+          100: '#EEEEEE', // Light text from spec
           200: '#e5e5e5',
           300: '#d4d4d4',
           400: '#a3a3a3',
@@ -92,13 +92,13 @@ export default {
           600: '#525252',
           700: '#404040',
           800: '#262626',
-          900: '#171717',
+          900: '#121212', // Dark background from spec
           950: '#0a0a0a',
         }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Cal Sans', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
       },
       spacing: {
         '18': '4.5rem',
