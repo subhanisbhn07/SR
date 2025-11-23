@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Play, Pause, Volume2, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, Play, Pause, Volume2, CheckCircle, Music, Sparkles, AlertTriangle } from 'lucide-react';
 import { useJourneyStore } from '../features/journey/store/journeyStore';
 import { useManifestationStore } from '../features/manifestation/store/manifestationStore';
+import { audioAmbienceData } from '../features/journey/data/audioAmbience';
+import { useAuthStore } from '../store/authStore';
 
 interface DayDetailProps {
   stepNumber: number;
@@ -12,6 +14,7 @@ interface DayDetailProps {
 export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const { roadSteps, completeStep, userProgress } = useJourneyStore();
   const { logSign, addJournalEntry } = useManifestationStore();
+  const { user } = useAuthStore();
   
   const step = roadSteps.find(s => s.stepNumber === stepNumber);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -22,8 +25,13 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const [journalText, setJournalText] = useState('');
   const [hasCompletedMeditation, setHasCompletedMeditation] = useState(false);
   const [hasLoggedSign, setHasLoggedSign] = useState(false);
+  const [selectedAmbience, setSelectedAmbience] = useState(audioAmbienceData[0].id);
+  const [showAmbienceSelector, setShowAmbienceSelector] = useState(false);
+  const [showSpecialEvent, setShowSpecialEvent] = useState(false);
 
   const isCompleted = userProgress.completedSteps.includes(stepNumber);
+  const isSubscribed = user?.mode === 'enterprise';
+  const availableAmbience = audioAmbienceData.filter(a => !a.isPremium || isSubscribed);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -42,6 +50,15 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
     }
     return () => clearInterval(interval);
   }, [isPlaying, progress, duration]);
+
+  useEffect(() => {
+    if (step?.specialEvent && !isCompleted) {
+      const timer = setTimeout(() => {
+        setShowSpecialEvent(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [step, isCompleted]);
 
   if (!step) {
     return (
@@ -163,6 +180,57 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                 {label} ({Math.floor(value / 60)}m)
               </button>
             ))}
+          </div>
+
+          {/* Ambience Selector */}
+          <div className="mb-4">
+            <button
+              onClick={() => setShowAmbienceSelector(!showAmbienceSelector)}
+              className="flex items-center gap-2 px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded-lg transition-colors"
+            >
+              <Music className="w-4 h-4 text-accent-500" />
+              <span className="text-sm text-white">
+                {audioAmbienceData.find(a => a.id === selectedAmbience)?.name || 'Select Background'}
+              </span>
+            </button>
+            
+            <AnimatePresence>
+              {showAmbienceSelector && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mt-2 grid grid-cols-2 gap-2 overflow-hidden"
+                >
+                  {availableAmbience.map((ambience) => (
+                    <button
+                      key={ambience.id}
+                      onClick={() => {
+                        setSelectedAmbience(ambience.id);
+                        setShowAmbienceSelector(false);
+                      }}
+                      className={`
+                        p-3 rounded-lg text-left transition-colors text-sm
+                        ${selectedAmbience === ambience.id
+                          ? 'bg-accent-500 text-white'
+                          : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
+                        }
+                      `}
+                    >
+                      <div className="font-medium">{ambience.name}</div>
+                      <div className="text-xs opacity-75">{ambience.description}</div>
+                    </button>
+                  ))}
+                  {!isSubscribed && audioAmbienceData.some(a => a.isPremium) && (
+                    <div className="col-span-2 p-3 bg-accent-500/10 border border-accent-500/30 rounded-lg text-center">
+                      <p className="text-xs text-accent-400">
+                        Unlock {audioAmbienceData.filter(a => a.isPremium).length} more tracks with Seeker subscription
+                      </p>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Play Button */}
@@ -326,6 +394,87 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           </motion.div>
         )}
       </div>
+
+      {/* Special Events Overlay */}
+      <AnimatePresence>
+        {showSpecialEvent && step?.specialEvent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowSpecialEvent(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="max-w-md w-full bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl p-8 border-2 border-accent-500/50"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {step.specialEvent === 'glitch' && (
+                <>
+                  <AlertTriangle className="w-16 h-16 text-accent-500 mx-auto mb-4 animate-pulse" />
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    Signal Interference Detected
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    "They are looking for you..."
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    Something is trying to reach you through the meditation. This is not a malfunction. 
+                    Pay attention to the signs around you today.
+                  </p>
+                </>
+              )}
+              
+              {step.specialEvent === 'be_the_sign' && (
+                <>
+                  <Sparkles className="w-16 h-16 text-accent-500 mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    You Are The Sign
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    Today, you do not look for a sign. You ARE the sign.
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    Wear something RED today. If you see someone else wearing red, smile. 
+                    You have just activated a synchronicity. Share your experience with #SignRoad
+                  </p>
+                </>
+              )}
+              
+              {step.specialEvent === 'twin_flame' && (
+                <>
+                  <div className="flex justify-center mb-4">
+                    <div className="relative">
+                      <Sparkles className="w-12 h-12 text-accent-500" />
+                      <Sparkles className="w-12 h-12 text-primary-500 absolute top-0 left-6" />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    Twin Flame Connection
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    You have received a frequency code: <span className="font-mono text-accent-500">#{Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</span>
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    Somewhere in the world, another Seeker has the matching half of your code. 
+                    Share yours to find your connection. When you match, you both receive 500 Sparks.
+                  </p>
+                </>
+              )}
+              
+              <button
+                onClick={() => setShowSpecialEvent(false)}
+                className="w-full px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-colors"
+              >
+                Continue
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
