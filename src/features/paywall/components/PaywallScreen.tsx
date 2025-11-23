@@ -1,12 +1,27 @@
 import { motion } from 'framer-motion';
 import { Crown, Check, X } from 'lucide-react';
+import { useState } from 'react';
+import { SubscriptionModal } from '../../subscription/components/SubscriptionModal';
+import { useAuthStore } from '../../../store/authStore';
 
 interface PaywallScreenProps {
   onClose: () => void;
   onSubscribe: () => void;
 }
 
-export const PaywallScreen = ({ onClose, onSubscribe }: PaywallScreenProps) => {
+export const PaywallScreen = ({ onClose }: PaywallScreenProps) => {
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const { subscriptionTier } = useAuthStore();
+
+  const handleUpgradeClick = () => {
+    setShowSubscriptionModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowSubscriptionModal(false);
+    onClose();
+  };
+  
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <motion.div
@@ -111,7 +126,7 @@ export const PaywallScreen = ({ onClose, onSubscribe }: PaywallScreenProps) => {
                 </li>
               </ul>
               <button
-                onClick={onSubscribe}
+                onClick={handleUpgradeClick}
                 className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-accent-500 to-primary-500 hover:from-accent-600 hover:to-primary-600 text-white font-bold rounded-lg transition-all transform hover:scale-105"
               >
                 Become a Seeker
@@ -126,6 +141,12 @@ export const PaywallScreen = ({ onClose, onSubscribe }: PaywallScreenProps) => {
           </div>
         </div>
       </motion.div>
+
+      <SubscriptionModal
+        isOpen={showSubscriptionModal}
+        onClose={handleModalClose}
+        currentTier={subscriptionTier}
+      />
     </div>
   );
 };

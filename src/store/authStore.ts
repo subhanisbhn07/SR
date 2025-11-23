@@ -1,20 +1,24 @@
 import { create } from 'zustand';
 import { User } from '../types';
+import { SubscriptionTier } from '../shared/types/subscription';
 
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   mode: 'consumer' | 'enterprise';
+  subscriptionTier: SubscriptionTier;
   login: (email: string) => Promise<void>;
   logout: () => void;
   switchMode: (mode: 'consumer' | 'enterprise') => void;
   updateStreak: () => void;
+  updateSubscriptionTier: (tier: SubscriptionTier) => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
   mode: 'consumer',
+  subscriptionTier: SubscriptionTier.WANDERER,
   
   login: async (email: string) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -39,7 +43,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
   
   logout: () => {
-    set({ user: null, isAuthenticated: false });
+    set({ user: null, isAuthenticated: false, subscriptionTier: SubscriptionTier.WANDERER });
   },
   
   switchMode: (mode) => {
@@ -55,5 +59,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (user) {
       set({ user: { ...user, streak: user.streak + 1 } });
     }
+  },
+  
+  updateSubscriptionTier: (tier: SubscriptionTier) => {
+    set({ subscriptionTier: tier });
   },
 }));
