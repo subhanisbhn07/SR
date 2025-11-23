@@ -11,8 +11,11 @@ import { GoalIntake } from './features/manifestation/components/GoalIntake';
 import { PaywallScreen } from './features/paywall/components/PaywallScreen';
 import { CosmeticsShop } from './features/cosmetics/components/CosmeticsShop';
 import { GlobalFeed } from './features/feed/components/GlobalFeed';
+import { HallOfFame } from './features/hallOfFame/components/HallOfFame';
+import { ErrorBoundary } from './shared/components/ErrorBoundary';
+import { ToastContainer } from './shared/components/ui/ToastContainer';
 
-type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed';
+type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed' | 'hall-of-fame';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -68,6 +71,10 @@ function App() {
     setCurrentView('feed');
   };
 
+  const handleHallOfFameClick = () => {
+    setCurrentView('hall-of-fame');
+  };
+
   const handleGoalComplete = () => {
     setShowGoalIntake(false);
   };
@@ -79,23 +86,32 @@ function App() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
-        <LoginForm />
-      </div>
+      <ErrorBoundary>
+        <div className="min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
+          <LoginForm />
+        </div>
+        <ToastContainer />
+      </ErrorBoundary>
     );
   }
 
   if (showGoalIntake) {
-    return <GoalIntake onComplete={handleGoalComplete} />;
+    return (
+      <ErrorBoundary>
+        <GoalIntake onComplete={handleGoalComplete} />
+        <ToastContainer />
+      </ErrorBoundary>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-neutral-900">
-      <Header 
-        onLogClick={handleLogClick}
-        onShopClick={handleShopClick}
-        onFeedClick={handleFeedClick}
-      />
+    <ErrorBoundary>
+      <div className="min-h-screen bg-neutral-900">
+        <Header 
+          onLogClick={handleLogClick}
+          onShopClick={handleShopClick}
+          onFeedClick={handleFeedClick}
+        />
       
       {currentView === 'road' && (
         <InfiniteRoad onNodeClick={handleNodeClick} />
@@ -153,13 +169,18 @@ function App() {
         </div>
       )}
 
+      {currentView === 'hall-of-fame' && <HallOfFame />}
+
       {showPaywall && (
         <PaywallScreen
           onClose={() => setShowPaywall(false)}
           onSubscribe={handleSubscribe}
         />
       )}
-    </div>
+
+        <ToastContainer />
+      </div>
+    </ErrorBoundary>
   );
 }
 

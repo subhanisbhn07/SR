@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User, Settings, BookOpen, ShoppingBag, Globe } from 'lucide-react';
+import { User, Settings, BookOpen, ShoppingBag, Globe, Trophy } from 'lucide-react';
 import { useAuthStore } from '../../../store/authStore';
 import { useJourneyStore } from '../../../features/journey/store/journeyStore';
 import { LanternWidget } from '../../../features/gamification/components/LanternWidget';
@@ -10,9 +10,10 @@ interface HeaderProps {
   onLogClick?: () => void;
   onShopClick?: () => void;
   onFeedClick?: () => void;
+  onHallOfFameClick?: () => void;
 }
 
-export const Header = ({ onLogClick, onShopClick, onFeedClick }: HeaderProps) => {
+export const Header = ({ onLogClick, onShopClick, onFeedClick, onHallOfFameClick }: HeaderProps) => {
   const { user, logout } = useAuthStore();
   const { userProgress } = useJourneyStore();
   
@@ -44,6 +45,16 @@ export const Header = ({ onLogClick, onShopClick, onFeedClick }: HeaderProps) =>
                 <LanternWidget />
                 
                 <SparksCounter />
+
+                {onHallOfFameClick && userProgress.completedSteps.length >= 365 && (
+                  <button
+                    onClick={onHallOfFameClick}
+                    className="p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                    title="Hall of Fame"
+                  >
+                    <Trophy className="w-5 h-5 text-accent-500 hover:text-accent-400 transition-colors" />
+                  </button>
+                )}
 
                 {onFeedClick && (
                   <button
