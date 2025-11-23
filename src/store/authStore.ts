@@ -5,7 +5,7 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   mode: 'consumer' | 'enterprise';
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string) => Promise<void>;
   logout: () => void;
   switchMode: (mode: 'consumer' | 'enterprise') => void;
   updateStreak: () => void;
@@ -16,8 +16,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   mode: 'consumer',
   
-  login: async (email: string, password: string) => {
-    // Simulate API call
+  login: async (email: string) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     const mockUser: User = {

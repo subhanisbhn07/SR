@@ -1,118 +1,119 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useAuthStore } from './store/authStore';
-import { useWellnessStore } from './store/wellnessStore';
-import { Header } from './components/layout/Header';
-import { Sidebar } from './components/layout/Sidebar';
+import { useJourneyStore } from './store/journeyStore';
+import { useManifestationStore } from './store/manifestationStore';
 import { LoginForm } from './components/auth/LoginForm';
-import { ConsumerDashboard } from './components/dashboard/ConsumerDashboard';
-import { EnterpriseDashboard } from './components/dashboard/EnterpriseDashboard';
-import { SessionCard } from './components/sessions/SessionCard';
-import { SessionPlayer } from './components/sessions/SessionPlayer';
-import { Homepage } from './pages/Homepage';
+import { Header } from './components/layout/Header';
+import { InfiniteRoad } from './components/journey/InfiniteRoad';
+import { DayDetail } from './pages/DayDetail';
+import { TravelersLog } from './pages/TravelersLog';
+import { GoalIntake } from './components/manifestation/GoalIntake';
+import { PaywallScreen } from './components/paywall/PaywallScreen';
+
+type View = 'road' | 'day-detail' | 'log';
 
 function App() {
-  const { isAuthenticated, mode } = useAuthStore();
-  const { sessions, startSession, currentSession } = useWellnessStore();
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showHomepage, setShowHomepage] = useState(true);
+  const { isAuthenticated, user } = useAuthStore();
+  const { userProgress, setCurrentStep, updateLanternHealth } = useJourneyStore();
+  const { goal } = useManifestationStore();
   
+  const [currentView, setCurrentView] = useState<View>('road');
+  const [selectedStep, setSelectedStep] = useState<number | null>(null);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [showGoalIntake, setShowGoalIntake] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      updateLanternHealth();
+    }
+  }, [isAuthenticated, updateLanternHealth]);
+
+  useEffect(() => {
+    if (isAuthenticated && !goal) {
+      setShowGoalIntake(true);
+    }
+  }, [isAuthenticated, goal]);
+
+  useEffect(() => {
+    if (isAuthenticated && userProgress.completedSteps.includes(14)) {
+      const isSubscribed = user?.mode === 'enterprise';
+      if (!isSubscribed && userProgress.currentStep === 15) {
+        setShowPaywall(true);
+      }
+    }
+  }, [isAuthenticated, userProgress.completedSteps, userProgress.currentStep, user?.mode]);
+
+  const handleNodeClick = (stepNumber: number) => {
+    setSelectedStep(stepNumber);
+    setCurrentStep(stepNumber);
+    setCurrentView('day-detail');
+  };
+
+  const handleBackToRoad = () => {
+    setCurrentView('road');
+    setSelectedStep(null);
+  };
+
+  const handleLogClick = () => {
+    setCurrentView('log');
+  };
+
+  const handleGoalComplete = () => {
+    setShowGoalIntake(false);
+  };
+
+  const handleSubscribe = () => {
+    alert('Subscription feature coming soon! For demo purposes, you can continue exploring.');
+    setShowPaywall(false);
+  };
+
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
         <LoginForm />
       </div>
     );
   }
 
-  // Show the new homepage design
-  if (showHomepage) {
-    return (
-      <Router>
-        <Homepage />
-      </Router>
-    );
+  if (showGoalIntake) {
+    return <GoalIntake onComplete={handleGoalComplete} />;
   }
-  
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'dashboard':
-        return mode === 'consumer' ? <ConsumerDashboard /> : <EnterpriseDashboard />;
-      
-      case 'sessions':
-        return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold text-neutral-900">Wellness Sessions</h1>
-              <div className="flex space-x-2">
-                <select className="px-4 py-2 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500">
-                  <option>All Categories</option>
-                  <option>Mindfulness</option>
-                  <option>Productivity</option>
-                  <option>Confidence</option>
-                </select>
-                <select className="px-4 py-2 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500">
-                  <option>All Levels</option>
-                  <option>Beginner</option>
-                  <option>Intermediate</option>
-                  <option>Advanced</option>
-                </select>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sessions.map((session) => (
-                <SessionCard
-                  key={session.id}
-                  session={session}
-                  onStart={startSession}
-                />
-              ))}
-            </div>
-          </div>
-        );
-      
-      default:
-        return (
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-semibold text-neutral-900 mb-4">
-              {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-            </h2>
-            <p className="text-neutral-600">This section is coming soon!</p>
-          </div>
-        );
-    }
-  };
-  
+
   return (
-    <Router>
-      <div className="min-h-screen bg-neutral-50">
-        <Header onMenuClick={() => setSidebarOpen(true)} />
-        
-        <div className="flex">
-          <Sidebar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            isOpen={sidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-          />
-          
-          <main className="flex-1 lg:ml-64 p-6">
-            <div className="max-w-7xl mx-auto">
-              {renderContent()}
+    <div className="min-h-screen bg-neutral-900">
+      <Header onLogClick={handleLogClick} />
+      
+      {currentView === 'road' && (
+        <InfiniteRoad onNodeClick={handleNodeClick} />
+      )}
+      
+      {currentView === 'day-detail' && selectedStep !== null && (
+        <DayDetail stepNumber={selectedStep} onBack={handleBackToRoad} />
+      )}
+      
+      {currentView === 'log' && (
+        <div>
+          <div className="sticky top-16 z-10 bg-neutral-900/80 backdrop-blur-sm border-b border-neutral-800">
+            <div className="max-w-4xl mx-auto px-4 py-4">
+              <button
+                onClick={() => setCurrentView('road')}
+                className="text-neutral-400 hover:text-white transition-colors"
+              >
+                ← Back to Road
+              </button>
             </div>
-          </main>
+          </div>
+          <TravelersLog />
         </div>
-        
-        {currentSession && (
-          <SessionPlayer
-            session={currentSession}
-            onClose={() => useWellnessStore.getState().startSession(null as any)}
-          />
-        )}
-      </div>
-    </Router>
+      )}
+
+      {showPaywall && (
+        <PaywallScreen
+          onClose={() => setShowPaywall(false)}
+          onSubscribe={handleSubscribe}
+        />
+      )}
+    </div>
   );
 }
 
