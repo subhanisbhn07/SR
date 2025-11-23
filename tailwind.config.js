@@ -10,12 +10,21 @@ export default {
           200: '#bce5cd',
           300: '#8dd1ab',
           400: '#57b582',
-          500: '#359a63',
+          500: '#10b981', // SignRoad green
           600: '#287d4f',
           700: '#226441',
           800: '#1e5037',
           900: '#1a422f',
           950: '#0d2418',
+        },
+        // Onboarding theme colors (Serenify-inspired)
+        onboarding: {
+          bg: '#1B9B8E', // Teal background
+          'bg-light': '#20B2A3', // Lighter teal
+          surface: '#E8F5F0', // Mint/cream card background
+          'surface-elevated': '#F5FAF8', // Lighter mint
+          text: '#1a422f', // Dark green text
+          'text-secondary': '#4a5568', // Gray text
         },
         secondary: {
           50: '#fef7ee',
@@ -104,6 +113,16 @@ export default {
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',
+      },
+      borderRadius: {
+        'card': '24px',
+        'button': '9999px',
+        'container': '20px',
+      },
+      boxShadow: {
+        'card': '0 4px 16px rgba(0, 0, 0, 0.08)',
+        'card-hover': '0 8px 24px rgba(0, 0, 0, 0.12)',
+        'onboarding': '0 8px 32px rgba(27, 155, 142, 0.15)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -8,6 +8,7 @@ import { InfiniteRoad } from './features/journey/components/InfiniteRoad';
 import { DayDetail } from './pages/DayDetail';
 import { TravelersLog } from './pages/TravelersLog';
 import { GoalIntake } from './features/manifestation/components/GoalIntake';
+import { OnboardingFlow } from './features/manifestation/components/OnboardingFlow';
 import { PaywallScreen } from './features/paywall/components/PaywallScreen';
 import { CosmeticsShop } from './features/cosmetics/components/CosmeticsShop';
 import { GlobalFeed } from './features/feed/components/GlobalFeed';
@@ -27,6 +28,7 @@ function App() {
   const [currentView, setCurrentView] = useState<View>('road');
   const [selectedStep, setSelectedStep] = useState<number | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [showGoalIntake, setShowGoalIntake] = useState(false);
 
   useEffect(() => {
@@ -37,7 +39,13 @@ function App() {
 
   useEffect(() => {
     if (isAuthenticated && !goal) {
-      setShowGoalIntake(true);
+      // Show onboarding first, then goal intake
+      const hasSeenOnboarding = localStorage.getItem('signroad_onboarding_complete');
+      if (!hasSeenOnboarding) {
+        setShowOnboarding(true);
+      } else {
+        setShowGoalIntake(true);
+      }
     }
   }, [isAuthenticated, goal]);
 
@@ -77,6 +85,12 @@ function App() {
     setCurrentView('hall-of-fame');
   };
 
+  const handleOnboardingComplete = () => {
+    localStorage.setItem('signroad_onboarding_complete', 'true');
+    setShowOnboarding(false);
+    setShowGoalIntake(true);
+  };
+
   const handleGoalComplete = () => {
     setShowGoalIntake(false);
   };
@@ -92,6 +106,15 @@ function App() {
         <div className="min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 flex items-center justify-center p-4">
           <LoginForm />
         </div>
+        <ToastContainer />
+      </ErrorBoundary>
+    );
+  }
+
+  if (showOnboarding) {
+    return (
+      <ErrorBoundary>
+        <OnboardingFlow onComplete={handleOnboardingComplete} />
         <ToastContainer />
       </ErrorBoundary>
     );
