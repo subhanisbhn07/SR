@@ -5,6 +5,10 @@ import { useJourneyStore } from '../features/journey/store/journeyStore';
 import { useManifestationStore } from '../features/manifestation/store/manifestationStore';
 import { audioAmbienceData } from '../features/journey/data/audioAmbience';
 import { useAuthStore } from '../store/authStore';
+import { useViralStore } from '../features/viral/store/viralStore';
+import { UniverseReceipt } from '../features/viral/components/UniverseReceipt';
+import { SignalStrength } from '../features/viral/components/SignalStrength';
+import { TwinFlameMatch } from '../features/viral/components/TwinFlameMatch';
 
 interface DayDetailProps {
   stepNumber: number;
@@ -15,6 +19,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const { roadSteps, completeStep, userProgress } = useJourneyStore();
   const { logSign, addJournalEntry } = useManifestationStore();
   const { user } = useAuthStore();
+  const { generateReceipt, generateSignalStrength, generateTwinFlameCode, matchTwinFlame } = useViralStore();
   
   const step = roadSteps.find(s => s.stepNumber === stepNumber);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -28,6 +33,9 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const [selectedAmbience, setSelectedAmbience] = useState(audioAmbienceData[0].id);
   const [showAmbienceSelector, setShowAmbienceSelector] = useState(false);
   const [showSpecialEvent, setShowSpecialEvent] = useState(false);
+  const [currentReceipt, setCurrentReceipt] = useState<ReturnType<typeof generateReceipt> | null>(null);
+  const [currentSignalStrength, setCurrentSignalStrength] = useState<ReturnType<typeof generateSignalStrength> | null>(null);
+  const [currentTwinFlame, setCurrentTwinFlame] = useState<ReturnType<typeof generateTwinFlameCode> | null>(null);
 
   const isCompleted = userProgress.completedSteps.includes(stepNumber);
   const isSubscribed = user?.mode === 'enterprise';
@@ -82,6 +90,14 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
       note: signNote,
     });
     
+    const receipt = generateReceipt(
+      step.signChallenge,
+      step.signDescription,
+      step.stepNumber,
+      'Your Location'
+    );
+    
+    setCurrentReceipt(receipt);
     setHasLoggedSign(true);
     setShowSignLog(false);
     setSignNote('');
@@ -395,6 +411,47 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
         )}
       </div>
 
+      {/* Universe Receipt Modal */}
+      <AnimatePresence>
+        {currentReceipt && (
+          <UniverseReceipt
+            receipt={currentReceipt}
+            onClose={() => setCurrentReceipt(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Signal Strength Modal */}
+      <AnimatePresence>
+        {currentSignalStrength && (
+          <SignalStrength
+            signalStrength={currentSignalStrength}
+            onClose={() => setCurrentSignalStrength(null)}
+            onUnlock={() => {
+              alert('Clear audio unlocked! The interference has been cleared.');
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Twin Flame Modal */}
+      <AnimatePresence>
+        {currentTwinFlame && (
+          <TwinFlameMatch
+            twinFlameCode={currentTwinFlame}
+            onClose={() => setCurrentTwinFlame(null)}
+            onMatch={(code) => {
+              const matched = matchTwinFlame(code);
+              if (matched) {
+                alert('🔥 Twin Flame Match Found! You both earned 500 Sparks!');
+              } else {
+                alert('No match found. Keep sharing your code to find your Twin Flame!');
+              }
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Special Events Overlay */}
       <AnimatePresence>
         {showSpecialEvent && step?.specialEvent && (
@@ -425,6 +482,16 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                     Something is trying to reach you through the meditation. This is not a malfunction. 
                     Pay attention to the signs around you today.
                   </p>
+                  <button
+                    onClick={() => {
+                      const signal = generateSignalStrength(stepNumber);
+                      setCurrentSignalStrength(signal);
+                      setShowSpecialEvent(false);
+                    }}
+                    className="w-full px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-colors mb-3"
+                  >
+                    Check Signal Strength
+                  </button>
                 </>
               )}
               
@@ -456,21 +523,33 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                     Twin Flame Connection
                   </h3>
                   <p className="text-neutral-300 text-center mb-6">
-                    You have received a frequency code: <span className="font-mono text-accent-500">#{Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</span>
+                    You have received your frequency code
                   </p>
                   <p className="text-sm text-neutral-400 text-center mb-6">
                     Somewhere in the world, another Seeker has the matching half of your code. 
                     Share yours to find your connection. When you match, you both receive 500 Sparks.
                   </p>
+                  <button
+                    onClick={() => {
+                      const twinFlame = generateTwinFlameCode();
+                      setCurrentTwinFlame(twinFlame);
+                      setShowSpecialEvent(false);
+                    }}
+                    className="w-full px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-colors mb-3"
+                  >
+                    Reveal My Code
+                  </button>
                 </>
               )}
               
-              <button
-                onClick={() => setShowSpecialEvent(false)}
-                className="w-full px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-colors"
-              >
-                Continue
-              </button>
+              {step.specialEvent !== 'glitch' && step.specialEvent !== 'twin_flame' && (
+                <button
+                  onClick={() => setShowSpecialEvent(false)}
+                  className="w-full px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-colors"
+                >
+                  Continue
+                </button>
+              )}
             </motion.div>
           </motion.div>
         )}
