@@ -13,10 +13,11 @@ interface UniverseReceiptProps {
 
 export const UniverseReceipt = ({ receipt, onClose }: UniverseReceiptProps) => {
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [isCopying, setIsCopying] = useState(false);
   const toast = useToast();
   const receiptText = generateReceiptText(receipt);
 
-  const handleShare = (platform: string) => {
+  const handleShare = async (platform: string) => {
     const text = `I just found my sign "${receipt.signName}" on Day ${receipt.dayNumber}! The universe is speaking. 🌟 #SignRoad`;
     const url = 'https://signroad.com';
 
@@ -26,14 +27,28 @@ export const UniverseReceipt = ({ receipt, onClose }: UniverseReceiptProps) => {
         trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'twitter' });
         break;
       case 'instagram':
-        toast.info('Instagram sharing: Copy the text and share to your story!');
-        navigator.clipboard.writeText(text);
-        trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'instagram' });
+        setIsCopying(true);
+        try {
+          await navigator.clipboard.writeText(text);
+          toast.info('Instagram sharing: Copy the text and share to your story!');
+          trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'instagram' });
+        } catch {
+          toast.error('Failed to copy to clipboard');
+        } finally {
+          setIsCopying(false);
+        }
         break;
       case 'copy':
-        navigator.clipboard.writeText(text + '\n' + url);
-        toast.success('Copied to clipboard!');
-        trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'copy' });
+        setIsCopying(true);
+        try {
+          await navigator.clipboard.writeText(text + '\n' + url);
+          toast.success('Copied to clipboard!');
+          trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'copy' });
+        } catch {
+          toast.error('Failed to copy to clipboard');
+        } finally {
+          setIsCopying(false);
+        }
         break;
     }
     
@@ -196,10 +211,11 @@ export const UniverseReceipt = ({ receipt, onClose }: UniverseReceiptProps) => {
               </button>
               <button
                 onClick={() => handleShare('copy')}
-                className="p-3 bg-neutral-700 hover:bg-neutral-600 text-white rounded-lg transition-colors flex flex-col items-center gap-1"
+                disabled={isCopying}
+                className="p-3 bg-neutral-700 hover:bg-neutral-600 disabled:bg-neutral-800 disabled:text-neutral-500 text-white rounded-lg transition-colors flex flex-col items-center gap-1"
               >
                 <Share2 className="w-5 h-5" />
-                <span className="text-xs">Copy</span>
+                <span className="text-xs">{isCopying ? '...' : 'Copy'}</span>
               </button>
             </motion.div>
           )}
