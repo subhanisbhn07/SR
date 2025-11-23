@@ -54,19 +54,14 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
     90: { icon: Trophy, color: 'text-accent-500', label: 'Master' },
   };
 
-  // Calculate winding path positions (Candy Crush style)
+  // Calculate grid positions (5 columns per row)
   const getNodePosition = (index: number) => {
     const row = Math.floor(index / 5);
     const col = index % 5;
     
-    // Alternate direction each row (zigzag pattern)
-    const isEvenRow = row % 2 === 0;
-    const xPosition = isEvenRow ? col : (4 - col);
-    
     return {
-      x: xPosition * 25, // 25% spacing
-      y: row * 180, // Vertical spacing in pixels
-      isEvenRow,
+      x: col * 20, // 20% spacing for 5 columns (0%, 20%, 40%, 60%, 80%)
+      y: row * 200, // Vertical spacing in pixels
     };
   };
 
@@ -92,42 +87,9 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
             const isClickable = status === 'current' || status === 'completed' || status === 'available';
             const position = getNodePosition(index);
             const isSpecialEvent = specialEvents[step.stepNumber];
-            const prevPosition = index > 0 ? getNodePosition(index - 1) : null;
 
             return (
               <div key={step.stepNumber}>
-                {/* Connecting Path Line - Candy Striped */}
-                {prevPosition && (
-                  <svg
-                    className="absolute pointer-events-none"
-                    style={{
-                      left: `${prevPosition.x}%`,
-                      top: `${prevPosition.y + 40}px`,
-                      width: `${Math.abs(position.x - prevPosition.x)}%`,
-                      height: `${position.y - prevPosition.y}px`,
-                      zIndex: 0,
-                    }}
-                  >
-                    {/* Base primary green path */}
-                    <path
-                      d={`M ${prevPosition.isEvenRow ? '50%' : '50%'} 0 Q ${position.x > prevPosition.x ? '100%' : '0%'} 50% ${position.x > prevPosition.x ? '100%' : '0%'} 100%`}
-                      stroke={status === 'completed' || status === 'current' ? '#10b981' : '#6b7280'}
-                      strokeWidth="16"
-                      fill="none"
-                      opacity={status === 'future' || status === 'locked' ? '0.3' : '0.8'}
-                    />
-                    {/* Light stripes overlay */}
-                    <path
-                      d={`M ${prevPosition.isEvenRow ? '50%' : '50%'} 0 Q ${position.x > prevPosition.x ? '100%' : '0%'} 50% ${position.x > prevPosition.x ? '100%' : '0%'} 100%`}
-                      stroke="rgba(248, 250, 252, 0.9)"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="20,20"
-                      opacity={status === 'future' || status === 'locked' ? '0.2' : '0.6'}
-                    />
-                  </svg>
-                )}
-
                 {/* Node */}
                 <motion.div
                   id={`step-${step.stepNumber}`}
