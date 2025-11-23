@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Share2, Download, X, Instagram, Twitter, Heart, Sparkles } from 'lucide-react';
 import { TwinFlameCode } from '../types/viral';
 import { useState } from 'react';
+import { useToast } from '../../../shared/hooks/useToast';
 
 interface TwinFlameMatchProps {
   twinFlameCode: TwinFlameCode;
@@ -12,6 +13,7 @@ interface TwinFlameMatchProps {
 export const TwinFlameMatch = ({ twinFlameCode, onClose, onMatch }: TwinFlameMatchProps) => {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [matchCode, setMatchCode] = useState('');
+  const toast = useToast();
   const [isMatching, setIsMatching] = useState(false);
 
   const handleShare = (platform: string) => {
@@ -23,11 +25,12 @@ export const TwinFlameMatch = ({ twinFlameCode, onClose, onMatch }: TwinFlameMat
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
         break;
       case 'instagram':
-        alert('Instagram sharing: Copy the text and share to your story!\n\n' + text);
+        toast.info('Instagram sharing: Copy the text and share to your story!');
+        navigator.clipboard.writeText(text);
         break;
       case 'copy':
         navigator.clipboard.writeText(text + '\n' + url);
-        alert('Copied to clipboard!');
+        toast.success('Copied to clipboard!');
         break;
     }
     

@@ -9,6 +9,7 @@ import { useViralStore } from '../features/viral/store/viralStore';
 import { UniverseReceipt } from '../features/viral/components/UniverseReceipt';
 import { SignalStrength } from '../features/viral/components/SignalStrength';
 import { TwinFlameMatch } from '../features/viral/components/TwinFlameMatch';
+import { useToast } from '../shared/hooks/useToast';
 
 interface DayDetailProps {
   stepNumber: number;
@@ -20,6 +21,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const { logSign, addJournalEntry } = useManifestationStore();
   const { user } = useAuthStore();
   const { generateReceipt, generateSignalStrength, generateTwinFlameCode, matchTwinFlame } = useViralStore();
+  const toast = useToast();
   
   const step = roadSteps.find(s => s.stepNumber === stepNumber);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -118,12 +120,15 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
 
   const handleCompleteStep = () => {
     if (!hasCompletedMeditation) {
-      alert('Please complete the meditation first!');
+      toast.warning('Please complete the meditation first!');
       return;
     }
     
-    completeStep(stepNumber);
-    onBack();
+    if (step) {
+      completeStep(step.stepNumber);
+      toast.success(`Day ${step.stepNumber} completed! +${step.sparksReward} Sparks`);
+      onBack();
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -428,7 +433,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
             signalStrength={currentSignalStrength}
             onClose={() => setCurrentSignalStrength(null)}
             onUnlock={() => {
-              alert('Clear audio unlocked! The interference has been cleared.');
+              toast.success('Clear audio unlocked! The interference has been cleared.');
             }}
           />
         )}
@@ -443,9 +448,9 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
             onMatch={(code) => {
               const matched = matchTwinFlame(code);
               if (matched) {
-                alert('🔥 Twin Flame Match Found! You both earned 500 Sparks!');
+                toast.success('🔥 Twin Flame Match Found! You both earned 500 Sparks!');
               } else {
-                alert('No match found. Keep sharing your code to find your Twin Flame!');
+                toast.info('No match found. Keep sharing your code to find your Twin Flame!');
               }
             }}
           />

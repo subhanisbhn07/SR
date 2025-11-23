@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Share2, Download, X, Instagram, Twitter, AlertTriangle } from 'lucide-react';
 import { SignalStrength as SignalStrengthType } from '../types/viral';
 import { useState } from 'react';
+import { useToast } from '../../../shared/hooks/useToast';
 
 interface SignalStrengthProps {
   signalStrength: SignalStrengthType;
@@ -12,6 +13,7 @@ interface SignalStrengthProps {
 export const SignalStrength = ({ signalStrength, onClose, onUnlock }: SignalStrengthProps) => {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [hasShared, setHasShared] = useState(false);
+  const toast = useToast();
 
   const handleShare = (platform: string) => {
     const text = `⚠️ Signal Interference Detected on Day ${signalStrength.dayNumber}!\n\nSignal Strength: ${signalStrength.strength}%\n\nThey are looking for me... 👁️ #SignRoad`;
@@ -22,11 +24,14 @@ export const SignalStrength = ({ signalStrength, onClose, onUnlock }: SignalStre
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
         break;
       case 'instagram':
-        alert('Instagram sharing: Copy the text and share to your story!\n\n' + text);
+        toast.info('Instagram sharing: Copy the text and share to your story!');
+        navigator.clipboard.writeText(text);
+        setHasShared(true);
         break;
       case 'copy':
         navigator.clipboard.writeText(text + '\n' + url);
-        alert('Copied to clipboard!');
+        toast.success('Copied to clipboard!');
+        setHasShared(true);
         break;
     }
     

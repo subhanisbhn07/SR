@@ -14,6 +14,7 @@ import { GlobalFeed } from './features/feed/components/GlobalFeed';
 import { HallOfFame } from './features/hallOfFame/components/HallOfFame';
 import { ErrorBoundary } from './shared/components/ErrorBoundary';
 import { ToastContainer } from './shared/components/ui/ToastContainer';
+import { useToast } from './shared/hooks/useToast';
 
 type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed' | 'hall-of-fame';
 
@@ -21,6 +22,7 @@ function App() {
   const { isAuthenticated, user } = useAuthStore();
   const { userProgress, setCurrentStep, updateLanternHealth } = useJourneyStore();
   const { goal } = useManifestationStore();
+  const toast = useToast();
   
   const [currentView, setCurrentView] = useState<View>('road');
   const [selectedStep, setSelectedStep] = useState<number | null>(null);
@@ -80,7 +82,7 @@ function App() {
   };
 
   const handleSubscribe = () => {
-    alert('Subscription feature coming soon! For demo purposes, you can continue exploring.');
+    toast.info('Subscription feature coming soon! For demo purposes, you can continue exploring.');
     setShowPaywall(false);
   };
 
@@ -111,6 +113,7 @@ function App() {
           onLogClick={handleLogClick}
           onShopClick={handleShopClick}
           onFeedClick={handleFeedClick}
+          onHallOfFameClick={handleHallOfFameClick}
         />
       
       {currentView === 'road' && (

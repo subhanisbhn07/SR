@@ -3,6 +3,7 @@ import { Share2, Download, X, Instagram, Twitter } from 'lucide-react';
 import { UniverseReceipt as ReceiptType } from '../types/viral';
 import { generateReceiptText } from '../utils/receiptGenerator';
 import { useState } from 'react';
+import { useToast } from '../../../shared/hooks/useToast';
 
 interface UniverseReceiptProps {
   receipt: ReceiptType;
@@ -11,6 +12,7 @@ interface UniverseReceiptProps {
 
 export const UniverseReceipt = ({ receipt, onClose }: UniverseReceiptProps) => {
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const toast = useToast();
   const receiptText = generateReceiptText(receipt);
 
   const handleShare = (platform: string) => {
@@ -22,11 +24,12 @@ export const UniverseReceipt = ({ receipt, onClose }: UniverseReceiptProps) => {
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
         break;
       case 'instagram':
-        alert('Instagram sharing: Copy the text and share to your story!\n\n' + text);
+        toast.info('Instagram sharing: Copy the text and share to your story!');
+        navigator.clipboard.writeText(text);
         break;
       case 'copy':
         navigator.clipboard.writeText(text + '\n' + url);
-        alert('Copied to clipboard!');
+        toast.success('Copied to clipboard!');
         break;
     }
     
