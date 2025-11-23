@@ -85,49 +85,87 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
           <TribeCampfire />
         </div>
 
-        {/* Winding Path Container */}
-        <div className="relative" style={{ minHeight: `${Math.ceil(roadSteps.length / 5) * 180}px` }}>
+        {/* Mobile Layout: Simple Grid (sm and below) */}
+        <div className="grid grid-cols-3 gap-4 md:hidden">
+          {roadSteps.map((step) => {
+            const status = getNodeStatus(step.stepNumber);
+            const isClickable = status === 'current' || status === 'completed' || status === 'available';
+            const isSpecialEvent = specialEvents[step.stepNumber];
+
+            return (
+              <motion.div
+                key={step.stepNumber}
+                id={`step-${step.stepNumber}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: step.stepNumber * 0.02 }}
+                className="flex flex-col items-center"
+              >
+                <button
+                  onClick={() => isClickable && onNodeClick(step.stepNumber)}
+                  disabled={!isClickable}
+                  className={`
+                    relative group
+                    ${isClickable ? 'cursor-pointer' : 'cursor-not-allowed'}
+                  `}
+                >
+                  {/* Crown decoration for special events */}
+                  {isSpecialEvent && (
+                    <div className="absolute -top-6 left-1/2 -translate-x-1/2">
+                      {React.createElement(isSpecialEvent.icon, {
+                        className: `w-6 h-6 ${isSpecialEvent.color} drop-shadow-lg`,
+                      })}
+                    </div>
+                  )}
+
+                  {/* Node Circle - Responsive Size */}
+                  <div className={`
+                    relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300
+                    ${status === 'current' ? 'bg-gradient-to-br from-accent-500 to-accent-600 shadow-xl shadow-accent-500/60 animate-pulse scale-110' : ''}
+                    ${status === 'completed' ? 'bg-gradient-to-br from-primary-500 to-primary-600 shadow-lg shadow-primary-500/40' : ''}
+                    ${status === 'available' ? 'bg-gradient-to-br from-neutral-700 to-neutral-800 shadow-lg shadow-neutral-700/40 active:scale-95' : ''}
+                    ${status === 'future' ? 'bg-gradient-to-br from-neutral-800 to-neutral-900 opacity-50 shadow-md' : ''}
+                    ${status === 'locked' ? 'bg-gradient-to-br from-neutral-900 to-neutral-950 opacity-40 shadow-md' : ''}
+                    border-4 ${status === 'current' ? 'border-accent-300' : status === 'completed' ? 'border-primary-300' : 'border-neutral-600'} shadow-[0_4px_0_rgba(0,0,0,0.3)]
+                  `}>
+                    {status === 'locked' ? (
+                      <Lock className="w-6 h-6 text-neutral-500" />
+                    ) : (
+                      <span className="text-white font-black text-2xl drop-shadow-md">
+                        {step.stepNumber}
+                      </span>
+                    )}
+                    
+                    {status === 'completed' && (
+                      <div className="absolute top-0 right-0 w-6 h-6 bg-accent-500 rounded-full border-2 border-white flex items-center justify-center">
+                        <CheckCircle className="w-4 h-4 text-white" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Day Label Below Node */}
+                  <div className="mt-2 text-center w-full">
+                    <div className="text-xs font-bold text-accent-400 bg-neutral-800/90 px-2 py-0.5 rounded-full mb-1 shadow-sm border border-accent-500/30">
+                      Sign {step.stepNumber}
+                    </div>
+                    <div className="text-xs font-semibold text-neutral-300 truncate">{step.title}</div>
+                  </div>
+                </button>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Desktop Layout: Winding Path (md and above) */}
+        <div className="hidden md:block relative" style={{ minHeight: `${Math.ceil(roadSteps.length / 5) * 180}px` }}>
           {roadSteps.map((step, index) => {
             const status = getNodeStatus(step.stepNumber);
             const isClickable = status === 'current' || status === 'completed' || status === 'available';
             const position = getNodePosition(index);
             const isSpecialEvent = specialEvents[step.stepNumber];
-            const prevPosition = index > 0 ? getNodePosition(index - 1) : null;
 
             return (
               <div key={step.stepNumber}>
-                {/* Connecting Path Line - Candy Striped */}
-                {prevPosition && (
-                  <svg
-                    className="absolute pointer-events-none"
-                    style={{
-                      left: `${prevPosition.x}%`,
-                      top: `${prevPosition.y + 40}px`,
-                      width: `${Math.abs(position.x - prevPosition.x)}%`,
-                      height: `${position.y - prevPosition.y}px`,
-                      zIndex: 0,
-                    }}
-                  >
-                    {/* Base primary green path */}
-                    <path
-                      d={`M ${prevPosition.isEvenRow ? '50%' : '50%'} 0 Q ${position.x > prevPosition.x ? '100%' : '0%'} 50% ${position.x > prevPosition.x ? '100%' : '0%'} 100%`}
-                      stroke={status === 'completed' || status === 'current' ? '#10b981' : '#6b7280'}
-                      strokeWidth="16"
-                      fill="none"
-                      opacity={status === 'future' || status === 'locked' ? '0.3' : '0.8'}
-                    />
-                    {/* Light stripes overlay */}
-                    <path
-                      d={`M ${prevPosition.isEvenRow ? '50%' : '50%'} 0 Q ${position.x > prevPosition.x ? '100%' : '0%'} 50% ${position.x > prevPosition.x ? '100%' : '0%'} 100%`}
-                      stroke="rgba(248, 250, 252, 0.9)"
-                      strokeWidth="16"
-                      fill="none"
-                      strokeDasharray="20,20"
-                      opacity={status === 'future' || status === 'locked' ? '0.2' : '0.6'}
-                    />
-                  </svg>
-                )}
-
                 {/* Node */}
                 <motion.div
                   id={`step-${step.stepNumber}`}
