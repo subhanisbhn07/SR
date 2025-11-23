@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useJourneyStore } from '../store/journeyStore';
 import { useAuthStore } from '../../../store/authStore';
-import { Lock, CheckCircle, Circle } from 'lucide-react';
+import { Lock, CheckCircle, Circle, Sparkles, Flame, Heart, Star, Zap, Crown, Trophy, Target, LucideIcon } from 'lucide-react';
 import { TribeCampfire } from '../../tribe/components/TribeCampfire';
+import React from 'react';
 
 interface InfiniteRoadProps {
   onNodeClick: (stepNumber: number) => void;
@@ -40,6 +41,35 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
     return 'future';
   };
 
+  // Special event days with milestone icons
+  const specialEvents: Record<number, { icon: LucideIcon; color: string; label: string }> = {
+    3: { icon: Zap, color: 'text-purple-400', label: 'The Glitch' },
+    7: { icon: Heart, color: 'text-pink-400', label: 'Be The Sign' },
+    12: { icon: Flame, color: 'text-orange-400', label: 'Twin Flame' },
+    40: { icon: Star, color: 'text-yellow-400', label: 'Invitation' },
+    50: { icon: Sparkles, color: 'text-cyan-400', label: 'Halfway' },
+    60: { icon: Target, color: 'text-blue-400', label: 'Threshold' },
+    70: { icon: Crown, color: 'text-purple-400', label: 'Self Celebration' },
+    80: { icon: Zap, color: 'text-green-400', label: 'Elevation' },
+    90: { icon: Trophy, color: 'text-accent-500', label: 'Master' },
+  };
+
+  // Calculate winding path positions (Candy Crush style)
+  const getNodePosition = (index: number) => {
+    const row = Math.floor(index / 5);
+    const col = index % 5;
+    
+    // Alternate direction each row (zigzag pattern)
+    const isEvenRow = row % 2 === 0;
+    const xPosition = isEvenRow ? col : (4 - col);
+    
+    return {
+      x: xPosition * 25, // 25% spacing
+      y: row * 180, // Vertical spacing in pixels
+      isEvenRow,
+    };
+  };
+
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 py-12 px-4">
       {/* Mystical background effects */}
@@ -48,90 +78,129 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
       </div>
 
-      {/* The Road Path */}
-      <div className="relative max-w-2xl mx-auto">
+      {/* The Road Path - Candy Crush Style */}
+      <div className="relative max-w-6xl mx-auto">
         {/* Tribe Campfire Widget */}
-        <div className="mb-8">
+        <div className="mb-12">
           <TribeCampfire />
         </div>
-        <div className="flex flex-col items-center space-y-8">
+
+        {/* Winding Path Container */}
+        <div className="relative" style={{ minHeight: `${Math.ceil(roadSteps.length / 5) * 180}px` }}>
           {roadSteps.map((step, index) => {
             const status = getNodeStatus(step.stepNumber);
             const isClickable = status === 'current' || status === 'completed' || status === 'available';
+            const position = getNodePosition(index);
+            const isSpecialEvent = specialEvents[step.stepNumber];
+            const prevPosition = index > 0 ? getNodePosition(index - 1) : null;
 
             return (
-              <motion.div
-                key={step.stepNumber}
-                id={`step-${step.stepNumber}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="relative w-full"
-              >
-                {/* Connecting line */}
-                {index > 0 && (
-                  <div className="absolute left-1/2 -top-8 w-0.5 h-8 bg-gradient-to-b from-primary-500/50 to-transparent transform -translate-x-1/2" />
+              <div key={step.stepNumber}>
+                {/* Connecting Path Line */}
+                {prevPosition && (
+                  <svg
+                    className="absolute pointer-events-none"
+                    style={{
+                      left: `${prevPosition.x}%`,
+                      top: `${prevPosition.y + 40}px`,
+                      width: `${Math.abs(position.x - prevPosition.x)}%`,
+                      height: `${position.y - prevPosition.y}px`,
+                    }}
+                  >
+                    <path
+                      d={`M ${prevPosition.isEvenRow ? '50%' : '50%'} 0 Q ${position.x > prevPosition.x ? '100%' : '0%'} 50% ${position.x > prevPosition.x ? '100%' : '0%'} 100%`}
+                      stroke={status === 'completed' || status === 'current' ? '#10b981' : '#404040'}
+                      strokeWidth="3"
+                      fill="none"
+                      strokeDasharray={status === 'future' || status === 'locked' ? '5,5' : '0'}
+                      opacity={status === 'future' || status === 'locked' ? '0.3' : '0.6'}
+                    />
+                  </svg>
                 )}
 
                 {/* Node */}
-                <button
-                  onClick={() => isClickable && onNodeClick(step.stepNumber)}
-                  disabled={!isClickable}
-                  className={`
-                    relative w-full p-6 rounded-2xl border-2 transition-all duration-300
-                    ${status === 'current' ? 'border-accent-500 bg-accent-500/10 shadow-lg shadow-accent-500/20' : ''}
-                    ${status === 'completed' ? 'border-primary-500 bg-primary-500/5' : ''}
-                    ${status === 'available' ? 'border-neutral-600 bg-neutral-800/50 hover:border-primary-500/50' : ''}
-                    ${status === 'future' ? 'border-neutral-700 bg-neutral-800/30 opacity-50' : ''}
-                    ${status === 'locked' ? 'border-neutral-700 bg-neutral-800/30 opacity-40' : ''}
-                    ${isClickable ? 'cursor-pointer' : 'cursor-not-allowed'}
-                  `}
+                <motion.div
+                  id={`step-${step.stepNumber}`}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.02 }}
+                  className="absolute"
+                  style={{
+                    left: `${position.x}%`,
+                    top: `${position.y}px`,
+                    transform: 'translateX(-50%)',
+                  }}
                 >
-                  <div className="flex items-start gap-4">
-                    {/* Icon */}
+                  <button
+                    onClick={() => isClickable && onNodeClick(step.stepNumber)}
+                    disabled={!isClickable}
+                    className={`
+                      relative group
+                      ${isClickable ? 'cursor-pointer' : 'cursor-not-allowed'}
+                    `}
+                  >
+                    {/* Node Circle */}
                     <div className={`
-                      flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center
-                      ${status === 'current' ? 'bg-accent-500 animate-pulse' : ''}
-                      ${status === 'completed' ? 'bg-primary-500' : ''}
-                      ${status === 'available' ? 'bg-neutral-700' : ''}
-                      ${status === 'future' ? 'bg-neutral-800' : ''}
-                      ${status === 'locked' ? 'bg-neutral-800' : ''}
+                      relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300
+                      ${status === 'current' ? 'bg-gradient-to-br from-accent-500 to-accent-600 shadow-lg shadow-accent-500/50 animate-pulse scale-110' : ''}
+                      ${status === 'completed' ? 'bg-gradient-to-br from-primary-500 to-primary-600 shadow-md' : ''}
+                      ${status === 'available' ? 'bg-gradient-to-br from-neutral-700 to-neutral-800 hover:scale-105' : ''}
+                      ${status === 'future' ? 'bg-neutral-800 opacity-40' : ''}
+                      ${status === 'locked' ? 'bg-neutral-900 opacity-30' : ''}
+                      border-4 ${status === 'current' ? 'border-accent-300' : status === 'completed' ? 'border-primary-300' : 'border-neutral-600'}
                     `}>
-                      {status === 'completed' && <CheckCircle className="w-6 h-6 text-white" />}
-                      {status === 'current' && <Circle className="w-6 h-6 text-white fill-white" />}
-                      {status === 'locked' && <Lock className="w-6 h-6 text-neutral-500" />}
-                      {(status === 'available' || status === 'future') && (
-                        <span className="text-white font-semibold">{step.stepNumber}</span>
+                      {/* Special Event Icon */}
+                      {isSpecialEvent ? (
+                        <div className="flex flex-col items-center">
+                          {React.createElement(isSpecialEvent.icon, {
+                            className: `w-8 h-8 ${isSpecialEvent.color}`,
+                          })}
+                        </div>
+                      ) : (
+                        <>
+                          {status === 'completed' && <CheckCircle className="w-8 h-8 text-white" />}
+                          {status === 'current' && <Circle className="w-8 h-8 text-white fill-white" />}
+                          {status === 'locked' && <Lock className="w-6 h-6 text-neutral-500" />}
+                          {(status === 'available' || status === 'future') && (
+                            <span className="text-white font-bold text-lg">{step.stepNumber}</span>
+                          )}
+                        </>
                       )}
                     </div>
 
-                    {/* Content */}
-                    <div className="flex-1 text-left">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-lg font-semibold text-white">
-                          Day {step.stepNumber}: {step.title}
-                        </h3>
-                        {!step.isFree && (
-                          <span className="px-2 py-0.5 text-xs font-medium bg-accent-500/20 text-accent-400 rounded-full">
-                            Premium
-                          </span>
-                        )}
+                    {/* Hover Card */}
+                    <div className={`
+                      absolute left-1/2 -translate-x-1/2 top-24 w-64 p-4 rounded-xl
+                      bg-neutral-900 border-2 ${isSpecialEvent ? 'border-accent-500' : 'border-neutral-700'}
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10
+                      ${!isClickable ? 'hidden' : ''}
+                    `}>
+                      <div className="text-center">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <span className="text-xs font-semibold text-accent-400">Day {step.stepNumber}</span>
+                          {isSpecialEvent && (
+                            <span className="px-2 py-0.5 text-xs font-bold bg-accent-500/20 text-accent-400 rounded-full">
+                              {isSpecialEvent.label}
+                            </span>
+                          )}
+                        </div>
+                        <h4 className="text-sm font-bold text-white mb-1">{step.title}</h4>
+                        <p className="text-xs text-neutral-400 mb-2">{step.description}</p>
+                        <div className="text-xs text-primary-400 font-medium">
+                          Sign {step.stepNumber}: {step.signChallenge}
+                        </div>
                       </div>
-                      <p className="text-sm text-neutral-400">{step.description}</p>
-                      
-                      {status === 'current' && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="mt-3 text-sm text-accent-400 font-medium"
-                        >
-                          → Tap to begin today's journey
-                        </motion.div>
-                      )}
                     </div>
-                  </div>
-                </button>
-              </motion.div>
+
+                    {/* Day Label Below Node */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-24 text-center w-32">
+                      <div className="text-xs font-bold text-white mb-0.5">Day {step.stepNumber}</div>
+                      <div className="text-xs text-neutral-400 truncate">{step.title}</div>
+                      <div className="text-xs text-primary-400 mt-1">Sign {step.stepNumber}</div>
+                    </div>
+                  </button>
+                </motion.div>
+              </div>
             );
           })}
         </div>
