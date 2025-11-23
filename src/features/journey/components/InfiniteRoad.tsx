@@ -43,14 +43,14 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
 
   // Special event days with milestone icons
   const specialEvents: Record<number, { icon: LucideIcon; color: string; label: string }> = {
-    3: { icon: Zap, color: 'text-purple-400', label: 'The Glitch' },
-    7: { icon: Heart, color: 'text-pink-400', label: 'Be The Sign' },
-    12: { icon: Flame, color: 'text-orange-400', label: 'Twin Flame' },
-    40: { icon: Star, color: 'text-yellow-400', label: 'Invitation' },
-    50: { icon: Sparkles, color: 'text-cyan-400', label: 'Halfway' },
-    60: { icon: Target, color: 'text-blue-400', label: 'Threshold' },
-    70: { icon: Crown, color: 'text-purple-400', label: 'Self Celebration' },
-    80: { icon: Zap, color: 'text-green-400', label: 'Elevation' },
+    3: { icon: Zap, color: 'text-accent-400', label: 'The Glitch' },
+    7: { icon: Heart, color: 'text-primary-400', label: 'Be The Sign' },
+    12: { icon: Flame, color: 'text-accent-400', label: 'Twin Flame' },
+    40: { icon: Star, color: 'text-primary-400', label: 'Invitation' },
+    50: { icon: Sparkles, color: 'text-accent-400', label: 'Halfway' },
+    60: { icon: Target, color: 'text-primary-400', label: 'Threshold' },
+    70: { icon: Crown, color: 'text-accent-400', label: 'Self Celebration' },
+    80: { icon: Zap, color: 'text-primary-400', label: 'Elevation' },
     90: { icon: Trophy, color: 'text-accent-500', label: 'Master' },
   };
 
@@ -71,25 +71,11 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-yellow-100 via-orange-50 to-pink-100 py-12 px-4">
-      {/* Playful background decorations */}
+    <div className="relative min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 py-12 px-4">
+      {/* Mystical background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Scattered coins */}
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={`coin-${i}`}
-            className="absolute w-8 h-8 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 opacity-30"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              transform: `rotate(${Math.random() * 360}deg)`,
-            }}
-          />
-        ))}
-        {/* Decorative shapes */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-purple-300/20 rounded-full blur-2xl" />
-        <div className="absolute top-40 right-20 w-40 h-40 bg-pink-300/20 rounded-full blur-2xl" />
-        <div className="absolute bottom-40 left-1/4 w-36 h-36 bg-orange-300/20 rounded-full blur-2xl" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
       </div>
 
       {/* The Road Path - Candy Crush Style */}
@@ -122,18 +108,18 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                       zIndex: 0,
                     }}
                   >
-                    {/* Base pink path */}
+                    {/* Base primary green path */}
                     <path
                       d={`M ${prevPosition.isEvenRow ? '50%' : '50%'} 0 Q ${position.x > prevPosition.x ? '100%' : '0%'} 50% ${position.x > prevPosition.x ? '100%' : '0%'} 100%`}
-                      stroke="#ec4899"
+                      stroke={status === 'completed' || status === 'current' ? '#10b981' : '#6b7280'}
                       strokeWidth="16"
                       fill="none"
-                      opacity={status === 'future' || status === 'locked' ? '0.2' : '0.8'}
+                      opacity={status === 'future' || status === 'locked' ? '0.3' : '0.8'}
                     />
-                    {/* White stripes overlay */}
+                    {/* Light stripes overlay */}
                     <path
                       d={`M ${prevPosition.isEvenRow ? '50%' : '50%'} 0 Q ${position.x > prevPosition.x ? '100%' : '0%'} 50% ${position.x > prevPosition.x ? '100%' : '0%'} 100%`}
-                      stroke="white"
+                      stroke="rgba(248, 250, 252, 0.9)"
                       strokeWidth="16"
                       fill="none"
                       strokeDasharray="20,20"
@@ -173,19 +159,19 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                       </div>
                     )}
 
-                    {/* Node Circle - Bright Candy Colors */}
+                    {/* Node Circle - SignRoad Colors */}
                     <div className={`
                       relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300
-                      ${status === 'current' ? 'bg-gradient-to-br from-orange-400 to-orange-600 shadow-xl shadow-orange-500/60 animate-pulse scale-110' : ''}
-                      ${status === 'completed' ? 'bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/40' : ''}
-                      ${status === 'available' ? 'bg-gradient-to-br from-pink-400 to-pink-600 shadow-lg shadow-pink-500/40 hover:scale-105' : ''}
-                      ${status === 'future' ? 'bg-gradient-to-br from-purple-300 to-purple-500 opacity-50 shadow-md' : ''}
-                      ${status === 'locked' ? 'bg-gradient-to-br from-gray-400 to-gray-600 opacity-40 shadow-md' : ''}
-                      border-4 border-white shadow-[0_4px_0_rgba(0,0,0,0.2)]
+                      ${status === 'current' ? 'bg-gradient-to-br from-accent-500 to-accent-600 shadow-xl shadow-accent-500/60 animate-pulse scale-110' : ''}
+                      ${status === 'completed' ? 'bg-gradient-to-br from-primary-500 to-primary-600 shadow-lg shadow-primary-500/40' : ''}
+                      ${status === 'available' ? 'bg-gradient-to-br from-neutral-700 to-neutral-800 shadow-lg shadow-neutral-700/40 hover:scale-105 hover:shadow-primary-500/30' : ''}
+                      ${status === 'future' ? 'bg-gradient-to-br from-neutral-800 to-neutral-900 opacity-50 shadow-md' : ''}
+                      ${status === 'locked' ? 'bg-gradient-to-br from-neutral-900 to-neutral-950 opacity-40 shadow-md' : ''}
+                      border-4 ${status === 'current' ? 'border-accent-300' : status === 'completed' ? 'border-primary-300' : 'border-neutral-600'} shadow-[0_4px_0_rgba(0,0,0,0.3)]
                     `}>
                       {/* Day Number - Large and Bold */}
                       {status === 'locked' ? (
-                        <Lock className="w-8 h-8 text-white" />
+                        <Lock className="w-8 h-8 text-neutral-500" />
                       ) : (
                         <span className="text-white font-black text-3xl drop-shadow-md">
                           {step.stepNumber}
@@ -194,8 +180,8 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                       
                       {/* Checkmark overlay for completed */}
                       {status === 'completed' && (
-                        <div className="absolute top-0 right-0 w-8 h-8 bg-yellow-400 rounded-full border-2 border-white flex items-center justify-center">
-                          <CheckCircle className="w-5 h-5 text-green-700" />
+                        <div className="absolute top-0 right-0 w-8 h-8 bg-accent-500 rounded-full border-2 border-white flex items-center justify-center">
+                          <CheckCircle className="w-5 h-5 text-white" />
                         </div>
                       )}
                     </div>
@@ -203,23 +189,23 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                     {/* Hover Card */}
                     <div className={`
                       absolute left-1/2 -translate-x-1/2 top-32 w-64 p-4 rounded-xl
-                      bg-white border-2 ${isSpecialEvent ? 'border-pink-400' : 'border-gray-300'}
+                      bg-neutral-900 border-2 ${isSpecialEvent ? 'border-accent-500' : 'border-neutral-700'}
                       opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20
                       shadow-xl
                       ${!isClickable ? 'hidden' : ''}
                     `}>
                       <div className="text-center">
                         <div className="flex items-center justify-center gap-2 mb-2">
-                          <span className="text-xs font-semibold text-pink-600">Day {step.stepNumber}</span>
+                          <span className="text-xs font-semibold text-accent-400">Day {step.stepNumber}</span>
                           {isSpecialEvent && (
-                            <span className="px-2 py-0.5 text-xs font-bold bg-pink-100 text-pink-600 rounded-full">
+                            <span className="px-2 py-0.5 text-xs font-bold bg-accent-500/20 text-accent-400 rounded-full">
                               {isSpecialEvent.label}
                             </span>
                           )}
                         </div>
-                        <h4 className="text-sm font-bold text-gray-800 mb-1">{step.title}</h4>
-                        <p className="text-xs text-gray-600 mb-2">{step.description}</p>
-                        <div className="text-xs text-pink-600 font-medium">
+                        <h4 className="text-sm font-bold text-white mb-1">{step.title}</h4>
+                        <p className="text-xs text-neutral-400 mb-2">{step.description}</p>
+                        <div className="text-xs text-primary-400 font-medium">
                           {step.signChallenge}
                         </div>
                       </div>
@@ -227,10 +213,10 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
 
                     {/* Day Label Below Node */}
                     <div className="absolute left-1/2 -translate-x-1/2 top-28 text-center w-40">
-                      <div className="text-sm font-bold text-pink-600 bg-white/80 px-2 py-1 rounded-full mb-1 shadow-sm">
+                      <div className="text-sm font-bold text-accent-400 bg-neutral-800/90 px-2 py-1 rounded-full mb-1 shadow-sm border border-accent-500/30">
                         Sign {step.stepNumber}
                       </div>
-                      <div className="text-xs font-semibold text-gray-700 truncate">{step.title}</div>
+                      <div className="text-xs font-semibold text-neutral-300 truncate">{step.title}</div>
                     </div>
                   </button>
                 </motion.div>
