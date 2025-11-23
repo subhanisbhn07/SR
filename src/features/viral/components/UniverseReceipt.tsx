@@ -4,6 +4,7 @@ import { UniverseReceipt as ReceiptType } from '../types/viral';
 import { generateReceiptText } from '../utils/receiptGenerator';
 import { useState } from 'react';
 import { useToast } from '../../../shared/hooks/useToast';
+import { trackEvent } from '../../../shared/analytics/analytics';
 
 interface UniverseReceiptProps {
   receipt: ReceiptType;
@@ -22,14 +23,17 @@ export const UniverseReceipt = ({ receipt, onClose }: UniverseReceiptProps) => {
     switch (platform) {
       case 'twitter':
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'twitter' });
         break;
       case 'instagram':
         toast.info('Instagram sharing: Copy the text and share to your story!');
         navigator.clipboard.writeText(text);
+        trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'instagram' });
         break;
       case 'copy':
         navigator.clipboard.writeText(text + '\n' + url);
         toast.success('Copied to clipboard!');
+        trackEvent({ name: 'universe_receipt_shared', day: receipt.dayNumber, platform: 'copy' });
         break;
     }
     

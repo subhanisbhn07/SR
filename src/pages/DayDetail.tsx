@@ -10,6 +10,7 @@ import { UniverseReceipt } from '../features/viral/components/UniverseReceipt';
 import { SignalStrength } from '../features/viral/components/SignalStrength';
 import { TwinFlameMatch } from '../features/viral/components/TwinFlameMatch';
 import { useToast } from '../shared/hooks/useToast';
+import { trackEvent } from '../shared/analytics/analytics';
 
 interface DayDetailProps {
   stepNumber: number;
@@ -79,6 +80,9 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   }
 
   const handlePlayPause = () => {
+    if (!isPlaying && step) {
+      trackEvent({ name: 'meditation_started', day: step.stepNumber, duration });
+    }
     setIsPlaying(!isPlaying);
   };
 
@@ -99,6 +103,19 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
       'Your Location'
     );
     
+    trackEvent({ 
+      name: 'sign_logged', 
+      day: step.stepNumber, 
+      sign: step.signChallenge 
+    });
+    
+    trackEvent({ 
+      name: 'universe_receipt_generated', 
+      day: step.stepNumber, 
+      sign: step.signChallenge,
+      probability: receipt.probability 
+    });
+    
     setCurrentReceipt(receipt);
     setHasLoggedSign(true);
     setShowSignLog(false);
@@ -115,6 +132,8 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
       isPublic: false,
     });
     
+    trackEvent({ name: 'journal_entry_saved', day: step.stepNumber });
+    
     setJournalText('');
   };
 
@@ -127,6 +146,27 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
     if (step) {
       completeStep(step.stepNumber);
       toast.success(`Day ${step.stepNumber} completed! +${step.sparksReward} Sparks`);
+      
+      trackEvent({ 
+        name: 'meditation_completed', 
+        day: step.stepNumber, 
+        duration 
+      });
+      
+      trackEvent({ 
+        name: 'day_completed', 
+        day: step.stepNumber, 
+        sparks: step.sparksReward 
+      });
+      
+      if (step.specialEvent) {
+        trackEvent({ 
+          name: 'special_event_triggered', 
+          day: step.stepNumber, 
+          eventType: step.specialEvent 
+        });
+      }
+      
       onBack();
     }
   };

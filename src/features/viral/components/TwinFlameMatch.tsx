@@ -3,6 +3,7 @@ import { Share2, Download, X, Instagram, Twitter, Heart, Sparkles } from 'lucide
 import { TwinFlameCode } from '../types/viral';
 import { useState } from 'react';
 import { useToast } from '../../../shared/hooks/useToast';
+import { trackEvent } from '../../../shared/analytics/analytics';
 
 interface TwinFlameMatchProps {
   twinFlameCode: TwinFlameCode;
@@ -23,14 +24,17 @@ export const TwinFlameMatch = ({ twinFlameCode, onClose, onMatch }: TwinFlameMat
     switch (platform) {
       case 'twitter':
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        trackEvent({ name: 'twin_flame_code_shared', day: 12, platform: 'twitter' });
         break;
       case 'instagram':
         toast.info('Instagram sharing: Copy the text and share to your story!');
         navigator.clipboard.writeText(text);
+        trackEvent({ name: 'twin_flame_code_shared', day: 12, platform: 'instagram' });
         break;
       case 'copy':
         navigator.clipboard.writeText(text + '\n' + url);
         toast.success('Copied to clipboard!');
+        trackEvent({ name: 'twin_flame_code_shared', day: 12, platform: 'copy' });
         break;
     }
     
@@ -87,6 +91,7 @@ export const TwinFlameMatch = ({ twinFlameCode, onClose, onMatch }: TwinFlameMat
     setIsMatching(true);
     setTimeout(() => {
       onMatch(matchCode);
+      trackEvent({ name: 'twin_flame_match_attempted', matched: false });
       setIsMatching(false);
     }, 1500);
   };

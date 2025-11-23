@@ -3,6 +3,7 @@ import { Share2, Download, X, Instagram, Twitter, AlertTriangle } from 'lucide-r
 import { SignalStrength as SignalStrengthType } from '../types/viral';
 import { useState } from 'react';
 import { useToast } from '../../../shared/hooks/useToast';
+import { trackEvent } from '../../../shared/analytics/analytics';
 
 interface SignalStrengthProps {
   signalStrength: SignalStrengthType;
@@ -22,15 +23,18 @@ export const SignalStrength = ({ signalStrength, onClose, onUnlock }: SignalStre
     switch (platform) {
       case 'twitter':
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        trackEvent({ name: 'signal_strength_shared', day: signalStrength.dayNumber, platform: 'twitter' });
         break;
       case 'instagram':
         toast.info('Instagram sharing: Copy the text and share to your story!');
         navigator.clipboard.writeText(text);
+        trackEvent({ name: 'signal_strength_shared', day: signalStrength.dayNumber, platform: 'instagram' });
         setHasShared(true);
         break;
       case 'copy':
         navigator.clipboard.writeText(text + '\n' + url);
         toast.success('Copied to clipboard!');
+        trackEvent({ name: 'signal_strength_shared', day: signalStrength.dayNumber, platform: 'copy' });
         setHasShared(true);
         break;
     }
