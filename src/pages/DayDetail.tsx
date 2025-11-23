@@ -547,6 +547,120 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                 </>
               )}
               
+              {step.specialEvent === 'invitation_ritual' && (
+                <>
+                  <Sparkles className="w-16 h-16 text-accent-500 mx-auto mb-4 animate-pulse" />
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    The Invitation Ritual
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    You have opened the door. The universe has heard your call.
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    Today marks a turning point. You are no longer just observing - you are actively inviting your manifestation. 
+                    Stand before an open door or window and say: "I am ready."
+                  </p>
+                </>
+              )}
+              
+              {step.specialEvent === 'halfway_celebration' && (
+                <>
+                  <CheckCircle className="w-16 h-16 text-accent-500 mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    🎉 Halfway to Mastery! 🎉
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    50 days. 50 meditations. 50 signs.
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    You have walked half the road. Take a moment to honor how far you have come. 
+                    The second half will be different - you are different. You carry wisdom, strength, and clarity.
+                  </p>
+                  <div className="bg-accent-500/20 border border-accent-500/30 rounded-lg p-4 mb-4">
+                    <p className="text-accent-300 text-center font-semibold">Bonus: +50 Sparks!</p>
+                  </div>
+                </>
+              )}
+              
+              {step.specialEvent === 'threshold_crossing' && (
+                <>
+                  <AlertTriangle className="w-16 h-16 text-accent-500 mx-auto mb-4 animate-pulse" />
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    The Threshold of Mastery
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    You stand at the edge of transformation
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    60 days. You have walked through fire. You have faced your shadows. You have learned the laws of manifestation. 
+                    The final 30 days will test everything you have learned. Are you ready to cross into mastery?
+                  </p>
+                </>
+              )}
+              
+              {step.specialEvent === 'self_celebration' && (
+                <>
+                  <Sparkles className="w-16 h-16 text-accent-500 mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    Celebration of Self
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    70 days. You have shown up every single day.
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    Today, we celebrate YOU. Not what you have achieved, but who you have become. 
+                    When you see or hear your name today, pause and say: "I am proud of you." You have earned this.
+                  </p>
+                  <div className="bg-primary-500/20 border border-primary-500/30 rounded-lg p-4 mb-4">
+                    <p className="text-primary-300 text-center font-semibold">You are worthy of your own love.</p>
+                  </div>
+                </>
+              )}
+              
+              {step.specialEvent === 'elevation_ceremony' && (
+                <>
+                  <CheckCircle className="w-16 h-16 text-accent-500 mx-auto mb-4 animate-bounce" />
+                  <h3 className="text-2xl font-bold text-white text-center mb-4">
+                    The Elevation Ceremony
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    80 days. You have climbed so high.
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    You are not who you were. You see further. You understand deeper. You are ascending. 
+                    Only 10 days remain until you reach mastery. The summit is in sight.
+                  </p>
+                  <div className="bg-accent-500/20 border border-accent-500/30 rounded-lg p-4 mb-4">
+                    <p className="text-accent-300 text-center font-semibold">The final ascent begins now.</p>
+                  </div>
+                </>
+              )}
+              
+              {step.specialEvent === 'master_completion' && (
+                <>
+                  <div className="flex justify-center mb-4">
+                    <CheckCircle className="w-20 h-20 text-accent-500 animate-pulse" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-white text-center mb-4">
+                    🏆 Master Achieved 🏆
+                  </h3>
+                  <p className="text-neutral-300 text-center mb-6">
+                    90 days. 90 meditations. 90 signs.
+                  </p>
+                  <p className="text-sm text-neutral-400 text-center mb-6">
+                    You have walked the entire road. You are no longer a wanderer. You are no longer a seeker. 
+                    You are a MASTER. The road does not end here - it transforms. You now walk as a conscious creator.
+                  </p>
+                  <div className="bg-gradient-to-r from-accent-500/20 to-primary-500/20 border border-accent-500/30 rounded-lg p-6 mb-4">
+                    <p className="text-accent-300 text-center font-bold text-lg mb-2">Welcome home, Master.</p>
+                    <p className="text-neutral-300 text-center text-sm">You have earned your place in the Hall of Fame.</p>
+                  </div>
+                  <div className="bg-accent-500/20 border border-accent-500/30 rounded-lg p-4 mb-4">
+                    <p className="text-accent-300 text-center font-semibold">Bonus: +100 Sparks!</p>
+                  </div>
+                </>
+              )}
+              
               {step.specialEvent !== 'glitch' && step.specialEvent !== 'twin_flame' && (
                 <button
                   onClick={() => setShowSpecialEvent(false)}
