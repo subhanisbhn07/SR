@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User, Settings, BookOpen } from 'lucide-react';
+import { User, Settings, BookOpen, ShoppingBag, Globe } from 'lucide-react';
 import { useAuthStore } from '../../../store/authStore';
 import { useJourneyStore } from '../../../features/journey/store/journeyStore';
 import { LanternWidget } from '../../../features/gamification/components/LanternWidget';
@@ -8,9 +8,11 @@ import { StreakDisplay } from '../../../features/gamification/components/StreakD
 
 interface HeaderProps {
   onLogClick?: () => void;
+  onShopClick?: () => void;
+  onFeedClick?: () => void;
 }
 
-export const Header = ({ onLogClick }: HeaderProps) => {
+export const Header = ({ onLogClick, onShopClick, onFeedClick }: HeaderProps) => {
   const { user, logout } = useAuthStore();
   const { userProgress } = useJourneyStore();
   
@@ -42,6 +44,26 @@ export const Header = ({ onLogClick }: HeaderProps) => {
                 <LanternWidget />
                 
                 <SparksCounter />
+
+                {onFeedClick && (
+                  <button
+                    onClick={onFeedClick}
+                    className="p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                    title="Global Feed"
+                  >
+                    <Globe className="w-5 h-5 text-neutral-400 hover:text-white transition-colors" />
+                  </button>
+                )}
+
+                {onShopClick && (
+                  <button
+                    onClick={onShopClick}
+                    className="p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                    title="Cosmetics Shop"
+                  >
+                    <ShoppingBag className="w-5 h-5 text-neutral-400 hover:text-white transition-colors" />
+                  </button>
+                )}
 
                 {onLogClick && (
                   <button

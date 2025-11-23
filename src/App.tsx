@@ -9,8 +9,10 @@ import { DayDetail } from './pages/DayDetail';
 import { TravelersLog } from './pages/TravelersLog';
 import { GoalIntake } from './features/manifestation/components/GoalIntake';
 import { PaywallScreen } from './features/paywall/components/PaywallScreen';
+import { CosmeticsShop } from './features/cosmetics/components/CosmeticsShop';
+import { GlobalFeed } from './features/feed/components/GlobalFeed';
 
-type View = 'road' | 'day-detail' | 'log';
+type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -58,6 +60,14 @@ function App() {
     setCurrentView('log');
   };
 
+  const handleShopClick = () => {
+    setCurrentView('shop');
+  };
+
+  const handleFeedClick = () => {
+    setCurrentView('feed');
+  };
+
   const handleGoalComplete = () => {
     setShowGoalIntake(false);
   };
@@ -81,7 +91,11 @@ function App() {
 
   return (
     <div className="min-h-screen bg-neutral-900">
-      <Header onLogClick={handleLogClick} />
+      <Header 
+        onLogClick={handleLogClick}
+        onShopClick={handleShopClick}
+        onFeedClick={handleFeedClick}
+      />
       
       {currentView === 'road' && (
         <InfiniteRoad onNodeClick={handleNodeClick} />
@@ -104,6 +118,38 @@ function App() {
             </div>
           </div>
           <TravelersLog />
+        </div>
+      )}
+
+      {currentView === 'shop' && (
+        <div>
+          <div className="sticky top-16 z-10 bg-neutral-900/80 backdrop-blur-sm border-b border-neutral-800">
+            <div className="max-w-4xl mx-auto px-4 py-4">
+              <button
+                onClick={() => setCurrentView('road')}
+                className="text-neutral-400 hover:text-white transition-colors"
+              >
+                ← Back to Road
+              </button>
+            </div>
+          </div>
+          <CosmeticsShop />
+        </div>
+      )}
+
+      {currentView === 'feed' && (
+        <div>
+          <div className="sticky top-16 z-10 bg-neutral-900/80 backdrop-blur-sm border-b border-neutral-800">
+            <div className="max-w-4xl mx-auto px-4 py-4">
+              <button
+                onClick={() => setCurrentView('road')}
+                className="text-neutral-400 hover:text-white transition-colors"
+              >
+                ← Back to Road
+              </button>
+            </div>
+          </div>
+          <GlobalFeed />
         </div>
       )}
 

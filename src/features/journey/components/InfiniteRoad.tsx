@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useJourneyStore } from '../store/journeyStore';
 import { useAuthStore } from '../../../store/authStore';
 import { Lock, CheckCircle, Circle } from 'lucide-react';
+import { TribeCampfire } from '../../tribe/components/TribeCampfire';
 
 interface InfiniteRoadProps {
   onNodeClick: (stepNumber: number) => void;
@@ -49,6 +50,10 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
 
       {/* The Road Path */}
       <div className="relative max-w-2xl mx-auto">
+        {/* Tribe Campfire Widget */}
+        <div className="mb-8">
+          <TribeCampfire />
+        </div>
         <div className="flex flex-col items-center space-y-8">
           {roadSteps.map((step, index) => {
             const status = getNodeStatus(step.stepNumber);
