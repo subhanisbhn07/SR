@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Home, Brain, Target, TrendingUp, Users, Award, Calendar, BarChart3 } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '../../../store/authStore';
 
 interface SidebarProps {
   activeTab: string;

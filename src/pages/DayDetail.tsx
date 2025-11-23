@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Play, Pause, Volume2, CheckCircle } from 'lucide-react';
-import { useJourneyStore } from '../store/journeyStore';
-import { useManifestationStore } from '../store/manifestationStore';
+import { useJourneyStore } from '../features/journey/store/journeyStore';
+import { useManifestationStore } from '../features/manifestation/store/manifestationStore';
 
 interface DayDetailProps {
   stepNumber: number;

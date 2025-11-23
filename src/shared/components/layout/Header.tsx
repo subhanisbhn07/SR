@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { User, Settings, BookOpen } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
-import { useJourneyStore } from '../../store/journeyStore';
-import { LanternWidget } from '../gamification/LanternWidget';
-import { SparksCounter } from '../gamification/SparksCounter';
-import { StreakDisplay } from '../gamification/StreakDisplay';
+import { useAuthStore } from '../../../store/authStore';
+import { useJourneyStore } from '../../../features/journey/store/journeyStore';
+import { LanternWidget } from '../../../features/gamification/components/LanternWidget';
+import { SparksCounter } from '../../../features/gamification/components/SparksCounter';
+import { StreakDisplay } from '../../../features/gamification/components/StreakDisplay';
 
 interface HeaderProps {
   onLogClick?: () => void;

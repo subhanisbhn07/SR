@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useAuthStore } from './store/authStore';
-import { useJourneyStore } from './store/journeyStore';
-import { useManifestationStore } from './store/manifestationStore';
-import { LoginForm } from './components/auth/LoginForm';
-import { Header } from './components/layout/Header';
-import { InfiniteRoad } from './components/journey/InfiniteRoad';
+import { useJourneyStore } from './features/journey/store/journeyStore';
+import { useManifestationStore } from './features/manifestation/store/manifestationStore';
+import { LoginForm } from './features/auth/components/LoginForm';
+import { Header } from './shared/components/layout/Header';
+import { InfiniteRoad } from './features/journey/components/InfiniteRoad';
 import { DayDetail } from './pages/DayDetail';
 import { TravelersLog } from './pages/TravelersLog';
-import { GoalIntake } from './components/manifestation/GoalIntake';
-import { PaywallScreen } from './components/paywall/PaywallScreen';
+import { GoalIntake } from './features/manifestation/components/GoalIntake';
+import { PaywallScreen } from './features/paywall/components/PaywallScreen';
 
 type View = 'road' | 'day-detail' | 'log';
 

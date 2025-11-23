@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { BookOpen, Calendar, Trash2 } from 'lucide-react';
-import { useManifestationStore } from '../store/manifestationStore';
+import { useManifestationStore } from '../features/manifestation/store/manifestationStore';
 import { format } from 'date-fns';
 
 export const TravelersLog = () => {

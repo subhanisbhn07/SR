@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Target, ArrowRight } from 'lucide-react';
-import { useManifestationStore } from '../../store/manifestationStore';
-import { Goal } from '../../types/manifestation';
+import { useManifestationStore } from '../store/manifestationStore';
+import { Goal } from '../types/manifestation';
 
 interface GoalIntakeProps {
   onComplete: () => void;

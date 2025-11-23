@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Flame } from 'lucide-react';
-import { useJourneyStore } from '../../store/journeyStore';
+import { useJourneyStore } from '../../../features/journey/store/journeyStore';
 
 export const LanternWidget = () => {
   const { userProgress } = useJourneyStore();

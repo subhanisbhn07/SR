@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useJourneyStore } from '../../store/journeyStore';
-import { useAuthStore } from '../../store/authStore';
+import { useJourneyStore } from '../store/journeyStore';
+import { useAuthStore } from '../../../store/authStore';
 import { Lock, CheckCircle, Circle } from 'lucide-react';
 
 interface InfiniteRoadProps {

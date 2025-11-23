@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { useAuthStore } from '../../store/authStore';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
+import { useAuthStore } from '../../../store/authStore';
+import { Button } from '../../../shared/components/ui/Button';
+import { Input } from '../../../shared/components/ui/Input';
 
 interface LoginFormData {
   email: string;

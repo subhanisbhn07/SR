@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import { useJourneyStore } from '../../store/journeyStore';
+import { useJourneyStore } from '../../../features/journey/store/journeyStore';
 
 export const SparksCounter = () => {
   const { userProgress } = useJourneyStore();
