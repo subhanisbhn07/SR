@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Play, Pause, Volume2, CheckCircle, Music, Sparkles, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Sparkles, AlertTriangle } from 'lucide-react';
 import { useJourneyStore } from '../features/journey/store/journeyStore';
 import { useManifestationStore } from '../features/manifestation/store/manifestationStore';
-import { audioAmbienceData } from '../features/journey/data/audioAmbience';
 import { useAuthStore } from '../store/authStore';
 import { useViralStore } from '../features/viral/store/viralStore';
 import { UniverseReceipt } from '../features/viral/components/UniverseReceipt';
@@ -11,6 +10,11 @@ import { SignalStrength } from '../features/viral/components/SignalStrength';
 import { TwinFlameMatch } from '../features/viral/components/TwinFlameMatch';
 import { useToast } from '../shared/hooks/useToast';
 import { trackEvent } from '../shared/analytics/analytics';
+import { AudioPlayer } from '../features/audio/components/AudioPlayer';
+import { AmbiencePlayer } from '../features/audio/components/AmbiencePlayer';
+import { useAudioStore } from '../features/audio/store/audioStore';
+import { useSoundEffects } from '../features/audio/hooks/useSoundEffects';
+import { meditationTracks } from '../features/audio/data/audioTracks';
 
 interface DayDetailProps {
   stepNumber: number;
@@ -23,18 +27,16 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const { user } = useAuthStore();
   const { generateReceipt, generateSignalStrength, generateTwinFlameCode, matchTwinFlame } = useViralStore();
   const toast = useToast();
+  const { playSound } = useSoundEffects();
+  const { setTrack, pause, isPlaying, currentTime } = useAudioStore();
   
   const step = roadSteps.find(s => s.stepNumber === stepNumber);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(300); // 5 minutes default
   const [showSignLog, setShowSignLog] = useState(false);
   const [signNote, setSignNote] = useState('');
   const [journalText, setJournalText] = useState('');
   const [hasCompletedMeditation, setHasCompletedMeditation] = useState(false);
   const [hasLoggedSign, setHasLoggedSign] = useState(false);
-  const [selectedAmbience, setSelectedAmbience] = useState(audioAmbienceData[0].id);
-  const [showAmbienceSelector, setShowAmbienceSelector] = useState(false);
   const [showSpecialEvent, setShowSpecialEvent] = useState(false);
   const [currentReceipt, setCurrentReceipt] = useState<ReturnType<typeof generateReceipt> | null>(null);
   const [currentSignalStrength, setCurrentSignalStrength] = useState<ReturnType<typeof generateSignalStrength> | null>(null);
@@ -42,25 +44,24 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
 
   const isCompleted = userProgress.completedSteps.includes(stepNumber);
   const isSubscribed = user?.mode === 'enterprise';
-  const availableAmbience = audioAmbienceData.filter(a => !a.isPremium || isSubscribed);
 
+  // Initialize meditation audio track
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isPlaying && progress < duration) {
-      interval = setInterval(() => {
-        setProgress(prev => {
-          const newProgress = prev + 1;
-          if (newProgress >= duration) {
-            setIsPlaying(false);
-            setHasCompletedMeditation(true);
-            return duration;
-          }
-          return newProgress;
-        });
-      }, 1000);
+    if (step && meditationTracks.length > 0) {
+      // Use first meditation track by default
+      setTrack(meditationTracks[0]);
     }
-    return () => clearInterval(interval);
-  }, [isPlaying, progress, duration]);
+  }, [step, setTrack]);
+
+  // Monitor audio playback completion
+  useEffect(() => {
+    if (isPlaying && currentTime >= duration && !hasCompletedMeditation) {
+      pause();
+      setHasCompletedMeditation(true);
+      playSound('complete');
+      toast.success('Meditation completed! +' + (step?.sparksReward || 0) + ' Sparks');
+    }
+  }, [isPlaying, currentTime, duration, hasCompletedMeditation, pause, playSound, toast, step]);
 
   useEffect(() => {
     if (step?.specialEvent && !isCompleted) {
@@ -78,13 +79,6 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
       </div>
     );
   }
-
-  const handlePlayPause = () => {
-    if (!isPlaying && step) {
-      trackEvent({ name: 'meditation_started', day: step.stepNumber, duration });
-    }
-    setIsPlaying(!isPlaying);
-  };
 
   const handleLogSign = () => {
     if (!step) return;
@@ -116,6 +110,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
       probability: receipt.probability 
     });
     
+    playSound('success');
     setCurrentReceipt(receipt);
     setHasLoggedSign(true);
     setShowSignLog(false);
@@ -133,6 +128,8 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
     });
     
     trackEvent({ name: 'journal_entry_saved', day: step.stepNumber });
+    playSound('success');
+    toast.success('Journal entry saved!');
     
     setJournalText('');
   };
@@ -140,11 +137,13 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const handleCompleteStep = () => {
     if (!hasCompletedMeditation) {
       toast.warning('Please complete the meditation first!');
+      playSound('error');
       return;
     }
     
     if (step) {
       completeStep(step.stepNumber);
+      playSound('unlock');
       toast.success(`Day ${step.stepNumber} completed! +${step.sparksReward} Sparks`);
       
       trackEvent({ 
@@ -171,11 +170,6 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900">
@@ -212,135 +206,61 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-neutral-800/50 backdrop-blur-sm rounded-2xl p-8 border border-neutral-700"
+          className="space-y-4"
         >
-          <h2 className="text-lg font-semibold text-white mb-4">Guided Meditation</h2>
-          
-          {/* Duration Selector */}
-          <div className="flex gap-2 mb-6">
-            {[
-              { label: 'Micro', value: 180 },
-              { label: 'Standard', value: 300 },
-              { label: 'Deep', value: 600 },
-            ].map(({ label, value }) => (
-              <button
-                key={label}
-                onClick={() => {
-                  setDuration(value);
-                  setProgress(0);
-                  setIsPlaying(false);
-                }}
-                className={`
-                  px-4 py-2 rounded-lg font-medium transition-colors
-                  ${duration === value
-                    ? 'bg-accent-500 text-white'
-                    : 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600'
-                  }
-                `}
-              >
-                {label} ({Math.floor(value / 60)}m)
-              </button>
-            ))}
-          </div>
-
-          {/* Ambience Selector */}
-          <div className="mb-4">
-            <button
-              onClick={() => setShowAmbienceSelector(!showAmbienceSelector)}
-              className="flex items-center gap-2 px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded-lg transition-colors"
-            >
-              <Music className="w-4 h-4 text-accent-500" />
-              <span className="text-sm text-white">
-                {audioAmbienceData.find(a => a.id === selectedAmbience)?.name || 'Select Background'}
-              </span>
-            </button>
+          <div className="bg-neutral-800/50 backdrop-blur-sm rounded-2xl p-8 border border-neutral-700">
+            <h2 className="text-lg font-semibold text-white mb-4">Guided Meditation</h2>
             
-            <AnimatePresence>
-              {showAmbienceSelector && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="mt-2 grid grid-cols-2 gap-2 overflow-hidden"
+            {/* Duration Selector */}
+            <div className="flex gap-2 mb-6">
+              {[
+                { label: 'Micro', value: 180 },
+                { label: 'Standard', value: 300 },
+                { label: 'Deep', value: 600 },
+              ].map(({ label, value }) => (
+                <button
+                  key={label}
+                  onClick={() => {
+                    setDuration(value);
+                    pause();
+                  }}
+                  className={`
+                    px-4 py-2 rounded-lg font-medium transition-colors
+                    ${duration === value
+                      ? 'bg-accent-500 text-white'
+                      : 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600'
+                    }
+                  `}
                 >
-                  {availableAmbience.map((ambience) => (
-                    <button
-                      key={ambience.id}
-                      onClick={() => {
-                        setSelectedAmbience(ambience.id);
-                        setShowAmbienceSelector(false);
-                      }}
-                      className={`
-                        p-3 rounded-lg text-left transition-colors text-sm
-                        ${selectedAmbience === ambience.id
-                          ? 'bg-accent-500 text-white'
-                          : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
-                        }
-                      `}
-                    >
-                      <div className="font-medium">{ambience.name}</div>
-                      <div className="text-xs opacity-75">{ambience.description}</div>
-                    </button>
-                  ))}
-                  {!isSubscribed && audioAmbienceData.some(a => a.isPremium) && (
-                    <div className="col-span-2 p-3 bg-accent-500/10 border border-accent-500/30 rounded-lg text-center">
-                      <p className="text-xs text-accent-400">
-                        Unlock {audioAmbienceData.filter(a => a.isPremium).length} more tracks with Seeker subscription
-                      </p>
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Play Button */}
-          <div className="flex items-center gap-4 mb-4">
-            <button
-              onClick={handlePlayPause}
-              className="w-16 h-16 rounded-full bg-accent-500 hover:bg-accent-600 flex items-center justify-center transition-colors"
-            >
-              {isPlaying ? (
-                <Pause className="w-8 h-8 text-white" />
-              ) : (
-                <Play className="w-8 h-8 text-white ml-1" />
-              )}
-            </button>
-            
-            <div className="flex-1">
-              <div className="flex justify-between text-sm text-neutral-400 mb-2">
-                <span>{formatTime(progress)}</span>
-                <span>{formatTime(duration)}</span>
-              </div>
-              <div className="h-2 bg-neutral-700 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-accent-500"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(progress / duration) * 100}%` }}
-                />
-              </div>
+                  {label} ({Math.floor(value / 60)}m)
+                </button>
+              ))}
             </div>
 
-            <Volume2 className="w-6 h-6 text-neutral-400" />
-          </div>
+            {/* Ambience Player */}
+            <AmbiencePlayer isSubscribed={isSubscribed} className="mb-6" />
 
-          {/* Meditation Script Preview */}
-          <div className="mt-6 p-4 bg-neutral-900/50 rounded-lg">
-            <p className="text-neutral-300 italic text-sm leading-relaxed">
-              "{step.meditationScript}"
-            </p>
-          </div>
+            {/* Audio Player Component */}
+            <AudioPlayer showControls={true} compact={false} />
 
-          {hasCompletedMeditation && !isCompleted && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="mt-4 p-4 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center gap-3"
-            >
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-green-400 font-medium">Meditation completed! +{step.sparksReward} Sparks</span>
-            </motion.div>
-          )}
+            {/* Meditation Script Preview */}
+            <div className="mt-6 p-4 bg-neutral-900/50 rounded-lg">
+              <p className="text-neutral-300 italic text-sm leading-relaxed">
+                "{step.meditationScript}"
+              </p>
+            </div>
+
+            {hasCompletedMeditation && !isCompleted && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mt-4 p-4 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center gap-3"
+              >
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-green-400 font-medium">Meditation completed! +{step.sparksReward} Sparks</span>
+              </motion.div>
+            )}
+          </div>
         </motion.div>
 
         {/* Sign of the Day */}
