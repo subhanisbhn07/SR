@@ -1,10 +1,15 @@
-import { motion } from 'framer-motion';
-import { BookOpen, Calendar, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BookOpen, Calendar, Trash2, Edit2, X, Save } from 'lucide-react';
 import { useManifestationStore } from '../features/manifestation/store/manifestationStore';
 import { format } from 'date-fns';
+import { useToast } from '../shared/hooks/useToast';
 
 export const TravelersLog = () => {
-  const { journalEntries, signLogs, deleteJournalEntry } = useManifestationStore();
+  const { journalEntries, signLogs, deleteJournalEntry, updateJournalEntry } = useManifestationStore();
+  const toast = useToast();
+  const [editingEntry, setEditingEntry] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
 
   const sortedEntries = [...journalEntries].sort(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
@@ -13,6 +18,32 @@ export const TravelersLog = () => {
   const sortedSigns = [...signLogs].sort(
     (a, b) => b.loggedAt.getTime() - a.loggedAt.getTime()
   );
+
+  const handleStartEdit = (entryId: string, currentContent: string) => {
+    setEditingEntry(entryId);
+    setEditContent(currentContent);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingEntry && editContent.trim()) {
+      updateJournalEntry(editingEntry, editContent);
+      setEditingEntry(null);
+      setEditContent('');
+      toast.success('Journal entry updated!');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingEntry(null);
+    setEditContent('');
+  };
+
+  const handleDelete = (entryId: string) => {
+    if (confirm('Are you sure you want to delete this journal entry?')) {
+      deleteJournalEntry(entryId);
+      toast.success('Journal entry deleted!');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 py-12 px-4">
@@ -68,12 +99,22 @@ export const TravelersLog = () => {
                         <span>{format(entry.createdAt, 'MMM d, yyyy')}</span>
                       </div>
                     </div>
-                    <button
-                      onClick={() => deleteJournalEntry(entry.id)}
-                      className="p-2 hover:bg-red-500/20 rounded-lg transition-colors group"
-                    >
-                      <Trash2 className="w-5 h-5 text-neutral-500 group-hover:text-red-500" />
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleStartEdit(entry.id, entry.content)}
+                        className="p-2 hover:bg-primary-500/20 rounded-lg transition-colors group"
+                        title="Edit entry"
+                      >
+                        <Edit2 className="w-5 h-5 text-neutral-500 group-hover:text-primary-500" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(entry.id)}
+                        className="p-2 hover:bg-red-500/20 rounded-lg transition-colors group"
+                        title="Delete entry"
+                      >
+                        <Trash2 className="w-5 h-5 text-neutral-500 group-hover:text-red-500" />
+                      </button>
+                    </div>
                   </div>
                   <p className="text-neutral-300 leading-relaxed whitespace-pre-wrap">
                     {entry.content}
@@ -139,6 +180,62 @@ export const TravelersLog = () => {
           )}
         </motion.div>
       </div>
+
+      {/* Edit Modal */}
+      <AnimatePresence>
+        {editingEntry && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={handleCancelEdit}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="max-w-2xl w-full bg-neutral-900 rounded-2xl p-6 border border-neutral-700"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-white">Edit Journal Entry</h3>
+                <button
+                  onClick={handleCancelEdit}
+                  className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-neutral-400" />
+                </button>
+              </div>
+
+              <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-primary-500 resize-none mb-4"
+                rows={10}
+                placeholder="Write your thoughts here..."
+              />
+
+              <div className="flex gap-3">
+                <button
+                  onClick={handleSaveEdit}
+                  disabled={!editContent.trim()}
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
+                >
+                  <Save className="w-5 h-5" />
+                  Save Changes
+                </button>
+                <button
+                  onClick={handleCancelEdit}
+                  className="px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-white font-semibold rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
