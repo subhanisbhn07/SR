@@ -40,6 +40,13 @@ function App() {
   useEffect(() => {
     if (isAuthenticated) {
       updateLanternHealth();
+      // Sync data from backend when user logs in
+      const { syncProgress } = useJourneyStore.getState();
+      const { syncSignLogs, syncJournalEntries } = useManifestationStore.getState();
+      
+      syncProgress();
+      syncSignLogs();
+      syncJournalEntries();
     }
   }, [isAuthenticated, updateLanternHealth]);
 

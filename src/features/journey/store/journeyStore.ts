@@ -1,16 +1,19 @@
 import { create } from 'zustand';
 import { RoadStep, UserProgress, Lantern } from '../types/journey';
 import { roadStepsData } from '../data/roadSteps';
+import { userAPI } from '../../../shared/services/api';
 
 interface JourneyState {
   roadSteps: RoadStep[];
   userProgress: UserProgress;
   currentStep: RoadStep | null;
+  isLoading: boolean;
   completeStep: (stepNumber: number) => void;
   updateLanternHealth: () => void;
   addSparks: (amount: number) => void;
   updateStreak: () => void;
   setCurrentStep: (stepNumber: number) => void;
+  syncProgress: () => Promise<void>;
 }
 
 const initialLantern: Lantern = {
@@ -31,13 +34,39 @@ export const useJourneyStore = create<JourneyState>((set, get) => ({
   roadSteps: roadStepsData,
   userProgress: initialProgress,
   currentStep: null,
+  isLoading: false,
 
   setCurrentStep: (stepNumber: number) => {
     const step = get().roadSteps.find(s => s.stepNumber === stepNumber);
     set({ currentStep: step || null });
   },
 
-  completeStep: (stepNumber: number) => {
+  syncProgress: async () => {
+    set({ isLoading: true });
+    try {
+      const backendProgress = await userAPI.getProgress();
+      
+      // Map backend progress to frontend UserProgress
+      const progress: UserProgress = {
+        currentStep: backendProgress.current_day,
+        completedSteps: backendProgress.completed_days,
+        lantern: {
+          health: backendProgress.lantern_health,
+          lastUpdated: new Date(),
+        },
+        sparks: backendProgress.sparks,
+        streak: backendProgress.streak,
+        lastMeditationDate: backendProgress.completed_days.length > 0 ? new Date() : null,
+      };
+      
+      set({ userProgress: progress, isLoading: false });
+    } catch (error) {
+      console.error('Failed to sync progress:', error);
+      set({ isLoading: false });
+    }
+  },
+
+  completeStep: async (stepNumber: number) => {
     const { userProgress } = get();
     
     // Don't complete if already completed
@@ -88,6 +117,7 @@ export const useJourneyStore = create<JourneyState>((set, get) => ({
     // Move to next step
     const nextStep = stepNumber + 1;
 
+    // Update local state first for immediate UI feedback
     set({
       userProgress: {
         ...userProgress,
@@ -99,6 +129,17 @@ export const useJourneyStore = create<JourneyState>((set, get) => ({
         lantern: newLantern,
       },
     });
+
+    // Sync with backend
+    try {
+      await userAPI.updateProgress({
+        day_number: stepNumber,
+        completed: true,
+      });
+    } catch (error) {
+      console.error('Failed to sync progress with backend:', error);
+      // Progress is still saved locally, just not synced
+    }
   },
 
   updateLanternHealth: () => {
