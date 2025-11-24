@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Music, Volume2, X } from 'lucide-react';
 import { useAudioStore } from '../store/audioStore';
@@ -22,7 +22,7 @@ export const AmbiencePlayer = ({ isSubscribed = false, className = '' }: Ambienc
     setAmbienceVolume,
   } = useAudioStore();
 
-  const [showSelector, setShowSelector] = React.useState(false);
+  const [showSelector, setShowSelector] = useState(false);
 
   // Initialize ambience element
   useEffect(() => {
