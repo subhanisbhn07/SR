@@ -21,7 +21,7 @@ import { useToast } from './shared/hooks/useToast';
 type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed' | 'hall-of-fame' | 'profile';
 
 function App() {
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, initializeAuth } = useAuthStore();
   const { userProgress, setCurrentStep, updateLanternHealth } = useJourneyStore();
   const { goal } = useManifestationStore();
   const toast = useToast();
@@ -31,6 +31,11 @@ function App() {
   const [showPaywall, setShowPaywall] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showGoalIntake, setShowGoalIntake] = useState(false);
+
+  // Initialize authentication on app startup
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   useEffect(() => {
     if (isAuthenticated) {

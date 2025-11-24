@@ -1,17 +1,22 @@
 import { create } from 'zustand';
 import { User } from '../types';
 import { SubscriptionTier } from '../shared/types/subscription';
+import { authAPI, setAuthToken, getAuthToken } from '../shared/services/api';
 
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   mode: 'consumer' | 'enterprise';
   subscriptionTier: SubscriptionTier;
-  login: (email: string) => Promise<void>;
+  isLoading: boolean;
+  error: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
   switchMode: (mode: 'consumer' | 'enterprise') => void;
   updateStreak: () => void;
   updateSubscriptionTier: (tier: SubscriptionTier) => void;
+  initializeAuth: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -19,30 +24,100 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   mode: 'consumer',
   subscriptionTier: SubscriptionTier.WANDERER,
+  isLoading: false,
+  error: null,
   
-  login: async (email: string) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  login: async (email: string, password: string) => {
+    set({ isLoading: true, error: null });
     
-    const mockUser: User = {
-      id: '1',
-      email,
-      name: email.split('@')[0],
-      mode: get().mode,
-      streak: 7,
-      totalSessions: 42,
-      joinedAt: new Date('2024-01-15'),
-      preferences: {
-        notifications: true,
-        reminderTime: '09:00',
-        focusAreas: ['mindfulness', 'productivity'],
-        difficulty: 'intermediate',
-      },
-    };
+    try {
+      const response = await authAPI.login({ email, password });
+      
+      // Store the JWT token
+      setAuthToken(response.access_token);
+      
+      // Map backend user to frontend User type
+      const user: User = {
+        id: response.user.id,
+        email: response.user.email,
+        name: response.user.name,
+        mode: get().mode,
+        streak: response.user.streak,
+        totalSessions: response.user.completed_days.length,
+        joinedAt: new Date(),
+        preferences: {
+          notifications: response.user.settings.notifications ?? true,
+          reminderTime: response.user.settings.reminderTime ?? '09:00',
+          focusAreas: response.user.settings.focusAreas ?? ['mindfulness'],
+          difficulty: response.user.settings.difficulty ?? 'intermediate',
+        },
+      };
+      
+      // Map subscription tier
+      const tierMap: Record<string, SubscriptionTier> = {
+        'wanderer': SubscriptionTier.WANDERER,
+        'seeker': SubscriptionTier.SEEKER,
+        'master': SubscriptionTier.MASTER,
+      };
+      
+      set({ 
+        user, 
+        isAuthenticated: true,
+        subscriptionTier: tierMap[response.user.subscription_tier] || SubscriptionTier.WANDERER,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ 
+        error: error instanceof Error ? error.message : 'Login failed',
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+  
+  register: async (email: string, password: string, name: string) => {
+    set({ isLoading: true, error: null });
     
-    set({ user: mockUser, isAuthenticated: true });
+    try {
+      const response = await authAPI.register({ email, password, name });
+      
+      // Store the JWT token
+      setAuthToken(response.access_token);
+      
+      // Map backend user to frontend User type
+      const user: User = {
+        id: response.user.id,
+        email: response.user.email,
+        name: response.user.name,
+        mode: get().mode,
+        streak: response.user.streak,
+        totalSessions: response.user.completed_days.length,
+        joinedAt: new Date(),
+        preferences: {
+          notifications: true,
+          reminderTime: '09:00',
+          focusAreas: ['mindfulness'],
+          difficulty: 'intermediate',
+        },
+      };
+      
+      set({ 
+        user, 
+        isAuthenticated: true,
+        subscriptionTier: SubscriptionTier.WANDERER,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ 
+        error: error instanceof Error ? error.message : 'Registration failed',
+        isLoading: false,
+      });
+      throw error;
+    }
   },
   
   logout: () => {
+    setAuthToken(null);
     set({ user: null, isAuthenticated: false, subscriptionTier: SubscriptionTier.WANDERER });
   },
   
@@ -63,5 +138,49 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   
   updateSubscriptionTier: (tier: SubscriptionTier) => {
     set({ subscriptionTier: tier });
+  },
+  
+  initializeAuth: async () => {
+    const token = getAuthToken();
+    
+    if (!token) {
+      return;
+    }
+    
+    try {
+      const backendUser = await authAPI.getMe();
+      
+      const user: User = {
+        id: backendUser.id,
+        email: backendUser.email,
+        name: backendUser.name,
+        mode: get().mode,
+        streak: backendUser.streak,
+        totalSessions: backendUser.completed_days.length,
+        joinedAt: new Date(),
+        preferences: {
+          notifications: backendUser.settings.notifications ?? true,
+          reminderTime: backendUser.settings.reminderTime ?? '09:00',
+          focusAreas: backendUser.settings.focusAreas ?? ['mindfulness'],
+          difficulty: backendUser.settings.difficulty ?? 'intermediate',
+        },
+      };
+      
+      const tierMap: Record<string, SubscriptionTier> = {
+        'wanderer': SubscriptionTier.WANDERER,
+        'seeker': SubscriptionTier.SEEKER,
+        'master': SubscriptionTier.MASTER,
+      };
+      
+      set({ 
+        user, 
+        isAuthenticated: true,
+        subscriptionTier: tierMap[backendUser.subscription_tier] || SubscriptionTier.WANDERER,
+      });
+    } catch {
+      // Token is invalid, clear it
+      setAuthToken(null);
+      set({ user: null, isAuthenticated: false });
+    }
   },
 }));
