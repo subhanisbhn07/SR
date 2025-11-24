@@ -21,7 +21,7 @@ import { useToast } from './shared/hooks/useToast';
 type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed' | 'hall-of-fame' | 'profile';
 
 function App() {
-  const { isAuthenticated, user, initializeAuth } = useAuthStore();
+  const { isAuthenticated, user, initializeAuth, isInitializingAuth, sessionExpired, clearSessionExpired } = useAuthStore();
   const { userProgress, setCurrentStep, updateLanternHealth } = useJourneyStore();
   const { goal } = useManifestationStore();
   const toast = useToast();
@@ -36,6 +36,14 @@ function App() {
   useEffect(() => {
     initializeAuth();
   }, [initializeAuth]);
+
+  // Show session expired message
+  useEffect(() => {
+    if (sessionExpired) {
+      toast.warning('Your session has expired. Please sign in again.');
+      clearSessionExpired();
+    }
+  }, [sessionExpired, toast, clearSessionExpired]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -116,6 +124,21 @@ function App() {
     toast.info('Subscription feature coming soon! For demo purposes, you can continue exploring.');
     setShowPaywall(false);
   };
+
+  // Show loading state during auth initialization
+  if (isInitializingAuth) {
+    return (
+      <ErrorBoundary>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#7dd3c0', borderTopColor: 'transparent' }}></div>
+            <p style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>Loading...</p>
+          </div>
+        </div>
+        <ToastContainer />
+      </ErrorBoundary>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

@@ -9,7 +9,9 @@ interface AuthState {
   mode: 'consumer' | 'enterprise';
   subscriptionTier: SubscriptionTier;
   isLoading: boolean;
+  isInitializingAuth: boolean;
   error: string | null;
+  sessionExpired: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
@@ -17,6 +19,7 @@ interface AuthState {
   updateStreak: () => void;
   updateSubscriptionTier: (tier: SubscriptionTier) => void;
   initializeAuth: () => Promise<void>;
+  clearSessionExpired: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -25,7 +28,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   mode: 'consumer',
   subscriptionTier: SubscriptionTier.WANDERER,
   isLoading: false,
+  isInitializingAuth: false,
   error: null,
+  sessionExpired: false,
   
   login: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
@@ -144,8 +149,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const token = getAuthToken();
     
     if (!token) {
+      set({ isInitializingAuth: false });
       return;
     }
+    
+    set({ isInitializingAuth: true, sessionExpired: false });
     
     try {
       const backendUser = await authAPI.getMe();
@@ -176,11 +184,21 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         user, 
         isAuthenticated: true,
         subscriptionTier: tierMap[backendUser.subscription_tier] || SubscriptionTier.WANDERER,
+        isInitializingAuth: false,
       });
     } catch {
-      // Token is invalid, clear it
+      // Token is invalid or expired, clear it and show message
       setAuthToken(null);
-      set({ user: null, isAuthenticated: false });
+      set({ 
+        user: null, 
+        isAuthenticated: false,
+        isInitializingAuth: false,
+        sessionExpired: true,
+      });
     }
+  },
+  
+  clearSessionExpired: () => {
+    set({ sessionExpired: false });
   },
 }));
