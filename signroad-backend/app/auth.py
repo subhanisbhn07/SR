@@ -53,13 +53,18 @@ def decode_token(token: str) -> dict:
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Security(security),
+    session = Depends(lambda: __import__('app.storage_adapter').storage_adapter.get_storage_session())
+) -> dict:
     """Get the current authenticated user from JWT token"""
     token = credentials.credentials
     payload = decode_token(token)
     
-    from app.storage import get_user_by_id
-    user = get_user_by_id(payload["sub"])
+    from app.storage_adapter import get_user_by_id
+    async for db_session in session:
+        user = await get_user_by_id(db_session, payload["sub"])
+        break
     
     if not user:
         raise HTTPException(status_code=401, detail="User not found")
