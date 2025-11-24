@@ -11,9 +11,10 @@ interface HeaderProps {
   onShopClick?: () => void;
   onFeedClick?: () => void;
   onHallOfFameClick?: () => void;
+  onProfileClick?: () => void;
 }
 
-export const Header = ({ onLogClick, onShopClick, onFeedClick, onHallOfFameClick }: HeaderProps) => {
+export const Header = ({ onLogClick, onShopClick, onFeedClick, onHallOfFameClick, onProfileClick }: HeaderProps) => {
   const { user, logout } = useAuthStore();
   const { userProgress } = useJourneyStore();
   
@@ -97,6 +98,15 @@ export const Header = ({ onLogClick, onShopClick, onFeedClick, onHallOfFameClick
                         <p className="text-sm font-medium text-white">{user.name}</p>
                         <p className="text-xs text-neutral-400">{user.email}</p>
                       </div>
+                      {onProfileClick && (
+                        <button 
+                          onClick={onProfileClick}
+                          className="w-full text-left px-3 py-2 text-sm text-neutral-300 hover:bg-neutral-700 rounded-lg flex items-center space-x-2"
+                        >
+                          <User className="w-4 h-4" />
+                          <span>Profile</span>
+                        </button>
+                      )}
                       <button className="w-full text-left px-3 py-2 text-sm text-neutral-300 hover:bg-neutral-700 rounded-lg flex items-center space-x-2">
                         <Settings className="w-4 h-4" />
                         <span>Settings</span>

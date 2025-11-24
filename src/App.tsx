@@ -7,6 +7,7 @@ import { Header } from './shared/components/layout/Header';
 import { InfiniteRoad } from './features/journey/components/InfiniteRoad';
 import { DayDetail } from './pages/DayDetail';
 import { TravelersLog } from './pages/TravelersLog';
+import { Profile } from './pages/Profile';
 import { GoalIntake } from './features/manifestation/components/GoalIntake';
 import { OnboardingFlow } from './features/manifestation/components/OnboardingFlow';
 import { PaywallScreen } from './features/paywall/components/PaywallScreen';
@@ -17,7 +18,7 @@ import { ErrorBoundary } from './shared/components/ErrorBoundary';
 import { ToastContainer } from './shared/components/ui/ToastContainer';
 import { useToast } from './shared/hooks/useToast';
 
-type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed' | 'hall-of-fame';
+type View = 'road' | 'day-detail' | 'log' | 'shop' | 'feed' | 'hall-of-fame' | 'profile';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -85,6 +86,10 @@ function App() {
     setCurrentView('hall-of-fame');
   };
 
+  const handleProfileClick = () => {
+    setCurrentView('profile');
+  };
+
   const handleOnboardingComplete = () => {
     localStorage.setItem('signroad_onboarding_complete', 'true');
     setShowOnboarding(false);
@@ -137,6 +142,7 @@ function App() {
           onShopClick={handleShopClick}
           onFeedClick={handleFeedClick}
           onHallOfFameClick={handleHallOfFameClick}
+          onProfileClick={handleProfileClick}
         />
       
       {currentView === 'road' && (
@@ -196,6 +202,8 @@ function App() {
       )}
 
       {currentView === 'hall-of-fame' && <HallOfFame />}
+
+      {currentView === 'profile' && <Profile />}
 
       {showPaywall && (
         <PaywallScreen
