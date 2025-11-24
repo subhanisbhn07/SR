@@ -71,12 +71,8 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 py-12 px-4">
-      {/* Mystical background effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
-      </div>
+    <div className="relative min-h-screen py-12 px-4">
+      {/* Watercolor background effects - already handled by body in index.css */}
 
       {/* The Road Path - Candy Crush Style */}
       <div className="relative max-w-6xl mx-auto">
@@ -118,37 +114,37 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                     </div>
                   )}
 
-                  {/* Node Circle - Responsive Size */}
+                  {/* Node Circle - Watercolor Style */}
                   <div className={`
                     relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300
-                    ${status === 'current' ? 'bg-gradient-to-br from-accent-500 to-accent-600 shadow-xl shadow-accent-500/60 animate-pulse scale-110' : ''}
-                    ${status === 'completed' ? 'bg-gradient-to-br from-primary-500 to-primary-600 shadow-lg shadow-primary-500/40' : ''}
-                    ${status === 'available' ? 'bg-gradient-to-br from-neutral-700 to-neutral-800 shadow-lg shadow-neutral-700/40 active:scale-95' : ''}
-                    ${status === 'future' ? 'bg-gradient-to-br from-neutral-800 to-neutral-900 opacity-50 shadow-md' : ''}
-                    ${status === 'locked' ? 'bg-gradient-to-br from-neutral-900 to-neutral-950 opacity-40 shadow-md' : ''}
-                    border-4 ${status === 'current' ? 'border-accent-300' : status === 'completed' ? 'border-primary-300' : 'border-neutral-600'} shadow-[0_4px_0_rgba(0,0,0,0.3)]
+                    ${status === 'current' ? 'bg-gradient-to-br from-[#ffd89b] to-[#f4c77e] shadow-xl shadow-[#ffd89b]/40 animate-pulse scale-110' : ''}
+                    ${status === 'completed' ? 'bg-gradient-to-br from-[#7dd3c0] to-[#5fb8a6] shadow-lg shadow-[#7dd3c0]/30' : ''}
+                    ${status === 'available' ? 'bg-gradient-to-br from-[#a8e6d7] to-[#7dd3c0] shadow-lg shadow-[#7dd3c0]/20 active:scale-95' : ''}
+                    ${status === 'future' ? 'bg-gradient-to-br from-white/80 to-[#f0f9f6]/80 opacity-60 shadow-md' : ''}
+                    ${status === 'locked' ? 'bg-gradient-to-br from-white/50 to-[#f0f9f6]/50 opacity-40 shadow-md' : ''}
+                    border-3 ${status === 'current' ? 'border-[#f4c77e]' : status === 'completed' ? 'border-[#5fb8a6]' : 'border-[#a8e6d7]'} shadow-[0_3px_0_rgba(125,211,192,0.2)]
                   `}>
                     {status === 'locked' ? (
-                      <Lock className="w-6 h-6 text-neutral-500" />
+                      <Lock className="w-6 h-6 text-[#718096]" />
                     ) : (
-                      <span className="text-white font-black text-2xl drop-shadow-md">
+                      <span className="font-black text-2xl drop-shadow-md" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>
                         {step.stepNumber}
                       </span>
                     )}
                     
                     {status === 'completed' && (
-                      <div className="absolute top-0 right-0 w-6 h-6 bg-accent-500 rounded-full border-2 border-white flex items-center justify-center">
-                        <CheckCircle className="w-4 h-4 text-white" />
+                      <div className="absolute top-0 right-0 w-6 h-6 bg-[#ffd89b] rounded-full border-2 border-white flex items-center justify-center">
+                        <CheckCircle className="w-4 h-4 text-[#2d3748]" />
                       </div>
                     )}
                   </div>
 
                   {/* Day Label Below Node */}
                   <div className="mt-2 text-center w-full">
-                    <div className="text-xs font-bold text-accent-400 bg-neutral-800/90 px-2 py-0.5 rounded-full mb-1 shadow-sm border border-accent-500/30">
+                    <div className="text-xs font-bold px-2 py-0.5 rounded-full mb-1 shadow-sm" style={{ color: '#5fb8a6', backgroundColor: 'rgba(125, 211, 192, 0.15)', border: '1px solid rgba(125, 211, 192, 0.3)', fontFamily: 'Patrick Hand, cursive' }}>
                       Sign {step.stepNumber}
                     </div>
-                    <div className="text-xs font-semibold text-neutral-300 truncate">{step.title}</div>
+                    <div className="text-xs font-semibold truncate" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.title}</div>
                   </div>
                 </button>
               </motion.div>
@@ -197,53 +193,53 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                       </div>
                     )}
 
-                    {/* Node Circle - SignRoad Colors */}
+                    {/* Node Circle - Watercolor Style */}
                     <div className={`
                       relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300
-                      ${status === 'current' ? 'bg-gradient-to-br from-accent-500 to-accent-600 shadow-xl shadow-accent-500/60 animate-pulse scale-110' : ''}
-                      ${status === 'completed' ? 'bg-gradient-to-br from-primary-500 to-primary-600 shadow-lg shadow-primary-500/40' : ''}
-                      ${status === 'available' ? 'bg-gradient-to-br from-neutral-700 to-neutral-800 shadow-lg shadow-neutral-700/40 hover:scale-105 hover:shadow-primary-500/30' : ''}
-                      ${status === 'future' ? 'bg-gradient-to-br from-neutral-800 to-neutral-900 opacity-50 shadow-md' : ''}
-                      ${status === 'locked' ? 'bg-gradient-to-br from-neutral-900 to-neutral-950 opacity-40 shadow-md' : ''}
-                      border-4 ${status === 'current' ? 'border-accent-300' : status === 'completed' ? 'border-primary-300' : 'border-neutral-600'} shadow-[0_4px_0_rgba(0,0,0,0.3)]
+                      ${status === 'current' ? 'bg-gradient-to-br from-[#ffd89b] to-[#f4c77e] shadow-xl shadow-[#ffd89b]/40 animate-pulse scale-110' : ''}
+                      ${status === 'completed' ? 'bg-gradient-to-br from-[#7dd3c0] to-[#5fb8a6] shadow-lg shadow-[#7dd3c0]/30' : ''}
+                      ${status === 'available' ? 'bg-gradient-to-br from-[#a8e6d7] to-[#7dd3c0] shadow-lg shadow-[#7dd3c0]/20 hover:scale-105 hover:shadow-[#7dd3c0]/30' : ''}
+                      ${status === 'future' ? 'bg-gradient-to-br from-white/80 to-[#f0f9f6]/80 opacity-60 shadow-md' : ''}
+                      ${status === 'locked' ? 'bg-gradient-to-br from-white/50 to-[#f0f9f6]/50 opacity-40 shadow-md' : ''}
+                      border-4 ${status === 'current' ? 'border-[#f4c77e]' : status === 'completed' ? 'border-[#5fb8a6]' : 'border-[#a8e6d7]'} shadow-[0_4px_0_rgba(125,211,192,0.2)]
                     `}>
                       {/* Day Number - Large and Bold */}
                       {status === 'locked' ? (
-                        <Lock className="w-8 h-8 text-neutral-500" />
+                        <Lock className="w-8 h-8 text-[#718096]" />
                       ) : (
-                        <span className="text-white font-black text-3xl drop-shadow-md">
+                        <span className="font-black text-3xl drop-shadow-md" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>
                           {step.stepNumber}
                         </span>
                       )}
                       
                       {/* Checkmark overlay for completed */}
                       {status === 'completed' && (
-                        <div className="absolute top-0 right-0 w-8 h-8 bg-accent-500 rounded-full border-2 border-white flex items-center justify-center">
-                          <CheckCircle className="w-5 h-5 text-white" />
+                        <div className="absolute top-0 right-0 w-8 h-8 bg-[#ffd89b] rounded-full border-2 border-white flex items-center justify-center">
+                          <CheckCircle className="w-5 h-5 text-[#2d3748]" />
                         </div>
                       )}
                     </div>
 
-                    {/* Hover Card */}
+                    {/* Hover Card - Watercolor Style */}
                     <div className={`
                       absolute left-1/2 -translate-x-1/2 top-32 w-64 p-4 rounded-xl
-                      bg-neutral-900 border-2 ${isSpecialEvent ? 'border-accent-500' : 'border-neutral-700'}
+                      card-watercolor border-2 ${isSpecialEvent ? 'border-[#ffd89b]' : 'border-[#7dd3c0]/30'}
                       opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20
                       shadow-xl
                       ${!isClickable ? 'hidden' : ''}
                     `}>
                       <div className="text-center">
                         <div className="flex items-center justify-center gap-2 mb-2">
-                          <span className="text-xs font-semibold text-accent-400">Day {step.stepNumber}</span>
+                          <span className="text-xs font-semibold" style={{ color: '#5fb8a6', fontFamily: 'Patrick Hand, cursive' }}>Day {step.stepNumber}</span>
                           {isSpecialEvent && (
-                            <span className="px-2 py-0.5 text-xs font-bold bg-accent-500/20 text-accent-400 rounded-full">
+                            <span className="px-2 py-0.5 text-xs font-bold rounded-full" style={{ backgroundColor: 'rgba(255, 216, 155, 0.2)', color: '#f4c77e', fontFamily: 'Patrick Hand, cursive' }}>
                               {isSpecialEvent.label}
                             </span>
                           )}
                         </div>
-                        <h4 className="text-sm font-bold text-white mb-1">{step.title}</h4>
-                        <p className="text-xs text-neutral-400 mb-2">{step.description}</p>
-                        <div className="text-xs text-primary-400 font-medium">
+                        <h4 className="text-sm font-bold mb-1" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>{step.title}</h4>
+                        <p className="text-xs mb-2" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.description}</p>
+                        <div className="text-xs font-medium" style={{ color: '#5fb8a6', fontFamily: 'Patrick Hand, cursive' }}>
                           {step.signChallenge}
                         </div>
                       </div>
@@ -251,10 +247,10 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
 
                     {/* Day Label Below Node */}
                     <div className="absolute left-1/2 -translate-x-1/2 top-28 text-center w-40">
-                      <div className="text-sm font-bold text-accent-400 bg-neutral-800/90 px-2 py-1 rounded-full mb-1 shadow-sm border border-accent-500/30">
+                      <div className="text-sm font-bold px-2 py-1 rounded-full mb-1 shadow-sm" style={{ color: '#5fb8a6', backgroundColor: 'rgba(125, 211, 192, 0.15)', border: '1px solid rgba(125, 211, 192, 0.3)', fontFamily: 'Patrick Hand, cursive' }}>
                         Sign {step.stepNumber}
                       </div>
-                      <div className="text-xs font-semibold text-neutral-300 truncate">{step.title}</div>
+                      <div className="text-xs font-semibold truncate" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.title}</div>
                     </div>
                   </button>
                 </motion.div>
@@ -263,22 +259,23 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
           })}
         </div>
 
-        {/* End of free content marker */}
+        {/* End of free content marker - Watercolor Style */}
         {!isSubscribed && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="mt-12 p-8 rounded-2xl border-2 border-accent-500/30 bg-gradient-to-br from-accent-500/10 to-primary-500/10 text-center"
+            className="mt-12 p-8 rounded-2xl card-watercolor text-center"
+            style={{ border: '2px solid rgba(255, 216, 155, 0.3)' }}
           >
-            <Lock className="w-12 h-12 text-accent-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <Lock className="w-12 h-12 mx-auto mb-4" style={{ color: '#f4c77e' }} />
+            <h3 className="text-xl font-semibold mb-2" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>
               Continue Your Journey
             </h3>
-            <p className="text-neutral-300 mb-4">
+            <p className="mb-4" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>
               Unlock 986 more days of guided meditation and manifestation
             </p>
-            <button className="px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-colors">
+            <button className="btn-watercolor">
               Become a Seeker
             </button>
           </motion.div>
