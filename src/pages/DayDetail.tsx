@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, CheckCircle, Sparkles, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Sparkles, AlertTriangle, Camera, Upload, X } from 'lucide-react';
 import { useJourneyStore } from '../features/journey/store/journeyStore';
 import { useManifestationStore } from '../features/manifestation/store/manifestationStore';
 import { useAuthStore } from '../store/authStore';
@@ -34,7 +34,9 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
   const [duration, setDuration] = useState(300); // 5 minutes default
   const [showSignLog, setShowSignLog] = useState(false);
   const [signNote, setSignNote] = useState('');
+  const [signPhoto, setSignPhoto] = useState<string | null>(null);
   const [journalText, setJournalText] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [hasCompletedMeditation, setHasCompletedMeditation] = useState(false);
   const [hasLoggedSign, setHasLoggedSign] = useState(false);
   const [showSpecialEvent, setShowSpecialEvent] = useState(false);
@@ -80,6 +82,24 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
     );
   }
 
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSignPhoto(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setSignPhoto(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleLogSign = () => {
     if (!step) return;
     
@@ -88,6 +108,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
       signName: step.signChallenge,
       found: true,
       note: signNote,
+      photo: signPhoto || undefined,
     });
     
     const receipt = generateReceipt(
@@ -115,6 +136,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
     setHasLoggedSign(true);
     setShowSignLog(false);
     setSignNote('');
+    setSignPhoto(null);
   };
 
   const handleSaveJournal = () => {
@@ -294,6 +316,57 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                     className="w-full px-4 py-3 bg-neutral-900 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-primary-500 resize-none"
                     rows={3}
                   />
+                  
+                  {/* Photo Upload */}
+                  <div className="space-y-2">
+                    <p className="text-sm text-neutral-400">Add a photo (optional)</p>
+                    
+                    {signPhoto ? (
+                      <div className="relative">
+                        <img 
+                          src={signPhoto} 
+                          alt="Sign" 
+                          className="w-full h-48 object-cover rounded-lg"
+                        />
+                        <button
+                          onClick={handleRemovePhoto}
+                          className="absolute top-2 right-2 p-2 bg-red-500 hover:bg-red-600 rounded-full transition-colors"
+                        >
+                          <X className="w-4 h-4 text-white" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                          className="hidden"
+                        />
+                        <button
+                          onClick={() => fileInputRef.current?.click()}
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-neutral-700 hover:bg-neutral-600 text-white rounded-lg transition-colors"
+                        >
+                          <Upload className="w-4 h-4" />
+                          <span>Upload Photo</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (fileInputRef.current) {
+                              fileInputRef.current.setAttribute('capture', 'environment');
+                              fileInputRef.current.click();
+                            }
+                          }}
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-neutral-700 hover:bg-neutral-600 text-white rounded-lg transition-colors"
+                        >
+                          <Camera className="w-4 h-4" />
+                          <span>Take Photo</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  
                   <div className="flex gap-3">
                     <button
                       onClick={handleLogSign}
@@ -302,7 +375,10 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                       Log Sign (+5 Sparks)
                     </button>
                     <button
-                      onClick={() => setShowSignLog(false)}
+                      onClick={() => {
+                        setShowSignLog(false);
+                        setSignPhoto(null);
+                      }}
                       className="px-6 py-3 bg-neutral-700 hover:bg-neutral-600 text-white font-semibold rounded-lg transition-colors"
                     >
                       Cancel
