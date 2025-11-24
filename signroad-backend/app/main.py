@@ -17,7 +17,8 @@ from app.auth import (
     hash_password, verify_password, create_access_token,
     get_current_user, get_current_admin
 )
-import app.storage as storage
+from app.database import USE_DATABASE, init_db, close_db
+import app.storage_adapter as storage
 
 app = FastAPI(title="SignRoad API", version="1.0.0")
 
@@ -36,11 +37,24 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],  # Explicit headers
 )
 
-# Initialize default data on startup
+# Initialize database and default data on startup
 @app.on_event("startup")
 async def startup_event():
-    storage.initialize_default_data()
+    if USE_DATABASE:
+        await init_db()
+        async for session in storage.get_storage_session():
+            await storage.initialize_default_data(session)
+    else:
+        async for session in storage.get_storage_session():
+            await storage.initialize_default_data(session)
     print("✅ SignRoad API started successfully")
+
+# Close database connections on shutdown
+@app.on_event("shutdown")
+async def shutdown_event():
+    if USE_DATABASE:
+        await close_db()
+    print("✅ SignRoad API shut down successfully")
 
 @app.get("/healthz")
 async def healthz():
@@ -51,16 +65,16 @@ async def healthz():
 # ============================================================================
 
 @app.post("/api/auth/register", response_model=Token)
-async def register(user_data: UserCreate):
+async def register(user_data: UserCreate, session=Depends(storage.get_storage_session)):
     """Register a new user"""
     # Check if user already exists
-    existing_user = storage.get_user_by_email(user_data.email)
+    existing_user = await storage.get_user_by_email(session, user_data.email)
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
     # Create new user
     password_hash = hash_password(user_data.password)
-    user = storage.create_user({
+    user = await storage.create_user(session, {
         'email': user_data.email,
         'password_hash': password_hash,
         'name': user_data.name,
@@ -79,9 +93,9 @@ async def register(user_data: UserCreate):
     }
 
 @app.post("/api/auth/login", response_model=Token)
-async def login(credentials: UserLogin):
+async def login(credentials: UserLogin, session=Depends(storage.get_storage_session)):
     """Login with email and password"""
-    user = storage.get_user_by_email(credentials.email)
+    user = await storage.get_user_by_email(session, credentials.email)
     
     if not user or not verify_password(credentials.password, user['password_hash']):
         raise HTTPException(status_code=401, detail="Invalid email or password")
