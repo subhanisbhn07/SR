@@ -1,3 +1,150 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hand-drawn watercolor fonts */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Patrick+Hand&display=swap');
+
+@layer base {
+  :root {
+    /* Watercolor Mint/Teal Palette */
+    --color-primary: #7dd3c0;
+    --color-primary-dark: #5fb8a6;
+    --color-primary-light: #a8e6d7;
+    
+    /* Soft Accent Colors - Warm Peach/Yellow */
+    --color-accent: #ffd89b;
+    --color-accent-dark: #f4c77e;
+    --color-accent-light: #ffe5b4;
+    
+    /* Watercolor Background - Soft Mint */
+    --color-background: #e8f5f1;
+    --color-surface: #f0f9f6;
+    --color-surface-light: #f8fcfb;
+    
+    /* Text Colors - Soft Charcoal */
+    --color-text-primary: #2d3748;
+    --color-text-secondary: #4a5568;
+    --color-text-muted: #718096;
+    
+    /* Status Colors - Watercolor Style */
+    --color-success: #7dd3c0;
+    --color-warning: #ffd89b;
+    --color-error: #f4a6a6;
+    --color-info: #a8d8ea;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Patrick Hand', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', cursive;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(135deg, #e8f5f1 0%, #d4ebe3 50%, #c8e6dd 100%);
+    background-attachment: fixed;
+    color: var(--color-text-primary);
+    position: relative;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(125, 211, 192, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 216, 155, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(168, 216, 234, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hand-drawn headline font */
+  h1, h2, h3 {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+  }
+}
+
+@layer components {
+  /* Hand-drawn button style */
+  .btn-watercolor {
+    @apply relative px-8 py-4 rounded-full font-medium transition-all duration-300;
+    background: linear-gradient(135deg, #7dd3c0 0%, #a8e6d7 100%);
+    box-shadow: 
+      0 4px 6px rgba(125, 211, 192, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(95, 184, 166, 0.5);
+    color: #2d3748;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.125rem;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-watercolor::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.1) 2px,
+      rgba(255, 255, 255, 0.1) 4px
+    );
+    pointer-events: none;
+  }
+
+  .btn-watercolor:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 12px rgba(125, 211, 192, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .btn-watercolor:active {
+    transform: translateY(0);
+  }
+
+  /* Watercolor card style */
+  .card-watercolor {
+    @apply relative rounded-3xl p-6;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 252, 251, 0.9) 100%);
+    box-shadow: 
+      0 8px 32px rgba(125, 211, 192, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(125, 211, 192, 0.3);
+  }
+
+  /* Hand-drawn circle navigation */
+  .nav-circle {
+    @apply relative w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 249, 246, 0.8) 100%);
+    box-shadow: 
+      0 4px 12px rgba(125, 211, 192, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(125, 211, 192, 0.4);
+  }
+
+  .nav-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 
+      0 6px 16px rgba(125, 211, 192, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+
+  /* Watercolor text shadow */
+  .text-watercolor {
+    text-shadow: 
+      2px 2px 4px rgba(125, 211, 192, 0.3),
+      -1px -1px 2px rgba(255, 255, 255, 0.5);
+  }
+}
