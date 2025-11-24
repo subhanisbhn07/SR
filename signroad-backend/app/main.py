@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import base64
+import os
 
 from app.models import (
     UserCreate, UserLogin, UserResponse, Token,
@@ -20,13 +21,19 @@ import app.storage as storage
 
 app = FastAPI(title="SignRoad API", version="1.0.0")
 
-# Disable CORS. Do not remove this for full-stack development.
+# Load allowed origins from environment variable
+ALLOWED_ORIGINS = os.getenv(
+    "ALLOWED_ORIGINS",
+    "http://localhost:5173,https://pr-generator-yatdm0kx.devinapps.com"
+).split(",")
+
+# CORS middleware with explicit whitelist (no more wildcard!)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=ALLOWED_ORIGINS,  # Explicit whitelist
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["GET", "POST", "PUT", "DELETE"],  # Explicit methods
+    allow_headers=["Authorization", "Content-Type"],  # Explicit headers
 )
 
 # Initialize default data on startup

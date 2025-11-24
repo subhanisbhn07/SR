@@ -8,10 +8,18 @@ from typing import Optional
 from fastapi import HTTPException, Security, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-# JWT Configuration
-SECRET_KEY = "signroad-secret-key-change-in-production"  # Change this in production!
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_HOURS = 24
+# JWT Configuration - Load from environment variables
+import os
+
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError(
+        "JWT_SECRET_KEY environment variable not set. "
+        "Generate one with: openssl rand -hex 32"
+    )
+
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_HOURS = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_HOURS", "24"))
 
 security = HTTPBearer()
 

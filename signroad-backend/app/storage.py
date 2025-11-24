@@ -185,35 +185,49 @@ def delete_cosmetic_item(item_id: str) -> bool:
         return True
     return False
 
-# Initialize with default admin user
+# Initialize with default users from environment variables
 def initialize_default_data():
-    """Initialize default admin user and sample data"""
+    """Initialize default users from environment variables (if provided)"""
     import bcrypt
+    import os
     
-    # Create default admin user
-    admin_password = "admin123"  # Change this in production!
-    password_hash = bcrypt.hashpw(admin_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    # Only create default users if environment variables are set
+    # This allows for optional initialization in development
+    admin_email = os.getenv("DEFAULT_ADMIN_EMAIL")
+    admin_password_hash = os.getenv("DEFAULT_ADMIN_PASSWORD_HASH")
     
-    admin_user = create_user({
-        'email': 'admin@signroad.com',
-        'password_hash': password_hash,
-        'name': 'Admin User',
-        'is_admin': True,
-        'subscription_tier': 'master'
-    })
+    if admin_email and admin_password_hash:
+        # Check if admin already exists
+        existing_admin = get_user_by_email(admin_email)
+        if not existing_admin:
+            # Create admin user from environment
+            admin_user = create_user({
+                'email': admin_email,
+                'password_hash': admin_password_hash,
+                'name': 'Admin User',
+                'is_admin': True,
+                'subscription_tier': 'master'
+            })
+            print(f"✓ Created admin user: {admin_email}")
+        else:
+            print(f"✓ Admin user already exists: {admin_email}")
+    else:
+        print("⚠️  No default admin configured. Use scripts/create_admin.py to create one.")
     
-    print(f"✅ Default admin user created: admin@signroad.com / admin123")
+    # Create test user only in development
+    test_email = os.getenv("DEFAULT_TEST_EMAIL")
+    test_password_hash = os.getenv("DEFAULT_TEST_PASSWORD_HASH")
     
-    # Create test user
-    test_password = "test123"
-    test_hash = bcrypt.hashpw(test_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-    
-    test_user = create_user({
-        'email': 'test@signroad.com',
-        'password_hash': test_hash,
-        'name': 'Test User',
-        'is_admin': False,
-        'subscription_tier': 'wanderer'
-    })
-    
-    print(f"✅ Test user created: test@signroad.com / test123")
+    if test_email and test_password_hash:
+        existing_test = get_user_by_email(test_email)
+        if not existing_test:
+            test_user = create_user({
+                'email': test_email,
+                'password_hash': test_password_hash,
+                'name': 'Test User',
+                'is_admin': False,
+                'subscription_tier': 'wanderer'
+            })
+            print(f"✓ Created test user: {test_email}")
+        else:
+            print(f"✓ Test user already exists: {test_email}")
