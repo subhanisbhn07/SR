@@ -1,7 +1,7 @@
 """
 Authentication utilities for SignRoad backend
 """
-import jwt
+from jose import jwt
 import bcrypt
 from datetime import datetime, timedelta
 from typing import Optional
