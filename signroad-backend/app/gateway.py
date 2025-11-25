@@ -7,23 +7,36 @@ and handles all other requests locally.
 
 import httpx
 import os
-from fastapi import Request, HTTPException
-from typing import Optional
+from fastapi import Request, HTTPException, Response
+from typing import Dict
 
 # Identity Service URL (internal communication)
 IDENTITY_SERVICE_URL = os.getenv("IDENTITY_SERVICE_URL", "http://localhost:8001")
 
+# Hop-by-hop headers that should not be forwarded
+HOP_BY_HOP_HEADERS = {
+    "connection",
+    "keep-alive",
+    "proxy-authenticate",
+    "proxy-authorization",
+    "te",
+    "trailers",
+    "transfer-encoding",
+    "upgrade",
+    "host",
+}
 
-async def forward_to_identity_service(request: Request, path: str):
+
+async def forward_to_identity_service(request: Request, path: str) -> Response:
     """
-    Forward request to Identity Service.
+    Forward request to Identity Service and return FastAPI Response.
     
     Args:
         request: Original FastAPI request
         path: Path to forward to Identity Service
         
     Returns:
-        Response from Identity Service
+        FastAPI Response object with status, headers, and content from Identity Service
     """
     # Build full URL
     url = f"{IDENTITY_SERVICE_URL}{path}"
@@ -33,9 +46,11 @@ async def forward_to_identity_service(request: Request, path: str):
     if request.method in ["POST", "PUT", "PATCH"]:
         body = await request.body()
     
-    # Forward headers (excluding host)
-    headers = dict(request.headers)
-    headers.pop("host", None)
+    # Forward headers (excluding hop-by-hop headers)
+    headers = {
+        k: v for k, v in request.headers.items()
+        if k.lower() not in HOP_BY_HOP_HEADERS
+    }
     
     # Make request to Identity Service
     async with httpx.AsyncClient(timeout=30.0) as client:
@@ -48,7 +63,19 @@ async def forward_to_identity_service(request: Request, path: str):
                 params=request.query_params
             )
             
-            return response
+            # Filter response headers (remove hop-by-hop headers)
+            response_headers = {
+                k: v for k, v in response.headers.items()
+                if k.lower() not in HOP_BY_HOP_HEADERS
+            }
+            
+            # Return FastAPI Response
+            return Response(
+                content=response.content,
+                status_code=response.status_code,
+                headers=response_headers,
+                media_type=response.headers.get("content-type")
+            )
             
         except httpx.RequestError as e:
             raise HTTPException(
@@ -70,7 +97,8 @@ def should_forward_to_identity_service(path: str) -> bool:
     # Forward all auth and user-related requests
     auth_prefixes = [
         "/api/auth/",
-        "/api/users/settings"
+        "/api/users/settings",
+        "/api/admin/users"
     ]
     
     return any(path.startswith(prefix) for prefix in auth_prefixes)

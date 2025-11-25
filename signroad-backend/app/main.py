@@ -5,16 +5,18 @@ This is the main FastAPI application that includes all module routers.
 Following SOLID principles with clear separation of concerns.
 """
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import os
 
 # Import module routers
-from app.identity import router as identity_router
 from app.journey import router as journey_router
 from app.social import router as social_router
 from app.media import router as media_router
+
+# Import gateway for Identity Service forwarding
+from app.gateway import forward_to_identity_service
 
 # Import models for admin endpoints
 from app.journey.schemas import DayContent, DayContentCreate, DayContentUpdate
@@ -72,11 +74,44 @@ async def healthz():
         "version": "2.0.0"
     }
 
-# Include module routers
-app.include_router(identity_router)
+# Include module routers (Identity router removed - now proxied to Identity Service)
 app.include_router(journey_router)
 app.include_router(social_router)
 app.include_router(media_router)
+
+# ============================================================================
+# IDENTITY SERVICE GATEWAY ENDPOINTS
+# ============================================================================
+# These endpoints proxy authentication requests to the standalone Identity Service
+
+@app.post("/api/auth/register")
+async def auth_register_proxy(request: Request):
+    """Proxy: Register new user via Identity Service"""
+    return await forward_to_identity_service(request, "/api/auth/register")
+
+
+@app.post("/api/auth/login")
+async def auth_login_proxy(request: Request):
+    """Proxy: Login via Identity Service"""
+    return await forward_to_identity_service(request, "/api/auth/login")
+
+
+@app.get("/api/auth/me")
+async def auth_me_proxy(request: Request):
+    """Proxy: Get current user via Identity Service"""
+    return await forward_to_identity_service(request, "/api/auth/me")
+
+
+@app.put("/api/users/settings")
+async def users_settings_proxy(request: Request):
+    """Proxy: Update user settings via Identity Service"""
+    return await forward_to_identity_service(request, "/api/users/settings")
+
+
+@app.get("/api/admin/users")
+async def admin_users_proxy(request: Request):
+    """Proxy: Get all users via Identity Service (admin only)"""
+    return await forward_to_identity_service(request, "/api/admin/users")
 
 # ============================================================================
 # ADMIN PANEL ENDPOINTS
