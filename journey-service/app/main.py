@@ -50,5 +50,5 @@ async def healthz():
         "version": "1.0.0"
     }
 
-# Include journey router (removes /api prefix since this is a dedicated service)
-app.include_router(journey_router, prefix="", tags=["journey"])
+# Include journey router (keeps /api/journey prefix for consistency with gateway)
+app.include_router(journey_router, tags=["journey"])
