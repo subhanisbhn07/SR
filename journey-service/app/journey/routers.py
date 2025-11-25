@@ -15,7 +15,7 @@ from app.journey.service import JourneyService
 from app.auth import get_current_user
 from app import storage_adapter as storage
 
-router = APIRouter(prefix="/api", tags=["journey"])
+router = APIRouter(prefix="/api/journey", tags=["journey"])
 journey_service = JourneyService()
 
 
