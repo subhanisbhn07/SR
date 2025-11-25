@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   mode: 'consumer',
   
   login: async (email: string, password: string) => {
-    // Simulate API call
+    void password;
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     const mockUser: User = {

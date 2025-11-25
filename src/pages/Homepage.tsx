@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
 import { HeroCarousel } from '../components/homepage/HeroCarousel';
 import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
@@ -11,33 +10,8 @@ import { BlogSection } from '../components/homepage/BlogSection';
 import { NewsletterSignup } from '../components/homepage/NewsletterSignup';
 import { MoodCheckIn } from '../components/homepage/MoodCheckIn';
 import { BottomNavigation } from '../components/homepage/BottomNavigation';
-
-const featuredCourses = [
-  {
-    id: 1,
-    title: "The Confidence Reset",
-    subtitle: "Rebuild your belief in 15 mins",
-    duration: "15 min",
-    isPremium: false,
-    image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 2,
-    title: "Morning Manifestation",
-    subtitle: "Start your day with intention",
-    duration: "12 min",
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 3,
-    title: "Deep Sleep Journey",
-    subtitle: "Release the day and rest deeply",
-    duration: "25 min",
-    isPremium: false,
-    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=200"
-  }
-];
+import { useOnboardingStore } from '../store/onboardingStore';
+import { getFirstRowSessionsForLifePath, getSectionTitleForLifePath } from '../config/sessionVariants';
 
 const topRatedCourses = [
   {
@@ -77,9 +51,12 @@ const editorsPicks = [
 
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
+  const { userProfile } = useOnboardingStore();
+  
+  const personalizedSessions = getFirstRowSessionsForLifePath(userProfile?.lifePath);
+  const sectionTitle = getSectionTitleForLifePath(userProfile?.lifePath);
 
   const handleIntentSelect = (intent: string) => {
-    // Scroll to relevant section based on intent
     console.log('Selected intent:', intent);
   };
 
@@ -95,8 +72,8 @@ export const Homepage: React.FC = () => {
           <CategoryGrid />
           
           <CourseSection 
-            title="Start Your Journey" 
-            courses={featuredCourses}
+            title={sectionTitle} 
+            courses={personalizedSessions}
           />
           
           <CourseSection 

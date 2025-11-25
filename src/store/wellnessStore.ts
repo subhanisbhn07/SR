@@ -8,6 +8,7 @@ interface WellnessState {
   currentSession: WellnessSession | null;
   addMoodEntry: (mood: MoodEntry['mood'], intensity: number, note?: string) => void;
   startSession: (session: WellnessSession) => void;
+  clearCurrentSession: () => void;
   completeSession: (rating: number) => void;
   unlockAchievement: (achievementId: string) => void;
 }
@@ -102,6 +103,10 @@ export const useWellnessStore = create<WellnessState>((set, get) => ({
   
   startSession: (session) => {
     set({ currentSession: session });
+  },
+  
+  clearCurrentSession: () => {
+    set({ currentSession: null });
   },
   
   completeSession: (rating) => {

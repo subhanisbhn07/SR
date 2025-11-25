@@ -2,46 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../ui/Button';
-
-const heroSlides = [
-  {
-    id: 1,
-    title: "Reclaim Your Calm",
-    subtitle: "Find peace in the chaos of everyday life",
-    image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-purple-900/80 to-blue-900/80"
-  },
-  {
-    id: 2,
-    title: "Manifest Abundance Daily",
-    subtitle: "Transform your mindset, transform your reality",
-    image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-orange-900/80 to-yellow-900/80"
-  },
-  {
-    id: 3,
-    title: "Heal Through Stillness",
-    subtitle: "Discover the power of inner silence",
-    image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-green-900/80 to-teal-900/80"
-  },
-  {
-    id: 4,
-    title: "Own Your Morning",
-    subtitle: "Start each day with intention and purpose",
-    image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-pink-900/80 to-rose-900/80"
-  },
-  {
-    id: 5,
-    title: "Sleep Like You Deserve To",
-    subtitle: "End your day with deep, restorative rest",
-    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-indigo-900/80 to-purple-900/80"
-  }
-];
+import { useOnboardingStore } from '../../store/onboardingStore';
+import { getHeroSlidesForLifePath } from '../../config/heroVariants';
 
 export const HeroCarousel: React.FC = () => {
+  const { userProfile } = useOnboardingStore();
+  const heroSlides = getHeroSlidesForLifePath(userProfile?.lifePath);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {

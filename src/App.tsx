@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { useWellnessStore } from './store/wellnessStore';
+import { useOnboardingStore } from './store/onboardingStore';
 import { Header } from './components/layout/Header';
 import { Sidebar } from './components/layout/Sidebar';
 import { LoginForm } from './components/auth/LoginForm';
@@ -10,13 +11,15 @@ import { EnterpriseDashboard } from './components/dashboard/EnterpriseDashboard'
 import { SessionCard } from './components/sessions/SessionCard';
 import { SessionPlayer } from './components/sessions/SessionPlayer';
 import { Homepage } from './pages/Homepage';
+import { OnboardingFlow } from './components/onboarding';
 
 function App() {
   const { isAuthenticated, mode } = useAuthStore();
-  const { sessions, startSession, currentSession } = useWellnessStore();
+  const { sessions, startSession, currentSession, clearCurrentSession } = useWellnessStore();
+  const { isOnboardingComplete } = useOnboardingStore();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showHomepage, setShowHomepage] = useState(true);
+  const [showHomepage] = useState(true);
   
   if (!isAuthenticated) {
     return (
@@ -26,7 +29,10 @@ function App() {
     );
   }
 
-  // Show the new homepage design
+  if (!isOnboardingComplete) {
+    return <OnboardingFlow />;
+  }
+
   if (showHomepage) {
     return (
       <Router>
@@ -108,7 +114,7 @@ function App() {
         {currentSession && (
           <SessionPlayer
             session={currentSession}
-            onClose={() => useWellnessStore.getState().startSession(null as any)}
+            onClose={clearCurrentSession}
           />
         )}
       </div>
