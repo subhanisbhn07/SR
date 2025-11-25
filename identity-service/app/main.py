@@ -17,6 +17,10 @@ from app.identity import router as identity_router
 # Import rate limiter
 from app.rate_limit import limiter
 
+# Import logging configuration
+from app.logging_config import configure_logging
+from app.logging_middleware import LoggingMiddleware
+
 # Create FastAPI app
 app = FastAPI(
     title="SignRoad Identity Service",
@@ -43,9 +47,13 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type"],
 )
 
+# Add logging middleware
+app.add_middleware(LoggingMiddleware)
+
 @app.on_event("startup")
 async def startup_event():
-    print("✅ Identity Service started successfully")
+    configure_logging()
+    print("✅ Identity Service started successfully with structured logging")
 
 @app.on_event("shutdown")
 async def shutdown_event():
