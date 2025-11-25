@@ -27,6 +27,7 @@ export interface WellnessSession {
   completedAt?: Date;
   rating?: number;
   isPremium: boolean;
+  audioUrl?: string;
 }
 
 export interface Achievement {

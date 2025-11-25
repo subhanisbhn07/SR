@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, SkipBack, SkipForward, X, Star } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, X, Star, Volume2, VolumeX } from 'lucide-react';
 import { WellnessSession } from '../../types';
 import { useWellnessStore } from '../../store/wellnessStore';
 import { useAuthStore } from '../../store/authStore';
@@ -13,18 +13,36 @@ interface SessionPlayerProps {
 }
 
 export const SessionPlayer: React.FC<SessionPlayerProps> = ({ session, onClose }) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [rating, setRating] = useState(0);
   const [showRating, setShowRating] = useState(false);
+  const [audioError, setAudioError] = useState<string | null>(null);
+  const [isMuted, setIsMuted] = useState(false);
   
   const { completeSession } = useWellnessStore();
   const { updateStreak } = useAuthStore();
   
+  const hasAudio = !!session.audioUrl;
   const totalTime = session.duration * 60; // Convert to seconds
   const progress = (currentTime / totalTime) * 100;
   
+  // Cleanup audio on unmount
   useEffect(() => {
+    const audioElement = audioRef.current;
+    return () => {
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+      }
+    };
+  }, []);
+
+  // Timer fallback for sessions without audio
+  useEffect(() => {
+    if (hasAudio) return; // Skip timer if we have audio (audio events will drive the state)
+    
     let interval: NodeJS.Timeout;
     
     if (isPlaying && currentTime < totalTime) {
@@ -42,7 +60,70 @@ export const SessionPlayer: React.FC<SessionPlayerProps> = ({ session, onClose }
     }
     
     return () => clearInterval(interval);
-  }, [isPlaying, currentTime, totalTime]);
+  }, [isPlaying, currentTime, totalTime, hasAudio]);
+
+  const handlePlayPause = () => {
+    if (hasAudio && audioRef.current) {
+      if (audioRef.current.paused) {
+        audioRef.current.play().catch(err => {
+          console.error('Audio playback failed:', err);
+          setAudioError('Unable to play audio. Please try again.');
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleSkipBack = () => {
+    if (hasAudio && audioRef.current) {
+      audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 30);
+    } else {
+      setCurrentTime(Math.max(0, currentTime - 30));
+    }
+  };
+
+  const handleSkipForward = () => {
+    if (hasAudio && audioRef.current) {
+      audioRef.current.currentTime = Math.min(audioRef.current.duration || totalTime, audioRef.current.currentTime + 30);
+    } else {
+      setCurrentTime(Math.min(totalTime, currentTime + 30));
+    }
+  };
+
+  const handleMuteToggle = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !audioRef.current.muted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleAudioTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(Math.floor(audioRef.current.currentTime));
+    }
+  };
+
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    setCurrentTime(totalTime);
+    setShowRating(true);
+  };
+
+  const handleAudioError = () => {
+    setAudioError('Unable to load audio file. The session will continue without audio.');
+    setIsAudioLoaded(false);
+  };
+
+  const handleClose = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    onClose();
+  };
   
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -137,12 +218,26 @@ export const SessionPlayer: React.FC<SessionPlayerProps> = ({ session, onClose }
           className="w-full max-w-2xl"
         >
           <Card className="overflow-hidden">
+            {/* Hidden Audio Element */}
+            {hasAudio && session.audioUrl && (
+              <audio
+                ref={audioRef}
+                src={session.audioUrl}
+                preload="auto"
+                onTimeUpdate={handleAudioTimeUpdate}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onEnded={handleAudioEnded}
+                onError={handleAudioError}
+              />
+            )}
+            
             {/* Header */}
             <div className={`bg-gradient-to-r ${content.background} p-6 text-white`}>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-bold">{session.title}</h2>
                 <button
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="p-2 hover:bg-white/20 rounded-lg transition-colors duration-200"
                 >
                   <X className="w-6 h-6" />
@@ -183,17 +278,24 @@ export const SessionPlayer: React.FC<SessionPlayerProps> = ({ session, onClose }
                     </p>
                   </motion.div>
                   
+                  {/* Audio Error Message */}
+                  {audioError && (
+                    <div className="mb-4 p-3 bg-warning-100 text-warning-800 rounded-lg text-sm">
+                      {audioError}
+                    </div>
+                  )}
+                  
                   {/* Controls */}
                   <div className="flex items-center justify-center space-x-6">
                     <button
-                      onClick={() => setCurrentTime(Math.max(0, currentTime - 30))}
+                      onClick={handleSkipBack}
                       className="p-3 bg-neutral-100 hover:bg-neutral-200 rounded-full transition-colors duration-200"
                     >
                       <SkipBack className="w-6 h-6 text-neutral-600" />
                     </button>
                     
                     <button
-                      onClick={() => setIsPlaying(!isPlaying)}
+                      onClick={handlePlayPause}
                       className="p-4 bg-primary-600 hover:bg-primary-700 text-white rounded-full transition-colors duration-200"
                     >
                       {isPlaying ? (
@@ -204,11 +306,24 @@ export const SessionPlayer: React.FC<SessionPlayerProps> = ({ session, onClose }
                     </button>
                     
                     <button
-                      onClick={() => setCurrentTime(Math.min(totalTime, currentTime + 30))}
+                      onClick={handleSkipForward}
                       className="p-3 bg-neutral-100 hover:bg-neutral-200 rounded-full transition-colors duration-200"
                     >
                       <SkipForward className="w-6 h-6 text-neutral-600" />
                     </button>
+                    
+                    {hasAudio && (
+                      <button
+                        onClick={handleMuteToggle}
+                        className="p-3 bg-neutral-100 hover:bg-neutral-200 rounded-full transition-colors duration-200"
+                      >
+                        {isMuted ? (
+                          <VolumeX className="w-6 h-6 text-neutral-600" />
+                        ) : (
+                          <Volume2 className="w-6 h-6 text-neutral-600" />
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -242,7 +357,7 @@ export const SessionPlayer: React.FC<SessionPlayerProps> = ({ session, onClose }
                   </div>
                   
                   <div className="flex space-x-4">
-                    <Button variant="outline" onClick={onClose}>
+                    <Button variant="outline" onClick={handleClose}>
                       Skip Rating
                     </Button>
                     <Button onClick={handleComplete} disabled={rating === 0}>

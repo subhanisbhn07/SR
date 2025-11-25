@@ -21,6 +21,7 @@ const mockSessions: WellnessSession[] = [
     category: 'confidence',
     difficulty: 'beginner',
     isPremium: false,
+    audioUrl: '/audio/meditation-calm.mp3',
   },
   {
     id: '2',
@@ -30,6 +31,7 @@ const mockSessions: WellnessSession[] = [
     category: 'productivity',
     difficulty: 'intermediate',
     isPremium: false,
+    audioUrl: '/audio/meditation-calm.mp3',
   },
   {
     id: '3',
@@ -39,6 +41,7 @@ const mockSessions: WellnessSession[] = [
     category: 'anxiety',
     difficulty: 'beginner',
     isPremium: false,
+    audioUrl: '/audio/meditation-calm.mp3',
   },
   {
     id: '4',
