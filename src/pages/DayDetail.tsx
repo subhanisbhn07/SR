@@ -480,7 +480,6 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                 boxShadow: hasCompletedMeditation ? '0 4px 6px rgba(125, 211, 192, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)' : 'none',
                 border: '2px solid rgba(95, 184, 166, 0.5)',
                 color: hasCompletedMeditation ? '#2d3748' : '#718096',
-                ,
                 cursor: hasCompletedMeditation ? 'pointer' : 'not-allowed'
               }}
               onMouseEnter={(e) => {
