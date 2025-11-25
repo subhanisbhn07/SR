@@ -15,16 +15,11 @@ from app.gateway import (
     forward_to_identity_service,
     forward_to_journey_service,
     forward_to_social_service,
-    forward_to_media_service
+    forward_to_media_service,
+    forward_to_admin_service
 )
 
-# Import models for admin endpoints
-from app.journey.schemas import DayContent, DayContentCreate, DayContentUpdate
-from app.media.schemas import AudioTrack, AudioTrackCreate, AudioTrackUpdate
-from app.social.schemas import CosmeticItem, CosmeticItemCreate, CosmeticItemUpdate
-
-# Import auth and storage
-from app.auth import get_current_admin
+# Import database
 from app.database import USE_DATABASE, init_db, close_db
 import app.storage_adapter as storage
 
@@ -74,7 +69,7 @@ async def healthz():
         "version": "2.0.0"
     }
 
-# All module routers now proxied to microservices (Identity, Journey, Social, Media)
+# All module routers now proxied to microservices (Identity, Journey, Social, Media, Admin)
 
 # ============================================================================
 # IDENTITY SERVICE GATEWAY ENDPOINTS
@@ -205,148 +200,65 @@ async def media_audio_proxy(request: Request):
 
 
 # ============================================================================
-# ADMIN PANEL ENDPOINTS
+# ADMIN SERVICE GATEWAY ENDPOINTS
 # ============================================================================
-# Admin endpoints remain in main.py for now (could be extracted to admin module later)
+# These endpoints proxy admin requests to the standalone Admin Service
 
-@app.post("/api/admin/days", response_model=DayContent)
-async def admin_create_day(
-    day_data: DayContentCreate,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Create new day content"""
-    day = storage.create_day_content(day_data.dict())
-    return DayContent(**day)
+@app.get("/api/admin/stats")
+async def admin_stats_proxy(request: Request):
+    """Proxy: Get platform statistics via Admin Service"""
+    return await forward_to_admin_service(request, "/api/admin/stats")
 
 
-@app.put("/api/admin/days/{day_number}", response_model=DayContent)
-async def admin_update_day(
-    day_number: int,
-    updates: DayContentUpdate,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Update day content"""
-    update_dict = {k: v for k, v in updates.dict().items() if v is not None}
-    day = storage.update_day_content(day_number, update_dict)
-    
-    if not day:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="Day not found")
-    
-    return DayContent(**day)
+@app.post("/api/admin/days")
+async def admin_create_day_proxy(request: Request):
+    """Proxy: Create day content via Admin Service"""
+    return await forward_to_admin_service(request, "/api/admin/days")
+
+
+@app.put("/api/admin/days/{day_number}")
+async def admin_update_day_proxy(request: Request, day_number: int):
+    """Proxy: Update day content via Admin Service"""
+    return await forward_to_admin_service(request, f"/api/admin/days/{day_number}")
 
 
 @app.delete("/api/admin/days/{day_number}")
-async def admin_delete_day(
-    day_number: int,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Delete day content"""
-    success = storage.delete_day_content(day_number)
-    
-    if not success:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="Day not found")
-    
-    return {"success": True}
+async def admin_delete_day_proxy(request: Request, day_number: int):
+    """Proxy: Delete day content via Admin Service"""
+    return await forward_to_admin_service(request, f"/api/admin/days/{day_number}")
 
 
-@app.post("/api/admin/audio", response_model=AudioTrack)
-async def admin_create_audio(
-    track_data: AudioTrackCreate,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Create new audio track"""
-    track = storage.create_audio_track(track_data.dict())
-    return AudioTrack(**track)
+@app.post("/api/admin/audio")
+async def admin_create_audio_proxy(request: Request):
+    """Proxy: Create audio track via Admin Service"""
+    return await forward_to_admin_service(request, "/api/admin/audio")
 
 
-@app.put("/api/admin/audio/{track_id}", response_model=AudioTrack)
-async def admin_update_audio(
-    track_id: str,
-    updates: AudioTrackUpdate,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Update audio track"""
-    update_dict = {k: v for k, v in updates.dict().items() if v is not None}
-    track = storage.update_audio_track(track_id, update_dict)
-    
-    if not track:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="Audio track not found")
-    
-    return AudioTrack(**track)
+@app.put("/api/admin/audio/{track_id}")
+async def admin_update_audio_proxy(request: Request, track_id: str):
+    """Proxy: Update audio track via Admin Service"""
+    return await forward_to_admin_service(request, f"/api/admin/audio/{track_id}")
 
 
 @app.delete("/api/admin/audio/{track_id}")
-async def admin_delete_audio(
-    track_id: str,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Delete audio track"""
-    success = storage.delete_audio_track(track_id)
-    
-    if not success:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="Audio track not found")
-    
-    return {"success": True}
+async def admin_delete_audio_proxy(request: Request, track_id: str):
+    """Proxy: Delete audio track via Admin Service"""
+    return await forward_to_admin_service(request, f"/api/admin/audio/{track_id}")
 
 
-@app.post("/api/admin/cosmetics", response_model=CosmeticItem)
-async def admin_create_cosmetic(
-    item_data: CosmeticItemCreate,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Create new cosmetic item"""
-    item = storage.create_cosmetic_item(item_data.dict())
-    return CosmeticItem(**item)
+@app.post("/api/admin/cosmetics")
+async def admin_create_cosmetic_proxy(request: Request):
+    """Proxy: Create cosmetic item via Admin Service"""
+    return await forward_to_admin_service(request, "/api/admin/cosmetics")
 
 
-@app.put("/api/admin/cosmetics/{item_id}", response_model=CosmeticItem)
-async def admin_update_cosmetic(
-    item_id: str,
-    updates: CosmeticItemUpdate,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Update cosmetic item"""
-    update_dict = {k: v for k, v in updates.dict().items() if v is not None}
-    item = storage.update_cosmetic_item(item_id, update_dict)
-    
-    if not item:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="Cosmetic item not found")
-    
-    return CosmeticItem(**item)
+@app.put("/api/admin/cosmetics/{item_id}")
+async def admin_update_cosmetic_proxy(request: Request, item_id: str):
+    """Proxy: Update cosmetic item via Admin Service"""
+    return await forward_to_admin_service(request, f"/api/admin/cosmetics/{item_id}")
 
 
 @app.delete("/api/admin/cosmetics/{item_id}")
-async def admin_delete_cosmetic(
-    item_id: str,
-    admin: dict = Depends(get_current_admin)
-):
-    """Admin: Delete cosmetic item"""
-    success = storage.delete_cosmetic_item(item_id)
-    
-    if not success:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=404, detail="Cosmetic item not found")
-    
-    return {"success": True}
-
-
-@app.get("/api/admin/stats")
-async def admin_get_stats(admin: dict = Depends(get_current_admin)):
-    """Admin: Get platform statistics"""
-    users = storage.get_all_users()
-    days = storage.get_all_day_contents()
-    signs = storage.get_all_sign_logs()
-    journals = storage.get_all_journal_entries()
-    
-    return {
-        "total_users": len(users),
-        "total_days": len(days),
-        "total_signs_logged": len(signs),
-        "total_journal_entries": len(journals),
-        "active_subscribers": len([u for u in users if u['subscription_tier'] != 'wanderer'])
-    }
+async def admin_delete_cosmetic_proxy(request: Request, item_id: str):
+    """Proxy: Delete cosmetic item via Admin Service"""
+    return await forward_to_admin_service(request, f"/api/admin/cosmetics/{item_id}")

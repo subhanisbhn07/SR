@@ -15,6 +15,7 @@ IDENTITY_SERVICE_URL = os.getenv("IDENTITY_SERVICE_URL", "http://localhost:8001"
 JOURNEY_SERVICE_URL = os.getenv("JOURNEY_SERVICE_URL", "http://localhost:8002")
 SOCIAL_SERVICE_URL = os.getenv("SOCIAL_SERVICE_URL", "http://localhost:8003")
 MEDIA_SERVICE_URL = os.getenv("MEDIA_SERVICE_URL", "http://localhost:8004")
+ADMIN_SERVICE_URL = os.getenv("ADMIN_SERVICE_URL", "http://localhost:8005")
 
 # Hop-by-hop headers that should not be forwarded
 HOP_BY_HOP_HEADERS = {
@@ -106,3 +107,8 @@ async def forward_to_social_service(request: Request, path: str) -> Response:
 async def forward_to_media_service(request: Request, path: str) -> Response:
     """Forward request to Media Service"""
     return await forward_to_service(request, MEDIA_SERVICE_URL, path)
+
+
+async def forward_to_admin_service(request: Request, path: str) -> Response:
+    """Forward request to Admin Service"""
+    return await forward_to_service(request, ADMIN_SERVICE_URL, path)
