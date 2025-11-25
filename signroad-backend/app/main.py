@@ -60,6 +60,29 @@ async def shutdown_event():
         await close_db()
     print("✅ SignRoad API shut down successfully")
 
+@app.get("/")
+async def root():
+    """Root endpoint - API information"""
+    return {
+        "name": "SignRoad API",
+        "version": "2.0.0",
+        "architecture": "microservices_gateway",
+        "status": "running",
+        "endpoints": {
+            "health": "/healthz",
+            "docs": "/docs",
+            "openapi": "/openapi.json",
+            "circuit_breakers": "/health/circuit-breakers"
+        },
+        "services": {
+            "identity": "Authentication & user management",
+            "journey": "Journey progression & content",
+            "social": "Social features & cosmetics",
+            "media": "Audio & media content",
+            "admin": "Admin operations"
+        }
+    }
+
 @app.get("/healthz")
 async def healthz():
     return {
