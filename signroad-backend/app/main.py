@@ -65,9 +65,15 @@ async def healthz():
     return {
         "status": "ok",
         "message": "SignRoad API is running",
-        "architecture": "modular_monolith",
+        "architecture": "microservices_gateway",
         "version": "2.0.0"
     }
+
+@app.get("/health/circuit-breakers")
+async def circuit_breakers_status():
+    """Get status of all circuit breakers"""
+    from app.circuit_breaker import get_all_breaker_states
+    return get_all_breaker_states()
 
 # All module routers now proxied to microservices (Identity, Journey, Social, Media, Admin)
 

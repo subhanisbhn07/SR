@@ -18,6 +18,7 @@ asyncpg = "^0.29.0"
 httpx = "^0.28.1"
 structlog = "^25.5.0"
 redis = "^7.1.0"
+pybreaker = "^1.4.1"
 
 
 [build-system]

@@ -9,6 +9,16 @@ import httpx
 import os
 from fastapi import Request, HTTPException, Response
 from typing import Dict
+import structlog
+from app.circuit_breaker import (
+    identity_breaker,
+    journey_breaker,
+    social_breaker,
+    media_breaker,
+    admin_breaker
+)
+
+logger = structlog.get_logger(__name__)
 
 # Microservice URLs (internal communication)
 IDENTITY_SERVICE_URL = os.getenv("IDENTITY_SERVICE_URL", "http://localhost:8001")
@@ -31,7 +41,7 @@ HOP_BY_HOP_HEADERS = {
 }
 
 
-async def forward_to_service(request: Request, service_url: str, path: str) -> Response:
+async def forward_to_service(request: Request, service_url: str, path: str, breaker=None) -> Response:
     """
     Forward request to a microservice and return FastAPI Response.
     
@@ -39,6 +49,7 @@ async def forward_to_service(request: Request, service_url: str, path: str) -> R
         request: Original FastAPI request
         service_url: Base URL of the target microservice
         path: Path to forward to the microservice
+        breaker: Circuit breaker instance (optional)
         
     Returns:
         FastAPI Response object with status, headers, and content from microservice
@@ -57,9 +68,9 @@ async def forward_to_service(request: Request, service_url: str, path: str) -> R
         if k.lower() not in HOP_BY_HOP_HEADERS
     }
     
-    # Make request to Identity Service
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        try:
+    async def make_request():
+        """Make the actual HTTP request"""
+        async with httpx.AsyncClient(timeout=30.0) as client:
             response = await client.request(
                 method=request.method,
                 url=url,
@@ -81,34 +92,48 @@ async def forward_to_service(request: Request, service_url: str, path: str) -> R
                 headers=response_headers,
                 media_type=response.headers.get("content-type")
             )
+    
+    try:
+        # Use circuit breaker if provided
+        if breaker:
+            return await breaker.call_async(make_request)
+        else:
+            return await make_request()
             
-        except httpx.RequestError as e:
-            raise HTTPException(
-                status_code=503,
-                detail=f"Microservice unavailable: {str(e)}"
-            )
+    except httpx.RequestError as e:
+        logger.error("service_request_error", url=url, error=str(e))
+        raise HTTPException(
+            status_code=503,
+            detail=f"Microservice unavailable: {str(e)}"
+        )
+    except Exception as e:
+        logger.error("circuit_breaker_open", url=url, error=str(e))
+        raise HTTPException(
+            status_code=503,
+            detail=f"Service temporarily unavailable (circuit breaker open)"
+        )
 
 
 async def forward_to_identity_service(request: Request, path: str) -> Response:
-    """Forward request to Identity Service"""
-    return await forward_to_service(request, IDENTITY_SERVICE_URL, path)
+    """Forward request to Identity Service with circuit breaker"""
+    return await forward_to_service(request, IDENTITY_SERVICE_URL, path, identity_breaker)
 
 
 async def forward_to_journey_service(request: Request, path: str) -> Response:
-    """Forward request to Journey Service"""
-    return await forward_to_service(request, JOURNEY_SERVICE_URL, path)
+    """Forward request to Journey Service with circuit breaker"""
+    return await forward_to_service(request, JOURNEY_SERVICE_URL, path, journey_breaker)
 
 
 async def forward_to_social_service(request: Request, path: str) -> Response:
-    """Forward request to Social Service"""
-    return await forward_to_service(request, SOCIAL_SERVICE_URL, path)
+    """Forward request to Social Service with circuit breaker"""
+    return await forward_to_service(request, SOCIAL_SERVICE_URL, path, social_breaker)
 
 
 async def forward_to_media_service(request: Request, path: str) -> Response:
-    """Forward request to Media Service"""
-    return await forward_to_service(request, MEDIA_SERVICE_URL, path)
+    """Forward request to Media Service with circuit breaker"""
+    return await forward_to_service(request, MEDIA_SERVICE_URL, path, media_breaker)
 
 
 async def forward_to_admin_service(request: Request, path: str) -> Response:
-    """Forward request to Admin Service"""
-    return await forward_to_service(request, ADMIN_SERVICE_URL, path)
+    """Forward request to Admin Service with circuit breaker"""
+    return await forward_to_service(request, ADMIN_SERVICE_URL, path, admin_breaker)
