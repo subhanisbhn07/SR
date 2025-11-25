@@ -17,6 +17,7 @@ asyncpg = "^0.31.0"
 python-multipart = "^0.0.20"
 slowapi = "^0.1.9"
 structlog = "^25.5.0"
+redis = "^7.1.0"
 
 
 [build-system]
