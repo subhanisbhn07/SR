@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Bell } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { LanternIcon } from '../ui/LanternIcon';
 
 export const DarkModeHeader: React.FC = () => {
   const { user } = useAuthStore();
@@ -23,6 +24,12 @@ export const DarkModeHeader: React.FC = () => {
 
         {/* Right Side */}
         <div className="flex items-center space-x-3">
+          {user && (
+            <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-800/50">
+              <LanternIcon health={user.lanternHealth} size="sm" />
+              <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
+            </div>
+          )}
           <button className="p-2 rounded-lg hover:bg-neutral-800 transition-colors duration-200 relative">
             <Bell className="w-5 h-5 text-neutral-400" />
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>

@@ -8,6 +8,10 @@ export interface User {
   totalSessions: number;
   joinedAt: Date;
   preferences: UserPreferences;
+  lanternHealth: number;
+  sparks: number;
+  currentRoadStep: number;
+  tribeId?: string;
 }
 
 export interface UserPreferences {

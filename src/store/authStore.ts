@@ -34,6 +34,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         focusAreas: ['mindfulness', 'productivity'],
         difficulty: 'intermediate',
       },
+      lanternHealth: 82,
+      sparks: 245,
+      currentRoadStep: 12,
     };
     
     set({ user: mockUser, isAuthenticated: true });
