@@ -5,16 +5,21 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   mode: 'consumer' | 'enterprise';
+  hasCompletedOnboarding: boolean;
+  selectedRoad: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   switchMode: (mode: 'consumer' | 'enterprise') => void;
   updateStreak: () => void;
+  completeOnboarding: (roadId: string) => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
   mode: 'consumer',
+  hasCompletedOnboarding: false,
+  selectedRoad: null,
   
   login: async (email: string, password: string) => {
     // Simulate API call
@@ -59,5 +64,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (user) {
       set({ user: { ...user, streak: user.streak + 1 } });
     }
+  },
+  
+  completeOnboarding: (roadId: string) => {
+    set({ hasCompletedOnboarding: true, selectedRoad: roadId });
   },
 }));
