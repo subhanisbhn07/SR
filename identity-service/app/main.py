@@ -21,11 +21,24 @@ from app.rate_limit import limiter
 from app.logging_config import configure_logging
 from app.logging_middleware import LoggingMiddleware
 
-# Create FastAPI app
+# Create FastAPI app with API documentation
 app = FastAPI(
     title="SignRoad Identity Service",
     version="1.0.0",
-    description="Authentication and user management service"
+    description="Authentication and user management service for SignRoad platform",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+    openapi_tags=[
+        {
+            "name": "identity",
+            "description": "Authentication and user management operations"
+        },
+        {
+            "name": "health",
+            "description": "Service health and status checks"
+        }
+    ]
 )
 
 # Add rate limiter
@@ -59,8 +72,14 @@ async def startup_event():
 async def shutdown_event():
     print("✅ Identity Service shut down successfully")
 
-@app.get("/healthz")
+@app.get("/healthz", tags=["health"], summary="Health Check", description="Check if the Identity Service is running and healthy")
 async def healthz():
+    """
+    Health check endpoint for monitoring and load balancers.
+    
+    Returns:
+        dict: Service status, name, and version
+    """
     return {
         "status": "ok",
         "service": "identity",
