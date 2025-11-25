@@ -127,7 +127,7 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                     {status === 'locked' ? (
                       <Lock className="w-6 h-6 text-[#718096]" />
                     ) : (
-                      <span className="font-black text-2xl drop-shadow-md" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>
+                      <span className="font-black text-2xl drop-shadow-md" style={{ color: '#2d3748' }}>
                         {step.stepNumber}
                       </span>
                     )}
@@ -141,10 +141,10 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
 
                   {/* Day Label Below Node */}
                   <div className="mt-2 text-center w-full">
-                    <div className="text-xs font-bold px-2 py-0.5 rounded-full mb-1 shadow-sm" style={{ color: '#5fb8a6', backgroundColor: 'rgba(125, 211, 192, 0.15)', border: '1px solid rgba(125, 211, 192, 0.3)', fontFamily: 'Patrick Hand, cursive' }}>
+                    <div className="text-xs font-bold px-2 py-0.5 rounded-full mb-1 shadow-sm" style={{ color: '#5fb8a6', backgroundColor: 'rgba(125, 211, 192, 0.15)', border: '1px solid rgba(125, 211, 192, 0.3)' }}>
                       Sign {step.stepNumber}
                     </div>
-                    <div className="text-xs font-semibold truncate" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.title}</div>
+                    <div className="text-xs font-semibold truncate" style={{ color: '#4a5568' }}>{step.title}</div>
                   </div>
                 </button>
               </motion.div>
@@ -207,7 +207,7 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                       {status === 'locked' ? (
                         <Lock className="w-8 h-8 text-[#718096]" />
                       ) : (
-                        <span className="font-black text-3xl drop-shadow-md" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>
+                        <span className="font-black text-3xl drop-shadow-md" style={{ color: '#2d3748' }}>
                           {step.stepNumber}
                         </span>
                       )}
@@ -230,16 +230,16 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
                     `}>
                       <div className="text-center">
                         <div className="flex items-center justify-center gap-2 mb-2">
-                          <span className="text-xs font-semibold" style={{ color: '#5fb8a6', fontFamily: 'Patrick Hand, cursive' }}>Day {step.stepNumber}</span>
+                          <span className="text-xs font-semibold" style={{ color: '#5fb8a6' }}>Day {step.stepNumber}</span>
                           {isSpecialEvent && (
-                            <span className="px-2 py-0.5 text-xs font-bold rounded-full" style={{ backgroundColor: 'rgba(255, 216, 155, 0.2)', color: '#f4c77e', fontFamily: 'Patrick Hand, cursive' }}>
+                            <span className="px-2 py-0.5 text-xs font-bold rounded-full" style={{ backgroundColor: 'rgba(255, 216, 155, 0.2)', color: '#f4c77e' }}>
                               {isSpecialEvent.label}
                             </span>
                           )}
                         </div>
-                        <h4 className="text-sm font-bold mb-1" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>{step.title}</h4>
-                        <p className="text-xs mb-2" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.description}</p>
-                        <div className="text-xs font-medium" style={{ color: '#5fb8a6', fontFamily: 'Patrick Hand, cursive' }}>
+                        <h4 className="text-sm font-bold mb-1" style={{ color: '#2d3748' }}>{step.title}</h4>
+                        <p className="text-xs mb-2" style={{ color: '#4a5568' }}>{step.description}</p>
+                        <div className="text-xs font-medium" style={{ color: '#5fb8a6' }}>
                           {step.signChallenge}
                         </div>
                       </div>
@@ -247,10 +247,10 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
 
                     {/* Day Label Below Node */}
                     <div className="absolute left-1/2 -translate-x-1/2 top-28 text-center w-40">
-                      <div className="text-sm font-bold px-2 py-1 rounded-full mb-1 shadow-sm" style={{ color: '#5fb8a6', backgroundColor: 'rgba(125, 211, 192, 0.15)', border: '1px solid rgba(125, 211, 192, 0.3)', fontFamily: 'Patrick Hand, cursive' }}>
+                      <div className="text-sm font-bold px-2 py-1 rounded-full mb-1 shadow-sm" style={{ color: '#5fb8a6', backgroundColor: 'rgba(125, 211, 192, 0.15)', border: '1px solid rgba(125, 211, 192, 0.3)' }}>
                         Sign {step.stepNumber}
                       </div>
-                      <div className="text-xs font-semibold truncate" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.title}</div>
+                      <div className="text-xs font-semibold truncate" style={{ color: '#4a5568' }}>{step.title}</div>
                     </div>
                   </button>
                 </motion.div>
@@ -269,10 +269,10 @@ export const InfiniteRoad = ({ onNodeClick }: InfiniteRoadProps) => {
             style={{ border: '2px solid rgba(255, 216, 155, 0.3)' }}
           >
             <Lock className="w-12 h-12 mx-auto mb-4" style={{ color: '#f4c77e' }} />
-            <h3 className="text-xl font-semibold mb-2" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>
+            <h3 className="text-xl font-semibold mb-2" style={{ color: '#2d3748' }}>
               Continue Your Journey
             </h3>
-            <p className="mb-4" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>
+            <p className="mb-4" style={{ color: '#4a5568' }}>
               Unlock 986 more days of guided meditation and manifestation
             </p>
             <button className="btn-watercolor">

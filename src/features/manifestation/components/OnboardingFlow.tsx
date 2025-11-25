@@ -127,7 +127,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) =>
           {/* Level up badge */}
           <circle cx="350" cy="180" r="25" fill="#a8d8ea" opacity="0.8" />
           <path d="M 350 165 L 355 175 L 350 185 L 345 175 Z" fill="#fff" />
-          <text x="350" y="200" fontSize="10" fill="#2d3748" textAnchor="middle" fontFamily="Patrick Hand">LEVEL UP</text>
+          <text x="350" y="200" fontSize="10" fill="#2d3748" textAnchor="middle">LEVEL UP</text>
           
           {/* Progress bar */}
           <rect x="80" y="80" width="120" height="20" rx="10" fill="#fff" opacity="0.8" />
@@ -256,7 +256,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) =>
             </h2>
 
             {/* Description */}
-            <p className="text-center text-lg mb-8 px-4" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>
+            <p className="text-center text-lg mb-8 px-4" style={{ color: '#4a5568' }}>
               {onboardingSteps[currentStep].description}
             </p>
 
@@ -317,7 +317,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) =>
           <button
             onClick={onComplete}
             className="transition-colors duration-300 text-sm font-medium"
-            style={{ color: '#718096', fontFamily: 'Patrick Hand, cursive' }}
+            style={{ color: '#718096' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = '#4a5568')}
             onMouseLeave={(e) => (e.currentTarget.style.color = '#718096')}
           >

@@ -201,7 +201,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           <button
             onClick={onBack}
             className="flex items-center gap-2 transition-colors"
-            style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}
+            style={{ color: '#4a5568' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = '#2d3748')}
             onMouseLeave={(e) => (e.currentTarget.style.color = '#4a5568')}
           >
@@ -219,11 +219,11 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <div className="inline-block px-4 py-1 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: 'rgba(125, 211, 192, 0.2)', color: '#5fb8a6', fontFamily: 'Patrick Hand, cursive' }}>
+          <div className="inline-block px-4 py-1 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: 'rgba(125, 211, 192, 0.2)', color: '#5fb8a6' }}>
             Day {step.stepNumber}
           </div>
-          <h1 className="text-4xl font-bold mb-2 text-watercolor" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>{step.title}</h1>
-          <p className="text-xl" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.description}</p>
+          <h1 className="text-4xl font-bold mb-2 text-watercolor" style={{ color: '#2d3748' }}>{step.title}</h1>
+          <p className="text-xl" style={{ color: '#4a5568' }}>{step.description}</p>
         </motion.div>
 
         {/* Audio Player */}
@@ -234,7 +234,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           className="space-y-4"
         >
           <div className="card-watercolor rounded-2xl p-8">
-            <h2 className="text-lg font-semibold mb-4" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>Guided Meditation</h2>
+            <h2 className="text-lg font-semibold mb-4" style={{ color: '#2d3748' }}>Guided Meditation</h2>
             
             {/* Duration Selector */}
             <div className="flex gap-2 mb-6">
@@ -256,7 +256,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                       : 'bg-white/60 hover:bg-white/80 border border-[#a8e6d7]'
                     }
                   `}
-                  style={duration !== value ? { color: '#4a5568', fontFamily: 'Patrick Hand, cursive' } : {}}
+                  style={duration !== value ? { color: '#4a5568' } : {}}
                 >
                   {label} ({Math.floor(value / 60)}m)
                 </button>
@@ -271,7 +271,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
 
             {/* Meditation Script Preview */}
             <div className="mt-6 p-4 rounded-lg" style={{ backgroundColor: 'rgba(168, 230, 215, 0.15)' }}>
-              <p className="italic text-sm leading-relaxed" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>
+              <p className="italic text-sm leading-relaxed" style={{ color: '#4a5568' }}>
                 "{step.meditationScript}"
               </p>
             </div>
@@ -284,7 +284,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                 style={{ backgroundColor: 'rgba(125, 211, 192, 0.2)', border: '1px solid rgba(125, 211, 192, 0.3)' }}
               >
                 <CheckCircle className="w-5 h-5" style={{ color: '#5fb8a6' }} />
-                <span className="font-medium" style={{ color: '#5fb8a6', fontFamily: 'Patrick Hand, cursive' }}>Meditation completed! +{step.sparksReward} Sparks</span>
+                <span className="font-medium" style={{ color: '#5fb8a6' }}>Meditation completed! +{step.sparksReward} Sparks</span>
               </motion.div>
             )}
           </div>
@@ -297,10 +297,10 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           transition={{ delay: 0.2 }}
           className="card-watercolor rounded-2xl p-8"
         >
-          <h2 className="text-lg font-semibold mb-4" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>Sign of the Day</h2>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: '#2d3748' }}>Sign of the Day</h2>
           <div className="mb-4">
-            <div className="text-2xl font-bold mb-2" style={{ color: '#f4c77e', fontFamily: 'Caveat, cursive' }}>{step.signChallenge}</div>
-            <p style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{step.signDescription}</p>
+            <div className="text-2xl font-bold mb-2" style={{ color: '#f4c77e' }}>{step.signChallenge}</div>
+            <p style={{ color: '#4a5568' }}>{step.signDescription}</p>
           </div>
 
           {!hasLoggedSign && !isCompleted ? (
@@ -323,7 +323,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                       backgroundColor: 'rgba(255, 255, 255, 0.8)', 
                       border: '2px solid rgba(125, 211, 192, 0.3)',
                       color: '#2d3748',
-                      fontFamily: 'Patrick Hand, cursive'
+                      
                     }}
                     onFocus={(e) => e.target.style.borderColor = 'rgba(125, 211, 192, 0.6)'}
                     onBlur={(e) => e.target.style.borderColor = 'rgba(125, 211, 192, 0.3)'}
@@ -332,7 +332,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                   
                   {/* Photo Upload */}
                   <div className="space-y-2">
-                    <p className="text-sm" style={{ color: '#718096', fontFamily: 'Patrick Hand, cursive' }}>Add a photo (optional)</p>
+                    <p className="text-sm" style={{ color: '#718096' }}>Add a photo (optional)</p>
                     
                     {signPhoto ? (
                       <div className="relative">
@@ -360,7 +360,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                         <button
                           onClick={() => fileInputRef.current?.click()}
                           className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-colors"
-                          style={{ backgroundColor: 'rgba(168, 230, 215, 0.3)', border: '2px solid rgba(125, 211, 192, 0.3)', color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}
+                          style={{ backgroundColor: 'rgba(168, 230, 215, 0.3)', border: '2px solid rgba(125, 211, 192, 0.3)', color: '#2d3748' }}
                           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(168, 230, 215, 0.5)'}
                           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(168, 230, 215, 0.3)'}
                         >
@@ -375,7 +375,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                             }
                           }}
                           className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-colors"
-                          style={{ backgroundColor: 'rgba(168, 230, 215, 0.3)', border: '2px solid rgba(125, 211, 192, 0.3)', color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}
+                          style={{ backgroundColor: 'rgba(168, 230, 215, 0.3)', border: '2px solid rgba(125, 211, 192, 0.3)', color: '#2d3748' }}
                           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(168, 230, 215, 0.5)'}
                           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(168, 230, 215, 0.3)'}
                         >
@@ -399,7 +399,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                         setSignPhoto(null);
                       }}
                       className="px-6 py-3 font-semibold rounded-lg transition-colors"
-                      style={{ backgroundColor: 'rgba(168, 230, 215, 0.3)', border: '2px solid rgba(125, 211, 192, 0.3)', color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}
+                      style={{ backgroundColor: 'rgba(168, 230, 215, 0.3)', border: '2px solid rgba(125, 211, 192, 0.3)', color: '#2d3748' }}
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(168, 230, 215, 0.5)'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(168, 230, 215, 0.3)'}
                     >
@@ -412,7 +412,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           ) : (
             <div className="p-4 rounded-lg flex items-center gap-3" style={{ backgroundColor: 'rgba(125, 211, 192, 0.2)', border: '1px solid rgba(125, 211, 192, 0.3)' }}>
               <CheckCircle className="w-5 h-5" style={{ color: '#5fb8a6' }} />
-              <span className="font-medium" style={{ color: '#5fb8a6', fontFamily: 'Patrick Hand, cursive' }}>Sign logged!</span>
+              <span className="font-medium" style={{ color: '#5fb8a6' }}>Sign logged!</span>
             </div>
           )}
         </motion.div>
@@ -424,8 +424,8 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
           transition={{ delay: 0.3 }}
           className="card-watercolor rounded-2xl p-8"
         >
-          <h2 className="text-lg font-semibold mb-4" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>Reflection</h2>
-          <p className="mb-4 text-sm" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>
+          <h2 className="text-lg font-semibold mb-4" style={{ color: '#2d3748' }}>Reflection</h2>
+          <p className="mb-4 text-sm" style={{ color: '#4a5568' }}>
             What insights or experiences did you have today?
           </p>
           <textarea
@@ -437,7 +437,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
               backgroundColor: 'rgba(255, 255, 255, 0.8)', 
               border: '2px solid rgba(125, 211, 192, 0.3)',
               color: '#2d3748',
-              fontFamily: 'Patrick Hand, cursive'
+              
             }}
             onFocus={(e) => e.target.style.borderColor = 'rgba(125, 211, 192, 0.6)'}
             onBlur={(e) => e.target.style.borderColor = 'rgba(125, 211, 192, 0.3)'}
@@ -451,7 +451,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
               backgroundColor: !journalText.trim() ? 'rgba(168, 230, 215, 0.2)' : 'rgba(168, 230, 215, 0.4)',
               border: '2px solid rgba(125, 211, 192, 0.3)',
               color: !journalText.trim() ? '#718096' : '#2d3748',
-              fontFamily: 'Patrick Hand, cursive',
+              ,
               cursor: !journalText.trim() ? 'not-allowed' : 'pointer'
             }}
             onMouseEnter={(e) => {
@@ -481,7 +481,7 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
                 boxShadow: hasCompletedMeditation ? '0 4px 6px rgba(125, 211, 192, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)' : 'none',
                 border: '2px solid rgba(95, 184, 166, 0.5)',
                 color: hasCompletedMeditation ? '#2d3748' : '#718096',
-                fontFamily: 'Patrick Hand, cursive',
+                ,
                 cursor: hasCompletedMeditation ? 'pointer' : 'not-allowed'
               }}
               onMouseEnter={(e) => {
@@ -510,8 +510,8 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
             style={{ border: '2px solid rgba(125, 211, 192, 0.3)' }}
           >
             <CheckCircle className="w-12 h-12 mx-auto mb-3" style={{ color: '#5fb8a6' }} />
-            <h3 className="text-xl font-semibold mb-2" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>Day Completed!</h3>
-            <p style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>You earned {step.sparksReward} Sparks and {step.xpReward} XP</p>
+            <h3 className="text-xl font-semibold mb-2" style={{ color: '#2d3748' }}>Day Completed!</h3>
+            <p style={{ color: '#4a5568' }}>You earned {step.sparksReward} Sparks and {step.xpReward} XP</p>
           </motion.div>
         )}
       </div>

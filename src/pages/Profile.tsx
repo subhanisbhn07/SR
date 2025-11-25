@@ -80,13 +80,13 @@ export const Profile = () => {
           <button
             onClick={() => navigate('/journey')}
             className="transition-colors"
-            style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}
+            style={{ color: '#4a5568' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = '#2d3748')}
             onMouseLeave={(e) => (e.currentTarget.style.color = '#4a5568')}
           >
             ← Back
           </button>
-          <h1 className="text-xl font-bold" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>Profile</h1>
+          <h1 className="text-xl font-bold" style={{ color: '#2d3748' }}>Profile</h1>
           <button
             onClick={() => setShowSettings(!showSettings)}
             className="transition-colors"
@@ -120,14 +120,14 @@ export const Profile = () => {
 
             {/* User Details */}
             <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-1" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>
+              <h2 className="text-2xl font-bold mb-1" style={{ color: '#2d3748' }}>
                 {user?.email?.split('@')[0] || 'Traveler'}
               </h2>
-              <p className="mb-2" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>
+              <p className="mb-2" style={{ color: '#4a5568' }}>
                 {tier === 'seeker' ? '✨ Seeker' : '🌟 Wanderer'}
               </p>
               <div className="flex items-center gap-4 text-sm">
-                <span style={{ color: '#718096', fontFamily: 'Patrick Hand, cursive' }}>
+                <span style={{ color: '#718096' }}>
                   Joined {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                 </span>
               </div>
@@ -137,7 +137,7 @@ export const Profile = () => {
             <button
               onClick={() => navigate('/cosmetics')}
               className="px-4 py-2 rounded-lg transition-colors"
-              style={{ background: 'linear-gradient(135deg, #ffd89b 0%, #f4c77e 100%)', color: '#2d3748', fontFamily: 'Patrick Hand, cursive', border: '2px solid rgba(244, 199, 126, 0.5)' }}
+              style={{ background: 'linear-gradient(135deg, #ffd89b 0%, #f4c77e 100%)', color: '#2d3748', border: '2px solid rgba(244, 199, 126, 0.5)' }}
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
@@ -161,8 +161,8 @@ export const Profile = () => {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: 'rgba(125, 211, 192, 0.15)' }}>
                 <stat.icon className="w-5 h-5" style={{ color: '#5fb8a6' }} />
               </div>
-              <p className="text-2xl font-bold mb-1" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>{stat.value}</p>
-              <p className="text-sm" style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>{stat.label}</p>
+              <p className="text-2xl font-bold mb-1" style={{ color: '#2d3748' }}>{stat.value}</p>
+              <p className="text-sm" style={{ color: '#4a5568' }}>{stat.label}</p>
             </div>
           ))}
         </motion.div>
@@ -175,15 +175,15 @@ export const Profile = () => {
             exit={{ opacity: 0, height: 0 }}
             className="card-watercolor rounded-xl p-6 mb-6"
           >
-            <h3 className="text-lg font-bold mb-4" style={{ color: '#2d3748', fontFamily: 'Caveat, cursive' }}>Settings</h3>
+            <h3 className="text-lg font-bold mb-4" style={{ color: '#2d3748' }}>Settings</h3>
             
             {/* Notifications Toggle */}
             <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: 'rgba(125, 211, 192, 0.2)' }}>
               <div className="flex items-center gap-3">
                 <Bell className="w-5 h-5" style={{ color: '#718096' }} />
                 <div>
-                  <p className="font-medium" style={{ color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}>Notifications</p>
-                  <p className="text-sm" style={{ color: '#718096', fontFamily: 'Patrick Hand, cursive' }}>Daily meditation reminders</p>
+                  <p className="font-medium" style={{ color: '#2d3748' }}>Notifications</p>
+                  <p className="text-sm" style={{ color: '#718096' }}>Daily meditation reminders</p>
                 </div>
               </div>
               <button
@@ -204,8 +204,8 @@ export const Profile = () => {
               <div className="flex items-center gap-3">
                 <Volume2 className="w-5 h-5" style={{ color: '#718096' }} />
                 <div>
-                  <p className="font-medium" style={{ color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}>Sound Effects</p>
-                  <p className="text-sm" style={{ color: '#718096', fontFamily: 'Patrick Hand, cursive' }}>UI interaction sounds</p>
+                  <p className="font-medium" style={{ color: '#2d3748' }}>Sound Effects</p>
+                  <p className="text-sm" style={{ color: '#718096' }}>UI interaction sounds</p>
                 </div>
               </div>
               <button
@@ -230,8 +230,8 @@ export const Profile = () => {
                   <Sun className="w-5 h-5" style={{ color: '#718096' }} />
                 )}
                 <div>
-                  <p className="font-medium" style={{ color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}>Dark Mode</p>
-                  <p className="text-sm" style={{ color: '#718096', fontFamily: 'Patrick Hand, cursive' }}>App appearance</p>
+                  <p className="font-medium" style={{ color: '#2d3748' }}>Dark Mode</p>
+                  <p className="text-sm" style={{ color: '#718096' }}>App appearance</p>
                 </div>
               </div>
               <button
@@ -265,7 +265,7 @@ export const Profile = () => {
           >
             <div className="flex items-center gap-3">
               <Calendar className="w-5 h-5" style={{ color: '#718096' }} />
-              <span style={{ color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}>Traveler's Log</span>
+              <span style={{ color: '#2d3748' }}>Traveler's Log</span>
             </div>
             <ChevronRight className="w-5 h-5" style={{ color: '#718096' }} />
           </button>
@@ -279,7 +279,7 @@ export const Profile = () => {
           >
             <div className="flex items-center gap-3">
               <Trophy className="w-5 h-5" style={{ color: '#718096' }} />
-              <span style={{ color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}>Hall of Fame</span>
+              <span style={{ color: '#2d3748' }}>Hall of Fame</span>
             </div>
             <ChevronRight className="w-5 h-5" style={{ color: '#718096' }} />
           </button>
@@ -294,7 +294,7 @@ export const Profile = () => {
             >
               <div className="flex items-center gap-3">
                 <Zap className="w-5 h-5" style={{ color: '#f4c77e' }} />
-                <span style={{ color: '#2d3748', fontFamily: 'Patrick Hand, cursive' }}>Upgrade to Seeker</span>
+                <span style={{ color: '#2d3748' }}>Upgrade to Seeker</span>
               </div>
               <ChevronRight className="w-5 h-5" style={{ color: '#718096' }} />
             </button>
@@ -309,7 +309,7 @@ export const Profile = () => {
           >
             <div className="flex items-center gap-3">
               <LogOut className="w-5 h-5" />
-              <span style={{ fontFamily: 'Patrick Hand, cursive' }}>Log Out</span>
+              <span style={{  }}>Log Out</span>
             </div>
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -321,7 +321,7 @@ export const Profile = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="text-center text-sm"
-          style={{ color: '#718096', fontFamily: 'Patrick Hand, cursive' }}
+          style={{ color: '#718096' }}
         >
           <p>SignRoad v1.0.0</p>
           <p className="mt-1">

@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hand-drawn watercolor fonts */
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Patrick+Hand&display=swap');
-
 @layer base {
   :root {
     /* Watercolor Mint/Teal Palette */
@@ -36,7 +33,7 @@
 
   body {
     margin: 0;
-    font-family: 'Patrick Hand', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', cursive;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: linear-gradient(135deg, #e8f5f1 0%, #d4ebe3 50%, #c8e6dd 100%);
@@ -66,15 +63,13 @@
     z-index: 1;
   }
 
-  /* Hand-drawn headline font */
   h1, h2, h3 {
-    font-family: 'Caveat', cursive;
     font-weight: 700;
   }
 }
 
 @layer components {
-  /* Hand-drawn button style */
+  /* Watercolor button style */
   .btn-watercolor {
     @apply relative px-8 py-4 rounded-full font-medium transition-all duration-300;
     background: linear-gradient(135deg, #7dd3c0 0%, #a8e6d7 100%);
@@ -83,7 +78,6 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
     border: 2px solid rgba(95, 184, 166, 0.5);
     color: #2d3748;
-    font-family: 'Patrick Hand', cursive;
     font-size: 1.125rem;
     letter-spacing: 0.5px;
   }
@@ -124,7 +118,7 @@
     border: 2px solid rgba(125, 211, 192, 0.3);
   }
 
-  /* Hand-drawn circle navigation */
+  /* Watercolor circle navigation */
   .nav-circle {
     @apply relative w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 249, 246, 0.8) 100%);

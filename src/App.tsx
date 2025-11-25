@@ -132,7 +132,7 @@ function App() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="w-16 h-16 border-4 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#7dd3c0', borderTopColor: 'transparent' }}></div>
-            <p style={{ color: '#4a5568', fontFamily: 'Patrick Hand, cursive' }}>Loading...</p>
+            <p style={{ color: '#4a5568' }}>Loading...</p>
           </div>
         </div>
         <ToastContainer />
