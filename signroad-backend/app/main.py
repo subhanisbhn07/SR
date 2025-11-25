@@ -10,12 +10,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import os
 
-# Import module routers (Social and Media remain local)
-from app.social import router as social_router
-from app.media import router as media_router
-
 # Import gateway for microservice forwarding
-from app.gateway import forward_to_identity_service, forward_to_journey_service
+from app.gateway import (
+    forward_to_identity_service,
+    forward_to_journey_service,
+    forward_to_social_service,
+    forward_to_media_service
+)
 
 # Import models for admin endpoints
 from app.journey.schemas import DayContent, DayContentCreate, DayContentUpdate
@@ -73,9 +74,7 @@ async def healthz():
         "version": "2.0.0"
     }
 
-# Include local module routers (Identity and Journey now proxied to microservices)
-app.include_router(social_router)
-app.include_router(media_router)
+# All module routers now proxied to microservices (Identity, Journey, Social, Media)
 
 # ============================================================================
 # IDENTITY SERVICE GATEWAY ENDPOINTS
@@ -175,6 +174,35 @@ async def journey_journal_detail_proxy(request: Request, entry_id: str):
 async def journey_update_journal_proxy(request: Request, entry_id: str):
     """Proxy: Update journal entry via Journey Service"""
     return await forward_to_journey_service(request, f"/api/journey/journal/{entry_id}")
+
+
+# ============================================================================
+# SOCIAL SERVICE GATEWAY ENDPOINTS
+# ============================================================================
+# These endpoints proxy social requests to the standalone Social Service
+
+@app.get("/api/cosmetics")
+async def social_cosmetics_proxy(request: Request):
+    """Proxy: Get all cosmetics via Social Service"""
+    return await forward_to_social_service(request, "/api/cosmetics")
+
+
+@app.post("/api/cosmetics/{item_id}/purchase")
+async def social_purchase_proxy(request: Request, item_id: str):
+    """Proxy: Purchase cosmetic via Social Service"""
+    return await forward_to_social_service(request, f"/api/cosmetics/{item_id}/purchase")
+
+
+# ============================================================================
+# MEDIA SERVICE GATEWAY ENDPOINTS
+# ============================================================================
+# These endpoints proxy media requests to the standalone Media Service
+
+@app.get("/api/audio")
+async def media_audio_proxy(request: Request):
+    """Proxy: Get all audio tracks via Media Service"""
+    return await forward_to_media_service(request, "/api/audio")
+
 
 # ============================================================================
 # ADMIN PANEL ENDPOINTS

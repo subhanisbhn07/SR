@@ -13,6 +13,8 @@ from typing import Dict
 # Microservice URLs (internal communication)
 IDENTITY_SERVICE_URL = os.getenv("IDENTITY_SERVICE_URL", "http://localhost:8001")
 JOURNEY_SERVICE_URL = os.getenv("JOURNEY_SERVICE_URL", "http://localhost:8002")
+SOCIAL_SERVICE_URL = os.getenv("SOCIAL_SERVICE_URL", "http://localhost:8003")
+MEDIA_SERVICE_URL = os.getenv("MEDIA_SERVICE_URL", "http://localhost:8004")
 
 # Hop-by-hop headers that should not be forwarded
 HOP_BY_HOP_HEADERS = {
@@ -94,3 +96,13 @@ async def forward_to_identity_service(request: Request, path: str) -> Response:
 async def forward_to_journey_service(request: Request, path: str) -> Response:
     """Forward request to Journey Service"""
     return await forward_to_service(request, JOURNEY_SERVICE_URL, path)
+
+
+async def forward_to_social_service(request: Request, path: str) -> Response:
+    """Forward request to Social Service"""
+    return await forward_to_service(request, SOCIAL_SERVICE_URL, path)
+
+
+async def forward_to_media_service(request: Request, path: str) -> Response:
+    """Forward request to Media Service"""
+    return await forward_to_service(request, MEDIA_SERVICE_URL, path)
