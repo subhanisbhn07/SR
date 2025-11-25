@@ -30,17 +30,18 @@ HOP_BY_HOP_HEADERS = {
 
 async def forward_to_service(request: Request, service_url: str, path: str) -> Response:
     """
-    Forward request to Identity Service and return FastAPI Response.
+    Forward request to a microservice and return FastAPI Response.
     
     Args:
         request: Original FastAPI request
-        path: Path to forward to Identity Service
+        service_url: Base URL of the target microservice
+        path: Path to forward to the microservice
         
     Returns:
-        FastAPI Response object with status, headers, and content from Identity Service
+        FastAPI Response object with status, headers, and content from microservice
     """
     # Build full URL
-    url = f"{IDENTITY_SERVICE_URL}{path}"
+    url = f"{service_url}{path}"
     
     # Get request body if present
     body = None
@@ -81,25 +82,15 @@ async def forward_to_service(request: Request, service_url: str, path: str) -> R
         except httpx.RequestError as e:
             raise HTTPException(
                 status_code=503,
-                detail=f"Identity Service unavailable: {str(e)}"
+                detail=f"Microservice unavailable: {str(e)}"
             )
 
 
-def should_forward_to_identity_service(path: str) -> bool:
-    """
-    Determine if request should be forwarded to Identity Service.
-    
-    Args:
-        path: Request path
-        
-    Returns:
-        True if should forward to Identity Service
-    """
-    # Forward all auth and user-related requests
-    auth_prefixes = [
-        "/api/auth/",
-        "/api/users/settings",
-        "/api/admin/users"
-    ]
-    
-    return any(path.startswith(prefix) for prefix in auth_prefixes)
+async def forward_to_identity_service(request: Request, path: str) -> Response:
+    """Forward request to Identity Service"""
+    return await forward_to_service(request, IDENTITY_SERVICE_URL, path)
+
+
+async def forward_to_journey_service(request: Request, path: str) -> Response:
+    """Forward request to Journey Service"""
+    return await forward_to_service(request, JOURNEY_SERVICE_URL, path)

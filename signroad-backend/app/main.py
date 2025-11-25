@@ -124,9 +124,9 @@ async def journey_days_proxy(request: Request):
 
 
 @app.get("/api/journey/days/{day_number}")
-async def journey_day_detail_proxy(request: Request):
+async def journey_day_detail_proxy(request: Request, day_number: int):
     """Proxy: Get specific day details via Journey Service"""
-    return await forward_to_journey_service(request, f"/api/journey/days/{request.path_params.get('day_number')}")
+    return await forward_to_journey_service(request, f"/api/journey/days/{day_number}")
 
 
 @app.get("/api/journey/progress")
@@ -166,15 +166,15 @@ async def journey_create_journal_proxy(request: Request):
 
 
 @app.get("/api/journey/journal/{entry_id}")
-async def journey_journal_detail_proxy(request: Request):
+async def journey_journal_detail_proxy(request: Request, entry_id: str):
     """Proxy: Get specific journal entry via Journey Service"""
-    return await forward_to_journey_service(request, f"/api/journey/journal/{request.path_params.get('entry_id')}")
+    return await forward_to_journey_service(request, f"/api/journey/journal/{entry_id}")
 
 
 @app.put("/api/journey/journal/{entry_id}")
-async def journey_update_journal_proxy(request: Request):
+async def journey_update_journal_proxy(request: Request, entry_id: str):
     """Proxy: Update journal entry via Journey Service"""
-    return await forward_to_journey_service(request, f"/api/journey/journal/{request.path_params.get('entry_id')}")
+    return await forward_to_journey_service(request, f"/api/journey/journal/{entry_id}")
 
 # ============================================================================
 # ADMIN PANEL ENDPOINTS
