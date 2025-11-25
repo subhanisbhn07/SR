@@ -10,13 +10,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 import os
 
-# Import module routers
-from app.journey import router as journey_router
+# Import module routers (Social and Media remain local)
 from app.social import router as social_router
 from app.media import router as media_router
 
-# Import gateway for Identity Service forwarding
-from app.gateway import forward_to_identity_service
+# Import gateway for microservice forwarding
+from app.gateway import forward_to_identity_service, forward_to_journey_service
 
 # Import models for admin endpoints
 from app.journey.schemas import DayContent, DayContentCreate, DayContentUpdate
@@ -74,8 +73,7 @@ async def healthz():
         "version": "2.0.0"
     }
 
-# Include module routers (Identity router removed - now proxied to Identity Service)
-app.include_router(journey_router)
+# Include local module routers (Identity and Journey now proxied to microservices)
 app.include_router(social_router)
 app.include_router(media_router)
 
@@ -112,6 +110,71 @@ async def users_settings_proxy(request: Request):
 async def admin_users_proxy(request: Request):
     """Proxy: Get all users via Identity Service (admin only)"""
     return await forward_to_identity_service(request, "/api/admin/users")
+
+
+# ============================================================================
+# JOURNEY SERVICE GATEWAY ENDPOINTS
+# ============================================================================
+# These endpoints proxy journey requests to the standalone Journey Service
+
+@app.get("/api/journey/days")
+async def journey_days_proxy(request: Request):
+    """Proxy: Get all journey days via Journey Service"""
+    return await forward_to_journey_service(request, "/api/journey/days")
+
+
+@app.get("/api/journey/days/{day_number}")
+async def journey_day_detail_proxy(request: Request):
+    """Proxy: Get specific day details via Journey Service"""
+    return await forward_to_journey_service(request, f"/api/journey/days/{request.path_params.get('day_number')}")
+
+
+@app.get("/api/journey/progress")
+async def journey_progress_proxy(request: Request):
+    """Proxy: Get user progress via Journey Service"""
+    return await forward_to_journey_service(request, "/api/journey/progress")
+
+
+@app.post("/api/journey/progress")
+async def journey_update_progress_proxy(request: Request):
+    """Proxy: Update user progress via Journey Service"""
+    return await forward_to_journey_service(request, "/api/journey/progress")
+
+
+@app.get("/api/journey/signs")
+async def journey_signs_proxy(request: Request):
+    """Proxy: Get user signs via Journey Service"""
+    return await forward_to_journey_service(request, "/api/journey/signs")
+
+
+@app.post("/api/journey/signs")
+async def journey_log_sign_proxy(request: Request):
+    """Proxy: Log a sign via Journey Service"""
+    return await forward_to_journey_service(request, "/api/journey/signs")
+
+
+@app.get("/api/journey/journal")
+async def journey_journal_proxy(request: Request):
+    """Proxy: Get journal entries via Journey Service"""
+    return await forward_to_journey_service(request, "/api/journey/journal")
+
+
+@app.post("/api/journey/journal")
+async def journey_create_journal_proxy(request: Request):
+    """Proxy: Create journal entry via Journey Service"""
+    return await forward_to_journey_service(request, "/api/journey/journal")
+
+
+@app.get("/api/journey/journal/{entry_id}")
+async def journey_journal_detail_proxy(request: Request):
+    """Proxy: Get specific journal entry via Journey Service"""
+    return await forward_to_journey_service(request, f"/api/journey/journal/{request.path_params.get('entry_id')}")
+
+
+@app.put("/api/journey/journal/{entry_id}")
+async def journey_update_journal_proxy(request: Request):
+    """Proxy: Update journal entry via Journey Service"""
+    return await forward_to_journey_service(request, f"/api/journey/journal/{request.path_params.get('entry_id')}")
 
 # ============================================================================
 # ADMIN PANEL ENDPOINTS
