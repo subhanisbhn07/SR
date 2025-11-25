@@ -451,7 +451,6 @@ export const DayDetail = ({ stepNumber, onBack }: DayDetailProps) => {
               backgroundColor: !journalText.trim() ? 'rgba(168, 230, 215, 0.2)' : 'rgba(168, 230, 215, 0.4)',
               border: '2px solid rgba(125, 211, 192, 0.3)',
               color: !journalText.trim() ? '#718096' : '#2d3748',
-              ,
               cursor: !journalText.trim() ? 'not-allowed' : 'pointer'
             }}
             onMouseEnter={(e) => {
