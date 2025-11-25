@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
 import { HeroCarousel } from '../components/homepage/HeroCarousel';
 import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
@@ -11,6 +11,7 @@ import { BlogSection } from '../components/homepage/BlogSection';
 import { NewsletterSignup } from '../components/homepage/NewsletterSignup';
 import { MoodCheckIn } from '../components/homepage/MoodCheckIn';
 import { BottomNavigation } from '../components/homepage/BottomNavigation';
+import { useWellnessStore } from '../store/wellnessStore';
 
 const featuredCourses = [
   {
@@ -75,12 +76,35 @@ const editorsPicks = [
   }
 ];
 
+const SESSION_ID_MAP: Record<number, string> = {
+  1: '1', // The Confidence Reset -> Mindful Morning
+  2: '2', // Morning Manifestation -> Focus Flow
+  3: '3', // Deep Sleep Journey -> Stress Relief
+  4: '1', // Anxiety to Peace -> Mindful Morning
+  5: '2', // Abundance Mindset -> Focus Flow
+  6: '3', // Inner Child Healing -> Stress Relief
+};
+
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
+  const navigate = useNavigate();
+  const { startSession, getSessionById } = useWellnessStore();
 
   const handleIntentSelect = (intent: string) => {
-    // Scroll to relevant section based on intent
     console.log('Selected intent:', intent);
+  };
+
+  const handleBeginCourse = (courseId: number) => {
+    const sessionId = SESSION_ID_MAP[courseId] || '1';
+    const session = getSessionById(sessionId);
+    
+    if (session) {
+      startSession(session);
+      navigate('/app');
+    } else {
+      console.warn(`Session not found for course ${courseId}`);
+      navigate('/app');
+    }
   };
 
   return (
@@ -94,21 +118,24 @@ export const Homepage: React.FC = () => {
           <IntentBasedNav onIntentSelect={handleIntentSelect} />
           <CategoryGrid />
           
-          <CourseSection 
-            title="Start Your Journey" 
-            courses={featuredCourses}
-          />
+                    <CourseSection 
+                      title="Start Your Journey" 
+                      courses={featuredCourses}
+                      onBeginCourse={handleBeginCourse}
+                    />
           
-          <CourseSection 
-            title="What Others Love" 
-            courses={topRatedCourses}
-          />
+                    <CourseSection 
+                      title="What Others Love" 
+                      courses={topRatedCourses}
+                      onBeginCourse={handleBeginCourse}
+                    />
           
-          <CourseSection 
-            title="Editor's Picks" 
-            courses={editorsPicks}
-            gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-          />
+                    <CourseSection 
+                      title="Editor's Picks" 
+                      courses={editorsPicks}
+                      gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+                      onBeginCourse={handleBeginCourse}
+                    />
           
           <UserStories />
           <BlogSection />

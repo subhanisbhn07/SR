@@ -1,5 +1,12 @@
 import { create } from 'zustand';
 import { WellnessSession, Achievement, MoodEntry } from '../types';
+import { 
+  moodStorage, 
+  sessionStorage as completedSessionStorage,
+  userStorage,
+  PersistedMoodEntry,
+  PersistedCompletedSession 
+} from '../services/storage';
 
 interface WellnessState {
   sessions: WellnessSession[];
@@ -8,8 +15,10 @@ interface WellnessState {
   currentSession: WellnessSession | null;
   addMoodEntry: (mood: MoodEntry['mood'], intensity: number, note?: string) => void;
   startSession: (session: WellnessSession) => void;
+  clearCurrentSession: () => void;
   completeSession: (rating: number) => void;
   unlockAchievement: (achievementId: string) => void;
+  getSessionById: (id: string) => WellnessSession | undefined;
 }
 
 const mockSessions: WellnessSession[] = [
@@ -95,6 +104,16 @@ export const useWellnessStore = create<WellnessState>((set, get) => ({
       createdAt: new Date(),
     };
     
+    // Persist to localStorage
+    const persistedEntry: PersistedMoodEntry = {
+      id: entry.id,
+      mood: entry.mood,
+      intensity: entry.intensity,
+      note: entry.note,
+      createdAt: entry.createdAt.toISOString(),
+    };
+    moodStorage.add(persistedEntry);
+    
     set(state => ({
       moodEntries: [entry, ...state.moodEntries],
     }));
@@ -102,6 +121,10 @@ export const useWellnessStore = create<WellnessState>((set, get) => ({
   
   startSession: (session) => {
     set({ currentSession: session });
+  },
+  
+  clearCurrentSession: () => {
+    set({ currentSession: null });
   },
   
   completeSession: (rating) => {
@@ -112,6 +135,16 @@ export const useWellnessStore = create<WellnessState>((set, get) => ({
         completedAt: new Date(),
         rating,
       };
+      
+      // Persist to localStorage
+      const persistedCompletion: PersistedCompletedSession = {
+        sessionId: currentSession.id,
+        completedAt: new Date().toISOString(),
+        rating,
+        sparksEarned: 10, // Base sparks for completing a session
+      };
+      completedSessionStorage.add(persistedCompletion);
+      userStorage.incrementTotalSessions();
       
       set(state => ({
         sessions: state.sessions.map(s => 
@@ -130,5 +163,9 @@ export const useWellnessStore = create<WellnessState>((set, get) => ({
           : a
       ),
     }));
+  },
+  
+  getSessionById: (id: string) => {
+    return get().sessions.find(s => s.id === id);
   },
 }));

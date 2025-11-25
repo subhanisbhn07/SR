@@ -4,7 +4,7 @@ import { Play, Star, Clock, Users } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 
-interface Course {
+export interface Course {
   id: number;
   title: string;
   subtitle: string;
@@ -20,12 +20,14 @@ interface CourseSectionProps {
   title: string;
   courses: Course[];
   gradient?: string;
+  onBeginCourse?: (courseId: number) => void;
 }
 
 export const CourseSection: React.FC<CourseSectionProps> = ({ 
   title, 
   courses, 
-  gradient = "bg-neutral-800/30" 
+  gradient = "bg-neutral-800/30",
+  onBeginCourse,
 }) => {
   return (
     <motion.div
@@ -94,9 +96,17 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                 </div>
               </div>
               
-              <Button size="sm" variant="ghost" className="text-accent-400 hover:text-accent-300">
-                Begin
-              </Button>
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="text-accent-400 hover:text-accent-300"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onBeginCourse?.(course.id);
+                              }}
+                            >
+                              Begin
+                            </Button>
             </div>
           </motion.div>
         ))}

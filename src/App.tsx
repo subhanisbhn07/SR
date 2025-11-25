@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { useWellnessStore } from './store/wellnessStore';
 import { Header } from './components/layout/Header';
@@ -11,29 +11,11 @@ import { SessionCard } from './components/sessions/SessionCard';
 import { SessionPlayer } from './components/sessions/SessionPlayer';
 import { Homepage } from './pages/Homepage';
 
-function App() {
-  const { isAuthenticated, mode } = useAuthStore();
-  const { sessions, startSession, currentSession } = useWellnessStore();
+function DashboardShell() {
+  const { mode } = useAuthStore();
+  const { sessions, startSession, currentSession, clearCurrentSession } = useWellnessStore();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showHomepage, setShowHomepage] = useState(true);
-  
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center p-4">
-        <LoginForm />
-      </div>
-    );
-  }
-
-  // Show the new homepage design
-  if (showHomepage) {
-    return (
-      <Router>
-        <Homepage />
-      </Router>
-    );
-  }
   
   const renderContent = () => {
     switch (activeTab) {
@@ -86,32 +68,52 @@ function App() {
   };
   
   return (
-    <Router>
-      <div className="min-h-screen bg-neutral-50">
-        <Header onMenuClick={() => setSidebarOpen(true)} />
+    <div className="min-h-screen bg-neutral-50">
+      <Header onMenuClick={() => setSidebarOpen(true)} />
+      
+      <div className="flex">
+        <Sidebar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
         
-        <div className="flex">
-          <Sidebar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            isOpen={sidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-          />
-          
-          <main className="flex-1 lg:ml-64 p-6">
-            <div className="max-w-7xl mx-auto">
-              {renderContent()}
-            </div>
-          </main>
-        </div>
-        
-        {currentSession && (
-          <SessionPlayer
-            session={currentSession}
-            onClose={() => useWellnessStore.getState().startSession(null as any)}
-          />
-        )}
+        <main className="flex-1 lg:ml-64 p-6">
+          <div className="max-w-7xl mx-auto">
+            {renderContent()}
+          </div>
+        </main>
       </div>
+      
+      {currentSession && (
+        <SessionPlayer
+          session={currentSession}
+          onClose={clearCurrentSession}
+        />
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const { isAuthenticated } = useAuthStore();
+  
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center p-4">
+        <LoginForm />
+      </div>
+    );
+  }
+  
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/app" element={<DashboardShell />} />
+        <Route path="/app/*" element={<DashboardShell />} />
+      </Routes>
     </Router>
   );
 }
