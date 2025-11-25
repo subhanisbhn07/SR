@@ -49,9 +49,12 @@ export const LoginForm: React.FC = () => {
         </h1>
         <p className="text-neutral-600">
           {mode === 'consumer' 
-            ? 'Transform your wellness journey with personalized insights'
-            : 'Elevate your team\'s performance and well-being'
+            ? 'A 1,000-step manifestation road where the universe sends you signs back'
+            : 'Elevate your team\'s wellness with guided manifestation journeys'
           }
+        </p>
+        <p className="text-sm text-neutral-500 mt-2">
+          {mode === 'consumer' && '7 free steps to prove it to yourself'}
         </p>
       </div>
       

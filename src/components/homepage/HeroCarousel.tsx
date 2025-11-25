@@ -6,22 +6,22 @@ import { Button } from '../ui/Button';
 const heroSlides = [
   {
     id: 1,
-    title: "Reclaim Your Calm",
-    subtitle: "Find peace in the chaos of everyday life",
+    title: "Your 1,000-Step Road Awaits",
+    subtitle: "A manifestation journey where the universe sends you signs back",
     image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-purple-900/80 to-blue-900/80"
   },
   {
     id: 2,
-    title: "Manifest Abundance Daily",
-    subtitle: "Transform your mindset, transform your reality",
+    title: "Keep Your Lantern Bright",
+    subtitle: "Your progress dims but never resets — pick up where you left off",
     image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-orange-900/80 to-yellow-900/80"
   },
   {
     id: 3,
-    title: "Heal Through Stillness",
-    subtitle: "Discover the power of inner silence",
+    title: "Watch for Today's Sign",
+    subtitle: "Daily challenges from the universe — look for a white feather, a red door...",
     image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-green-900/80 to-teal-900/80"
   },
@@ -34,8 +34,8 @@ const heroSlides = [
   },
   {
     id: 5,
-    title: "Sleep Like You Deserve To",
-    subtitle: "End your day with deep, restorative rest",
+    title: "Join Your Tribe",
+    subtitle: "5-person accountability groups walking the road together",
     image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-indigo-900/80 to-purple-900/80"
   }
