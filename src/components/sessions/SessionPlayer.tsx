@@ -114,7 +114,6 @@ export const SessionPlayer: React.FC<SessionPlayerProps> = ({ session, onClose }
 
   const handleAudioError = () => {
     setAudioError('Unable to load audio file. The session will continue without audio.');
-    setIsAudioLoaded(false);
   };
 
   const handleClose = () => {
