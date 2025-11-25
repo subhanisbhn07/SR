@@ -11,6 +11,7 @@ import { NewsletterSignup } from '../components/homepage/NewsletterSignup';
 import { MoodCheckIn } from '../components/homepage/MoodCheckIn';
 import { BottomNavigation } from '../components/homepage/BottomNavigation';
 import { TodayCard } from '../components/homepage/TodayCard';
+import { SparksRewards } from '../components/homepage/SparksRewards';
 
 const featuredCourses = [
   {
@@ -89,9 +90,10 @@ export const Homepage: React.FC = () => {
       
       <main className="pb-20">
         <div className="px-4 py-6 max-w-md mx-auto">
-          <HeroCarousel />
-          <TodayCard />
-          <PersonalGreeting />
+                    <HeroCarousel />
+                    <TodayCard />
+                    <SparksRewards />
+                    <PersonalGreeting />
           <IntentBasedNav onIntentSelect={handleIntentSelect} />
           <CategoryGrid />
           
