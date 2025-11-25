@@ -21,6 +21,9 @@ from app.rate_limit import limiter
 from app.logging_config import configure_logging
 from app.logging_middleware import LoggingMiddleware
 
+# Import enhanced health check
+from app.health_check import get_enhanced_health_status
+
 # Create FastAPI app with API documentation
 app = FastAPI(
     title="SignRoad Identity Service",
@@ -72,10 +75,10 @@ async def startup_event():
 async def shutdown_event():
     print("✅ Identity Service shut down successfully")
 
-@app.get("/healthz", tags=["health"], summary="Health Check", description="Check if the Identity Service is running and healthy")
+@app.get("/healthz", tags=["health"], summary="Basic Health Check", description="Quick health check for load balancers")
 async def healthz():
     """
-    Health check endpoint for monitoring and load balancers.
+    Basic health check endpoint for load balancers.
     
     Returns:
         dict: Service status, name, and version
@@ -85,6 +88,22 @@ async def healthz():
         "service": "identity",
         "version": "1.0.0"
     }
+
+@app.get("/health/detailed", tags=["health"], summary="Detailed Health Check", description="Comprehensive health check with system metrics")
+async def health_detailed():
+    """
+    Detailed health check with system metrics.
+    
+    Includes:
+    - Database connectivity
+    - Memory usage
+    - Disk space
+    - CPU usage
+    
+    Returns:
+        dict: Comprehensive health status
+    """
+    return await get_enhanced_health_status()
 
 # Include identity router (removes /api prefix since this is a dedicated service)
 app.include_router(identity_router, prefix="", tags=["identity"])
