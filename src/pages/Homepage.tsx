@@ -13,6 +13,7 @@ import { BottomNavigation } from '../components/homepage/BottomNavigation';
 import { TodayCard } from '../components/homepage/TodayCard';
 import { SparksRewards } from '../components/homepage/SparksRewards';
 import { TribesCard } from '../components/homepage/TribesCard';
+import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
 
 const featuredCourses = [
   {
@@ -95,6 +96,7 @@ export const Homepage: React.FC = () => {
           <TodayCard />
           <SparksRewards />
           <TribesCard />
+          <UniverseReceipt />
           <PersonalGreeting />
           <IntentBasedNav onIntentSelect={handleIntentSelect} />
           <CategoryGrid />
