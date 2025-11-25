@@ -1,7 +1,7 @@
 """
 Authentication utilities for SignRoad backend
 """
-import jwt
+from jose import jwt, JWTError
 import bcrypt
 from datetime import datetime, timedelta
 from typing import Optional
@@ -50,7 +50,7 @@ def decode_token(token: str) -> dict:
         return payload
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token has expired")
-    except jwt.InvalidTokenError:
+    except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
 async def get_current_user(

@@ -5,12 +5,17 @@ Handles authentication, authorization, and user management.
 This service is independently deployable and scalable.
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 import os
 
 # Import identity router
 from app.identity import router as identity_router
+
+# Import rate limiter
+from app.rate_limit import limiter
 
 # Create FastAPI app
 app = FastAPI(
@@ -18,6 +23,10 @@ app = FastAPI(
     version="1.0.0",
     description="Authentication and user management service"
 )
+
+# Add rate limiter
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Load allowed origins from environment variable
 ALLOWED_ORIGINS = os.getenv(
