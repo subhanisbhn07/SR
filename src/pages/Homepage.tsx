@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
 import { HeroCarousel } from '../components/homepage/HeroCarousel';
 import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
@@ -11,6 +10,7 @@ import { BlogSection } from '../components/homepage/BlogSection';
 import { NewsletterSignup } from '../components/homepage/NewsletterSignup';
 import { MoodCheckIn } from '../components/homepage/MoodCheckIn';
 import { BottomNavigation } from '../components/homepage/BottomNavigation';
+import { TodayCard } from '../components/homepage/TodayCard';
 
 const featuredCourses = [
   {
@@ -90,6 +90,7 @@ export const Homepage: React.FC = () => {
       <main className="pb-20">
         <div className="px-4 py-6 max-w-md mx-auto">
           <HeroCarousel />
+          <TodayCard />
           <PersonalGreeting />
           <IntentBasedNav onIntentSelect={handleIntentSelect} />
           <CategoryGrid />
