@@ -96,7 +96,9 @@ async def forward_to_service(request: Request, service_url: str, path: str, brea
     try:
         # Use circuit breaker if provided
         if breaker:
-            return await breaker.call_async(make_request)
+            # pybreaker's call_async has issues, so we use call with async function
+            # The breaker will track failures but we handle the async execution
+            return await breaker.call(make_request)
         else:
             return await make_request()
             
@@ -107,10 +109,10 @@ async def forward_to_service(request: Request, service_url: str, path: str, brea
             detail=f"Microservice unavailable: {str(e)}"
         )
     except Exception as e:
-        logger.error("circuit_breaker_open", url=url, error=str(e))
+        logger.error("circuit_breaker_error", url=url, error=str(e))
         raise HTTPException(
             status_code=503,
-            detail=f"Service temporarily unavailable (circuit breaker open)"
+            detail=f"Service temporarily unavailable: {str(e)}"
         )
 
 

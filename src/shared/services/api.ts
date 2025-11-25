@@ -3,7 +3,7 @@
  * Handles all HTTP requests to the FastAPI backend
  */
 
-const API_BASE_URL = 'https://app-lnhrftkp.fly.dev';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://app-lnhrftkp.fly.dev';
 
 // Token management
 let authToken: string | null = null;

@@ -11,7 +11,6 @@ logger = structlog.get_logger(__name__)
 # Circuit breaker configuration
 FAILURE_THRESHOLD = 5  # Number of failures before opening circuit
 TIMEOUT_DURATION = 60  # Seconds to wait before attempting recovery
-EXPECTED_EXCEPTION = Exception  # Exception type to catch
 
 class CircuitBreakerListener(pybreaker.CircuitBreakerListener):
     """Custom listener for circuit breaker events"""
@@ -44,42 +43,39 @@ class CircuitBreakerListener(pybreaker.CircuitBreakerListener):
         )
 
 # Create circuit breakers for each microservice
+# Note: pybreaker uses 'reset_timeout' not 'timeout_duration'
+# pybreaker doesn't have 'expected_exception' parameter - it catches all exceptions by default
 identity_breaker = pybreaker.CircuitBreaker(
     fail_max=FAILURE_THRESHOLD,
-    timeout_duration=TIMEOUT_DURATION,
-    expected_exception=EXPECTED_EXCEPTION,
+    reset_timeout=TIMEOUT_DURATION,
     name="identity_service",
     listeners=[CircuitBreakerListener()]
 )
 
 journey_breaker = pybreaker.CircuitBreaker(
     fail_max=FAILURE_THRESHOLD,
-    timeout_duration=TIMEOUT_DURATION,
-    expected_exception=EXPECTED_EXCEPTION,
+    reset_timeout=TIMEOUT_DURATION,
     name="journey_service",
     listeners=[CircuitBreakerListener()]
 )
 
 social_breaker = pybreaker.CircuitBreaker(
     fail_max=FAILURE_THRESHOLD,
-    timeout_duration=TIMEOUT_DURATION,
-    expected_exception=EXPECTED_EXCEPTION,
+    reset_timeout=TIMEOUT_DURATION,
     name="social_service",
     listeners=[CircuitBreakerListener()]
 )
 
 media_breaker = pybreaker.CircuitBreaker(
     fail_max=FAILURE_THRESHOLD,
-    timeout_duration=TIMEOUT_DURATION,
-    expected_exception=EXPECTED_EXCEPTION,
+    reset_timeout=TIMEOUT_DURATION,
     name="media_service",
     listeners=[CircuitBreakerListener()]
 )
 
 admin_breaker = pybreaker.CircuitBreaker(
     fail_max=FAILURE_THRESHOLD,
-    timeout_duration=TIMEOUT_DURATION,
-    expected_exception=EXPECTED_EXCEPTION,
+    reset_timeout=TIMEOUT_DURATION,
     name="admin_service",
     listeners=[CircuitBreakerListener()]
 )
@@ -108,8 +104,7 @@ def get_all_breaker_states() -> dict:
     return {
         name: {
             "state": str(breaker.current_state),
-            "failure_count": breaker.fail_counter,
-            "last_failure": str(breaker.last_failure) if breaker.last_failure else None
+            "failure_count": breaker.fail_counter
         }
         for name, breaker in breakers.items()
     }

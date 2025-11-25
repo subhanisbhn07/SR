@@ -117,6 +117,63 @@ async def admin_users_proxy(request: Request):
 # ============================================================================
 # These endpoints proxy journey requests to the standalone Journey Service
 
+# Compatibility routes for frontend (old paths)
+@app.get("/api/days")
+async def days_compat_proxy(request: Request):
+    """Proxy: Get all journey days via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, "/api/journey/days")
+
+@app.get("/api/days/{day_number}")
+async def day_detail_compat_proxy(request: Request, day_number: int):
+    """Proxy: Get specific day details via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, f"/api/journey/days/{day_number}")
+
+@app.get("/api/users/progress")
+async def users_progress_compat_proxy(request: Request):
+    """Proxy: Get user progress via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, "/api/journey/progress")
+
+@app.post("/api/users/progress")
+async def users_update_progress_compat_proxy(request: Request):
+    """Proxy: Update user progress via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, "/api/journey/progress")
+
+@app.get("/api/signs")
+async def signs_compat_proxy(request: Request):
+    """Proxy: Get user signs via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, "/api/journey/signs")
+
+@app.post("/api/signs")
+async def log_sign_compat_proxy(request: Request):
+    """Proxy: Log a sign via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, "/api/journey/signs")
+
+@app.get("/api/journal")
+async def journal_compat_proxy(request: Request):
+    """Proxy: Get journal entries via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, "/api/journey/journal")
+
+@app.post("/api/journal")
+async def create_journal_compat_proxy(request: Request):
+    """Proxy: Create journal entry via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, "/api/journey/journal")
+
+@app.get("/api/journal/{entry_id}")
+async def journal_detail_compat_proxy(request: Request, entry_id: str):
+    """Proxy: Get specific journal entry via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, f"/api/journey/journal/{entry_id}")
+
+@app.put("/api/journal/{entry_id}")
+async def update_journal_compat_proxy(request: Request, entry_id: str):
+    """Proxy: Update journal entry via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, f"/api/journey/journal/{entry_id}")
+
+@app.delete("/api/journal/{entry_id}")
+async def delete_journal_compat_proxy(request: Request, entry_id: str):
+    """Proxy: Delete journal entry via Journey Service (compatibility route)"""
+    return await forward_to_journey_service(request, f"/api/journey/journal/{entry_id}")
+
+# New microservice routes (for future use)
 @app.get("/api/journey/days")
 async def journey_days_proxy(request: Request):
     """Proxy: Get all journey days via Journey Service"""
