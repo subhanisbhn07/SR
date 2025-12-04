@@ -37,7 +37,7 @@ export const Campfire: React.FC<CampfireProps> = ({ onClose }) => {
           <div className="text-6xl mb-4">🔥</div>
           <h2 className="text-2xl font-bold text-white mb-2">The Campfire Awaits</h2>
           <p className="text-purple-300 mb-6">
-            On Day 4, you'll be placed in a Tribe of 5 fellow Wanderers. Together, you'll walk the Road.
+            On Day 4, you'll be placed in a Tribe of 8 fellow Wanderers. Together, you'll walk the Road.
           </p>
           <div className="bg-white/5 rounded-xl p-4 mb-6">
             <p className="text-sm text-purple-300">
@@ -118,8 +118,8 @@ export const Campfire: React.FC<CampfireProps> = ({ onClose }) => {
 
           {/* Tribe members around the fire */}
           {tribe.members.map((member, index) => {
-            const angle = (index * 72 - 90) * (Math.PI / 180); // 72 degrees apart, starting from top
-            const radius = 100;
+            const angle = (index * 45 - 90) * (Math.PI / 180); // 45 degrees apart (360/8), starting from top
+            const radius = 110;
             const x = Math.cos(angle) * radius;
             const y = Math.sin(angle) * radius;
 
@@ -218,7 +218,7 @@ export const Campfire: React.FC<CampfireProps> = ({ onClose }) => {
           <ul className="space-y-2 text-sm text-purple-300">
             <li className="flex items-start gap-2">
               <span className="text-amber-400">•</span>
-              <span>5 anonymous Wanderers walking together</span>
+              <span>8 anonymous Wanderers walking together</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-amber-400">•</span>
@@ -230,7 +230,7 @@ export const Campfire: React.FC<CampfireProps> = ({ onClose }) => {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-amber-400">•</span>
-              <span>When all 5 complete the day, everyone gets +5 bonus Sparks</span>
+              <span>When all 8 complete the day, everyone gets +8 bonus Sparks</span>
             </li>
           </ul>
         </div>

@@ -1,15 +1,28 @@
-import React, { useRef } from 'react';
-import { motion } from 'framer-motion';
-import { X, Download, Share2, Star } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Download, Share2, Star, Instagram, Twitter, Facebook, MessageCircle } from 'lucide-react';
 import { UniverseReceipt as UniverseReceiptType, RARITY_CONFIG } from '../../types/journey';
+
+// Social sharing platforms
+type SharePlatform = 'instagram' | 'twitter' | 'facebook' | 'whatsapp' | 'tiktok' | 'native';
 
 interface UniverseReceiptProps {
   receipt: UniverseReceiptType;
   onClose: () => void;
 }
 
+// SignRoad branding for shares
+const SIGNROAD_BRANDING = {
+  watermark: 'SignRoad.com',
+  hashtags: ['#SignRoad', '#UniverseSpeaking', '#Manifestation', '#Synchronicity'],
+  cta: 'Start your journey at SignRoad.com',
+  handle: '@signroad',
+};
+
 export const UniverseReceipt: React.FC<UniverseReceiptProps> = ({ receipt, onClose }) => {
   const receiptRef = useRef<HTMLDivElement>(null);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [shareSuccess, setShareSuccess] = useState<string | null>(null);
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleString('en-US', {
@@ -39,30 +52,100 @@ export const UniverseReceipt: React.FC<UniverseReceiptProps> = ({ receipt, onClo
     }
   };
 
-  const handleShare = async () => {
-    const shareData = {
-      title: 'Universe Receipt - SignRoad',
-      text: `I found a ${receipt.rarity} ${receipt.signName} ${receipt.signEmoji} on Day ${receipt.dayNumber} of my SignRoad journey! The probability was 1 in ${receipt.probability}. ${receipt.message}`,
-      url: 'https://signroad.com',
-    };
+  // Generate share text with SignRoad branding
+  const getShareText = () => {
+    const hashtags = SIGNROAD_BRANDING.hashtags.join(' ');
+    return `I found a ${receipt.rarity.toUpperCase()} ${receipt.signName} ${receipt.signEmoji} on Day ${receipt.dayNumber} of my SignRoad journey!
 
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        console.log('Share cancelled');
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(shareData.text + ' ' + shareData.url);
-      alert('Copied to clipboard!');
+The probability was 1 in ${receipt.probability.toLocaleString()} moments today.
+
+"${receipt.message}"
+
+${hashtags}
+${SIGNROAD_BRANDING.cta}`;
+  };
+
+  // Platform-specific share URLs
+  const getShareUrl = (platform: SharePlatform): string => {
+    const text = encodeURIComponent(getShareText());
+    const url = encodeURIComponent('https://signroad.com');
+    const hashtags = SIGNROAD_BRANDING.hashtags.map(h => h.replace('#', '')).join(',');
+
+    switch (platform) {
+      case 'twitter':
+        return `https://twitter.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}`;
+      case 'facebook':
+        return `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`;
+      case 'whatsapp':
+        return `https://wa.me/?text=${text}%20${url}`;
+      case 'instagram':
+        // Instagram doesn't have a direct share URL, so we copy to clipboard
+        return '';
+      case 'tiktok':
+        // TikTok doesn't have a direct share URL either
+        return '';
+      default:
+        return '';
     }
+  };
+
+  const handlePlatformShare = async (platform: SharePlatform) => {
+    if (platform === 'native') {
+      // Use native share API
+      const shareData = {
+        title: 'Universe Receipt - SignRoad',
+        text: getShareText(),
+        url: 'https://signroad.com',
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+          setShareSuccess('Shared successfully!');
+        } catch (err) {
+          console.log('Share cancelled');
+        }
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(getShareText() + '\n\nhttps://signroad.com');
+        setShareSuccess('Copied to clipboard!');
+      }
+    } else if (platform === 'instagram' || platform === 'tiktok') {
+      // For Instagram/TikTok, copy to clipboard and show instructions
+      await navigator.clipboard.writeText(getShareText() + '\n\nhttps://signroad.com');
+      setShareSuccess(`Caption copied! Open ${platform === 'instagram' ? 'Instagram' : 'TikTok'} and paste.`);
+    } else {
+      // Open share URL in new window
+      const shareUrl = getShareUrl(platform);
+      if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+        setShareSuccess(`Opening ${platform}...`);
+      }
+    }
+
+    // Clear success message after 3 seconds
+    setTimeout(() => setShareSuccess(null), 3000);
+    setShowShareMenu(false);
+  };
+
+  const handleShare = () => {
+    setShowShareMenu(true);
   };
 
   const handleDownload = () => {
     // In a real app, this would use html2canvas or similar to generate an image
-    alert('Download feature coming soon! For now, take a screenshot.');
+    alert('Download feature coming soon! For now, take a screenshot and share with #SignRoad');
   };
+
+  // Share platform options
+  const sharePlatforms: { id: SharePlatform; name: string; icon: React.ReactNode; color: string }[] = [
+    { id: 'native', name: 'Share', icon: <Share2 className="w-5 h-5" />, color: 'bg-purple-600' },
+    { id: 'instagram', name: 'Instagram', icon: <Instagram className="w-5 h-5" />, color: 'bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400' },
+    { id: 'twitter', name: 'X / Twitter', icon: <Twitter className="w-5 h-5" />, color: 'bg-black' },
+    { id: 'facebook', name: 'Facebook', icon: <Facebook className="w-5 h-5" />, color: 'bg-blue-600' },
+    { id: 'whatsapp', name: 'WhatsApp', icon: <MessageCircle className="w-5 h-5" />, color: 'bg-green-500' },
+    { id: 'tiktok', name: 'TikTok', icon: <span className="text-lg">🎵</span>, color: 'bg-black' },
+  ];
 
   return (
     <motion.div
@@ -207,6 +290,20 @@ export const UniverseReceipt: React.FC<UniverseReceiptProps> = ({ receipt, onClo
           </div>
         </div>
 
+        {/* Success message */}
+        <AnimatePresence>
+          {shareSuccess && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-xl text-center text-green-300 text-sm"
+            >
+              {shareSuccess}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Action buttons */}
         <div className="flex gap-3 mt-6">
           <motion.button
@@ -227,6 +324,45 @@ export const UniverseReceipt: React.FC<UniverseReceiptProps> = ({ receipt, onClo
             <Download className="w-5 h-5" />
           </motion.button>
         </div>
+
+        {/* Share platform menu */}
+        <AnimatePresence>
+          {showShareMenu && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="mt-4 bg-gray-800 rounded-xl p-4"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-white font-semibold">Share to</h4>
+                <button
+                  onClick={() => setShowShareMenu(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {sharePlatforms.map((platform) => (
+                  <motion.button
+                    key={platform.id}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handlePlatformShare(platform.id)}
+                    className={`${platform.color} p-3 rounded-xl flex flex-col items-center gap-2 text-white`}
+                  >
+                    {platform.icon}
+                    <span className="text-xs">{platform.name}</span>
+                  </motion.button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 text-center mt-4">
+                Tag {SIGNROAD_BRANDING.handle} when you share!
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   );
