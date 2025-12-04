@@ -11,12 +11,10 @@ import {
   Building2, 
   TrendingUp,
   Heart,
-  Clock,
   Award,
   ArrowRight,
   Phone,
-  Mail,
-  Globe
+  Mail
 } from 'lucide-react';
 import { LanternIcon } from '../ui/LanternIcon';
 

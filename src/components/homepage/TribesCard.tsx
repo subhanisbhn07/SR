@@ -22,7 +22,7 @@ const mockTribeMembers: TribeMember[] = [
 ];
 
 export const TribesCard: React.FC = () => {
-  const { user } = useAuthStore();
+  useAuthStore();
   const [showModal, setShowModal] = useState(false);
   const [hasJoinedTribe, setHasJoinedTribe] = useState(true);
 
