@@ -15,6 +15,16 @@ export interface MeditationScript {
   };
 }
 
+// Emotional arc for each day's journey
+export type EmotionalArc = 
+  | 'curiosity_calm'      // Day 1
+  | 'gratitude_opening'   // Day 2
+  | 'release_vulnerability' // Day 3
+  | 'connection_listening' // Day 4
+  | 'wonder_recognition'  // Day 5
+  | 'wholeness_integration' // Day 6
+  | 'power_choice';       // Day 7
+
 export interface RoadStep {
   day: number;
   title: string;
@@ -27,6 +37,8 @@ export interface RoadStep {
   isFree: boolean;
   meditationGoal: string;
   signMeaning: string;
+  emotionalArc?: EmotionalArc;
+  signComplexity?: number; // 1-7, how hard the sign is to find
   script?: MeditationScript;
 }
 
@@ -142,6 +154,8 @@ export const ROAD_STEPS: RoadStep[] = [
     isFree: true,
     meditationGoal: "Establish basic mindfulness; introduce the Road metaphor",
     signMeaning: "Lightness, peace, messages from the Universe",
+    emotionalArc: 'curiosity_calm',
+    signComplexity: 1, // Easy to find, introduces concept
     script: {
       segments: [
         {
@@ -252,6 +266,8 @@ Now... go find your feather.`
     isFree: true,
     meditationGoal: "Shift from scarcity to abundance mindset",
     signMeaning: "Value, unexpected gifts, prosperity consciousness",
+    emotionalArc: 'gratitude_opening',
+    signComplexity: 2, // Ubiquitous but requires noticing
     script: {
       segments: [
         {
@@ -360,6 +376,8 @@ Go find your coin. The Universe is leaving money on the ground for you.`
     isFree: true,
     meditationGoal: "Release what no longer serves; embrace change",
     signMeaning: "Transformation, metamorphosis, soul evolution",
+    emotionalArc: 'release_vulnerability',
+    signComplexity: 3, // Requires slightly more attention; powerful metaphor
     script: {
       segments: [
         {
@@ -474,6 +492,8 @@ Go find your butterfly. You're becoming.`
     isFree: true,
     meditationGoal: "Develop inner listening; understand intuition vs. fear",
     signMeaning: "Messages from loved ones/guides, pay attention, divine communication",
+    emotionalArc: 'connection_listening',
+    signComplexity: 4, // Less common; introduces mystical/spiritual communication
     script: {
       segments: [
         {
@@ -589,6 +609,8 @@ Your cardinal is waiting. Listen for it.`
     isFree: true,
     meditationGoal: "Awaken to synchronicity; recognize divine timing",
     signMeaning: "Alignment, you're on track, the Universe confirming your path",
+    emotionalArc: 'wonder_recognition',
+    signComplexity: 5, // Requires active pattern recognition; validates synchronicity
     script: {
       segments: [
         {
@@ -711,6 +733,8 @@ The patterns are everywhere, Wanderer. Start seeing them.`
     isFree: true,
     meditationGoal: "Balance all energy centers; embody wholeness",
     signMeaning: "Promise fulfilled, hope, full-spectrum living, after the storm comes beauty",
+    emotionalArc: 'wholeness_integration',
+    signComplexity: 6, // Rare but potent; integration symbol
     script: {
       segments: [
         {
@@ -833,6 +857,8 @@ Go find your rainbow.`
     theme: "Choice & Commitment",
     keyLesson: "You hold the key to your own becoming. Will you turn it?",
     audioDuration: 8,
+    emotionalArc: 'power_choice',
+    signComplexity: 7, // Metaphorical climax; initiation into next phase
     journalPrompt: "What door are you ready to unlock?",
     isFree: true,
     meditationGoal: "Crystallize manifestation intention; prepare for commitment",
