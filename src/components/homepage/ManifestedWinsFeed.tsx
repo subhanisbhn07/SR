@@ -54,6 +54,42 @@ const mockWins: ManifestedWin[] = [
     lightsReceived: 156,
     hasReceivedLight: false,
   },
+  {
+    id: '4',
+    userName: 'James K.',
+    title: 'Paid off all my debt',
+    category: 'Finance',
+    daysToManifest: 45,
+    signsLogged: 32,
+    probability: 5.2,
+    manifestedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+    lightsReceived: 234,
+    hasReceivedLight: false,
+  },
+  {
+    id: '5',
+    userName: 'Lisa M.',
+    title: 'Found my soulmate',
+    category: 'Love',
+    daysToManifest: 30,
+    signsLogged: 25,
+    probability: 7.8,
+    manifestedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    lightsReceived: 312,
+    hasReceivedLight: true,
+  },
+  {
+    id: '6',
+    userName: 'David P.',
+    title: 'Started my own business',
+    category: 'Career',
+    daysToManifest: 60,
+    signsLogged: 48,
+    probability: 3.5,
+    manifestedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+    lightsReceived: 189,
+    hasReceivedLight: false,
+  },
 ];
 
 const formatTimeAgo = (date: Date): string => {
@@ -101,43 +137,40 @@ export const ManifestedWinsFeed: React.FC = () => {
           </span>
         </div>
 
-        <div className="space-y-3 mb-4">
-          {wins.slice(0, 2).map((win) => (
-            <div
-              key={win.id}
-              className="bg-neutral-800/50 rounded-xl p-3 border border-neutral-700/50"
-            >
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white font-medium">
-                  {win.userName.charAt(0)}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+                  {wins.slice(0, 6).map((win) => (
+                    <div
+                      key={win.id}
+                      className="bg-neutral-800/50 rounded-xl p-3 border border-neutral-700/50 cursor-pointer hover:border-green-500/30 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+                          {win.userName.charAt(0)}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <span className="text-xs font-medium text-white block truncate">{win.userName}</span>
+                          <span className="text-xs text-neutral-500">{formatTimeAgo(win.manifestedAt)}</span>
+                        </div>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleSendLight(win.id); }}
+                          disabled={win.hasReceivedLight}
+                          className={`p-1.5 rounded-lg transition-colors flex-shrink-0 ${
+                            win.hasReceivedLight
+                              ? 'bg-yellow-500/20 text-yellow-400'
+                              : 'bg-neutral-700/50 text-neutral-400 hover:bg-yellow-500/20 hover:text-yellow-400'
+                          }`}
+                        >
+                          <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
+                        </button>
+                      </div>
+                      <p className="text-xs text-neutral-300 line-clamp-2 mb-2">"{win.title}"</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-neutral-500">{win.daysToManifest}d · {win.signsLogged} signs</span>
+                        <span className="text-xs text-green-400 font-medium">{(100 - win.probability).toFixed(1)}%</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-sm font-medium text-white">{win.userName}</span>
-                    <span className="text-xs text-neutral-500">{formatTimeAgo(win.manifestedAt)}</span>
-                  </div>
-                  <p className="text-sm text-neutral-300 truncate">"{win.title}"</p>
-                  <div className="flex items-center gap-3 mt-2">
-                    <span className="text-xs text-neutral-500">{win.daysToManifest} days</span>
-                    <span className="text-xs text-neutral-500">{win.signsLogged} signs</span>
-                    <span className="text-xs text-green-400 font-medium">Beat {100 - win.probability}% odds</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handleSendLight(win.id)}
-                  disabled={win.hasReceivedLight}
-                  className={`p-2 rounded-lg transition-colors ${
-                    win.hasReceivedLight
-                      ? 'bg-yellow-500/20 text-yellow-400'
-                      : 'bg-neutral-700/50 text-neutral-400 hover:bg-yellow-500/20 hover:text-yellow-400'
-                  }`}
-                >
-                  <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
 
         <button
           onClick={() => setShowModal(true)}

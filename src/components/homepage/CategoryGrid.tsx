@@ -1,6 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+interface CategoryGridProps {
+  onCategorySelect?: (category: string) => void;
+}
+
 const categories = [
   { id: 1, name: 'Inner Peace', emoji: '🧘', color: 'from-blue-500/20 to-purple-500/20' },
   { id: 2, name: 'Daily Motivation', emoji: '⚡', color: 'from-orange-500/20 to-red-500/20' },
@@ -16,7 +20,7 @@ const categories = [
   { id: 12, name: 'Release Negativity', emoji: '🕊️', color: 'from-teal-500/20 to-green-500/20' }
 ];
 
-export const CategoryGrid: React.FC = () => {
+export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -26,17 +30,18 @@ export const CategoryGrid: React.FC = () => {
     >
       <h2 className="text-2xl font-bold text-neutral-100 mb-6">Explore by Intention</h2>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {categories.map((category, index) => (
-          <motion.div
-            key={category.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 * index }}
-            whileHover={{ scale: 1.05, y: -5 }}
-            whileTap={{ scale: 0.95 }}
-            className={`p-6 rounded-2xl bg-gradient-to-br ${category.color} backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10`}
-          >
+                    <motion.button
+                      key={category.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.05 * index }}
+                      whileHover={{ scale: 1.05, y: -5 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => onCategorySelect?.(category.name)}
+                      className={`p-4 md:p-6 rounded-2xl bg-gradient-to-br ${category.color} backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 text-left`}
+                    >
             <div className="text-center">
               <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
                 {category.emoji}
@@ -45,7 +50,7 @@ export const CategoryGrid: React.FC = () => {
                 {category.name}
               </h3>
             </div>
-          </motion.div>
+          </motion.button>
         ))}
       </div>
     </motion.div>

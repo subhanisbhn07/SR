@@ -64,7 +64,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onStartNow }) => {
   };
 
   return (
-    <div className="relative h-96 rounded-2xl overflow-hidden mb-8">
+    <div className="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden mb-8">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}

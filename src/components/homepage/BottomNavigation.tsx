@@ -20,11 +20,11 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   onTabChange 
 }) => {
   return (
-    <motion.nav
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      className="fixed bottom-0 left-0 right-0 bg-neutral-900/95 backdrop-blur-lg border-t border-neutral-700/50 z-30"
-    >
+        <motion.nav
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          className="fixed bottom-0 left-0 right-0 bg-neutral-900/95 backdrop-blur-lg border-t border-neutral-700/50 z-30 md:hidden"
+        >
       <div className="flex items-center justify-around py-2">
         {navItems.map((item) => {
           const Icon = item.icon;

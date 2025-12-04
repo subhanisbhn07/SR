@@ -104,7 +104,7 @@ export const Homepage: React.FC = () => {
       case 'home':
       default:
         return (
-          <div className="px-4 py-6 max-w-lg mx-auto">
+          <div className="px-4 py-6 max-w-lg md:max-w-3xl lg:max-w-6xl xl:max-w-7xl mx-auto">
             <HeroCarousel onStartNow={() => setActiveBottomTab('courses')} />
             <TodayCard />
             <SparksRewards />
@@ -113,23 +113,26 @@ export const Homepage: React.FC = () => {
             <ManifestedWinsFeed />
             <PersonalGreeting />
             <IntentBasedNav onIntentSelect={handleIntentSelect} />
-            <CategoryGrid />
+            <CategoryGrid onCategorySelect={handleIntentSelect} />
             
-            <CourseSection 
-              title="Start Your Journey" 
-              courses={featuredCourses}
-            />
+                        <CourseSection 
+                          title="Start Your Journey" 
+                          courses={featuredCourses}
+                          onCourseSelect={() => setActiveBottomTab('courses')}
+                        />
             
-            <CourseSection 
-              title="What Others Love" 
-              courses={topRatedCourses}
-            />
+                        <CourseSection 
+                          title="What Others Love" 
+                          courses={topRatedCourses}
+                          onCourseSelect={() => setActiveBottomTab('courses')}
+                        />
             
-            <CourseSection 
-              title="Editor's Picks" 
-              courses={editorsPicks}
-              gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-            />
+                        <CourseSection 
+                          title="Editor's Picks" 
+                          courses={editorsPicks}
+                          gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+                          onCourseSelect={() => setActiveBottomTab('courses')}
+                        />
             
             <UserStories />
             <BlogSection />
@@ -141,7 +144,7 @@ export const Homepage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
-      <DarkModeHeader />
+      <DarkModeHeader activeTab={activeBottomTab} onTabChange={setActiveBottomTab} />
       
       <main className="pb-20">
         {renderContent()}
