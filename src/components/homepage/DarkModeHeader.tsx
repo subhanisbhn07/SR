@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Sparkles, Building2 } from 'lucide-react';
+import { User, Bell, Sparkles, Building2, ChevronDown } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { LanternIcon } from '../ui/LanternIcon';
 import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
+import { B2BLanding } from '../enterprise/B2BLanding';
 
 export const DarkModeHeader: React.FC = () => {
   const { user } = useAuthStore();
   const [showForTeams, setShowForTeams] = useState(false);
+  const [showB2B, setShowB2B] = useState(false);
+  const [showEnterpriseMenu, setShowEnterpriseMenu] = useState(false);
 
   return (
     <>
@@ -27,14 +30,45 @@ export const DarkModeHeader: React.FC = () => {
 
           {/* Right Side */}
           <div className="flex items-center space-x-2">
-            {/* For Teams Pill */}
-            <button
-              onClick={() => setShowForTeams(true)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-colors"
-            >
-              <Building2 className="w-3.5 h-3.5 text-blue-400" />
-              <span className="text-xs font-medium text-blue-400">For Teams</span>
-            </button>
+            {/* Enterprise Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowEnterpriseMenu(!showEnterpriseMenu)}
+                onBlur={() => setTimeout(() => setShowEnterpriseMenu(false), 150)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-colors"
+              >
+                <Building2 className="w-3.5 h-3.5 text-blue-400" />
+                <span className="text-xs font-medium text-blue-400">Enterprise</span>
+                <ChevronDown className={`w-3 h-3 text-blue-400 transition-transform ${showEnterpriseMenu ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {showEnterpriseMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-neutral-800 border border-neutral-700 rounded-xl shadow-xl overflow-hidden z-50">
+                  <button
+                    onClick={() => {
+                      setShowForTeams(true);
+                      setShowEnterpriseMenu(false);
+                    }}
+                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-700 transition-colors flex items-center gap-2"
+                  >
+                    <Building2 className="w-4 h-4 text-blue-400" />
+                    For Teams
+                    <span className="text-xs text-neutral-500 ml-auto">Pricing</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowB2B(true);
+                      setShowEnterpriseMenu(false);
+                    }}
+                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-700 transition-colors flex items-center gap-2 border-t border-neutral-700"
+                  >
+                    <Building2 className="w-4 h-4 text-emerald-400" />
+                    Enterprise Sales
+                    <span className="text-xs text-emerald-400 ml-auto">Book a Call</span>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {user && (
               <>
@@ -77,6 +111,20 @@ export const DarkModeHeader: React.FC = () => {
             className="fixed inset-0 z-50 overflow-y-auto"
           >
             <ForTeamsLanding isModal onClose={() => setShowForTeams(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* B2B Landing Modal */}
+      <AnimatePresence>
+        {showB2B && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 overflow-y-auto"
+          >
+            <B2BLanding isModal onClose={() => setShowB2B(false)} />
           </motion.div>
         )}
       </AnimatePresence>
