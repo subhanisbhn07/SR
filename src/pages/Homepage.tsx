@@ -15,6 +15,7 @@ import { SparksRewards } from '../components/homepage/SparksRewards';
 import { TribesCard } from '../components/homepage/TribesCard';
 import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
 import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
+import { InstallPromptBanner } from '../components/InstallPromptBanner';
 import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';
 import { JournalPage } from './JournalPage';
@@ -104,35 +105,51 @@ export const Homepage: React.FC = () => {
       case 'home':
       default:
         return (
-          <div className="px-4 py-6 max-w-lg mx-auto">
+          <div className="px-4 py-6 max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto">
             <HeroCarousel onStartNow={() => setActiveBottomTab('courses')} />
-            <TodayCard />
-            <SparksRewards />
-            <TribesCard />
-            <UniverseReceipt />
+            
+            {/* Responsive grid for Today + Sparks */}
+            <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+              <TodayCard />
+              <SparksRewards />
+            </div>
+            
+            {/* Responsive grid for Tribes + Universe Receipt */}
+            <div className="grid gap-4 md:grid-cols-2 md:gap-6 mt-4 md:mt-6">
+              <TribesCard />
+              <UniverseReceipt />
+            </div>
+            
             <ManifestedWinsFeed />
             <PersonalGreeting />
             <IntentBasedNav onIntentSelect={handleIntentSelect} />
             <CategoryGrid />
             
-            <CourseSection 
-              title="Start Your Journey" 
-              courses={featuredCourses}
-            />
+            {/* Course sections with responsive grid */}
+            <div className="space-y-6 md:space-y-8 lg:space-y-10">
+              <CourseSection 
+                title="Start Your Journey" 
+                courses={featuredCourses}
+              />
+              
+              <CourseSection 
+                title="What Others Love" 
+                courses={topRatedCourses}
+              />
+              
+              <CourseSection 
+                title="Editor's Picks" 
+                courses={editorsPicks}
+                gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+              />
+            </div>
             
-            <CourseSection 
-              title="What Others Love" 
-              courses={topRatedCourses}
-            />
+            {/* Responsive grid for Stories + Blog */}
+            <div className="grid gap-6 lg:grid-cols-2 mt-6 md:mt-8">
+              <UserStories />
+              <BlogSection />
+            </div>
             
-            <CourseSection 
-              title="Editor's Picks" 
-              courses={editorsPicks}
-              gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-            />
-            
-            <UserStories />
-            <BlogSection />
             <NewsletterSignup />
           </div>
         );
@@ -141,9 +158,10 @@ export const Homepage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
-      <DarkModeHeader />
+      <InstallPromptBanner />
+      <DarkModeHeader activeTab={activeBottomTab} onTabChange={setActiveBottomTab} />
       
-      <main className="pb-20">
+      <main className="pb-20 md:pb-8 pt-14">
         {renderContent()}
       </main>
 

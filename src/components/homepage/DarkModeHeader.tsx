@@ -1,12 +1,28 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Sparkles, Building2, ChevronDown } from 'lucide-react';
+import { User, Bell, Sparkles, Building2, ChevronDown, Home, BookOpen, Heart, PenTool } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { LanternIcon } from '../ui/LanternIcon';
 import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
 import { B2BLanding } from '../enterprise/B2BLanding';
 
-export const DarkModeHeader: React.FC = () => {
+interface DarkModeHeaderProps {
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
+}
+
+const desktopNavItems = [
+  { id: 'home', label: 'Home', icon: Home },
+  { id: 'courses', label: 'Courses', icon: BookOpen },
+  { id: 'mood', label: 'Mood', icon: Heart },
+  { id: 'journal', label: 'Journal', icon: PenTool },
+  { id: 'profile', label: 'Profile', icon: User }
+];
+
+export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ 
+  activeTab = 'home', 
+  onTabChange 
+}) => {
   const { user } = useAuthStore();
   const [showForTeams, setShowForTeams] = useState(false);
   const [showB2B, setShowB2B] = useState(false);
@@ -17,9 +33,9 @@ export const DarkModeHeader: React.FC = () => {
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 bg-neutral-900/95 backdrop-blur-lg border-b border-neutral-700/50"
+        className="fixed top-0 left-0 right-0 z-40 bg-neutral-900/95 backdrop-blur-lg border-b border-neutral-700/50"
       >
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
@@ -27,6 +43,28 @@ export const DarkModeHeader: React.FC = () => {
             </div>
             <h1 className="text-xl font-bold text-neutral-100">SignRoad</h1>
           </div>
+          
+          {/* Desktop Navigation - hidden on mobile */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {desktopNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onTabChange?.(item.id)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                    isActive 
+                      ? 'bg-accent-500/20 text-accent-400' 
+                      : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
 
           {/* Right Side */}
           <div className="flex items-center space-x-2">
