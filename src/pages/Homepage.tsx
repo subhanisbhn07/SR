@@ -88,7 +88,7 @@ export const Homepage: React.FC = () => {
 
   const handleIntentSelect = (intent: string) => {
     // Navigate to courses with the selected intent filter
-    setActiveBottomTab('courses');
+    console.log('Selected intent:', intent); setActiveBottomTab('courses');
   };
 
   const renderContent = () => {
