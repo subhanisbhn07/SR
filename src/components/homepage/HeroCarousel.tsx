@@ -41,7 +41,11 @@ const heroSlides = [
   }
 ];
 
-export const HeroCarousel: React.FC = () => {
+interface HeroCarouselProps {
+  onStartNow?: () => void;
+}
+
+export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onStartNow }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -100,12 +104,13 @@ export const HeroCarousel: React.FC = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
-              <Button 
-                size="lg" 
-                className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                Start Now
-              </Button>
+                            <Button 
+                              size="lg" 
+                              onClick={onStartNow}
+                              className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                            >
+                              Start Now
+                            </Button>
             </motion.div>
           </div>
         </motion.div>

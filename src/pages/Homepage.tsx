@@ -15,6 +15,10 @@ import { SparksRewards } from '../components/homepage/SparksRewards';
 import { TribesCard } from '../components/homepage/TribesCard';
 import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
 import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
+import { CoursesPage } from './CoursesPage';
+import { MoodPage } from './MoodPage';
+import { JournalPage } from './JournalPage';
+import { ProfilePage } from './ProfilePage';
 
 const featuredCourses = [
   {
@@ -83,8 +87,56 @@ export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
 
   const handleIntentSelect = (intent: string) => {
-    // Scroll to relevant section based on intent
-    console.log('Selected intent:', intent);
+    // Navigate to courses with the selected intent filter
+    setActiveBottomTab('courses');
+  };
+
+  const renderContent = () => {
+    switch (activeBottomTab) {
+      case 'courses':
+        return <CoursesPage />;
+      case 'mood':
+        return <MoodPage />;
+      case 'journal':
+        return <JournalPage />;
+      case 'profile':
+        return <ProfilePage />;
+      case 'home':
+      default:
+        return (
+          <div className="px-4 py-6 max-w-lg mx-auto">
+            <HeroCarousel onStartNow={() => setActiveBottomTab('courses')} />
+            <TodayCard />
+            <SparksRewards />
+            <TribesCard />
+            <UniverseReceipt />
+            <ManifestedWinsFeed />
+            <PersonalGreeting />
+            <IntentBasedNav onIntentSelect={handleIntentSelect} />
+            <CategoryGrid />
+            
+            <CourseSection 
+              title="Start Your Journey" 
+              courses={featuredCourses}
+            />
+            
+            <CourseSection 
+              title="What Others Love" 
+              courses={topRatedCourses}
+            />
+            
+            <CourseSection 
+              title="Editor's Picks" 
+              courses={editorsPicks}
+              gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+            />
+            
+            <UserStories />
+            <BlogSection />
+            <NewsletterSignup />
+          </div>
+        );
+    }
   };
 
   return (
@@ -92,37 +144,7 @@ export const Homepage: React.FC = () => {
       <DarkModeHeader />
       
       <main className="pb-20">
-        <div className="px-4 py-6 max-w-md mx-auto">
-          <HeroCarousel />
-          <TodayCard />
-          <SparksRewards />
-          <TribesCard />
-          <UniverseReceipt />
-          <ManifestedWinsFeed />
-          <PersonalGreeting />
-          <IntentBasedNav onIntentSelect={handleIntentSelect} />
-          <CategoryGrid />
-          
-          <CourseSection 
-            title="Start Your Journey" 
-            courses={featuredCourses}
-          />
-          
-          <CourseSection 
-            title="What Others Love" 
-            courses={topRatedCourses}
-          />
-          
-          <CourseSection 
-            title="Editor's Picks" 
-            courses={editorsPicks}
-            gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-          />
-          
-          <UserStories />
-          <BlogSection />
-          <NewsletterSignup />
-        </div>
+        {renderContent()}
       </main>
 
       <MoodCheckIn />
