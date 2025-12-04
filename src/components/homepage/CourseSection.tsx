@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Play, Star, Clock, Users } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
+import { useWellnessStore } from '../../features/wellness/store/wellnessStore';
 
 interface Course {
   id: number;
@@ -27,6 +29,17 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
   courses, 
   gradient = "bg-neutral-800/30" 
 }) => {
+  const navigate = useNavigate();
+  const { sessions, startSession } = useWellnessStore();
+
+  const handleBegin = (course: Course) => {
+    const session = sessions.find(s => s.title === course.title) || sessions[0];
+    if (session) {
+      startSession(session);
+    }
+    navigate('/app');
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -44,6 +57,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
+            onClick={() => handleBegin(course)}
             className={`p-6 rounded-2xl ${gradient} backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10`}
           >
             <div className="flex items-center space-x-4">
@@ -94,7 +108,15 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                 </div>
               </div>
               
-              <Button size="sm" variant="ghost" className="text-accent-400 hover:text-accent-300">
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="text-accent-400 hover:text-accent-300"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleBegin(course);
+                }}
+              >
                 Begin
               </Button>
             </div>
