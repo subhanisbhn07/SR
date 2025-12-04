@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { useAuthStore } from './store/authStore';
-import { useWellnessStore } from './store/wellnessStore';
-import { Header } from './components/layout/Header';
-import { Sidebar } from './components/layout/Sidebar';
-import { LoginForm } from './components/auth/LoginForm';
-import { ConsumerDashboard } from './components/dashboard/ConsumerDashboard';
-import { EnterpriseDashboard } from './components/dashboard/EnterpriseDashboard';
-import { SessionCard } from './components/sessions/SessionCard';
-import { SessionPlayer } from './components/sessions/SessionPlayer';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuthStore } from './features/auth/store/authStore';
+import { useWellnessStore } from './features/wellness/store/wellnessStore';
+import { useOnboardingStore } from './features/onboarding/store/onboardingStore';
+import { LoginForm } from './features/auth/components/LoginForm';
+import { OnboardingFlow } from './features/onboarding/components/OnboardingFlow';
+import { Header } from './features/layout/components/Header';
+import { Sidebar } from './features/layout/components/Sidebar';
+import { ConsumerDashboard } from './features/dashboard/components/ConsumerDashboard';
+import { EnterpriseDashboard } from './features/dashboard/components/EnterpriseDashboard';
+import { SessionCard } from './features/wellness/components/SessionCard';
+import { SessionPlayer } from './features/wellness/components/SessionPlayer';
 import { Homepage } from './pages/Homepage';
 
-function App() {
-  const { isAuthenticated, mode } = useAuthStore();
-  const { sessions, startSession, currentSession } = useWellnessStore();
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showHomepage, setShowHomepage] = useState(true);
+const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAuthenticated } = useAuthStore();
   
   if (!isAuthenticated) {
     return (
@@ -25,15 +23,64 @@ function App() {
       </div>
     );
   }
+  
+  return <>{children}</>;
+};
 
-  // Show the new homepage design
-  if (showHomepage) {
-    return (
-      <Router>
-        <Homepage />
-      </Router>
-    );
+const OnboardingGate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isOnboardingComplete } = useOnboardingStore();
+  
+  if (!isOnboardingComplete) {
+    return <OnboardingFlow />;
   }
+  
+  return <>{children}</>;
+};
+
+interface AppShellProps {
+  children: React.ReactNode;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
+
+const AppShell: React.FC<AppShellProps> = ({ children, activeTab, onTabChange }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { currentSession } = useWellnessStore();
+  const clearCurrentSession = useWellnessStore((state) => state.clearCurrentSession);
+  
+  return (
+    <div className="min-h-screen bg-neutral-50">
+      <Header onMenuClick={() => setSidebarOpen(true)} />
+      
+      <div className="flex">
+        <Sidebar
+          activeTab={activeTab}
+          onTabChange={onTabChange}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
+        
+        <main className="flex-1 lg:ml-64 p-6">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
+        </main>
+      </div>
+      
+      {currentSession && (
+        <SessionPlayer
+          session={currentSession}
+          onClose={clearCurrentSession}
+        />
+      )}
+    </div>
+  );
+};
+
+const DashboardContent: React.FC = () => {
+  const { mode } = useAuthStore();
+  const { sessions, startSession } = useWellnessStore();
+  const [activeTab, setActiveTab] = useState('dashboard');
   
   const renderContent = () => {
     switch (activeTab) {
@@ -86,32 +133,24 @@ function App() {
   };
   
   return (
+    <AppShell activeTab={activeTab} onTabChange={setActiveTab}>
+      {renderContent()}
+    </AppShell>
+  );
+};
+
+function App() {
+  return (
     <Router>
-      <div className="min-h-screen bg-neutral-50">
-        <Header onMenuClick={() => setSidebarOpen(true)} />
-        
-        <div className="flex">
-          <Sidebar
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            isOpen={sidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-          />
-          
-          <main className="flex-1 lg:ml-64 p-6">
-            <div className="max-w-7xl mx-auto">
-              {renderContent()}
-            </div>
-          </main>
-        </div>
-        
-        {currentSession && (
-          <SessionPlayer
-            session={currentSession}
-            onClose={() => useWellnessStore.getState().startSession(null as any)}
-          />
-        )}
-      </div>
+      <AuthGate>
+        <OnboardingGate>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/app" element={<DashboardContent />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </OnboardingGate>
+      </AuthGate>
     </Router>
   );
 }
