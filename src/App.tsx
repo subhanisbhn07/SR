@@ -10,9 +10,10 @@ import { EnterpriseDashboard } from './components/dashboard/EnterpriseDashboard'
 import { SessionCard } from './components/sessions/SessionCard';
 import { SessionPlayer } from './components/sessions/SessionPlayer';
 import { Homepage } from './pages/Homepage';
+import { ChooseYourRoad } from './components/onboarding/ChooseYourRoad';
 
 function App() {
-  const { isAuthenticated, mode } = useAuthStore();
+  const { isAuthenticated, mode, hasCompletedOnboarding, completeOnboarding, user } = useAuthStore();
   const { sessions, startSession, currentSession } = useWellnessStore();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -23,6 +24,18 @@ function App() {
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center p-4">
         <LoginForm />
       </div>
+    );
+  }
+
+  // Show onboarding flow for new users who haven't selected their road
+  if (!hasCompletedOnboarding && mode === 'consumer') {
+    return (
+      <Router>
+        <ChooseYourRoad 
+          onComplete={completeOnboarding} 
+          userName={user?.name}
+        />
+      </Router>
     );
   }
 
