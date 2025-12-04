@@ -5,20 +5,24 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   mode: 'consumer' | 'enterprise';
+  hasCompletedOnboarding: boolean;
+  selectedRoad: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   switchMode: (mode: 'consumer' | 'enterprise') => void;
   updateStreak: () => void;
+  completeOnboarding: (roadId: string) => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
   mode: 'consumer',
+  hasCompletedOnboarding: false,
+  selectedRoad: null,
   
   login: async (email: string, password: string) => {
     void password;
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     const mockUser: User = {
@@ -35,6 +39,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         focusAreas: ['mindfulness', 'productivity'],
         difficulty: 'intermediate',
       },
+      lanternHealth: 82,
+      sparks: 245,
+      currentRoadStep: 12,
     };
     
     set({ user: mockUser, isAuthenticated: true });
@@ -57,5 +64,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (user) {
       set({ user: { ...user, streak: user.streak + 1 } });
     }
+  },
+  
+  completeOnboarding: (roadId: string) => {
+    set({ hasCompletedOnboarding: true, selectedRoad: roadId });
   },
 }));
