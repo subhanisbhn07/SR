@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, ChevronRight, X, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Flame, ChevronRight, X, MessageCircle, Share2 } from 'lucide-react';
 import { LanternIcon } from '../ui/LanternIcon';
 
 interface ManifestedWin {
