@@ -1,57 +1,85 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { User, Bell, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, Bell, Sparkles, Building2 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { LanternIcon } from '../ui/LanternIcon';
+import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
 
 export const DarkModeHeader: React.FC = () => {
   const { user } = useAuthStore();
+  const [showForTeams, setShowForTeams] = useState(false);
 
   return (
-    <motion.header
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-40 bg-neutral-900/95 backdrop-blur-lg border-b border-neutral-700/50"
-    >
-      <div className="flex items-center justify-between px-4 py-3">
-        {/* Logo */}
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-lg">S</span>
+    <>
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="sticky top-0 z-40 bg-neutral-900/95 backdrop-blur-lg border-b border-neutral-700/50"
+      >
+        <div className="flex items-center justify-between px-4 py-3">
+          {/* Logo */}
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-lg">S</span>
+            </div>
+            <h1 className="text-xl font-bold text-neutral-100">SignRoad</h1>
           </div>
-          <h1 className="text-xl font-bold text-neutral-100">SignRoad</h1>
-        </div>
 
-        {/* Right Side */}
-        <div className="flex items-center space-x-3">
-                    {user && (
-                      <>
-                        <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-800/50">
-                          <LanternIcon health={user.lanternHealth} size="sm" />
-                          <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
-                        </div>
-                        <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-accent-500/20">
-                          <Sparkles className="w-4 h-4 text-accent-400" />
-                          <span className="text-xs font-medium text-accent-400">{user.sparks}</span>
-                        </div>
-                      </>
-                    )}
-          <button className="p-2 rounded-lg hover:bg-neutral-800 transition-colors duration-200 relative">
-            <Bell className="w-5 h-5 text-neutral-400" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
-          </button>
-          
-          <button className="w-8 h-8 rounded-full overflow-hidden">
-            {user?.avatar ? (
-              <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-accent-100 flex items-center justify-center">
-                <User className="w-4 h-4 text-accent-600" />
-              </div>
+          {/* Right Side */}
+          <div className="flex items-center space-x-2">
+            {/* For Teams Pill */}
+            <button
+              onClick={() => setShowForTeams(true)}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-colors"
+            >
+              <Building2 className="w-3.5 h-3.5 text-blue-400" />
+              <span className="text-xs font-medium text-blue-400">For Teams</span>
+            </button>
+
+            {user && (
+              <>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-800/50">
+                  <LanternIcon health={user.lanternHealth} size="sm" />
+                  <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
+                </div>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-accent-500/20">
+                  <Sparkles className="w-4 h-4 text-accent-400" />
+                  <span className="text-xs font-medium text-accent-400">{user.sparks}</span>
+                </div>
+              </>
             )}
-          </button>
+
+            <button className="p-2 rounded-lg hover:bg-neutral-800 transition-colors duration-200 relative">
+              <Bell className="w-5 h-5 text-neutral-400" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
+            </button>
+            
+            <button className="w-8 h-8 rounded-full overflow-hidden">
+              {user?.avatar ? (
+                <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-accent-100 flex items-center justify-center">
+                  <User className="w-4 h-4 text-accent-600" />
+                </div>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
-    </motion.header>
+      </motion.header>
+
+      {/* For Teams Modal */}
+      <AnimatePresence>
+        {showForTeams && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 overflow-y-auto"
+          >
+            <ForTeamsLanding isModal onClose={() => setShowForTeams(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
