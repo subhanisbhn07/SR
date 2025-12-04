@@ -10,7 +10,7 @@ import { Sidebar } from './features/layout/components/Sidebar';
 import { ConsumerDashboard } from './features/dashboard/components/ConsumerDashboard';
 import { EnterpriseDashboard } from './features/dashboard/components/EnterpriseDashboard';
 import { SessionCard } from './features/wellness/components/SessionCard';
-import { SessionPlayer } from './features/wellness/components/SessionPlayer';
+import { VoiceModePlayer } from './features/wellness/components/VoiceModePlayer';
 import { Homepage } from './pages/Homepage';
 
 const AuthGate: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -68,7 +68,7 @@ const AppShell: React.FC<AppShellProps> = ({ children, activeTab, onTabChange })
       </div>
       
       {currentSession && (
-        <SessionPlayer
+        <VoiceModePlayer
           session={currentSession}
           onClose={clearCurrentSession}
         />
