@@ -143,14 +143,14 @@ export const ManifestedWinsFeed: React.FC = () => {
                       key={win.id}
                       className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 border border-neutral-200 dark:border-neutral-700/50 cursor-pointer hover:border-green-300 dark:hover:border-green-500/30 transition-colors"
                     >
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
-                          {win.userName.charAt(0)}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <span className="text-xs font-medium text-neutral-900 dark:text-white block truncate">{win.userName}</span>
-                          <span className="text-xs text-neutral-500">{formatTimeAgo(win.manifestedAt)}</span>
-                        </div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+                            {win.userName.charAt(0)}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <span className="text-xs font-medium text-neutral-900 block truncate">{win.userName}</span>
+                            <span className="text-xs text-neutral-600">{formatTimeAgo(win.manifestedAt)}</span>
+                          </div>
                         <button
                           onClick={(e) => { e.stopPropagation(); handleSendLight(win.id); }}
                           disabled={win.hasReceivedLight}
@@ -163,10 +163,10 @@ export const ManifestedWinsFeed: React.FC = () => {
                           <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
                         </button>
                       </div>
-                      <p className="text-xs text-neutral-600 dark:text-neutral-300 line-clamp-2 mb-2">"{win.title}"</p>
+                      <p className="text-xs text-neutral-800 line-clamp-2 mb-2">"{win.title}"</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-neutral-500">{win.daysToManifest}d · {win.signsLogged} signs</span>
-                        <span className="text-xs text-green-600 dark:text-green-400 font-medium">{(100 - win.probability).toFixed(1)}%</span>
+                        <span className="text-xs text-neutral-600">{win.daysToManifest}d · {win.signsLogged} signs</span>
+                        <span className="text-xs text-green-600 font-medium">{(100 - win.probability).toFixed(1)}%</span>
                       </div>
                     </div>
                   ))}

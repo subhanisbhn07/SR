@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Check, Sparkles, Eye, Clock, Flame } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useConfigStore } from '../../store/configStore';
+import { useSignsGoalsStore } from '../../store/signsGoalsStore';
 import { LanternIcon } from '../ui/LanternIcon';
 
 interface TodayCardProps {
   onStartSession?: () => void;
 }
 
-const todaySigns = [
-  { id: 1, challenge: 'Look for a white feather', emoji: '🪶' },
-  { id: 2, challenge: 'Notice a red door', emoji: '🚪' },
-  { id: 3, challenge: 'Spot a butterfly', emoji: '🦋' },
-  { id: 4, challenge: 'Find a four-leaf clover', emoji: '🍀' },
-  { id: 5, challenge: 'See a rainbow', emoji: '🌈' },
-];
-
 export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
   const { user, selectedRoad } = useAuthStore();
   const { freeTrialDays } = useConfigStore();
+  const { activeSigns, assignInitialSigns, markSignFound } = useSignsGoalsStore();
   const [signLogged, setSignLogged] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [showReward, setShowReward] = useState(false);
 
-  const todaySign = todaySigns[Math.floor(Math.random() * todaySigns.length)];
+  // Initialize signs on first load
+  useEffect(() => {
+    assignInitialSigns();
+  }, [assignInitialSigns]);
+
+  // Get the first active sign to display
+  const todaySign = activeSigns.length > 0 
+    ? { id: activeSigns[0].id, challenge: `Look for a ${activeSigns[0].label.toLowerCase()}`, emoji: activeSigns[0].emoji }
+    : { id: 'default', challenge: 'Look for a white feather', emoji: '🪶' };
   const roadStep = user?.currentRoadStep || 1;
   const streakDays = user?.streakDays || 7;
   const lanternHealth = user?.lanternHealth || 82;
@@ -41,6 +43,10 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
   };
 
   const handleLogSign = () => {
+    // Mark the sign as found in the store (this will also assign a new sign)
+    if (activeSigns.length > 0) {
+      markSignFound(activeSigns[0].id);
+    }
     setSignLogged(true);
     setShowReward(true);
     setTimeout(() => setShowReward(false), 2000);
