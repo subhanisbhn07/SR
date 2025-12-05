@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Bell, Sparkles, Building2, ChevronDown, Home, BookOpen, Heart, PenTool, Menu } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { useThemeStore } from '../../store/themeStore';
 import { LanternIcon } from '../ui/LanternIcon';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
 import { B2BLanding } from '../enterprise/B2BLanding';
 import { MobileSidebar } from './MobileSidebar';
@@ -21,6 +23,7 @@ const desktopNavItems = [
 
 export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'home', onTabChange }) => {
   const { user } = useAuthStore();
+  const { theme } = useThemeStore();
   const [showForTeams, setShowForTeams] = useState(false);
   const [showB2B, setShowB2B] = useState(false);
   const [showEnterpriseMenu, setShowEnterpriseMenu] = useState(false);
@@ -31,7 +34,11 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 bg-neutral-900/95 backdrop-blur-lg border-b border-neutral-700/50"
+        className={`sticky top-0 z-40 backdrop-blur-lg border-b ${
+          theme === 'dark' 
+            ? 'bg-neutral-900/95 border-neutral-700/50' 
+            : 'bg-white/95 border-neutral-200'
+        }`}
       >
         <div className="flex items-center justify-between px-4 py-3">
                     {/* Logo */}
@@ -39,7 +46,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                       <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
                         <span className="text-white font-bold text-lg">S</span>
                       </div>
-                      <h1 className="text-xl font-bold text-neutral-100">SignRoad</h1>
+                      <h1 className={`text-xl font-bold ${theme === 'dark' ? 'text-neutral-100' : 'text-neutral-900'}`}>SignRoad</h1>
                     </div>
 
                     {/* Desktop Navigation - Hidden on mobile */}
@@ -119,8 +126,12 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
               </>
             )}
 
-            <button className="p-2 rounded-lg hover:bg-neutral-800 transition-colors duration-200 relative">
-              <Bell className="w-5 h-5 text-neutral-400" />
+            <ThemeToggle />
+
+            <button className={`p-2 rounded-lg transition-colors duration-200 relative ${
+              theme === 'dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-100'
+            }`}>
+              <Bell className={`w-5 h-5 ${theme === 'dark' ? 'text-neutral-400' : 'text-neutral-600'}`} />
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
             </button>
             

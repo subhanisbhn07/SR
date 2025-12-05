@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useThemeStore } from '../store/themeStore';
 import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
 import { HeroCarousel } from '../components/homepage/HeroCarousel';
 import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
@@ -164,6 +165,7 @@ const editorsPicks = [
 
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
+  const { theme } = useThemeStore();
 
   const handleIntentSelect = (intent: string) => {
     // Navigate to courses with the selected intent filter
@@ -226,7 +228,11 @@ export const Homepage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100 overflow-x-hidden">
+    <div className={`min-h-screen overflow-x-hidden ${
+      theme === 'dark' 
+        ? 'bg-neutral-900 text-neutral-100' 
+        : 'bg-neutral-50 text-neutral-900'
+    }`}>
       <DarkModeHeader activeTab={activeBottomTab} onTabChange={setActiveBottomTab} />
       
       <main className="pb-20 overflow-x-hidden">

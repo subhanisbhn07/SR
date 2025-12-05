@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Check, Sparkles, Eye, Clock, Flame } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { useConfigStore } from '../../store/configStore';
 import { LanternIcon } from '../ui/LanternIcon';
 
 interface TodayCardProps {
@@ -18,6 +19,7 @@ const todaySigns = [
 
 export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
   const { user, selectedRoad } = useAuthStore();
+  const { freeTrialDays } = useConfigStore();
   const [signLogged, setSignLogged] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [showReward, setShowReward] = useState(false);
@@ -53,8 +55,8 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     setTimeout(() => setShowReward(false), 2000);
   };
 
-  const isFreeTrialDay = roadStep <= 7;
-  const daysUntilUnlock = 7 - roadStep;
+  const isFreeTrialDay = roadStep <= freeTrialDays;
+  const daysUntilUnlock = freeTrialDays - roadStep;
 
   return (
     <motion.div
@@ -74,7 +76,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
           <div>
             <h2 className="text-lg font-semibold text-white">Today</h2>
             <p className="text-xs text-neutral-400">
-              Step {roadStep} of 7 on "{getRoadName()}"
+              Step {roadStep} of {freeTrialDays} on "{getRoadName()}"
             </p>
           </div>
         </div>
@@ -97,7 +99,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
           <div className="h-2 bg-neutral-700 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: `${(roadStep / 7) * 100}%` }}
+              animate={{ width: `${(roadStep / freeTrialDays) * 100}%` }}
               className="h-full bg-gradient-to-r from-accent-500 to-purple-500 rounded-full"
             />
           </div>

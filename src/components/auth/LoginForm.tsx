@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useAuthStore } from '../../store/authStore';
+import { useConfigStore } from '../../store/configStore';
+import { useThemeStore } from '../../store/themeStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 interface LoginFormData {
   email: string;
@@ -15,6 +18,8 @@ export const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login, mode } = useAuthStore();
+  const { freeTrialDays } = useConfigStore();
+  const { theme } = useThemeStore();
   
   const {
     register,
@@ -54,7 +59,7 @@ export const LoginForm: React.FC = () => {
           }
         </p>
         <p className="text-sm text-neutral-500 mt-2">
-          {mode === 'consumer' && '7 free steps to prove it to yourself'}
+          {mode === 'consumer' && `${freeTrialDays} free steps to prove it to yourself`}
         </p>
       </div>
       
