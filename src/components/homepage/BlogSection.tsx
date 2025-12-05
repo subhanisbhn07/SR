@@ -53,18 +53,27 @@ const blogs = [
   }
 ];
 
-export const BlogSection: React.FC = () => {
+interface BlogSectionProps {
+  compact?: boolean;
+}
+
+export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => {
+  // Show fewer blogs in compact mode
+  const displayBlogs = compact ? blogs.slice(0, 3) : blogs;
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="mb-12"
+      className={compact ? "mb-4" : "mb-12"}
     >
-      <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">Insights & Reflections</h2>
+      {!compact && (
+        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">Insights & Reflections</h2>
+      )}
       
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {blogs.map((blog, index) => (
+      <div className={`grid ${compact ? 'grid-cols-1 gap-3' : 'grid-cols-2 md:grid-cols-3 gap-4'}`}>
+        {displayBlogs.map((blog, index) => (
           <motion.article
             key={blog.id}
             initial={{ opacity: 0, y: 20 }}

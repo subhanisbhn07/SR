@@ -18,27 +18,38 @@ interface Course {
 
 interface CourseSectionProps {
   title: string;
+  subtitle?: string;
   courses: Course[];
   gradient?: string;
   onCourseSelect?: (courseId: number) => void;
   onViewMore?: () => void;
+  compact?: boolean;
 }
 
 export const CourseSection: React.FC<CourseSectionProps> = ({ 
   title, 
+  subtitle,
   courses, 
   gradient = "bg-neutral-800/30",
   onCourseSelect,
-  onViewMore
+  onViewMore,
+  compact = false
 }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="mb-12"
+      className={compact ? "mb-4" : "mb-12"}
     >
-      <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">{title}</h2>
+      {title && (
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{title}</h2>
+          {subtitle && (
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{subtitle}</p>
+          )}
+        </div>
+      )}
       
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
               {courses.map((course, index) => (
