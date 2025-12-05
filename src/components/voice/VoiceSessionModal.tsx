@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, X, Volume2, VolumeX, SkipBack, SkipForward, Sparkles } from 'lucide-react';
+import { Play, Pause, X, Volume2, VolumeX } from 'lucide-react';
 
 interface VoiceSessionModalProps {
   isOpen: boolean;
@@ -15,85 +15,55 @@ type PlayerState = 'idle' | 'playing' | 'paused' | 'completed';
 
 const VoiceOrb: React.FC<{ playerState: PlayerState; onClick: () => void }> = ({ playerState, onClick }) => {
   const isActive = playerState === 'playing';
-  const isIdle = playerState === 'idle';
+  const isCompleted = playerState === 'completed';
 
   return (
     <button
       onClick={onClick}
-      className="relative w-44 h-44 md:w-52 md:h-52 flex items-center justify-center focus:outline-none"
+      aria-label={playerState === 'playing' ? 'Pause session' : 'Play session'}
+      className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-emerald-400/50 rounded-full"
     >
-      {/* Outer pulsing rings */}
+      {/* Single soft halo glow */}
       <motion.div
-        className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500/10 via-teal-400/10 to-gold-400/5"
-        animate={isActive ? { scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] } : { scale: 1, opacity: 0.3 }}
-        transition={{ duration: 2.5, repeat: isActive ? Infinity : 0, ease: 'easeInOut' }}
-      />
-      
-      <motion.div
-        className="absolute inset-4 rounded-full bg-gradient-to-br from-emerald-500/15 via-teal-400/15 to-gold-400/10 blur-sm"
-        animate={isActive ? { scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] } : { scale: 1, opacity: 0.4 }}
-        transition={{ duration: 2, repeat: isActive ? Infinity : 0, ease: 'easeInOut', delay: 0.3 }}
+        className="absolute inset-0 rounded-full bg-emerald-500/20 blur-2xl"
+        animate={isActive 
+          ? { scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] } 
+          : isCompleted 
+            ? { scale: 1.1, opacity: 0.4 }
+            : { scale: 1, opacity: 0.25 }
+        }
+        transition={{ duration: 3, repeat: isActive ? Infinity : 0, ease: 'easeInOut' }}
       />
 
-      {/* Core glowing sphere */}
+      {/* Core orb with emerald/teal gradient */}
       <motion.div
-        className="relative w-32 h-32 md:w-36 md:h-36 rounded-full bg-gradient-to-tr from-emerald-500 via-teal-400 to-emerald-400 shadow-[0_0_60px_rgba(16,185,129,0.5)] flex items-center justify-center"
-        animate={isActive ? { scale: [1, 1.05, 1] } : isIdle ? { scale: [1, 1.02, 1] } : { scale: 1 }}
-        transition={{ duration: isActive ? 1.5 : 3, repeat: Infinity, ease: 'easeInOut' }}
+        className={`relative w-28 h-28 md:w-32 md:h-32 rounded-full flex items-center justify-center ${
+          isCompleted 
+            ? 'bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 shadow-[0_0_40px_rgba(251,191,36,0.4)]'
+            : 'bg-gradient-to-br from-emerald-400 via-teal-500 to-emerald-600 shadow-[0_0_40px_rgba(16,185,129,0.4)]'
+        }`}
+        animate={isActive 
+          ? { scale: [1, 1.04, 1] } 
+          : { scale: 1 }
+        }
+        transition={{ duration: 2, repeat: isActive ? Infinity : 0, ease: 'easeInOut' }}
       >
-        {/* Inner glow layer */}
-        <div className="absolute inset-2 rounded-full bg-gradient-to-br from-white/30 via-emerald-300/20 to-transparent" />
+        {/* Inner highlight */}
+        <div className="absolute inset-3 rounded-full bg-gradient-to-br from-white/25 via-transparent to-transparent" />
         
-        {/* Sparkle effect */}
-        <motion.div
-          className="absolute inset-0 rounded-full"
-          animate={isActive ? { rotate: 360 } : { rotate: 0 }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-        >
-          <Sparkles className="absolute top-2 left-1/2 -translate-x-1/2 w-4 h-4 text-white/60" />
-          <Sparkles className="absolute bottom-4 right-4 w-3 h-3 text-gold-300/60" />
-          <Sparkles className="absolute top-1/3 left-2 w-3 h-3 text-teal-200/60" />
-        </motion.div>
-
         {/* Center icon */}
-        <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+        <div className="relative z-10">
           {playerState === 'playing' ? (
-            <Pause className="w-8 h-8 md:w-10 md:h-10 text-white" />
+            <Pause className="w-10 h-10 md:w-12 md:h-12 text-white drop-shadow-sm" />
           ) : playerState === 'completed' ? (
-            <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-gold-300" />
+            <svg className="w-10 h-10 md:w-12 md:h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           ) : (
-            <Play className="w-8 h-8 md:w-10 md:h-10 text-white ml-1" />
+            <Play className="w-10 h-10 md:w-12 md:h-12 text-white ml-1 drop-shadow-sm" />
           )}
         </div>
       </motion.div>
-
-      {/* Particle dots around the orb */}
-      {isActive && (
-        <>
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1.5 h-1.5 rounded-full bg-emerald-400/60"
-              style={{
-                top: '50%',
-                left: '50%',
-              }}
-              animate={{
-                x: [0, Math.cos((i * Math.PI * 2) / 8) * 90, 0],
-                y: [0, Math.sin((i * Math.PI * 2) / 8) * 90, 0],
-                opacity: [0, 0.8, 0],
-                scale: [0.5, 1, 0.5],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                delay: i * 0.2,
-                ease: 'easeInOut',
-              }}
-            />
-          ))}
-        </>
-      )}
     </button>
   );
 };
@@ -173,18 +143,6 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
     setIsMuted(!isMuted);
   };
 
-  const handleSeek = (direction: 'back' | 'forward') => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    
-    const seekAmount = 10;
-    if (direction === 'back') {
-      audio.currentTime = Math.max(0, audio.currentTime - seekAmount);
-    } else {
-      audio.currentTime = Math.min(duration, audio.currentTime + seekAmount);
-    }
-  };
-
   const handleClose = () => {
     const audio = audioRef.current;
     if (audio) {
@@ -225,72 +183,68 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex items-center justify-center"
       >
-        {/* Background gradient */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-emerald-950/90 to-neutral-900"
-        />
+        {/* Clean dark background */}
+        <div className="absolute inset-0 bg-neutral-950" />
 
-        {/* Ambient glow effects */}
+        {/* Single centered glow behind orb */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-emerald-600/15 rounded-full blur-3xl"
+            animate={playerState === 'playing' 
+              ? { scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] } 
+              : { scale: 1, opacity: 0.15 }
+            }
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl"
-            animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
           />
         </div>
 
         {/* Content */}
         <motion.div
-          initial={{ y: 40, opacity: 0 }}
+          initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 40, opacity: 0 }}
-          transition={{ delay: 0.1 }}
-          className="relative w-full max-w-md mx-4 flex flex-col items-center text-center"
+          exit={{ y: 30, opacity: 0 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+          className="relative w-full max-w-sm mx-6 flex flex-col items-center text-center py-12"
         >
-          {/* Close button */}
+          {/* Close button - minimal */}
           <button
             onClick={handleClose}
-            className="absolute top-0 right-0 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+            aria-label="Close session"
+            className="absolute top-0 right-0 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-5 h-5 text-neutral-400" />
           </button>
 
-          {/* Course info */}
-          <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{courseTitle}</h2>
+          {/* Course info - tight and centered */}
+          <div className="mb-10 max-w-xs">
+            <h2 className="text-xl md:text-2xl font-semibold text-white mb-1">{courseTitle}</h2>
             {courseSubtitle && (
-              <p className="text-neutral-400 text-sm md:text-base">{courseSubtitle}</p>
+              <p className="text-neutral-400 text-sm">{courseSubtitle}</p>
             )}
             {durationLabel && (
-              <p className="text-emerald-400 text-sm mt-1">{durationLabel}</p>
+              <span className="inline-block mt-2 px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded-full">
+                {durationLabel}
+              </span>
             )}
           </div>
 
-          {/* Voice Orb */}
+          {/* Voice Orb - primary control */}
           <VoiceOrb playerState={playerState} onClick={handlePlayPause} />
 
           {/* State label */}
           <motion.p
             key={stateLabel}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-lg text-white/80 mt-6 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-base text-neutral-300 mt-6 mb-8 font-light"
           >
             {stateLabel}
           </motion.p>
 
-          {/* Progress bar */}
-          <div className="w-full max-w-xs mb-4">
+          {/* Progress bar - thin and elegant */}
+          <div className="w-full max-w-xs">
             <div
-              className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden cursor-pointer"
+              className="w-full h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer"
               onClick={handleProgressClick}
             >
               <motion.div
@@ -298,65 +252,34 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
-            <div className="flex justify-between mt-2 text-xs text-neutral-400">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration || 0)}</span>
-            </div>
+            {/* Time display - single line, minimal */}
+            <p className="mt-3 text-xs text-neutral-500">
+              {formatTime(currentTime)} <span className="mx-1">·</span> {formatTime(duration || 0)}
+            </p>
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center gap-6">
-            <button
-              onClick={() => handleSeek('back')}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-            >
-              <SkipBack className="w-5 h-5 text-white" />
-            </button>
-
-            <button
-              onClick={handlePlayPause}
-              className="p-5 rounded-full bg-emerald-500 hover:bg-emerald-600 transition-colors shadow-lg shadow-emerald-500/30"
-            >
-              {playerState === 'playing' ? (
-                <Pause className="w-7 h-7 text-white" />
-              ) : (
-                <Play className="w-7 h-7 text-white ml-0.5" />
-              )}
-            </button>
-
-            <button
-              onClick={() => handleSeek('forward')}
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-            >
-              <SkipForward className="w-5 h-5 text-white" />
-            </button>
-          </div>
-
-          {/* Mute button */}
+          {/* Mute button - subtle, below progress */}
           <button
             onClick={handleToggleMute}
-            className="mt-6 p-2 rounded-full hover:bg-white/10 transition-colors"
+            aria-label={isMuted ? 'Unmute' : 'Mute'}
+            className="mt-6 p-2 rounded-full hover:bg-white/5 transition-colors"
           >
             {isMuted ? (
-              <VolumeX className="w-5 h-5 text-neutral-400" />
+              <VolumeX className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
             ) : (
-              <Volume2 className="w-5 h-5 text-neutral-400" />
+              <Volume2 className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
             )}
           </button>
 
-          {/* Completion message */}
+          {/* Completion message - subtle toast style */}
           {playerState === 'completed' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-6 p-4 bg-gold-500/20 border border-gold-500/30 rounded-xl"
+              className="mt-6 text-sm text-gold-400"
             >
-              <div className="flex items-center gap-2 text-gold-400">
-                <Sparkles className="w-5 h-5" />
-                <span className="font-medium">+10 Sparks earned!</span>
-              </div>
-              <p className="text-sm text-neutral-400 mt-1">Your Lantern grows brighter</p>
-            </motion.div>
+              +10 Sparks earned
+            </motion.p>
           )}
         </motion.div>
 
