@@ -280,13 +280,15 @@ export const Homepage: React.FC = () => {
               
               {/* Course Sections - Limited to 3-4 cards with View All */}
               {isCardVisible('startYourJourney') && (
-                <CourseSection 
-                  title="Start Your Journey" 
-                  subtitle="Curated paths for your manifestation road"
-                  courses={featuredCourses.slice(0, 4)}
-                  onCourseSelect={() => setActiveBottomTab('courses')}
-                  onViewMore={() => setActiveBottomTab('courses')}
-                />
+                <div className="mb-8 p-5 rounded-2xl bg-emerald-50 dark:bg-neutral-800/50 border-l-4 border-emerald-500 dark:border-emerald-600">
+                  <CourseSection 
+                    title="Start Your Journey" 
+                    subtitle="Curated paths for your manifestation road"
+                    courses={featuredCourses.slice(0, 4)}
+                    onCourseSelect={() => setActiveBottomTab('courses')}
+                    onViewMore={() => setActiveBottomTab('courses')}
+                  />
+                </div>
               )}
               
               {isCardVisible('whatOthersLove') && (
