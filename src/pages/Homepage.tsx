@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useThemeStore } from '../store/themeStore';
+import { useCardVisibility } from '../hooks/useCardVisibility';
 import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
 import { HeroCarousel } from '../components/homepage/HeroCarousel';
 import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
@@ -166,6 +167,7 @@ const editorsPicks = [
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
   const { theme } = useThemeStore();
+  const { isCardVisible } = useCardVisibility();
 
   const handleIntentSelect = (intent: string) => {
     // Navigate to courses with the selected intent filter
@@ -186,41 +188,53 @@ export const Homepage: React.FC = () => {
       default:
         return (
           <div className="px-4 py-6 max-w-lg md:max-w-3xl lg:max-w-6xl xl:max-w-7xl mx-auto">
-            <HeroCarousel onStartNow={() => setActiveBottomTab('courses')} />
-            <TodayCard />
-            <SparksRewards />
-            <TribesCard />
-            <UniverseReceipt />
-            <ManifestedWinsFeed />
-            <PersonalGreeting />
-            <IntentBasedNav onIntentSelect={handleIntentSelect} />
-            <CategoryGrid onCategorySelect={handleIntentSelect} />
+            {isCardVisible('heroCarousel') && (
+              <HeroCarousel onStartNow={() => setActiveBottomTab('courses')} />
+            )}
+            {isCardVisible('todayCard') && <TodayCard />}
+            {isCardVisible('sparksRewards') && <SparksRewards />}
+            {isCardVisible('tribesCard') && <TribesCard />}
+            {isCardVisible('latestWin') && <UniverseReceipt />}
+            {isCardVisible('manifestedWins') && <ManifestedWinsFeed />}
+            {isCardVisible('personalGreeting') && <PersonalGreeting />}
+            {isCardVisible('exploreByIntention') && (
+              <>
+                <IntentBasedNav onIntentSelect={handleIntentSelect} />
+                <CategoryGrid onCategorySelect={handleIntentSelect} />
+              </>
+            )}
             
-            <CourseSection 
-              title="Start Your Journey" 
-              courses={featuredCourses}
-              onCourseSelect={() => setActiveBottomTab('courses')}
-              onViewMore={() => setActiveBottomTab('courses')}
-            />
+            {isCardVisible('startYourJourney') && (
+              <CourseSection 
+                title="Start Your Journey" 
+                courses={featuredCourses}
+                onCourseSelect={() => setActiveBottomTab('courses')}
+                onViewMore={() => setActiveBottomTab('courses')}
+              />
+            )}
             
-            <CourseSection 
-              title="What Others Love" 
-              courses={topRatedCourses}
-              onCourseSelect={() => setActiveBottomTab('courses')}
-              onViewMore={() => setActiveBottomTab('courses')}
-            />
+            {isCardVisible('whatOthersLove') && (
+              <CourseSection 
+                title="What Others Love" 
+                courses={topRatedCourses}
+                onCourseSelect={() => setActiveBottomTab('courses')}
+                onViewMore={() => setActiveBottomTab('courses')}
+              />
+            )}
             
-            <CourseSection 
-              title="Editor's Picks" 
-              courses={editorsPicks}
-              gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-              onCourseSelect={() => setActiveBottomTab('courses')}
-              onViewMore={() => setActiveBottomTab('courses')}
-            />
+            {isCardVisible('editorsPicks') && (
+              <CourseSection 
+                title="Editor's Picks" 
+                courses={editorsPicks}
+                gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+                onCourseSelect={() => setActiveBottomTab('courses')}
+                onViewMore={() => setActiveBottomTab('courses')}
+              />
+            )}
             
-            <UserStories />
-            <BlogSection />
-            <NewsletterSignup />
+            {isCardVisible('userStories') && <UserStories />}
+            {isCardVisible('blogSection') && <BlogSection />}
+            {isCardVisible('newsletterSignup') && <NewsletterSignup />}
             <Footer onNavigate={setActiveBottomTab} />
           </div>
         );
