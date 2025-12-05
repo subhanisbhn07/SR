@@ -132,9 +132,9 @@ export const SparksRewards: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
         >
-          View All Rewards
+          Unlock More Rewards
           <ChevronRight className="w-4 h-4" />
         </button>
       </motion.div>

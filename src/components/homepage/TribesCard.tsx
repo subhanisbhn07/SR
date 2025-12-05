@@ -161,9 +161,9 @@ export const TribesCard: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+          className="w-full py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
         >
-          View Tribe
+          Check In With Tribe
           <ChevronRight className="w-4 h-4" />
         </button>
       </motion.div>
