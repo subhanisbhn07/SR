@@ -1,5 +1,5 @@
 // SignRoad Service Worker
-const CACHE_NAME = 'signroad-v13';
+const CACHE_NAME = 'signroad-v14';
 
 // Install event - cache essential assets
 self.addEventListener('install', (event) => {

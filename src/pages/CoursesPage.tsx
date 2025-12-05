@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, Clock, Star, Lock, Play, X, Users, Sparkles } from 'lucide-react';
+import { VoiceSessionModal } from '../components/voice/VoiceSessionModal';
 
 interface Course {
   id: number;
@@ -81,8 +82,16 @@ const categories = ["All", "Manifestation", "Sleep", "Anxiety", "Confidence", "H
 export const CoursesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [showVoiceUI, setShowVoiceUI] = useState(false);
+  const [activeCourse, setActiveCourse] = useState<Course | null>(null);
 
-  const filteredCourses = selectedCategory === "All" 
+  const handleStartSession = (course: Course) => {
+    setActiveCourse(course);
+    setSelectedCourse(null);
+    setShowVoiceUI(true);
+  };
+
+  const filteredCourses = selectedCategory === "All"
     ? courses 
     : courses.filter(c => c.category === selectedCategory);
 
@@ -250,10 +259,7 @@ export const CoursesPage: React.FC = () => {
 
             {/* CTA Button */}
             <button
-              onClick={() => {
-                alert(`Starting "${selectedCourse.title}"...\n\nVoice UI coming soon!`);
-                setSelectedCourse(null);
-              }}
+              onClick={() => handleStartSession(selectedCourse)}
               className="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg"
             >
               <Play className="w-5 h-5" />
@@ -269,6 +275,15 @@ export const CoursesPage: React.FC = () => {
         </motion.div>
       )}
     </AnimatePresence>
+
+    {/* Voice Session Modal */}
+    <VoiceSessionModal
+      isOpen={showVoiceUI && !!activeCourse}
+      onClose={() => setShowVoiceUI(false)}
+      courseTitle={activeCourse?.title ?? ''}
+      courseSubtitle={activeCourse?.subtitle}
+      durationLabel={activeCourse?.duration}
+    />
     </>
   );
 };
