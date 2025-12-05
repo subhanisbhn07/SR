@@ -68,7 +68,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-surface-card-dark rounded-2xl p-6 mb-6 border border-neutral-200 dark:border-emerald-800/50 shadow-md dark:shadow-none relative overflow-hidden"
+      className="bg-white dark:bg-surface-card-dark rounded-2xl p-6 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none relative overflow-hidden"
     >
       {/* Subtle gradient accent at top */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-gold-500" />

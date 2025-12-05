@@ -149,11 +149,11 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gradient-to-br dark:from-yellow-500/10 dark:to-orange-500/10 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-yellow-500/20 shadow-sm dark:shadow-none"
+        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-gold-500/30 shadow-sm dark:shadow-none"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-yellow-100 dark:bg-yellow-500/20 flex items-center justify-center">
-            <Trophy className="w-6 h-6 text-yellow-500 dark:text-yellow-400" />
+          <div className="w-12 h-12 rounded-xl bg-gold-100 dark:bg-gold-500/20 flex items-center justify-center">
+            <Trophy className="w-6 h-6 text-gold-500 dark:text-gold-400" />
           </div>
           <div>
             <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Universe Receipt</h2>
@@ -168,7 +168,7 @@ Start your road: signroad.com
 
         <button
           onClick={() => setHasManifestation(true)}
-          className="w-full py-2.5 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 font-medium rounded-xl transition-colors"
+          className="w-full py-2.5 bg-gold-500/20 hover:bg-gold-500/30 text-gold-600 dark:text-gold-400 font-medium rounded-xl transition-colors"
         >
           Log a Manifestation
         </button>
@@ -181,36 +181,36 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gradient-to-br dark:from-yellow-500/10 dark:to-orange-500/10 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-yellow-500/20 shadow-sm dark:shadow-none"
+        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-gold-500/30 shadow-sm dark:shadow-none"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-yellow-100 dark:bg-yellow-500/20 flex items-center justify-center">
-              <Trophy className="w-6 h-6 text-yellow-500 dark:text-yellow-400" />
+            <div className="w-12 h-12 rounded-xl bg-gold-100 dark:bg-gold-500/20 flex items-center justify-center">
+              <Trophy className="w-6 h-6 text-gold-500 dark:text-gold-400" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Latest Win</h2>
               <p className="text-sm text-neutral-500 dark:text-neutral-400">You manifested something!</p>
             </div>
           </div>
-          <div className="flex items-center gap-1 bg-yellow-100 dark:bg-yellow-500/20 px-3 py-1.5 rounded-full">
-            <Star className="w-4 h-4 text-yellow-500 dark:text-yellow-400 fill-yellow-500 dark:fill-yellow-400" />
-            <span className="text-sm font-medium text-yellow-600 dark:text-yellow-400">New</span>
+          <div className="flex items-center gap-1 bg-gold-100 dark:bg-gold-500/20 px-3 py-1.5 rounded-full">
+            <Star className="w-4 h-4 text-gold-500 dark:text-gold-400 fill-gold-500 dark:fill-gold-400" />
+            <span className="text-sm font-medium text-gold-600 dark:text-gold-400">New</span>
           </div>
         </div>
 
-        <div className="bg-neutral-100 dark:bg-neutral-700/50 rounded-xl p-4 mb-4">
-          <p className="text-neutral-900 font-medium mb-2">"{manifestation.title}"</p>
+        <div className="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 mb-4">
+          <p className="text-neutral-900 dark:text-white font-medium mb-2">"{manifestation.title}"</p>
           <div className="flex items-center gap-4 text-sm">
-            <span className="text-neutral-600">{manifestation.daysToManifest} days</span>
-            <span className="text-neutral-600">{manifestation.signsLogged} signs</span>
-            <span className="text-yellow-600 font-medium">Beat {100 - manifestation.probability}% odds</span>
+            <span className="text-neutral-600 dark:text-neutral-400">{manifestation.daysToManifest} days</span>
+            <span className="text-neutral-600 dark:text-neutral-400">{manifestation.signsLogged} signs</span>
+            <span className="text-gold-600 dark:text-gold-400 font-medium">Beat {100 - manifestation.probability}% odds</span>
           </div>
         </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-yellow-500 hover:bg-yellow-600 text-neutral-900 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
         >
           <Share2 className="w-4 h-4" />
           Share Universe Receipt

@@ -165,11 +165,13 @@ export default {
           // Sun Mode (Light) - EXACT from spec
           'page': '#F6F7F8',              // Page Background (Sun Mode)
           'card': '#FFFFFF',              // Card Surface (Sun Mode)
-          'border': '#E5E9EB',            // Border/Divider (Sun Mode)
+          'border': '#E5E9EB',            // Border/Divider (Sun Mode) - subtle
+          'border-strong': '#C8CED2',     // Stronger border for visible card edges (Sun Mode)
           // Moon Mode (Dark) - EXACT from spec
           'page-dark': '#121E1D',         // Page Background (Moon Mode)
           'card-dark': '#1A2D2B',         // Card Surface (Moon Mode)
-          'border-dark': '#253333',       // Border/Divider (Moon Mode)
+          'border-dark': '#253333',       // Border/Divider (Moon Mode) - subtle
+          'border-dark-strong': '#3A4A48', // Stronger border for visible card edges (Moon Mode)
           // Elevated surfaces
           'elevated': '#FFFFFF',          // Elevated surfaces (light)
           'elevated-dark': '#1A2D2B',     // Elevated surfaces (dark) - same as card-dark
