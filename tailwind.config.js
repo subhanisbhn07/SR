@@ -5,8 +5,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        // === SIGNROAD BRAND COLORS ===
-        // Primary Brand Color - EMERALD (Luxury, aspiration, growth)
+        // === SIGNROAD BRAND COLOR SYSTEM ===
+        // Distribution: 60% Neutral | 30% Emerald/Teal | 10% Gold
+        // 
+        // USAGE GUIDE:
+        // - 60% NEUTRAL: Backgrounds, cards, surfaces, body text
+        // - 30% EMERALD + TEAL: Headers, icons, navigation, secondary buttons
+        // - 10% GOLD: CTAs, rewards, badges, success indicators, premium elements
+        //
+        // === PRIMARY BRAND COLOR - EMERALD ===
+        // Use for: Brand identity, logo, key header stripes, navigation, growth/progress
         emerald: {
           DEFAULT: '#0F6F55',
           50: '#E6F5F1',
@@ -121,6 +129,48 @@ export default {
           700: '#0369A1',
           800: '#075985',
           900: '#0C4A6E',
+        },
+        // === SEMANTIC SURFACE TOKENS ===
+        // Use these for consistent component styling across the app
+        surface: {
+          // Backgrounds
+          'page': 'var(--surface-page, #FAFAFA)',           // Main page background (light)
+          'page-dark': 'var(--surface-page-dark, #121212)', // Main page background (dark)
+          'card': 'var(--surface-card, #FFFFFF)',           // Card backgrounds (light)
+          'card-dark': 'var(--surface-card-dark, #1C2425)', // Card backgrounds (dark)
+          'elevated': 'var(--surface-elevated, #FFFFFF)',   // Elevated surfaces (light)
+          'elevated-dark': 'var(--surface-elevated-dark, #262626)', // Elevated surfaces (dark)
+          // Interactive
+          'hover': 'var(--surface-hover, #F5F5F5)',         // Hover state (light)
+          'hover-dark': 'var(--surface-hover-dark, #333333)', // Hover state (dark)
+          'active': 'var(--surface-active, #E5E5E5)',       // Active/pressed state (light)
+          'active-dark': 'var(--surface-active-dark, #404040)', // Active/pressed state (dark)
+        },
+        // === SEMANTIC COMPONENT TOKENS ===
+        // Button colors
+        btn: {
+          'primary': '#0F6F55',        // Emerald - primary CTA
+          'primary-hover': '#0D5F49',  // Emerald darker - hover
+          'secondary': '#11A39E',      // Teal - secondary actions
+          'secondary-hover': '#0E8A86', // Teal darker - hover
+          'accent': '#EEC76A',         // Gold - reward/premium CTAs
+          'accent-hover': '#DDBB5E',   // Gold darker - hover
+          'ghost': 'transparent',      // Ghost button
+          'ghost-hover': 'rgba(15, 111, 85, 0.1)', // Ghost hover
+        },
+        // Badge colors
+        badge: {
+          'new': '#11A39E',            // Teal - "NEW" badges
+          'popular': '#EEC76A',        // Gold - "Popular" badges
+          'premium': '#0F6F55',        // Emerald - "Premium" badges
+          'free': '#10B981',           // Success green - "Free" badges
+        },
+        // Progress colors
+        progress: {
+          'track': '#E5E7EB',          // Light track
+          'track-dark': '#333333',     // Dark track
+          'fill': '#0F6F55',           // Emerald fill
+          'fill-gold': '#EEC76A',      // Gold fill for rewards
         },
         // Legacy aliases for backward compatibility
         primary: {
