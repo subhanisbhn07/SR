@@ -106,6 +106,22 @@ export const SparksRewards: React.FC = () => {
           </div>
         </div>
 
+        {/* Neuromarketing: Progress hint to next reward */}
+        {userSparks < 100 && (
+          <div className="mb-4 p-3 bg-gold-50 dark:bg-gold-500/10 rounded-xl border border-gold-200 dark:border-gold-500/20">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-gold-700 dark:text-gold-400 font-medium">Next reward at 100 Sparks</span>
+              <span className="text-xs text-gold-600 dark:text-gold-400">{100 - userSparks} to go!</span>
+            </div>
+            <div className="h-2 bg-gold-200 dark:bg-gold-900/50 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-gold-400 to-gold-500 rounded-full transition-all duration-500"
+                style={{ width: `${(userSparks / 100) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-3 gap-3 mb-4">
           {rewards.slice(0, 3).map((reward) => (
             <div
