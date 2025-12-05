@@ -122,30 +122,39 @@ export const TribesCard: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex -space-x-2 mb-4">
+        <div className="flex items-center gap-3 mb-4">
           {tribeMembers.slice(0, 4).map((member, index) => (
             <div
               key={member.id}
-              className={`w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-medium ${
-                member.showedUpToday
-                  ? 'border-purple-500 bg-purple-500/30 text-purple-300'
-                  : 'border-neutral-600 bg-neutral-700 text-neutral-400'
-              }`}
-              style={{ zIndex: 5 - index }}
+              className="flex flex-col items-center gap-1"
             >
-              {member.isLeader && (
-                <Crown className="w-3 h-3 absolute -top-1 -right-1 text-yellow-400" />
-              )}
-              {member.name === 'Open Spot' ? (
-                <Plus className="w-4 h-4" />
-              ) : (
-                member.name.charAt(0)
-              )}
+              <div
+                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-medium relative ${
+                  member.showedUpToday
+                    ? 'border-purple-500 bg-purple-500/30 text-purple-300'
+                    : 'border-neutral-600 bg-neutral-700 text-neutral-400'
+                }`}
+              >
+                {member.isLeader && (
+                  <Crown className="w-3 h-3 absolute -top-1 -right-1 text-yellow-400" />
+                )}
+                {member.name === 'Open Spot' ? (
+                  <Plus className="w-4 h-4" />
+                ) : (
+                  member.name.charAt(0)
+                )}
+              </div>
+              <span className="text-xs text-neutral-400 truncate max-w-[50px]">
+                {member.name === 'Open Spot' ? '+' : member.name.split(' ')[0]}
+              </span>
             </div>
           ))}
           {tribeMembers.length > 4 && (
-            <div className="w-10 h-10 rounded-full border-2 border-neutral-600 bg-neutral-700 flex items-center justify-center text-xs text-neutral-400">
-              +{tribeMembers.length - 4}
+            <div className="flex flex-col items-center gap-1">
+              <div className="w-10 h-10 rounded-full border-2 border-neutral-600 bg-neutral-700 flex items-center justify-center text-xs text-neutral-400">
+                +{tribeMembers.length - 4}
+              </div>
+              <span className="text-xs text-neutral-400">more</span>
             </div>
           )}
         </div>

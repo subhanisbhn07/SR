@@ -33,8 +33,8 @@ export const UniverseReceipt: React.FC = () => {
 
   const manifestation = mockManifestation;
 
-  const handleCopyReceipt = () => {
-    const receiptText = `
+  const getReceiptText = () => {
+    return `
 UNIVERSE RECEIPT
 ================
 ${user?.name || 'A SignRoad Traveler'} manifested:
@@ -50,10 +50,32 @@ The universe delivered.
 
 Start your road: signroad.com
     `.trim();
+  };
 
-    navigator.clipboard.writeText(receiptText);
+  const handleCopyReceipt = () => {
+    navigator.clipboard.writeText(getReceiptText());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShareReceipt = async () => {
+    const shareData = {
+      title: 'Universe Receipt - SignRoad',
+      text: getReceiptText(),
+      url: 'https://signroad.com'
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback to copy if Web Share API is not available
+        handleCopyReceipt();
+      }
+    } catch (err) {
+      // User cancelled or error occurred, fallback to copy
+      handleCopyReceipt();
+    }
   };
 
   if (!hasManifestation) {
@@ -184,29 +206,38 @@ Start your road: signroad.com
                   <p className="text-sm text-yellow-400 mt-1">You beat {100 - manifestation.probability}% odds</p>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-3">
                   <button
-                    onClick={handleCopyReceipt}
-                    className="flex-1 py-3 bg-neutral-800 hover:bg-neutral-700 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                    onClick={handleShareReceipt}
+                    className="w-full py-3 bg-yellow-500 hover:bg-yellow-600 text-neutral-900 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                   >
-                    {copied ? (
-                      <>
-                        <Check className="w-4 h-4 text-green-400" />
-                        Copied!
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4" />
-                        Copy
-                      </>
-                    )}
+                    <Share2 className="w-4 h-4" />
+                    Share Receipt
                   </button>
-                  <button
-                    onClick={() => setShowModal(false)}
-                    className="p-3 bg-neutral-800 hover:bg-neutral-700 rounded-xl transition-colors"
-                  >
-                    <X className="w-5 h-5 text-neutral-400" />
-                  </button>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleCopyReceipt}
+                      className="flex-1 py-3 bg-neutral-800 hover:bg-neutral-700 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                    >
+                      {copied ? (
+                        <>
+                          <Check className="w-4 h-4 text-green-400" />
+                          Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          Copy Text
+                        </>
+                      )}
+                    </button>
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="p-3 bg-neutral-800 hover:bg-neutral-700 rounded-xl transition-colors"
+                    >
+                      <X className="w-5 h-5 text-neutral-400" />
+                    </button>
+                  </div>
                 </div>
 
                 <p className="text-xs text-neutral-500 text-center mt-4">
