@@ -120,7 +120,7 @@ export const ManifestedWinsFeed: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gradient-to-br dark:from-green-500/10 dark:to-teal-500/10 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-green-500/20 shadow-sm dark:shadow-none"
+        className="bg-white dark:bg-neutral-900 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-neutral-800 shadow-sm"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -174,7 +174,7 @@ export const ManifestedWinsFeed: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
         >
           Celebrate More Wins
           <ChevronRight className="w-4 h-4" />
