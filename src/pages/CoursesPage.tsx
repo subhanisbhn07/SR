@@ -101,7 +101,7 @@ export const CoursesPage: React.FC = () => {
 
   return (
     <>
-    <div className="px-4 py-6">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -118,7 +118,7 @@ export const CoursesPage: React.FC = () => {
             onClick={() => setSelectedCategory(category)}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
               selectedCategory === category
-                ? 'bg-accent-500 text-white'
+                ? 'bg-primary-500 text-white'
                 : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-300 dark:hover:bg-neutral-700'
             }`}
           >
@@ -127,46 +127,48 @@ export const CoursesPage: React.FC = () => {
         ))}
       </div>
 
-      <div className="space-y-4">
-        {filteredCourses.map((course, index) => (
-          <motion.button
-            key={course.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            onClick={() => handleCourseClick(course)}
-            className="w-full text-left bg-white dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-700/50 shadow-sm dark:shadow-none hover:shadow-md hover:border-emerald-300 dark:hover:border-emerald-700 transition-all cursor-pointer"
-          >
-            <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0">
-                <BookOpen className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="font-semibold text-neutral-900 dark:text-white truncate">{course.title}</h3>
-                  {course.isPremium && (
-                    <Lock className="w-4 h-4 text-gold-500 dark:text-gold-400 flex-shrink-0" />
-                  )}
+      <div className="bg-white dark:bg-surface-card-dark rounded-2xl border border-surface-border-strong dark:border-surface-border-dark-strong p-4 sm:p-5 shadow-sm dark:shadow-none">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filteredCourses.map((course, index) => (
+            <motion.button
+              key={course.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              onClick={() => handleCourseClick(course)}
+              className="w-full text-left bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-surface-border dark:border-neutral-700/50 hover:border-primary-300 dark:hover:border-primary-700 transition-all cursor-pointer"
+            >
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0">
+                  <BookOpen className="w-6 h-6 text-primary-500 dark:text-primary-400" />
                 </div>
-                <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">{course.subtitle}</p>
-                <div className="flex items-center gap-4 text-xs text-neutral-500">
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {course.duration}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Star className="w-3 h-3 text-yellow-500 dark:text-yellow-400" />
-                    {course.rating}
-                  </span>
-                  <span>{(course.students / 1000).toFixed(1)}k students</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="font-semibold text-neutral-900 dark:text-white text-sm truncate">{course.title}</h3>
+                    {course.isPremium && (
+                      <Lock className="w-3.5 h-3.5 text-gold-500 dark:text-gold-400 flex-shrink-0" />
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-2 line-clamp-1">{course.subtitle}</p>
+                  <div className="flex items-center gap-3 text-xs text-neutral-500 dark:text-neutral-400">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {course.duration}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Star className="w-3 h-3 text-gold-500 dark:text-gold-400" />
+                      {course.rating}
+                    </span>
+                    <span>{(course.students / 1000).toFixed(1)}k</span>
+                  </div>
+                </div>
+                <div className="w-9 h-9 rounded-full bg-primary-100 dark:bg-primary-500/20 flex items-center justify-center flex-shrink-0">
+                  <Play className="w-4 h-4 text-primary-500 dark:text-primary-400" />
                 </div>
               </div>
-              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                <Play className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
-              </div>
-            </div>
-          </motion.button>
-        ))}
+            </motion.button>
+          ))}
+        </div>
       </div>
     </div>
 
