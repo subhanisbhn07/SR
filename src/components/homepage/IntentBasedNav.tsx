@@ -27,9 +27,9 @@ export const IntentBasedNav: React.FC<IntentBasedNavProps> = ({ onIntentSelect }
       transition={{ duration: 0.6, delay: 0.2 }}
       className="mb-8"
     >
-      <h3 className="text-lg font-medium text-neutral-200 mb-4">I want to feel...</h3>
+      <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-200 mb-4">I want to feel...</h3>
       
-      <div className="flex space-x-2 overflow-x-auto pb-2">
+      <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {intentions.map((intention) => (
           <motion.button
             key={intention.id}
@@ -39,7 +39,7 @@ export const IntentBasedNav: React.FC<IntentBasedNavProps> = ({ onIntentSelect }
             className={`flex-shrink-0 px-6 py-3 rounded-2xl font-medium transition-all duration-300 ${
               activeIntent === intention.id
                 ? 'bg-accent-500 text-white shadow-lg shadow-accent-500/25'
-                : 'bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50 border border-neutral-700/50'
+                : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300 border border-neutral-300 dark:bg-neutral-800/50 dark:text-neutral-300 dark:hover:bg-neutral-700/50 dark:border-neutral-700/50'
             }`}
           >
             <span className="mr-2">{intention.emoji}</span>
