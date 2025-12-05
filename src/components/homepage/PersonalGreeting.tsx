@@ -39,7 +39,7 @@ export const PersonalGreeting: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="mb-8 p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 backdrop-blur-sm rounded-2xl border border-emerald-200 dark:border-emerald-700/30 shadow-sm dark:shadow-none"
+      className="mb-8 p-6 bg-emerald-50 dark:bg-neutral-900 rounded-2xl border border-emerald-100 dark:border-neutral-800 shadow-sm"
     >
       <div className="flex items-start justify-between">
         <div>

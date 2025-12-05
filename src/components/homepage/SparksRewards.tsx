@@ -88,11 +88,11 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gradient-to-br dark:from-gold-500/10 dark:to-gold-600/5 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-gold-500/20 shadow-sm dark:shadow-none"
+        className="bg-white dark:bg-neutral-900 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-neutral-800 shadow-sm"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-md">
+            <div className="w-12 h-12 rounded-xl bg-gold-500 flex items-center justify-center shadow-sm">
               <Sparkles className="w-6 h-6 text-neutral-900" />
             </div>
             <div>
@@ -115,7 +115,7 @@ export const SparksRewards: React.FC = () => {
             </div>
             <div className="h-2 bg-gold-200 dark:bg-gold-900/50 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-gold-400 to-gold-500 rounded-full transition-all duration-500"
+                className="h-full bg-gold-500 rounded-full transition-all duration-500"
                 style={{ width: `${(userSparks / 100) * 100}%` }}
               />
             </div>
