@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2, Copy, Check, Trophy, Download } from 'lucide-react';
+import { Share2, Copy, Check, Trophy, Download, Star } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import html2canvas from 'html2canvas';
 
