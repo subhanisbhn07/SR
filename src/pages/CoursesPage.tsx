@@ -1,8 +1,19 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { BookOpen, Clock, Star, Lock, Play } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BookOpen, Clock, Star, Lock, Play, X, Users, Sparkles } from 'lucide-react';
 
-const courses = [
+interface Course {
+  id: number;
+  title: string;
+  subtitle: string;
+  duration: string;
+  rating: number;
+  students: number;
+  isPremium: boolean;
+  category: string;
+}
+
+const courses: Course[] = [
   {
     id: 1,
     title: "The Confidence Reset",
@@ -68,13 +79,19 @@ const courses = [
 const categories = ["All", "Manifestation", "Sleep", "Anxiety", "Confidence", "Healing"];
 
 export const CoursesPage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   const filteredCourses = selectedCategory === "All" 
     ? courses 
     : courses.filter(c => c.category === selectedCategory);
 
+  const handleCourseClick = (course: Course) => {
+    setSelectedCourse(course);
+  };
+
   return (
+    <>
     <div className="px-4 py-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -103,22 +120,23 @@ export const CoursesPage: React.FC = () => {
 
       <div className="space-y-4">
         {filteredCourses.map((course, index) => (
-          <motion.div
+          <motion.button
             key={course.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-white dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-700/50 shadow-sm dark:shadow-none"
+            onClick={() => handleCourseClick(course)}
+            className="w-full text-left bg-white dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-700/50 shadow-sm dark:shadow-none hover:shadow-md hover:border-emerald-300 dark:hover:border-emerald-700 transition-all cursor-pointer"
           >
             <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-accent-500/20 to-purple-500/20 flex items-center justify-center flex-shrink-0">
-                <BookOpen className="w-8 h-8 text-accent-500 dark:text-accent-400" />
+              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0">
+                <BookOpen className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-semibold text-neutral-900 dark:text-white truncate">{course.title}</h3>
                   {course.isPremium && (
-                    <Lock className="w-4 h-4 text-accent-500 dark:text-accent-400 flex-shrink-0" />
+                    <Lock className="w-4 h-4 text-gold-500 dark:text-gold-400 flex-shrink-0" />
                   )}
                 </div>
                 <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">{course.subtitle}</p>
@@ -134,13 +152,123 @@ export const CoursesPage: React.FC = () => {
                   <span>{(course.students / 1000).toFixed(1)}k students</span>
                 </div>
               </div>
-              <button className="w-10 h-10 rounded-full bg-accent-100 dark:bg-accent-500/20 flex items-center justify-center flex-shrink-0 hover:bg-accent-200 dark:hover:bg-accent-500/30 transition-colors">
-                <Play className="w-5 h-5 text-accent-500 dark:text-accent-400" />
-              </button>
+              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                <Play className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
+              </div>
             </div>
-          </motion.div>
+          </motion.button>
         ))}
       </div>
     </div>
+
+    {/* Course Detail Modal */}
+    <AnimatePresence>
+      {selectedCourse && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm"
+          onClick={() => setSelectedCourse(null)}
+        >
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="w-full max-w-lg bg-white dark:bg-neutral-900 rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
+                  <BookOpen className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xl font-bold text-neutral-900 dark:text-white">{selectedCourse.title}</h2>
+                    {selectedCourse.isPremium && (
+                      <span className="px-2 py-0.5 bg-gold-100 dark:bg-gold-900/30 text-gold-700 dark:text-gold-400 text-xs font-medium rounded-full">
+                        Premium
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">{selectedCourse.subtitle}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedCourse(null)}
+                className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+              >
+                <X className="w-5 h-5 text-neutral-500" />
+              </button>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="text-center p-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-xl">
+                <Clock className="w-5 h-5 text-emerald-500 mx-auto mb-1" />
+                <p className="text-sm font-semibold text-neutral-900 dark:text-white">{selectedCourse.duration}</p>
+                <p className="text-xs text-neutral-500">Duration</p>
+              </div>
+              <div className="text-center p-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-xl">
+                <Star className="w-5 h-5 text-yellow-500 mx-auto mb-1" />
+                <p className="text-sm font-semibold text-neutral-900 dark:text-white">{selectedCourse.rating}</p>
+                <p className="text-xs text-neutral-500">Rating</p>
+              </div>
+              <div className="text-center p-3 bg-neutral-50 dark:bg-neutral-800/50 rounded-xl">
+                <Users className="w-5 h-5 text-teal-500 mx-auto mb-1" />
+                <p className="text-sm font-semibold text-neutral-900 dark:text-white">{(selectedCourse.students / 1000).toFixed(1)}k</p>
+                <p className="text-xs text-neutral-500">Students</p>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">About this course</h3>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                This guided session will help you {selectedCourse.subtitle.toLowerCase()}. 
+                Perfect for your {selectedCourse.category.toLowerCase()} journey, this course combines 
+                soothing audio guidance with powerful visualization techniques to help you manifest 
+                your intentions and transform your mindset.
+              </p>
+            </div>
+
+            {/* What you'll learn */}
+            <div className="mb-6">
+              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white mb-3">What you'll experience</h3>
+              <div className="space-y-2">
+                {['Guided breathing exercises', 'Visualization techniques', 'Affirmation practice', 'Mindful reflection'].map((item, index) => (
+                  <div key={index} className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                    <Sparkles className="w-4 h-4 text-emerald-500" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <button
+              onClick={() => {
+                alert(`Starting "${selectedCourse.title}"...\n\nVoice UI coming soon!`);
+                setSelectedCourse(null);
+              }}
+              className="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg"
+            >
+              <Play className="w-5 h-5" />
+              {selectedCourse.isPremium ? 'Unlock & Start Session' : 'Start Session'}
+            </button>
+
+            {selectedCourse.isPremium && (
+              <p className="text-center text-xs text-neutral-500 mt-3">
+                Premium content requires an active subscription
+              </p>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 };
