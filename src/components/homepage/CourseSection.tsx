@@ -38,7 +38,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
       transition={{ duration: 0.6 }}
       className="mb-12"
     >
-      <h2 className="text-2xl font-bold text-neutral-100 mb-6">{title}</h2>
+      <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">{title}</h2>
       
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
               {courses.map((course, index) => (
@@ -49,7 +49,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                                   transition={{ duration: 0.4, delay: 0.05 * index }}
                                   whileHover={{ scale: 1.03, y: -4 }}
                                   onClick={() => onCourseSelect?.(course.id)}
-                                  className={`p-3 md:p-4 rounded-xl ${gradient} backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 text-left w-full`}
+                                  className={`p-3 md:p-4 rounded-xl bg-white dark:${gradient} backdrop-blur-sm border border-neutral-200 dark:border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 text-left w-full shadow-sm dark:shadow-none`}
                                 >
                   <div className="relative mb-3">
                     <div
@@ -69,8 +69,8 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                   </div>
             
                   <div>
-                    <h3 className="text-sm md:text-base font-semibold text-neutral-100 mb-1 line-clamp-1">{course.title}</h3>
-                    <p className="text-neutral-400 text-xs mb-2 line-clamp-2">{course.subtitle}</p>
+                    <h3 className="text-sm md:text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-1 line-clamp-1">{course.title}</h3>
+                    <p className="text-neutral-500 dark:text-neutral-400 text-xs mb-2 line-clamp-2">{course.subtitle}</p>
               
                     <div className="flex items-center justify-between text-xs text-neutral-500">
                       <div className="flex items-center gap-1">
@@ -94,7 +94,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
             <div className="mt-6 text-center">
               <button
                 onClick={onViewMore}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-800/50 hover:bg-neutral-700/50 text-neutral-300 hover:text-white font-medium rounded-xl transition-all duration-200 border border-neutral-700/50 hover:border-neutral-600/50"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-100 dark:bg-neutral-800/50 hover:bg-neutral-200 dark:hover:bg-neutral-700/50 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium rounded-xl transition-all duration-200 border border-neutral-200 dark:border-neutral-700/50 hover:border-neutral-300 dark:hover:border-neutral-600/50"
               >
                 View More
                 <ChevronRight className="w-4 h-4" />

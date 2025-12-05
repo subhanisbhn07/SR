@@ -228,11 +228,7 @@ export const Homepage: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen overflow-x-hidden ${
-      theme === 'dark' 
-        ? 'bg-neutral-900 text-neutral-100' 
-        : 'bg-neutral-50 text-neutral-900'
-    }`}>
+    <div className="min-h-screen overflow-x-hidden bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
       <DarkModeHeader activeTab={activeBottomTab} onTabChange={setActiveBottomTab} />
       
       <main className="pb-20 overflow-x-hidden">

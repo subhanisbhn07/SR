@@ -64,27 +64,27 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-72 max-w-[80vw] bg-neutral-900 z-50 flex flex-col shadow-2xl"
+            className="fixed top-0 right-0 bottom-0 w-72 max-w-[80vw] bg-white dark:bg-neutral-900 z-50 flex flex-col shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-neutral-800">
+            <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-lg">S</span>
                 </div>
-                <span className="font-semibold text-neutral-100">SignRoad</span>
+                <span className="font-semibold text-neutral-900 dark:text-neutral-100">SignRoad</span>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
               >
-                <X className="w-5 h-5 text-neutral-400" />
+                <X className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
               </button>
             </div>
 
             {/* User Info */}
             {user && (
-              <div className="p-4 border-b border-neutral-800">
+              <div className="p-4 border-b border-neutral-200 dark:border-neutral-800">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-full overflow-hidden bg-accent-100 flex items-center justify-center">
                     {user.avatar ? (
@@ -94,18 +94,18 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
                     )}
                   </div>
                   <div>
-                    <p className="font-medium text-neutral-100">{user.name}</p>
-                    <p className="text-sm text-neutral-400">{user.email}</p>
+                    <p className="font-medium text-neutral-900 dark:text-neutral-100">{user.name}</p>
+                    <p className="text-sm text-neutral-500 dark:text-neutral-400">{user.email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-800">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 dark:bg-neutral-800">
                     <LanternIcon health={user.lanternHealth} size="sm" />
-                    <span className="text-sm font-medium text-neutral-300">{user.lanternHealth}</span>
+                    <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
                   </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent-500/20">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent-100 dark:bg-accent-500/20">
                     <span className="text-sm">✨</span>
-                    <span className="text-sm font-medium text-accent-400">{user.sparks}</span>
+                    <span className="text-sm font-medium text-accent-600 dark:text-accent-400">{user.sparks}</span>
                   </div>
                 </div>
               </div>
@@ -125,8 +125,8 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
                     onClick={() => handleNavClick(item.id)}
                     className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${
                       isActive
-                        ? 'bg-accent-500/20 text-accent-400 border-r-2 border-accent-400'
-                        : 'text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100'
+                        ? 'bg-accent-100 dark:bg-accent-500/20 text-accent-600 dark:text-accent-400 border-r-2 border-accent-500 dark:border-accent-400'
+                        : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -141,19 +141,19 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
               </div>
               <button
                 onClick={() => handleEnterpriseClick('teams')}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
-                <Building2 className="w-5 h-5 text-blue-400" />
+                <Building2 className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                 <span className="font-medium">For Teams</span>
                 <span className="ml-auto text-xs text-neutral-500">Pricing</span>
               </button>
               <button
                 onClick={() => handleEnterpriseClick('b2b')}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
-                <Building2 className="w-5 h-5 text-emerald-400" />
+                <Building2 className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
                 <span className="font-medium">Enterprise Sales</span>
-                <span className="ml-auto text-xs text-emerald-400">Book a Call</span>
+                <span className="ml-auto text-xs text-emerald-500 dark:text-emerald-400">Book a Call</span>
               </button>
 
               {/* Settings Section */}
@@ -162,14 +162,14 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
               </div>
               <button
                 onClick={onClose}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 <Settings className="w-5 h-5" />
                 <span className="font-medium">Settings</span>
               </button>
               <button
                 onClick={onClose}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 <HelpCircle className="w-5 h-5" />
                 <span className="font-medium">Help & Support</span>
@@ -177,7 +177,7 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
             </nav>
 
             {/* Sign Out */}
-            <div className="p-4 border-t border-neutral-800">
+            <div className="p-4 border-t border-neutral-200 dark:border-neutral-800">
               <button
                 onClick={() => {
                   logout();

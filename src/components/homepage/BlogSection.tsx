@@ -61,7 +61,7 @@ export const BlogSection: React.FC = () => {
       transition={{ duration: 0.6 }}
       className="mb-12"
     >
-      <h2 className="text-2xl font-bold text-neutral-100 mb-6">Insights & Reflections</h2>
+      <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">Insights & Reflections</h2>
       
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {blogs.map((blog, index) => (
@@ -71,7 +71,7 @@ export const BlogSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className="p-4 rounded-2xl bg-neutral-800/30 backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10"
+            className="p-4 rounded-2xl bg-white dark:bg-neutral-800/30 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 shadow-sm dark:shadow-none"
           >
             <div className="flex flex-col">
               <div
@@ -79,23 +79,23 @@ export const BlogSection: React.FC = () => {
                 style={{ backgroundImage: `url(${blog.image})` }}
               />
               
-              <h3 className="text-sm font-semibold text-neutral-100 mb-2 group-hover:text-accent-400 transition-colors duration-200 line-clamp-2">
+              <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-accent-500 dark:group-hover:text-accent-400 transition-colors duration-200 line-clamp-2">
                 {blog.title}
               </h3>
               
-              <p className="text-neutral-300 text-xs mb-3 line-clamp-2">
+              <p className="text-neutral-600 dark:text-neutral-300 text-xs mb-3 line-clamp-2">
                 {blog.snippet}
               </p>
               
               <div className="flex items-center justify-between mt-auto">
-                <div className="flex items-center space-x-2 text-xs text-neutral-400">
+                <div className="flex items-center space-x-2 text-xs text-neutral-500 dark:text-neutral-400">
                   <div className="flex items-center space-x-1">
                     <Calendar className="w-3 h-3" />
                     <span>{blog.date}</span>
                   </div>
                 </div>
                 
-                <ArrowRight className="w-4 h-4 text-accent-400 group-hover:translate-x-1 transition-transform duration-200" />
+                <ArrowRight className="w-4 h-4 text-accent-500 dark:text-accent-400 group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </div>
           </motion.article>

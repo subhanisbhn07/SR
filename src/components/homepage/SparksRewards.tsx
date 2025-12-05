@@ -88,7 +88,7 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-accent-500/10 to-purple-500/10 rounded-2xl p-5 mb-6 border border-accent-500/20"
+        className="bg-white dark:bg-gradient-to-br dark:from-accent-500/10 dark:to-purple-500/10 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-accent-500/20 shadow-sm dark:shadow-none"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -96,12 +96,12 @@ export const SparksRewards: React.FC = () => {
               <Sparkles className="w-6 h-6 text-accent-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">Your Sparks</h2>
-              <p className="text-sm text-neutral-400">Earned rewards, never purchased</p>
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Your Sparks</h2>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">Earned rewards, never purchased</p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-accent-400">{userSparks}</div>
+            <div className="text-2xl font-bold text-accent-600 dark:text-accent-400">{userSparks}</div>
             <p className="text-xs text-neutral-500">{unlockedCount}/{rewards.length} unlocked</p>
           </div>
         </div>
@@ -112,18 +112,18 @@ export const SparksRewards: React.FC = () => {
               key={reward.id}
               className={`p-3 rounded-xl text-center ${
                 reward.unlocked 
-                  ? 'bg-accent-500/20 border border-accent-500/30' 
-                  : 'bg-neutral-800/50 border border-neutral-700/50'
+                  ? 'bg-accent-100 dark:bg-accent-500/20 border border-accent-200 dark:border-accent-500/30' 
+                  : 'bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700/50'
               }`}
             >
               <div className="text-2xl mb-1">{reward.emoji}</div>
-              <p className={`text-xs font-medium ${reward.unlocked ? 'text-accent-400' : 'text-neutral-500'}`}>
+              <p className={`text-xs font-medium ${reward.unlocked ? 'text-accent-600 dark:text-accent-400' : 'text-neutral-500'}`}>
                 {reward.name}
               </p>
               {!reward.unlocked && (
                 <div className="flex items-center justify-center gap-1 mt-1">
-                  <Lock className="w-3 h-3 text-neutral-600" />
-                  <span className="text-xs text-neutral-600">{reward.cost}</span>
+                  <Lock className="w-3 h-3 text-neutral-400 dark:text-neutral-600" />
+                  <span className="text-xs text-neutral-400 dark:text-neutral-600">{reward.cost}</span>
                 </div>
               )}
             </div>

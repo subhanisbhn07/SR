@@ -34,11 +34,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className={`sticky top-0 z-40 backdrop-blur-lg border-b ${
-          theme === 'dark' 
-            ? 'bg-neutral-900/95 border-neutral-700/50' 
-            : 'bg-white/95 border-neutral-200'
-        }`}
+        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white/95 dark:bg-neutral-900/95 border-neutral-200 dark:border-neutral-700/50"
       >
         <div className="flex items-center justify-between px-4 py-3">
                     {/* Logo */}
@@ -46,7 +42,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                       <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
                         <span className="text-white font-bold text-lg">S</span>
                       </div>
-                      <h1 className={`text-xl font-bold ${theme === 'dark' ? 'text-neutral-100' : 'text-neutral-900'}`}>SignRoad</h1>
+                      <h1 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">SignRoad</h1>
                     </div>
 
                     {/* Desktop Navigation - Hidden on mobile */}
@@ -60,8 +56,8 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                             onClick={() => onTabChange?.(item.id)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
                               isActive
-                                ? 'bg-accent-500/20 text-accent-400'
-                                : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
+                                ? 'bg-accent-100 dark:bg-accent-500/20 text-accent-600 dark:text-accent-400'
+                                : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/50'
                             }`}
                           >
                             <Icon className="w-4 h-4" />
@@ -149,23 +145,25 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
           {/* Right Side - Mobile */}
           <div className="flex md:hidden items-center space-x-2">
             {user && (
-              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-800/50">
+              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800/50">
                 <LanternIcon health={user.lanternHealth} size="sm" />
-                <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
+                <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
               </div>
             )}
             
-            <button className="p-2 rounded-lg hover:bg-neutral-800 transition-colors duration-200 relative">
-              <Bell className="w-5 h-5 text-neutral-400" />
+            <ThemeToggle />
+            
+            <button className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors duration-200 relative">
+              <Bell className="w-5 h-5 text-neutral-600 dark:text-neutral-400" />
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
             </button>
 
             {/* Hamburger Menu Button */}
             <button
               onClick={() => setShowMobileSidebar(true)}
-              className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors"
+              className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
             >
-              <Menu className="w-5 h-5 text-neutral-300" />
+              <Menu className="w-5 h-5 text-neutral-700 dark:text-neutral-300" />
             </button>
           </div>
         </div>

@@ -28,7 +28,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
       transition={{ duration: 0.6, delay: 0.4 }}
       className="mb-12"
     >
-      <h2 className="text-2xl font-bold text-neutral-100 mb-6">Explore by Intention</h2>
+      <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">Explore by Intention</h2>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {categories.map((category, index) => (
@@ -40,13 +40,13 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
                       whileHover={{ scale: 1.05, y: -5 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => onCategorySelect?.(category.name)}
-                      className={`p-4 md:p-6 rounded-2xl bg-gradient-to-br ${category.color} backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 text-left`}
+                      className={`p-4 md:p-6 rounded-2xl bg-white dark:bg-gradient-to-br ${category.color} backdrop-blur-sm border border-neutral-200 dark:border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 dark:hover:shadow-accent-500/10 text-left shadow-sm dark:shadow-none`}
                     >
             <div className="text-center">
               <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
                 {category.emoji}
               </div>
-              <h3 className="text-sm font-medium text-neutral-200 leading-tight">
+              <h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-200 leading-tight">
                 {category.name}
               </h3>
             </div>

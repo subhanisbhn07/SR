@@ -62,7 +62,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-br from-neutral-800/80 to-neutral-900/80 rounded-2xl p-5 mb-6 border border-neutral-700/50"
+      className="bg-white dark:bg-gradient-to-br dark:from-neutral-800/80 dark:to-neutral-900/80 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-neutral-700/50 shadow-sm dark:shadow-none"
     >
       {/* Header with Lantern and Progress */}
       <div className="flex items-center justify-between mb-4">
@@ -74,13 +74,13 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             streakDays={streakDays}
           />
           <div>
-            <h2 className="text-lg font-semibold text-white">Today</h2>
-            <p className="text-xs text-neutral-400">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Today</h2>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
               Step {roadStep} of {freeTrialDays} on "{getRoadName()}"
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-accent-500/20 px-3 py-1.5 rounded-full">
+        <div className="flex items-center gap-2 bg-accent-100 dark:bg-accent-500/20 px-3 py-1.5 rounded-full">
           <Sparkles className="w-4 h-4 text-accent-400" />
           <span className="text-sm font-medium text-accent-400">{user?.sparks || 0}</span>
           <span className="text-lg">{todaySign.emoji}</span>
@@ -89,14 +89,14 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
 
       {/* Free Trial Progress Bar */}
       {isFreeTrialDay && (
-        <div className="mb-4 p-3 bg-neutral-900/50 rounded-xl">
+        <div className="mb-4 p-3 bg-neutral-100 dark:bg-neutral-900/50 rounded-xl">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-neutral-400">Free Trial Progress</span>
-            <span className="text-xs text-accent-400 font-medium">
+            <span className="text-xs text-neutral-500 dark:text-neutral-400">Free Trial Progress</span>
+            <span className="text-xs text-accent-600 dark:text-accent-400 font-medium">
               {daysUntilUnlock > 0 ? `${daysUntilUnlock} days until unlock` : 'Last free day!'}
             </span>
           </div>
-          <div className="h-2 bg-neutral-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${(roadStep / freeTrialDays) * 100}%` }}
@@ -132,8 +132,8 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           className={`p-4 rounded-xl border transition-all ${
             signLogged 
-              ? 'bg-green-500/10 border-green-500/30' 
-              : 'bg-neutral-800/50 border-neutral-700/50 hover:border-accent-500/50'
+              ? 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30' 
+              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-accent-300 dark:hover:border-accent-500/50'
           }`}
         >
           <div className="flex items-start gap-3">
@@ -149,7 +149,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
                   Today's Sign
                 </span>
               </div>
-              <p className={`font-medium ${signLogged ? 'text-green-400' : 'text-white'}`}>
+              <p className={`font-medium ${signLogged ? 'text-green-600 dark:text-green-400' : 'text-neutral-900 dark:text-white'}`}>
                 {signLogged ? 'Sign logged! +5 Sparks, +3 Lantern' : todaySign.challenge}
               </p>
               {!signLogged && (
@@ -173,8 +173,8 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           className={`p-4 rounded-xl border transition-all ${
             sessionCompleted 
-              ? 'bg-green-500/10 border-green-500/30' 
-              : 'bg-neutral-800/50 border-neutral-700/50 hover:border-accent-500/50'
+              ? 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30' 
+              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-accent-300 dark:hover:border-accent-500/50'
           }`}
         >
           <div className="flex items-start gap-3">
@@ -194,7 +194,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
                   Today's Micro-Session
                 </span>
               </div>
-              <p className={`font-medium ${sessionCompleted ? 'text-green-400' : 'text-white'}`}>
+              <p className={`font-medium ${sessionCompleted ? 'text-green-600 dark:text-green-400' : 'text-neutral-900 dark:text-white'}`}>
                 {sessionCompleted ? 'Session complete! +10 Sparks, +5 Lantern' : '5-min Evening Wind Down'}
               </p>
               {!sessionCompleted && (
