@@ -174,9 +174,9 @@ export const ManifestedWinsFeed: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-green-500/20 hover:bg-green-500/30 text-green-400 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
         >
-          View All Wins
+          Celebrate More Wins
           <ChevronRight className="w-4 h-4" />
         </button>
       </motion.div>
