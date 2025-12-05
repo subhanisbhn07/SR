@@ -49,7 +49,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
     >
       <h2 className="text-2xl font-bold text-neutral-100 mb-6">{title}</h2>
       
-      <div className="space-y-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {courses.map((course, index) => (
           <motion.div
             key={course.id}
@@ -57,14 +57,16 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className={`p-6 rounded-2xl ${gradient} backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10`}
             onClick={() => handleBegin(course)}
+            className={`p-4 md:p-6 rounded-2xl ${gradient} backdrop-blur-sm border border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10`}
           >
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <div
-                  className="w-20 h-20 rounded-xl bg-cover bg-center"
-                  style={{ backgroundImage: `url(${course.image})` }}
+              <div className="relative flex-shrink-0">
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  loading="lazy"
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-xl object-cover"
                 />
                 <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Play className="w-6 h-6 text-white" />

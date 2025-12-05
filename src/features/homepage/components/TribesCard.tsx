@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Flame, ChevronRight, X, Plus, Crown, Check } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
-import { LanternIcon } from '../ui/LanternIcon';
+import { useAuthStore } from '../../auth/store/authStore';
+import { LanternIcon } from '../../../components/ui/LanternIcon';
 
 interface TribeMember {
   id: string;

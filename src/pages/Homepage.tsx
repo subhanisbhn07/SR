@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
-import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
-import { HeroCarousel } from '../components/homepage/HeroCarousel';
-import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
-import { IntentBasedNav } from '../components/homepage/IntentBasedNav';
-import { CategoryGrid } from '../components/homepage/CategoryGrid';
-import { CourseSection } from '../components/homepage/CourseSection';
-import { UserStories } from '../components/homepage/UserStories';
-import { BlogSection } from '../components/homepage/BlogSection';
-import { NewsletterSignup } from '../components/homepage/NewsletterSignup';
-import { MoodCheckIn } from '../components/homepage/MoodCheckIn';
-import { BottomNavigation } from '../components/homepage/BottomNavigation';
-import { TodayCard } from '../components/homepage/TodayCard';
-import { SparksRewards } from '../components/homepage/SparksRewards';
-import { TribesCard } from '../components/homepage/TribesCard';
-import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
-import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
+import {
+  DarkModeHeader,
+  HeroCarousel,
+  PersonalGreeting,
+  IntentBasedNav,
+  CategoryGrid,
+  CourseSection,
+  UserStories,
+  BlogSection,
+  NewsletterSignup,
+  MoodCheckIn,
+  BottomNavigation,
+  TodayCard,
+  SparksRewards,
+  TribesCard,
+  UniverseReceipt,
+  ManifestedWinsFeed,
+} from '../features/homepage';
 import { InstallPromptBanner } from '../components/InstallPromptBanner';
 import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';

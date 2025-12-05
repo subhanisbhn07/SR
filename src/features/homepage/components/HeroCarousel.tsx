@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '../../../shared/ui/Button';
-import { useWellnessStore } from '../../wellness/store/wellnessStore';
 
 const heroSlides = [
   {
     id: 1,
-    title: "Reclaim Your Calm",
-    subtitle: "Find peace in the chaos of everyday life",
+    title: "Your 1,000-Step Road Awaits",
+    subtitle: "A manifestation journey where the universe sends you signs back",
     image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-purple-900/80 to-blue-900/80"
   },
   {
     id: 2,
-    title: "Manifest Abundance Daily",
-    subtitle: "Transform your mindset, transform your reality",
+    title: "Keep Your Lantern Bright",
+    subtitle: "Your progress dims but never resets — pick up where you left off",
     image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-orange-900/80 to-yellow-900/80"
   },
   {
     id: 3,
-    title: "Heal Through Stillness",
-    subtitle: "Discover the power of inner silence",
+    title: "Watch for Today's Sign",
+    subtitle: "Daily challenges from the universe — look for a white feather, a red door...",
     image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-green-900/80 to-teal-900/80"
   },
@@ -36,17 +34,19 @@ const heroSlides = [
   },
   {
     id: 5,
-    title: "Sleep Like You Deserve To",
-    subtitle: "End your day with deep, restorative rest",
+    title: "Join Your Tribe",
+    subtitle: "5-person accountability groups walking the road together",
     image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=800",
     gradient: "from-indigo-900/80 to-purple-900/80"
   }
 ];
 
-export const HeroCarousel: React.FC = () => {
+interface HeroCarouselProps {
+  onStartNow?: () => void;
+}
+
+export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onStartNow }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const navigate = useNavigate();
-  const { sessions, startSession } = useWellnessStore();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -61,13 +61,6 @@ export const HeroCarousel: React.FC = () => {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
-  };
-
-  const handleStartNow = () => {
-    if (sessions.length > 0) {
-      startSession(sessions[0]);
-    }
-    navigate('/app');
   };
 
   return (
@@ -111,18 +104,19 @@ export const HeroCarousel: React.FC = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
-              <Button 
-                size="lg" 
-                className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={handleStartNow}
-              >
-                Start Now
-              </Button>
+                            <Button 
+                              size="lg" 
+                              onClick={onStartNow}
+                              className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                            >
+                              Start Now
+                            </Button>
             </motion.div>
           </div>
         </motion.div>
       </AnimatePresence>
 
+      {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
         className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-200"
@@ -137,6 +131,7 @@ export const HeroCarousel: React.FC = () => {
         <ChevronRight className="w-5 h-5" />
       </button>
 
+      {/* Dots Indicator */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
         {heroSlides.map((_, index) => (
           <button

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Lock, Check, ChevronRight, X } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '../../auth/store/authStore';
 
 interface Reward {
   id: string;

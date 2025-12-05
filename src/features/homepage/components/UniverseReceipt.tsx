@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Share2, X, Copy, Check, Sparkles, Star, Trophy } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '../../auth/store/authStore';
 
 interface ManifestationData {
   id: string;
