@@ -68,28 +68,31 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-gradient-to-br dark:from-neutral-800/80 dark:to-neutral-900/80 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-neutral-700/50 shadow-sm dark:shadow-none"
+      className="bg-white dark:bg-gradient-to-br dark:from-emerald-900/20 dark:via-neutral-800/80 dark:to-neutral-900/80 rounded-3xl p-6 mb-6 border-2 border-emerald-200 dark:border-emerald-700/50 shadow-lg dark:shadow-emerald-900/20 relative overflow-hidden"
     >
-      {/* Header with Lantern and Progress */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+      {/* Subtle gradient accent at top */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-gold-500" />
+      
+      {/* Header with Lantern and Progress - HERO styling */}
+      <div className="flex items-center justify-between mb-5 pt-2">
+        <div className="flex items-center gap-4">
           <LanternIcon 
             health={lanternHealth} 
-            size="md" 
+            size="lg" 
             showTooltip={true}
             streakDays={streakDays}
           />
           <div>
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Today</h2>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">
-              Step {roadStep} of {freeTrialDays} on "{getRoadName()}"
+            <h2 className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">Today</h2>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Step {roadStep} of {freeTrialDays} on <span className="font-medium text-emerald-600 dark:text-emerald-400">"{getRoadName()}"</span>
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-gold-100 dark:bg-gold-500/20 px-3 py-1.5 rounded-full">
-          <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-400" />
-          <span className="text-sm font-medium text-gold-600 dark:text-gold-400">{user?.sparks || 0}</span>
-          <span className="text-lg">{todaySign.emoji}</span>
+        <div className="flex items-center gap-2 bg-gradient-to-r from-gold-100 to-gold-200 dark:from-gold-500/20 dark:to-gold-600/20 px-4 py-2 rounded-full border border-gold-300 dark:border-gold-500/30 shadow-sm">
+          <Sparkles className="w-5 h-5 text-gold-600 dark:text-gold-400" />
+          <span className="text-base font-bold text-gold-700 dark:text-gold-400">{user?.sparks || 0}</span>
+          <span className="text-xl">{todaySign.emoji}</span>
         </div>
       </div>
 
