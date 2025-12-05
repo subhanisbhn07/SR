@@ -40,11 +40,11 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gradient-to-br dark:from-purple-500/10 dark:to-blue-500/10 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-purple-500/20 shadow-sm dark:shadow-none"
+        className="bg-white dark:bg-gradient-to-br dark:from-teal-500/10 dark:to-teal-600/5 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-teal-500/20 shadow-sm dark:shadow-none"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
-            <Users className="w-6 h-6 text-purple-500 dark:text-purple-400" />
+          <div className="w-12 h-12 rounded-xl bg-teal-100 dark:bg-teal-500/20 flex items-center justify-center">
+            <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
           </div>
           <div>
             <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Join a Tribe</h2>
@@ -60,7 +60,7 @@ export const TribesCard: React.FC = () => {
         <div className="flex gap-3">
           <button
             onClick={() => setHasJoinedTribe(true)}
-            className="flex-1 py-2.5 bg-purple-500 hover:bg-purple-600 text-white font-medium rounded-xl transition-colors"
+            className="flex-1 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl transition-colors"
           >
             Find a Tribe
           </button>
@@ -80,12 +80,12 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-gradient-to-br dark:from-purple-500/10 dark:to-blue-500/10 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-purple-500/20 shadow-sm dark:shadow-none"
+        className="bg-white dark:bg-gradient-to-br dark:from-teal-500/10 dark:to-teal-600/5 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-teal-500/20 shadow-sm dark:shadow-none"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
-              <Users className="w-6 h-6 text-purple-500 dark:text-purple-400" />
+            <div className="w-12 h-12 rounded-xl bg-teal-100 dark:bg-teal-500/20 flex items-center justify-center">
+              <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Your Tribe</h2>
@@ -104,7 +104,7 @@ export const TribesCard: React.FC = () => {
         <div className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 mb-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-neutral-500 dark:text-neutral-400">Today's Check-ins</span>
-            <span className="text-sm font-medium text-purple-600 dark:text-purple-400">{showedUpCount}/{totalMembers}</span>
+            <span className="text-sm font-medium text-teal-600 dark:text-teal-400">{showedUpCount}/{totalMembers}</span>
           </div>
           <div className="flex gap-2">
             {tribeMembers.map((member) => (
@@ -112,10 +112,10 @@ export const TribesCard: React.FC = () => {
                 key={member.id}
                 className={`flex-1 h-2 rounded-full ${
                   member.name === 'Open Spot'
-                    ? 'bg-neutral-700 border border-dashed border-neutral-600'
+                    ? 'bg-neutral-300 dark:bg-neutral-700 border border-dashed border-neutral-400 dark:border-neutral-600'
                     : member.showedUpToday
-                    ? 'bg-gradient-to-r from-purple-500 to-blue-500'
-                    : 'bg-neutral-700'
+                    ? 'bg-gradient-to-r from-teal-500 to-emerald-500'
+                    : 'bg-neutral-300 dark:bg-neutral-700'
                 }`}
               />
             ))}
@@ -131,12 +131,12 @@ export const TribesCard: React.FC = () => {
               <div
                 className={`w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-medium relative ${
                   member.showedUpToday
-                    ? 'border-purple-500 bg-purple-100 dark:bg-purple-500/30 text-purple-600 dark:text-purple-300'
+                    ? 'border-teal-500 bg-teal-100 dark:bg-teal-500/30 text-teal-600 dark:text-teal-300'
                     : 'border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
                 }`}
               >
                 {member.isLeader && (
-                  <Crown className="w-3 h-3 absolute -top-1 -right-1 text-yellow-500 dark:text-yellow-400" />
+                  <Crown className="w-3 h-3 absolute -top-1 -right-1 text-gold-500" />
                 )}
                 {member.name === 'Open Spot' ? (
                   <Plus className="w-4 h-4" />
@@ -151,17 +151,17 @@ export const TribesCard: React.FC = () => {
           ))}
           {tribeMembers.length > 4 && (
             <div className="flex flex-col items-center gap-1">
-              <div className="w-10 h-10 rounded-full border-2 border-neutral-600 bg-neutral-700 flex items-center justify-center text-xs text-neutral-400">
+              <div className="w-10 h-10 rounded-full border-2 border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center text-xs text-neutral-500 dark:text-neutral-400">
                 +{tribeMembers.length - 4}
               </div>
-              <span className="text-xs text-neutral-400">more</span>
+              <span className="text-xs text-neutral-500 dark:text-neutral-400">more</span>
             </div>
           )}
         </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
         >
           View Tribe
           <ChevronRight className="w-4 h-4" />
@@ -198,7 +198,7 @@ export const TribesCard: React.FC = () => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between mb-6 p-4 bg-purple-500/10 rounded-xl">
+              <div className="flex items-center justify-between mb-6 p-4 bg-teal-500/10 rounded-xl">
                 <div className="flex items-center gap-3">
                   <LanternIcon health={tribeLanternAvg} size="md" />
                   <div>
@@ -208,7 +208,7 @@ export const TribesCard: React.FC = () => {
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-neutral-400">Showed up today</p>
-                  <p className="text-lg font-bold text-purple-400">{showedUpCount}/{totalMembers}</p>
+                  <p className="text-lg font-bold text-teal-400">{showedUpCount}/{totalMembers}</p>
                 </div>
               </div>
 
@@ -228,7 +228,7 @@ export const TribesCard: React.FC = () => {
                         member.name === 'Open Spot'
                           ? 'bg-neutral-700 text-neutral-500'
                           : member.showedUpToday
-                          ? 'bg-purple-500/30 text-purple-300'
+                          ? 'bg-teal-500/30 text-teal-300'
                           : 'bg-neutral-700 text-neutral-400'
                       }`}>
                         {member.name === 'Open Spot' ? (
@@ -245,10 +245,10 @@ export const TribesCard: React.FC = () => {
                             {member.name}
                           </h3>
                           {member.isLeader && (
-                            <Crown className="w-4 h-4 text-yellow-400" />
+                            <Crown className="w-4 h-4 text-gold-400" />
                           )}
                           {member.name === 'You' && (
-                            <span className="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full">
+                            <span className="text-xs bg-teal-500/20 text-teal-400 px-2 py-0.5 rounded-full">
                               You
                             </span>
                           )}
@@ -258,7 +258,7 @@ export const TribesCard: React.FC = () => {
                             <LanternIcon health={member.lanternHealth} size="xs" showLabel={false} />
                             <span className="text-xs text-neutral-500">{member.lanternHealth}</span>
                             {member.showedUpToday && (
-                              <span className="flex items-center gap-1 text-xs text-green-400">
+                              <span className="flex items-center gap-1 text-xs text-success-400">
                                 <Check className="w-3 h-3" />
                                 Today
                               </span>
@@ -267,7 +267,7 @@ export const TribesCard: React.FC = () => {
                         )}
                       </div>
                       {member.name === 'Open Spot' && (
-                        <button className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-sm font-medium rounded-lg transition-colors">
+                        <button className="px-3 py-1.5 bg-teal-500/20 hover:bg-teal-500/30 text-teal-400 text-sm font-medium rounded-lg transition-colors">
                           Invite
                         </button>
                       )}

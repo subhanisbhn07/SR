@@ -86,9 +86,9 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-accent-100 dark:bg-accent-500/20 px-3 py-1.5 rounded-full">
-          <Sparkles className="w-4 h-4 text-accent-400" />
-          <span className="text-sm font-medium text-accent-400">{user?.sparks || 0}</span>
+        <div className="flex items-center gap-2 bg-gold-100 dark:bg-gold-500/20 px-3 py-1.5 rounded-full">
+          <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-400" />
+          <span className="text-sm font-medium text-gold-600 dark:text-gold-400">{user?.sparks || 0}</span>
           <span className="text-lg">{todaySign.emoji}</span>
         </div>
       </div>
@@ -98,7 +98,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <div className="mb-4 p-3 bg-neutral-100 dark:bg-neutral-900/50 rounded-xl">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-neutral-500 dark:text-neutral-400">Free Trial Progress</span>
-            <span className="text-xs text-accent-600 dark:text-accent-400 font-medium">
+            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
               {daysUntilUnlock > 0 ? `${daysUntilUnlock} days until unlock` : 'Last free day!'}
             </span>
           </div>
@@ -106,7 +106,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${(roadStep / freeTrialDays) * 100}%` }}
-              className="h-full bg-gradient-to-r from-accent-500 to-purple-500 rounded-full"
+              className="h-full bg-gradient-to-r from-emerald-500 to-gold-500 rounded-full"
             />
           </div>
         </div>
@@ -138,15 +138,15 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           className={`p-4 rounded-xl border transition-all ${
             signLogged 
-              ? 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30' 
-              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-accent-300 dark:hover:border-accent-500/50'
+              ? 'bg-success-50 dark:bg-success-500/10 border-success-200 dark:border-success-500/30' 
+              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-teal-300 dark:hover:border-teal-500/50'
           }`}
         >
           <div className="flex items-start gap-3">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${
-              signLogged ? 'bg-green-500/20' : 'bg-accent-500/20'
+              signLogged ? 'bg-success-500/20' : 'bg-teal-500/20'
             }`}>
-              {signLogged ? <Check className="w-5 h-5 text-green-400" /> : todaySign.emoji}
+              {signLogged ? <Check className="w-5 h-5 text-success-400" /> : todaySign.emoji}
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
@@ -167,7 +167,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!signLogged && (
               <button
                 onClick={handleLogSign}
-                className="px-3 py-1.5 bg-accent-500/20 hover:bg-accent-500/30 text-accent-400 text-sm font-medium rounded-lg transition-colors"
+                className="px-3 py-1.5 bg-teal-500/20 hover:bg-teal-500/30 text-teal-600 dark:text-teal-400 text-sm font-medium rounded-lg transition-colors"
               >
                 Log It
               </button>
@@ -179,18 +179,18 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           className={`p-4 rounded-xl border transition-all ${
             sessionCompleted 
-              ? 'bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30' 
-              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-accent-300 dark:hover:border-accent-500/50'
+              ? 'bg-success-50 dark:bg-success-500/10 border-success-200 dark:border-success-500/30' 
+              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-emerald-300 dark:hover:border-emerald-500/50'
           }`}
         >
           <div className="flex items-start gap-3">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-              sessionCompleted ? 'bg-green-500/20' : 'bg-purple-500/20'
+              sessionCompleted ? 'bg-success-500/20' : 'bg-emerald-500/20'
             }`}>
               {sessionCompleted ? (
-                <Check className="w-5 h-5 text-green-400" />
+                <Check className="w-5 h-5 text-success-400" />
               ) : (
-                <Play className="w-5 h-5 text-purple-400" />
+                <Play className="w-5 h-5 text-emerald-400" />
               )}
             </div>
             <div className="flex-1">
@@ -212,7 +212,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!sessionCompleted && (
               <button
                 onClick={handleStartSession}
-                className="px-3 py-1.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-sm font-medium rounded-lg transition-colors flex items-center gap-1"
+                className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1 shadow-sm"
               >
                 <Play className="w-3 h-3" />
                 Play
@@ -227,12 +227,12 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="mt-4 pt-4 border-t border-neutral-700/50"
+          className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700/50"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-              <span className="text-sm text-neutral-400">
+              <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
+              <span className="text-sm text-neutral-600 dark:text-neutral-400">
                 {signLogged && sessionCompleted 
                   ? 'All done! Your Lantern is shining bright.' 
                   : signLogged 
@@ -241,7 +241,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
               </span>
             </div>
             {signLogged && sessionCompleted && (
-              <div className="flex items-center gap-1 text-xs text-accent-400 font-medium">
+              <div className="flex items-center gap-1 text-xs text-gold-600 dark:text-gold-400 font-medium">
                 <Sparkles className="w-3 h-3" />
                 +15 Sparks
               </div>
@@ -259,14 +259,14 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             exit={{ opacity: 0, scale: 0.8, y: -20 }}
             className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
           >
-            <div className="bg-neutral-800/95 border border-accent-500/50 rounded-2xl p-6 shadow-2xl">
+            <div className="bg-white dark:bg-neutral-800/95 border border-gold-500/50 rounded-2xl p-6 shadow-2xl">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-accent-500/20 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-accent-400" />
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-neutral-900" />
                 </div>
                 <div>
-                  <p className="font-semibold text-white">Reward Earned!</p>
-                  <p className="text-sm text-accent-400">+5 Sparks, +3 Lantern Health</p>
+                  <p className="font-semibold text-neutral-900 dark:text-white">Reward Earned!</p>
+                  <p className="text-sm text-gold-600 dark:text-gold-400">+5 Sparks, +3 Lantern Health</p>
                 </div>
               </div>
             </div>

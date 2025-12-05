@@ -34,15 +34,15 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white/95 dark:bg-neutral-900/95 border-neutral-200 dark:border-neutral-700/50"
+        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white/95 dark:bg-emerald-950/95 border-neutral-100 dark:border-emerald-900/50"
       >
         <div className="flex items-center justify-between px-4 py-3">
                     {/* Logo */}
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
+                      <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-md">
                         <span className="text-white font-bold text-lg">S</span>
                       </div>
-                      <h1 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">SignRoad</h1>
+                      <h1 className="text-xl font-bold text-neutral-900 dark:text-text-inverse">SignRoad</h1>
                     </div>
 
                     {/* Desktop Navigation - Hidden on mobile */}
@@ -56,8 +56,8 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                             onClick={() => onTabChange?.(item.id)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
                               isActive
-                                ? 'bg-accent-100 dark:bg-accent-500/20 text-accent-600 dark:text-accent-400'
-                                : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/50'
+                                ? 'bg-gold-100 dark:bg-gold-500/20 text-gold-700 dark:text-gold-400 border-b-2 border-gold-500'
+                                : 'text-neutral-600 dark:text-text-inverse hover:text-teal-600 dark:hover:text-teal-400 hover:bg-neutral-100 dark:hover:bg-emerald-900/50'
                             }`}
                           >
                             <Icon className="w-4 h-4" />
@@ -115,9 +115,9 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                   <LanternIcon health={user.lanternHealth} size="sm" />
                   <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
                 </div>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-accent-500/20">
-                  <Sparkles className="w-4 h-4 text-accent-400" />
-                  <span className="text-xs font-medium text-accent-400">{user.sparks}</span>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gold-500/20">
+                  <Sparkles className="w-4 h-4 text-gold-500" />
+                  <span className="text-xs font-medium text-gold-500">{user.sparks}</span>
                 </div>
               </>
             )}
@@ -125,18 +125,18 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
             <ThemeToggle />
 
             <button className={`p-2 rounded-lg transition-colors duration-200 relative ${
-              theme === 'dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-100'
+              theme === 'dark' ? 'hover:bg-emerald-900/50' : 'hover:bg-neutral-100'
             }`}>
-              <Bell className={`w-5 h-5 ${theme === 'dark' ? 'text-neutral-400' : 'text-neutral-600'}`} />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
+              <Bell className={`w-5 h-5 ${theme === 'dark' ? 'text-text-inverse' : 'text-neutral-600'}`} />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full"></div>
             </button>
             
             <button className="w-8 h-8 rounded-full overflow-hidden">
               {user?.avatar ? (
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-accent-100 flex items-center justify-center">
-                  <User className="w-4 h-4 text-accent-600" />
+                <div className="w-full h-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center">
+                  <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 </div>
               )}
             </button>
@@ -153,9 +153,9 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
             
             <ThemeToggle />
             
-            <button className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors duration-200 relative">
-              <Bell className="w-5 h-5 text-neutral-600 dark:text-neutral-400" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
+            <button className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-emerald-900/50 transition-colors duration-200 relative">
+              <Bell className="w-5 h-5 text-neutral-600 dark:text-text-inverse" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full"></div>
             </button>
 
             {/* Hamburger Menu Button */}

@@ -9,35 +9,35 @@ const heroSlides = [
     title: "Your 1,000-Step Road Awaits",
     subtitle: "A manifestation journey where the universe sends you signs back",
     image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-purple-900/80 to-blue-900/80"
+    gradient: "from-emerald-900/80 to-emerald-800/80"
   },
   {
     id: 2,
     title: "Keep Your Lantern Bright",
     subtitle: "Your progress dims but never resets — pick up where you left off",
     image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-orange-900/80 to-yellow-900/80"
+    gradient: "from-gold-900/80 to-gold-700/80"
   },
   {
     id: 3,
     title: "Watch for Today's Sign",
     subtitle: "Daily challenges from the universe — look for a white feather, a red door...",
     image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-green-900/80 to-teal-900/80"
+    gradient: "from-teal-900/80 to-teal-800/80"
   },
   {
     id: 4,
     title: "Own Your Morning",
     subtitle: "Start each day with intention and purpose",
     image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-pink-900/80 to-rose-900/80"
+    gradient: "from-emerald-800/80 to-teal-900/80"
   },
   {
     id: 5,
     title: "Join Your Tribe",
     subtitle: "5-person accountability groups walking the road together",
     image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=800",
-    gradient: "from-indigo-900/80 to-purple-900/80"
+    gradient: "from-teal-800/80 to-emerald-900/80"
   }
 ];
 
@@ -107,7 +107,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onStartNow }) => {
                             <Button 
                               size="lg" 
                               onClick={onStartNow}
-                              className="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                              className="bg-gold-500 hover:bg-gold-600 text-neutral-900 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                             >
                               Start Now
                             </Button>
