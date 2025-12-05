@@ -31,10 +31,11 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
 
   return (
     <>
+      {/* Design System v1: Navbar - white bg (light), charcoal bg (dark), teal active underline */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white dark:bg-emerald-800 border-neutral-100 dark:border-emerald-700 shadow-sm"
+        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white dark:bg-surface-card-dark border-surface-border dark:border-surface-border-dark shadow-sm transition-colors duration-200"
       >
         <div className="flex items-center justify-between px-4 py-3">
                     {/* Logo */}
@@ -47,6 +48,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
 
                     {/* Desktop Navigation - Hidden on mobile */}
                     <nav className="hidden md:flex items-center space-x-1">
+                      {/* Design System v1: Active = teal underline (light), gold underline (dark) */}
                       {desktopNavItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = activeTab === item.id;
@@ -54,10 +56,10 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                           <button
                             key={item.id}
                             onClick={() => onTabChange?.(item.id)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-150 ${
                               isActive
-                                ? 'bg-gold-100 dark:bg-gold-500/20 text-gold-700 dark:text-gold-400 border-b-2 border-gold-500'
-                                : 'text-neutral-600 dark:text-text-inverse hover:text-teal-600 dark:hover:text-teal-400 hover:bg-neutral-100 dark:hover:bg-emerald-900/50'
+                                ? 'bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-gold-400 border-b-2 border-teal-500 dark:border-gold-500'
+                                : 'text-neutral-600 dark:text-neutral-200 hover:text-teal-soft-500 dark:hover:text-teal-soft-400 hover:bg-neutral-100 dark:hover:bg-surface-hover-dark'
                             }`}
                           >
                             <Icon className="w-4 h-4" />

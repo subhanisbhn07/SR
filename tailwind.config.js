@@ -5,46 +5,52 @@ export default {
   theme: {
     extend: {
       colors: {
-        // === SIGNROAD BRAND COLOR SYSTEM ===
-        // Distribution: 60% Neutral | 30% Emerald/Teal | 10% Gold
+        // === SIGNROAD DESIGN SYSTEM v1 ===
+        // "TRANSFORMATIVE TEAL FRAMEWORK"
         // 
-        // USAGE GUIDE:
-        // - 60% NEUTRAL: Backgrounds, cards, surfaces, body text
-        // - 30% EMERALD + TEAL: Headers, icons, navigation, secondary buttons
-        // - 10% GOLD: CTAs, rewards, badges, success indicators, premium elements
+        // COLOR USAGE RATIOS (Critical for Tier-1 Premium):
+        // - 70% NEUTRAL: Backgrounds, cards, surfaces, body text
+        // - 15% PRIMARY TEAL: Navigation, primary buttons, brand identity
+        // - 10% SECONDARY TEAL: Icons, secondary buttons, highlights, hover states
+        // - 5% GOLD: Rewards, achievements, premium CTAs, badges (SPARINGLY!)
         //
-        // === PRIMARY BRAND COLOR - EMERALD ===
-        // Use for: Brand identity, logo, key header stripes, navigation, growth/progress
-        emerald: {
-          DEFAULT: '#0F6F55',
-          50: '#E6F5F1',
-          100: '#CCEBe3',
-          200: '#99D7C7',
-          300: '#66C3AB',
-          400: '#33AF8F',
-          500: '#0F6F55', // Deep Emerald - Primary
-          600: '#0D5F49',
-          700: '#0A4F3D',
-          800: '#083F31',
-          900: '#052F25',
-          950: '#031F19',
-        },
-        // Secondary Brand Color - TEAL (Trust, clarity, stability)
+        // === PRIMARY BRAND COLOR - TRANSFORMATIVE TEAL ===
+        // Psychology: Calm innovation, conscious decisions, bridges nature + technology
+        // Use for: Navigation, primary buttons, brand identity, key UI chrome
         teal: {
-          DEFAULT: '#11A39E',
-          50: '#E7F8F7',
-          100: '#CFF1F0',
-          200: '#9FE3E1',
-          300: '#6FD5D2',
-          400: '#3FC7C3',
-          500: '#11A39E', // Modern Teal - Secondary
-          600: '#0E8A86',
-          700: '#0B716E',
-          800: '#085856',
-          900: '#053F3E',
-          950: '#032626',
+          DEFAULT: '#0E7A77',
+          50: '#E6F5F4',
+          100: '#CCEBe9',
+          200: '#99D7D3',
+          300: '#66C3BD',
+          400: '#33AFA7',
+          500: '#0E7A77', // Transformative Teal - PRIMARY
+          600: '#0C6966',
+          700: '#0A5855',
+          800: '#084744',
+          900: '#063633',
+          950: '#042522',
         },
-        // Accent Brand Color - GOLD (Reward, dopamine, premium)
+        // === SECONDARY BRAND COLOR - TEAL SOFT ===
+        // Psychology: Approachability, interaction signaling, gentle invitation
+        // Use for: Icons, secondary buttons, highlights, hover states
+        'teal-soft': {
+          DEFAULT: '#17A7A2',
+          50: '#E8F7F6',
+          100: '#D1EFED',
+          200: '#A3DFDB',
+          300: '#75CFC9',
+          400: '#47BFB7',
+          500: '#17A7A2', // Teal Soft - SECONDARY
+          600: '#148F8B',
+          700: '#117774',
+          800: '#0E5F5D',
+          900: '#0B4746',
+          950: '#082F2F',
+        },
+        // === ACCENT BRAND COLOR - GOLD ===
+        // Psychology: Emotional uplift, reward wiring, premium association
+        // Use for: Rewards, achievements, premium CTAs, badges (SPARINGLY - 5% max!)
         gold: {
           DEFAULT: '#EEC76A',
           50: '#FDF9EE',
@@ -52,34 +58,57 @@ export default {
           200: '#F7E7BB',
           300: '#F3DB99',
           400: '#EFCF77',
-          500: '#EEC76A', // Soft Champagne Gold - Accent
+          500: '#EEC76A', // Gold - ACCENT (use sparingly!)
           600: '#DDBB5E', // Hover state
           700: '#C9A84E',
           800: '#A68B3E',
           900: '#836E2E',
           950: '#60511E',
+          // Dark mode variant (prevents harsh glare in Moon Mode)
+          'dark': '#D6B35C',
         },
-        // === NEUTRAL PALETTE (Tier-1 Premium Standard) ===
+        // Legacy emerald alias (maps to teal for backward compatibility)
+        emerald: {
+          DEFAULT: '#0E7A77',
+          50: '#E6F5F4',
+          100: '#CCEBe9',
+          200: '#99D7D3',
+          300: '#66C3BD',
+          400: '#33AFA7',
+          500: '#0E7A77',
+          600: '#0C6966',
+          700: '#0A5855',
+          800: '#084744',
+          900: '#063633',
+          950: '#042522',
+        },
+        // === NEUTRAL PALETTE (Design System v1) ===
+        // Sun Mode (Light) and Moon Mode (Dark) specific values
         neutral: {
-          white: '#FFFFFF',      // Pure white - surfaces, cards
-          50: '#FAFAFA',         // Soft Gray - background
-          100: '#ECEFF1',        // Cool Gray - separators, card outlines
+          white: '#FFFFFF',      // Pure white - card surfaces (light)
+          50: '#F6F7F8',         // Page Background (Sun Mode) - EXACT from spec
+          100: '#E5E9EB',        // Border/Divider (Sun Mode) - EXACT from spec
           200: '#E5E7EB',
-          300: '#CFD8DC',        // Cool Gray - muted icons, disabled states
-          400: '#9CA3AF',
-          500: '#6B7280',
-          600: '#5F6A6D',        // Secondary text
-          700: '#394244',        // Charcoal - text primary (light mode)
-          800: '#1C2425',        // Dark Slate - text primary (dark mode bg)
-          900: '#1E1E1E',        // Primary text dark
-          950: '#0F0F0F',
+          300: '#CFD8DC',        // Cool Gray - muted icons
+          400: '#8A9A9A',        // Muted/Disabled (Sun Mode) - EXACT from spec
+          500: '#5B6B6E',        // Text Secondary (Sun Mode) - EXACT from spec
+          600: '#5B6B6E',        // Secondary text alias
+          700: '#1C1F21',        // Text Primary (Sun Mode) - EXACT from spec
+          800: '#1C1F21',        // Text Primary alias
+          900: '#1C1F21',        // Primary text
+          950: '#121E1D',        // Page Background (Moon Mode) - EXACT from spec
         },
-        // === TEXT COLORS ===
+        // === TEXT COLORS (Design System v1) ===
         text: {
-          primary: '#1E1E1E',    // Dark - light mode body text
-          secondary: '#5F6A6D',  // Descriptions, sublabels
-          muted: '#8A999C',      // Hints, placeholders
-          inverse: '#F2F5F7',    // Text on emerald or teal backgrounds
+          // Sun Mode (Light)
+          primary: '#1C1F21',    // Text Primary (Sun Mode) - EXACT from spec
+          secondary: '#5B6B6E',  // Text Secondary (Sun Mode) - EXACT from spec
+          muted: '#8A9A9A',      // Muted/Disabled (Sun Mode) - EXACT from spec
+          inverse: '#E0E4E3',    // Text on teal backgrounds
+          // Moon Mode (Dark) - use dark: prefix in components
+          'primary-dark': '#E0E4E3',    // Text Primary (Moon Mode) - EXACT from spec
+          'secondary-dark': '#A3B0AE',  // Text Secondary (Moon Mode) - EXACT from spec
+          'muted-dark': '#4A5856',      // Muted/Disabled (Moon Mode) - EXACT from spec
         },
         // === STATE COLORS ===
         success: {
@@ -130,25 +159,28 @@ export default {
           800: '#075985',
           900: '#0C4A6E',
         },
-        // === SEMANTIC SURFACE TOKENS (TIER-1 PREMIUM) ===
-        // Use these for consistent component styling across the app
+        // === SEMANTIC SURFACE TOKENS (Design System v1) ===
+        // Sun Mode (Light) and Moon Mode (Dark) exact values from spec
         surface: {
-          // Backgrounds - Premium off-white for warmth
-          'page': '#FAF8F3',              // Off-white - premium warm background (light)
-          'page-dark': '#0F1210',         // Soft charcoal - premium dark background
-          'card': '#FFFFFF',              // Crisp white - card surfaces (light)
-          'card-warm': '#FFFEFB',         // Warm white - elevated cards (light)
-          'card-dark': '#151817',         // Charcoal - card surfaces (dark)
+          // Sun Mode (Light) - EXACT from spec
+          'page': '#F6F7F8',              // Page Background (Sun Mode)
+          'card': '#FFFFFF',              // Card Surface (Sun Mode)
+          'border': '#E5E9EB',            // Border/Divider (Sun Mode)
+          // Moon Mode (Dark) - EXACT from spec
+          'page-dark': '#121E1D',         // Page Background (Moon Mode)
+          'card-dark': '#1A2D2B',         // Card Surface (Moon Mode)
+          'border-dark': '#253333',       // Border/Divider (Moon Mode)
+          // Elevated surfaces
           'elevated': '#FFFFFF',          // Elevated surfaces (light)
-          'elevated-dark': '#1A1D1C',     // Elevated surfaces (dark)
+          'elevated-dark': '#1A2D2B',     // Elevated surfaces (dark) - same as card-dark
           // Footer backgrounds
-          'footer': '#F1F4F2',            // Soft neutral footer (light)
-          'footer-dark': '#111614',       // Dark footer
-          // Interactive
-          'hover': '#F5F5F5',             // Hover state (light)
-          'hover-dark': '#1E2220',        // Hover state (dark)
-          'active': '#E5E5E5',            // Active/pressed state (light)
-          'active-dark': '#252928',       // Active/pressed state (dark)
+          'footer': '#F6F7F8',            // Footer (light) - same as page
+          'footer-dark': '#121E1D',       // Footer (dark) - same as page-dark
+          // Interactive states
+          'hover': '#F0F1F2',             // Hover state (light)
+          'hover-dark': '#223332',        // Hover state (dark)
+          'active': '#E5E9EB',            // Active/pressed state (light)
+          'active-dark': '#2A3B39',       // Active/pressed state (dark)
         },
         // === MUTED VARIANTS FOR DARK MODE (Premium, less neon) ===
         // Use these for dark mode surfaces to avoid crypto/game vibes
@@ -167,58 +199,58 @@ export default {
           'sleep': '#F2F4F7',             // Sleep - cool gray neutral
           'healing': '#F5F3F6',           // Healing - soft lavender neutral
         },
-        // === SEMANTIC COMPONENT TOKENS ===
-        // Button colors
+        // === SEMANTIC COMPONENT TOKENS (Design System v1) ===
+        // Button colors - per spec
         btn: {
-          'primary': '#0F6F55',        // Emerald - primary CTA
-          'primary-hover': '#0D5F49',  // Emerald darker - hover
-          'secondary': '#11A39E',      // Teal - secondary actions
-          'secondary-hover': '#0E8A86', // Teal darker - hover
-          'accent': '#EEC76A',         // Gold - reward/premium CTAs
+          'primary': '#0E7A77',        // Transformative Teal - primary CTA
+          'primary-hover': '#0C6966',  // Teal darker - hover
+          'secondary': '#17A7A2',      // Teal Soft - secondary actions
+          'secondary-hover': '#148F8B', // Teal Soft darker - hover
+          'accent': '#EEC76A',         // Gold - reward/premium CTAs (use sparingly!)
           'accent-hover': '#DDBB5E',   // Gold darker - hover
           'ghost': 'transparent',      // Ghost button
-          'ghost-hover': 'rgba(15, 111, 85, 0.1)', // Ghost hover
+          'ghost-hover': 'rgba(14, 122, 119, 0.1)', // Ghost hover (teal tint)
         },
-        // Badge colors
+        // Badge colors - per Design System v1
         badge: {
-          'new': '#11A39E',            // Teal - "NEW" badges
+          'new': '#17A7A2',            // Teal Soft - "NEW" badges
           'popular': '#EEC76A',        // Gold - "Popular" badges
-          'premium': '#0F6F55',        // Emerald - "Premium" badges
+          'premium': '#0E7A77',        // Transformative Teal - "Premium" badges
           'free': '#10B981',           // Success green - "Free" badges
         },
-        // Progress colors
+        // Progress colors - per Design System v1
         progress: {
-          'track': '#E5E7EB',          // Light track
-          'track-dark': '#333333',     // Dark track
-          'fill': '#0F6F55',           // Emerald fill
+          'track': '#E5E9EB',          // Light track (Sun Mode border)
+          'track-dark': '#253333',     // Dark track (Moon Mode border)
+          'fill': '#0E7A77',           // Transformative Teal fill
           'fill-gold': '#EEC76A',      // Gold fill for rewards
         },
-        // Legacy aliases for backward compatibility
+        // Legacy aliases for backward compatibility (maps to Design System v1 colors)
         primary: {
-          50: '#E6F5F1',
-          100: '#CCEBe3',
-          200: '#99D7C7',
-          300: '#66C3AB',
-          400: '#33AF8F',
-          500: '#0F6F55',
-          600: '#0D5F49',
-          700: '#0A4F3D',
-          800: '#083F31',
-          900: '#052F25',
-          950: '#031F19',
+          50: '#E6F5F4',
+          100: '#CCEBe9',
+          200: '#99D7D3',
+          300: '#66C3BD',
+          400: '#33AFA7',
+          500: '#0E7A77', // Transformative Teal
+          600: '#0C6966',
+          700: '#0A5855',
+          800: '#084744',
+          900: '#063633',
+          950: '#042522',
         },
         secondary: {
-          50: '#E7F8F7',
-          100: '#CFF1F0',
-          200: '#9FE3E1',
-          300: '#6FD5D2',
-          400: '#3FC7C3',
-          500: '#11A39E',
-          600: '#0E8A86',
-          700: '#0B716E',
-          800: '#085856',
-          900: '#053F3E',
-          950: '#032626',
+          50: '#E8F7F6',
+          100: '#D1EFED',
+          200: '#A3DFDB',
+          300: '#75CFC9',
+          400: '#47BFB7',
+          500: '#17A7A2', // Teal Soft
+          600: '#148F8B',
+          700: '#117774',
+          800: '#0E5F5D',
+          900: '#0B4746',
+          950: '#082F2F',
         },
         accent: {
           50: '#FDF9EE',
@@ -226,7 +258,7 @@ export default {
           200: '#F7E7BB',
           300: '#F3DB99',
           400: '#EFCF77',
-          500: '#EEC76A',
+          500: '#EEC76A', // Gold
           600: '#DDBB5E',
           700: '#C9A84E',
           800: '#A68B3E',

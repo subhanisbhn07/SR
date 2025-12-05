@@ -2,14 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * SignRoad Button Component
+ * SignRoad Button Component (Design System v1)
  * 
- * Variants follow the 60/30/10 brand color distribution:
- * - primary: Emerald (#0F6F55) - Main CTAs, form submissions
- * - secondary: Teal (#11A39E) - Secondary actions, alternative paths
- * - accent: Gold (#EEC76A) - Reward CTAs, premium upsells, celebrations
+ * Variants follow the 70/15/10/5 brand color distribution:
+ * - primary: Transformative Teal (#0E7A77) - Main CTAs, form submissions
+ * - secondary: Teal Soft (#17A7A2) - Secondary actions, alternative paths
+ * - accent: Gold (#EEC76A) - Reward CTAs, premium upsells, celebrations (use sparingly - 5% max!)
  * - outline: Teal border - Tertiary actions, cancel buttons
  * - ghost: Text only - Minimal emphasis, inline actions
+ * 
+ * Motion: 120ms ease-in-out hover transitions per spec
  */
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost';
