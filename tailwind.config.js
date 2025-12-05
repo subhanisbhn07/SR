@@ -130,21 +130,42 @@ export default {
           800: '#075985',
           900: '#0C4A6E',
         },
-        // === SEMANTIC SURFACE TOKENS ===
+        // === SEMANTIC SURFACE TOKENS (TIER-1 PREMIUM) ===
         // Use these for consistent component styling across the app
         surface: {
-          // Backgrounds
-          'page': 'var(--surface-page, #FAFAFA)',           // Main page background (light)
-          'page-dark': 'var(--surface-page-dark, #121212)', // Main page background (dark)
-          'card': 'var(--surface-card, #FFFFFF)',           // Card backgrounds (light)
-          'card-dark': 'var(--surface-card-dark, #1C2425)', // Card backgrounds (dark)
-          'elevated': 'var(--surface-elevated, #FFFFFF)',   // Elevated surfaces (light)
-          'elevated-dark': 'var(--surface-elevated-dark, #262626)', // Elevated surfaces (dark)
+          // Backgrounds - Premium off-white for warmth
+          'page': '#FAF8F3',              // Off-white - premium warm background (light)
+          'page-dark': '#0F1210',         // Soft charcoal - premium dark background
+          'card': '#FFFFFF',              // Crisp white - card surfaces (light)
+          'card-warm': '#FFFEFB',         // Warm white - elevated cards (light)
+          'card-dark': '#151817',         // Charcoal - card surfaces (dark)
+          'elevated': '#FFFFFF',          // Elevated surfaces (light)
+          'elevated-dark': '#1A1D1C',     // Elevated surfaces (dark)
+          // Footer backgrounds
+          'footer': '#F1F4F2',            // Soft neutral footer (light)
+          'footer-dark': '#111614',       // Dark footer
           // Interactive
-          'hover': 'var(--surface-hover, #F5F5F5)',         // Hover state (light)
-          'hover-dark': 'var(--surface-hover-dark, #333333)', // Hover state (dark)
-          'active': 'var(--surface-active, #E5E5E5)',       // Active/pressed state (light)
-          'active-dark': 'var(--surface-active-dark, #404040)', // Active/pressed state (dark)
+          'hover': '#F5F5F5',             // Hover state (light)
+          'hover-dark': '#1E2220',        // Hover state (dark)
+          'active': '#E5E5E5',            // Active/pressed state (light)
+          'active-dark': '#252928',       // Active/pressed state (dark)
+        },
+        // === MUTED VARIANTS FOR DARK MODE (Premium, less neon) ===
+        // Use these for dark mode surfaces to avoid crypto/game vibes
+        muted: {
+          'teal': '#0F8F87',              // Teal -20% saturation for dark mode
+          'gold': '#D6B15A',              // Gold -15% brightness for dark mode surfaces
+          'gold-surface': '#C9A84E',      // Even more muted gold for backgrounds
+        },
+        // === INTENTION TINTS (Tinted neutrals, not pastels) ===
+        // Use for Explore by Intention cards instead of pastels
+        intent: {
+          'peace': '#F3F7F6',             // Inner Peace - soft mint neutral
+          'motivation': '#F7F4EF',        // Motivation - warm sand neutral
+          'gratitude': '#F4F6FB',         // Gratitude - soft blue neutral
+          'abundance': '#F6F5F0',         // Abundance - cream neutral
+          'sleep': '#F2F4F7',             // Sleep - cool gray neutral
+          'healing': '#F5F3F6',           // Healing - soft lavender neutral
         },
         // === SEMANTIC COMPONENT TOKENS ===
         // Button colors

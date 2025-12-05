@@ -88,7 +88,7 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-neutral-900 rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-neutral-800 shadow-sm"
+        className="bg-surface-card-warm dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-neutral-200 dark:border-emerald-800/50 shadow-md dark:shadow-none"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">

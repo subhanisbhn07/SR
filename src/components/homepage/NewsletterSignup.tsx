@@ -22,10 +22,10 @@ export const NewsletterSignup: React.FC = () => {
       transition={{ duration: 0.6 }}
       className="mb-12"
     >
-      <div className="p-8 rounded-2xl bg-gradient-to-br from-accent-500/10 to-purple-500/10 backdrop-blur-sm border border-accent-500/20 text-center relative overflow-hidden">
+      <div className="p-8 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-900/20 dark:to-teal-900/20 backdrop-blur-sm border border-emerald-200 dark:border-emerald-800/50 text-center relative overflow-hidden shadow-md dark:shadow-none">
         {/* Animated background orbs */}
-        <div className="absolute top-0 left-0 w-32 h-32 bg-accent-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-0 w-24 h-24 bg-purple-500/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-0 left-0 w-32 h-32 bg-emerald-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-24 h-24 bg-teal-500/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
         
         <div className="relative z-10">
           <div className="flex items-center justify-center mb-4">

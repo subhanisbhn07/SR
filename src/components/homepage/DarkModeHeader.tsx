@@ -34,7 +34,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white/95 dark:bg-emerald-950/95 border-neutral-100 dark:border-emerald-900/50"
+        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white dark:bg-emerald-800 border-neutral-100 dark:border-emerald-700 shadow-sm"
       >
         <div className="flex items-center justify-between px-4 py-3">
                     {/* Logo */}

@@ -107,7 +107,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({ onStartNow }) => {
                             <Button 
                               size="lg" 
                               onClick={onStartNow}
-                              className="bg-gold-500 hover:bg-gold-600 text-neutral-900 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                              className="bg-gold-500 hover:bg-gold-600 text-neutral-900 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 ring-4 ring-gold-300/40"
                             >
                               Start Now
                             </Button>
