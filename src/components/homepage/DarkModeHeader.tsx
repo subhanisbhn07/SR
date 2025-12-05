@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Sparkles, Building2, ChevronDown, Home, BookOpen, Heart, PenTool } from 'lucide-react';
+import { User, Bell, Sparkles, Building2, ChevronDown, Home, BookOpen, Heart, PenTool, Menu } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { LanternIcon } from '../ui/LanternIcon';
 import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
 import { B2BLanding } from '../enterprise/B2BLanding';
+import { MobileSidebar } from './MobileSidebar';
 
 interface DarkModeHeaderProps {
   activeTab?: string;
@@ -23,6 +24,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
   const [showForTeams, setShowForTeams] = useState(false);
   const [showB2B, setShowB2B] = useState(false);
   const [showEnterpriseMenu, setShowEnterpriseMenu] = useState(false);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   return (
     <>
@@ -62,9 +64,9 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                       })}
                     </nav>
 
-                    {/* Right Side */}
-          <div className="flex items-center space-x-2">
-            {/* Enterprise Dropdown */}
+                    {/* Right Side - Desktop */}
+          <div className="hidden md:flex items-center space-x-2">
+            {/* Enterprise Dropdown - Desktop only */}
             <div className="relative">
               <button
                 onClick={() => setShowEnterpriseMenu(!showEnterpriseMenu)}
@@ -132,8 +134,41 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
               )}
             </button>
           </div>
+
+          {/* Right Side - Mobile */}
+          <div className="flex md:hidden items-center space-x-2">
+            {user && (
+              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-800/50">
+                <LanternIcon health={user.lanternHealth} size="sm" />
+                <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
+              </div>
+            )}
+            
+            <button className="p-2 rounded-lg hover:bg-neutral-800 transition-colors duration-200 relative">
+              <Bell className="w-5 h-5 text-neutral-400" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
+            </button>
+
+            {/* Hamburger Menu Button */}
+            <button
+              onClick={() => setShowMobileSidebar(true)}
+              className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors"
+            >
+              <Menu className="w-5 h-5 text-neutral-300" />
+            </button>
+          </div>
         </div>
       </motion.header>
+
+      {/* Mobile Sidebar */}
+      <MobileSidebar
+        isOpen={showMobileSidebar}
+        onClose={() => setShowMobileSidebar(false)}
+        activeTab={activeTab}
+        onTabChange={onTabChange}
+        onShowForTeams={() => setShowForTeams(true)}
+        onShowB2B={() => setShowB2B(true)}
+      />
 
       {/* For Teams Modal */}
       <AnimatePresence>

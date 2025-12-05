@@ -226,10 +226,10 @@ export const Homepage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100">
+    <div className="min-h-screen bg-neutral-900 text-neutral-100 overflow-x-hidden">
       <DarkModeHeader activeTab={activeBottomTab} onTabChange={setActiveBottomTab} />
       
-      <main className="pb-20">
+      <main className="pb-20 overflow-x-hidden">
         {renderContent()}
       </main>
 
