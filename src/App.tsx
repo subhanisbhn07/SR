@@ -4,7 +4,7 @@ import { useAuthStore } from './store/authStore';
 import { LoginForm } from './components/auth/LoginForm';
 import { Homepage } from './pages/Homepage';
 import { ChooseYourRoad } from './components/onboarding/ChooseYourRoad';
-import { AdminSettings } from './pages/AdminSettings';
+import { AdminDashboard } from './pages/AdminDashboard';
 
 function App() {
   const { isAuthenticated, mode, hasCompletedOnboarding, completeOnboarding, user } = useAuthStore();
@@ -33,7 +33,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/admin/settings" element={<AdminSettings />} />
+        <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="*" element={<Homepage />} />
       </Routes>
     </Router>
