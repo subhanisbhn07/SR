@@ -21,36 +21,6 @@ export interface UserPreferences {
   difficulty: 'beginner' | 'intermediate' | 'advanced';
 }
 
-export interface WellnessSession {
-  id: string;
-  title: string;
-  description: string;
-  duration: number;
-  category: 'mindfulness' | 'productivity' | 'confidence' | 'anxiety' | 'focus' | 'leadership';
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-  completedAt?: Date;
-  rating?: number;
-  isPremium: boolean;
-}
-
-export interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  unlockedAt?: Date;
-  progress: number;
-  maxProgress: number;
-}
-
-export interface MoodEntry {
-  id: string;
-  mood: 'love' | 'happy' | 'sad' | 'depressed' | 'worried' | 'confused';
-  intensity: number;
-  note?: string;
-  createdAt: Date;
-}
-
 export interface EnterpriseTeam {
   id: string;
   name: string;
