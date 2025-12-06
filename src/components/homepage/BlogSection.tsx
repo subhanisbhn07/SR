@@ -80,7 +80,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className="p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 cursor-pointer group transition-all duration-300 hover:shadow-lg shadow-sm"
+            className="p-4 rounded-2xl bg-surface-card dark:bg-surface-card-dark border border-surface-border-strong dark:border-surface-border-dark-strong cursor-pointer group transition-all duration-300 hover:shadow-lg shadow-sm"
           >
             <div className="flex flex-col">
               <div

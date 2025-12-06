@@ -242,7 +242,7 @@ export const Homepage: React.FC = () => {
                 SECTION 1: MUST-SEE (Above the Fold)
                 Core engagement: Today's action, progress, community
                 ============================================ */}
-            <section className="mb-8">
+            <section className="mb-8 space-y-4">
               {/* Today Card - HERO of the page, visually dominant */}
               {isCardVisible('todayCard') && <TodayCard />}
               
@@ -272,7 +272,7 @@ export const Homepage: React.FC = () => {
               
               {/* Explore by Intention - Discovery navigation */}
               {isCardVisible('exploreByIntention') && (
-                <div className="mb-6">
+                <div className="mb-6 p-5 bg-surface-card dark:bg-surface-card-dark rounded-2xl border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm">
                   <IntentBasedNav onIntentSelect={handleIntentSelect} />
                   <CategoryGrid onCategorySelect={handleIntentSelect} />
                 </div>
@@ -280,7 +280,7 @@ export const Homepage: React.FC = () => {
               
               {/* Course Sections - Limited to 3-4 cards with View All */}
               {isCardVisible('startYourJourney') && (
-                <div className="mb-8 p-5 rounded-2xl bg-emerald-50 dark:bg-neutral-800/50 border-l-4 border-emerald-500 dark:border-emerald-600">
+                <div className="mb-8 p-5 bg-surface-card dark:bg-surface-card-dark rounded-2xl border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm">
                   <CourseSection 
                     title="Start Your Journey" 
                     subtitle="Curated paths for your manifestation road"
@@ -387,7 +387,7 @@ export const Homepage: React.FC = () => {
     <div className="min-h-screen overflow-x-hidden bg-surface-page dark:bg-surface-page-dark text-neutral-900 dark:text-neutral-100">
       <DarkModeHeader activeTab={activeBottomTab} onTabChange={setActiveBottomTab} />
       
-      <main className="pb-20 overflow-x-hidden">
+      <main className="pb-28 md:pb-20 overflow-x-hidden">
         {renderContent()}
       </main>
 

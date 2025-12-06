@@ -163,7 +163,7 @@ export default {
         // Sun Mode (Light) and Moon Mode (Dark) exact values from spec
         surface: {
           // Sun Mode (Light) - EXACT from spec
-          'page': '#F6F7F8',              // Page Background (Sun Mode)
+          'page': '#FFFAFA',              // Page Background (Sun Mode) - Snow White
           'card': '#FFFFFF',              // Card Surface (Sun Mode)
           'border': '#E5E9EB',            // Border/Divider (Sun Mode) - subtle
           'border-strong': '#C8CED2',     // Stronger border for visible card edges (Sun Mode)

@@ -22,7 +22,7 @@ export const NewsletterSignup: React.FC = () => {
       transition={{ duration: 0.6 }}
       className="mb-12"
     >
-      <div className="p-8 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 dark:from-emerald-900/20 dark:to-teal-900/20 backdrop-blur-sm border border-emerald-200 dark:border-emerald-800/50 text-center relative overflow-hidden shadow-md dark:shadow-none">
+      <div className="p-8 rounded-2xl bg-surface-card dark:bg-surface-card-dark border border-surface-border-strong dark:border-surface-border-dark-strong text-center relative overflow-hidden shadow-md">
         {/* Animated background orbs */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-emerald-500/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-0 w-24 h-24 bg-teal-500/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
