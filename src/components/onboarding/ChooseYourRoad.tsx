@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Moon, Briefcase, Sparkles, Heart, Compass } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { useConfigStore } from '../../store/configStore';
 
 interface RoadOption {
   id: string;
@@ -19,7 +20,7 @@ const roadOptions: RoadOption[] = [
     subtitle: 'Find peace at night',
     icon: <Moon className="w-6 h-6" />,
     gradient: 'from-indigo-500 to-purple-600',
-    description: 'A 7-day journey to restore your natural sleep rhythm and quiet your racing mind.',
+    description: 'A journey to restore your natural sleep rhythm and quiet your racing mind.',
   },
   {
     id: 'burnout',
@@ -63,6 +64,7 @@ interface ChooseYourRoadProps {
 export const ChooseYourRoad: React.FC<ChooseYourRoadProps> = ({ onComplete, userName }) => {
   const [selectedRoad, setSelectedRoad] = useState<string | null>(null);
   const [step, setStep] = useState<'select' | 'preview'>('select');
+  const { freeTrialDays } = useConfigStore();
 
   const selectedRoadData = roadOptions.find(r => r.id === selectedRoad);
 
@@ -191,9 +193,9 @@ export const ChooseYourRoad: React.FC<ChooseYourRoadProps> = ({ onComplete, user
                     </p>
 
                     <div className="bg-neutral-800/50 rounded-xl p-4 mb-6">
-                      <h3 className="font-semibold text-white mb-3">Your 7-Day Free Preview</h3>
-                      <div className="space-y-2">
-                        {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                      <h3 className="font-semibold text-white mb-3">Your {freeTrialDays}-Day Free Preview</h3>
+                      <div className="space-y-2 max-h-48 overflow-y-auto">
+                        {Array.from({ length: freeTrialDays }, (_, i) => i + 1).map((day) => (
                           <div key={day} className="flex items-center gap-3">
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                               day === 1 ? 'bg-accent-500 text-white' : 'bg-neutral-700 text-neutral-400'
@@ -203,7 +205,7 @@ export const ChooseYourRoad: React.FC<ChooseYourRoadProps> = ({ onComplete, user
                             <span className={day === 1 ? 'text-white' : 'text-neutral-500'}>
                               {day === 1 ? 'Start here today' : `Day ${day}`}
                             </span>
-                            {day === 7 && (
+                            {day === freeTrialDays && (
                               <span className="ml-auto text-xs text-accent-400">Free trial ends</span>
                             )}
                           </div>

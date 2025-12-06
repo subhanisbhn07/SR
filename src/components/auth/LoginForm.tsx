@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useAuthStore } from '../../store/authStore';
+import { useConfigStore } from '../../store/configStore';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 interface LoginFormData {
   email: string;
@@ -15,6 +17,7 @@ export const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login, mode } = useAuthStore();
+  const { freeTrialDays } = useConfigStore();
   
   const {
     register,
@@ -40,21 +43,26 @@ export const LoginForm: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="w-full max-w-md mx-auto"
     >
+      {/* Theme toggle in top right corner */}
+      <div className="flex justify-end mb-4">
+        <ThemeToggle />
+      </div>
+      
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
           <span className="text-white font-bold text-xl">SR</span>
         </div>
-        <h1 className="text-3xl font-bold text-neutral-900 mb-2">
+        <h1 className="text-3xl font-bold text-neutral-900 dark:text-white mb-2">
           Welcome to SignRoad
         </h1>
-        <p className="text-neutral-600">
+        <p className="text-neutral-600 dark:text-neutral-300">
           {mode === 'consumer' 
             ? 'A 1,000-step manifestation road where the universe sends you signs back'
             : 'Elevate your team\'s wellness with guided manifestation journeys'
           }
         </p>
-        <p className="text-sm text-neutral-500 mt-2">
-          {mode === 'consumer' && '7 free steps to prove it to yourself'}
+        <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-2 font-medium">
+          {mode === 'consumer' && `${freeTrialDays} free steps to prove it to yourself`}
         </p>
       </div>
       
@@ -100,10 +108,10 @@ export const LoginForm: React.FC = () => {
         
         <div className="flex items-center justify-between">
           <label className="flex items-center">
-            <input type="checkbox" className="rounded border-neutral-300 text-primary-600 focus:ring-primary-500" />
-            <span className="ml-2 text-sm text-neutral-600">Remember me</span>
+            <input type="checkbox" className="rounded border-neutral-300 dark:border-neutral-600 text-emerald-600 focus:ring-emerald-500 bg-white dark:bg-neutral-800" />
+            <span className="ml-2 text-sm text-neutral-600 dark:text-neutral-400">Remember me</span>
           </label>
-          <button type="button" className="text-sm text-primary-600 hover:text-primary-700">
+          <button type="button" className="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
             Forgot password?
           </button>
         </div>
@@ -118,21 +126,21 @@ export const LoginForm: React.FC = () => {
         </Button>
         
         <div className="text-center">
-          <p className="text-sm text-neutral-600">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
             Don't have an account?{' '}
-            <button type="button" className="text-primary-600 hover:text-primary-700 font-medium">
+            <button type="button" className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium">
               Sign up
             </button>
           </p>
         </div>
       </form>
       
-      <div className="mt-8 pt-6 border-t border-neutral-200">
-        <p className="text-xs text-center text-neutral-500">
+      <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+        <p className="text-xs text-center text-neutral-500 dark:text-neutral-400">
           By signing in, you agree to our{' '}
-          <a href="#" className="text-primary-600 hover:underline">Terms of Service</a>
+          <a href="#" className="text-emerald-600 dark:text-emerald-400 hover:underline">Terms of Service</a>
           {' '}and{' '}
-          <a href="#" className="text-primary-600 hover:underline">Privacy Policy</a>
+          <a href="#" className="text-emerald-600 dark:text-emerald-400 hover:underline">Privacy Policy</a>
         </p>
       </div>
     </motion.div>

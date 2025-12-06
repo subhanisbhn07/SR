@@ -88,23 +88,39 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-accent-500/10 to-purple-500/10 rounded-2xl p-5 mb-6 border border-accent-500/20"
+        className="bg-surface-card-warm dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-accent-500/20 flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-accent-400" />
+            <div className="w-12 h-12 rounded-xl bg-gold-500 flex items-center justify-center shadow-sm">
+              <Sparkles className="w-6 h-6 text-neutral-900" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">Your Sparks</h2>
-              <p className="text-sm text-neutral-400">Earned rewards, never purchased</p>
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Your Sparks</h2>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">Earned rewards, never purchased</p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-accent-400">{userSparks}</div>
+            <div className="text-2xl font-bold text-gold-600 dark:text-gold-400">{userSparks}</div>
             <p className="text-xs text-neutral-500">{unlockedCount}/{rewards.length} unlocked</p>
           </div>
         </div>
+
+        {/* Neuromarketing: Progress hint to next reward */}
+        {userSparks < 100 && (
+          <div className="mb-4 p-3 bg-gold-50 dark:bg-gold-500/10 rounded-xl border border-gold-200 dark:border-gold-500/20">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-gold-700 dark:text-gold-400 font-medium">Next reward at 100 Sparks</span>
+              <span className="text-xs text-gold-600 dark:text-gold-400">{100 - userSparks} to go!</span>
+            </div>
+            <div className="h-2 bg-gold-200 dark:bg-gold-900/50 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gold-500 rounded-full transition-all duration-500"
+                style={{ width: `${(userSparks / 100) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-3 gap-3 mb-4">
           {rewards.slice(0, 3).map((reward) => (
@@ -112,18 +128,18 @@ export const SparksRewards: React.FC = () => {
               key={reward.id}
               className={`p-3 rounded-xl text-center ${
                 reward.unlocked 
-                  ? 'bg-accent-500/20 border border-accent-500/30' 
-                  : 'bg-neutral-800/50 border border-neutral-700/50'
+                  ? 'bg-gold-100 dark:bg-gold-500/20 border border-gold-200 dark:border-gold-500/30' 
+                  : 'bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700/50'
               }`}
             >
               <div className="text-2xl mb-1">{reward.emoji}</div>
-              <p className={`text-xs font-medium ${reward.unlocked ? 'text-accent-400' : 'text-neutral-500'}`}>
+              <p className={`text-xs font-medium ${reward.unlocked ? 'text-gold-700 dark:text-gold-400' : 'text-neutral-500'}`}>
                 {reward.name}
               </p>
               {!reward.unlocked && (
                 <div className="flex items-center justify-center gap-1 mt-1">
-                  <Lock className="w-3 h-3 text-neutral-600" />
-                  <span className="text-xs text-neutral-600">{reward.cost}</span>
+                  <Lock className="w-3 h-3 text-neutral-400 dark:text-neutral-600" />
+                  <span className="text-xs text-neutral-400 dark:text-neutral-600">{reward.cost}</span>
                 </div>
               )}
             </div>
@@ -132,9 +148,9 @@ export const SparksRewards: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-accent-500/20 hover:bg-accent-500/30 text-accent-400 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
         >
-          View All Rewards
+          Unlock More Rewards
           <ChevronRight className="w-4 h-4" />
         </button>
       </motion.div>
@@ -169,11 +185,11 @@ export const SparksRewards: React.FC = () => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between mb-4 p-3 bg-accent-500/10 rounded-xl">
+              <div className="flex items-center justify-between mb-4 p-3 bg-gold-500/10 rounded-xl">
                 <span className="text-sm text-neutral-300">Your Balance</span>
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-accent-400" />
-                  <span className="text-lg font-bold text-accent-400">{userSparks}</span>
+                  <Sparkles className="w-5 h-5 text-gold-400" />
+                  <span className="text-lg font-bold text-gold-400">{userSparks}</span>
                 </div>
               </div>
 
@@ -184,7 +200,7 @@ export const SparksRewards: React.FC = () => {
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
                       selectedCategory === cat
-                        ? 'bg-accent-500 text-white'
+                        ? 'bg-gold-500 text-neutral-900'
                         : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
                     }`}
                   >
@@ -199,13 +215,13 @@ export const SparksRewards: React.FC = () => {
                     key={reward.id}
                     className={`p-4 rounded-xl border ${
                       reward.unlocked
-                        ? 'bg-accent-500/10 border-accent-500/30'
+                        ? 'bg-gold-500/10 border-gold-500/30'
                         : 'bg-neutral-800/50 border-neutral-700/50'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${
-                        reward.unlocked ? 'bg-accent-500/20' : 'bg-neutral-700/50'
+                        reward.unlocked ? 'bg-gold-500/20' : 'bg-neutral-700/50'
                       }`}>
                         {reward.emoji}
                       </div>
@@ -215,7 +231,7 @@ export const SparksRewards: React.FC = () => {
                             {reward.name}
                           </h3>
                           {reward.unlocked && (
-                            <Check className="w-4 h-4 text-green-400" />
+                            <Check className="w-4 h-4 text-success-400" />
                           )}
                         </div>
                         <p className="text-xs text-neutral-500">{reward.description}</p>
@@ -225,7 +241,7 @@ export const SparksRewards: React.FC = () => {
                           disabled={userSparks < reward.cost}
                           className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 ${
                             userSparks >= reward.cost
-                              ? 'bg-accent-500 text-white hover:bg-accent-600'
+                              ? 'bg-gold-500 text-neutral-900 hover:bg-gold-600'
                               : 'bg-neutral-700 text-neutral-500 cursor-not-allowed'
                           }`}
                         >

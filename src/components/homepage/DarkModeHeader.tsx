@@ -1,36 +1,77 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Sparkles, Building2, ChevronDown } from 'lucide-react';
+import { User, Bell, Sparkles, Building2, ChevronDown, Home, BookOpen, Heart, PenTool, Menu } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { useThemeStore } from '../../store/themeStore';
 import { LanternIcon } from '../ui/LanternIcon';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
 import { B2BLanding } from '../enterprise/B2BLanding';
+import { MobileSidebar } from './MobileSidebar';
 
-export const DarkModeHeader: React.FC = () => {
+interface DarkModeHeaderProps {
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
+}
+
+const desktopNavItems = [
+  { id: 'home', label: 'Home', icon: Home },
+  { id: 'courses', label: 'Courses', icon: BookOpen },
+  { id: 'mood', label: 'Mood', icon: Heart },
+  { id: 'journal', label: 'Journal', icon: PenTool },
+];
+
+export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'home', onTabChange }) => {
   const { user } = useAuthStore();
+  const { theme } = useThemeStore();
   const [showForTeams, setShowForTeams] = useState(false);
   const [showB2B, setShowB2B] = useState(false);
   const [showEnterpriseMenu, setShowEnterpriseMenu] = useState(false);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   return (
     <>
+      {/* Design System v1: Navbar - white bg (light), charcoal bg (dark), teal active underline */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 bg-neutral-900/95 backdrop-blur-lg border-b border-neutral-700/50"
+        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white dark:bg-surface-card-dark border-surface-border dark:border-surface-border-dark shadow-sm transition-colors duration-200"
       >
         <div className="flex items-center justify-between px-4 py-3">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">S</span>
-            </div>
-            <h1 className="text-xl font-bold text-neutral-100">SignRoad</h1>
-          </div>
+                    {/* Logo */}
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-md">
+                        <span className="text-white font-bold text-lg">S</span>
+                      </div>
+                      <h1 className="text-xl font-bold text-neutral-900 dark:text-text-inverse">SignRoad</h1>
+                    </div>
 
-          {/* Right Side */}
-          <div className="flex items-center space-x-2">
-            {/* Enterprise Dropdown */}
+                    {/* Desktop Navigation - Hidden on mobile */}
+                    <nav className="hidden md:flex items-center space-x-1">
+                      {/* Design System v1: Active = teal underline (light), gold underline (dark) */}
+                      {desktopNavItems.map((item) => {
+                        const Icon = item.icon;
+                        const isActive = activeTab === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => onTabChange?.(item.id)}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-150 ${
+                              isActive
+                                ? 'bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-gold-400 border-b-2 border-teal-500 dark:border-gold-500'
+                                : 'text-neutral-600 dark:text-neutral-200 hover:text-teal-soft-500 dark:hover:text-teal-soft-400 hover:bg-neutral-100 dark:hover:bg-surface-hover-dark'
+                            }`}
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span className="text-sm font-medium">{item.label}</span>
+                          </button>
+                        );
+                      })}
+                    </nav>
+
+                    {/* Right Side - Desktop */}
+          <div className="hidden md:flex items-center space-x-2">
+            {/* Enterprise Dropdown - Desktop only */}
             <div className="relative">
               <button
                 onClick={() => setShowEnterpriseMenu(!showEnterpriseMenu)}
@@ -76,30 +117,69 @@ export const DarkModeHeader: React.FC = () => {
                   <LanternIcon health={user.lanternHealth} size="sm" />
                   <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
                 </div>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-accent-500/20">
-                  <Sparkles className="w-4 h-4 text-accent-400" />
-                  <span className="text-xs font-medium text-accent-400">{user.sparks}</span>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gold-500/20">
+                  <Sparkles className="w-4 h-4 text-gold-500" />
+                  <span className="text-xs font-medium text-gold-500">{user.sparks}</span>
                 </div>
               </>
             )}
 
-            <button className="p-2 rounded-lg hover:bg-neutral-800 transition-colors duration-200 relative">
-              <Bell className="w-5 h-5 text-neutral-400" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500 rounded-full"></div>
+            <ThemeToggle />
+
+            <button className={`p-2 rounded-lg transition-colors duration-200 relative ${
+              theme === 'dark' ? 'hover:bg-emerald-900/50' : 'hover:bg-neutral-100'
+            }`}>
+              <Bell className={`w-5 h-5 ${theme === 'dark' ? 'text-text-inverse' : 'text-neutral-600'}`} />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full"></div>
             </button>
             
             <button className="w-8 h-8 rounded-full overflow-hidden">
               {user?.avatar ? (
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-accent-100 flex items-center justify-center">
-                  <User className="w-4 h-4 text-accent-600" />
+                <div className="w-full h-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center">
+                  <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 </div>
               )}
             </button>
           </div>
+
+          {/* Right Side - Mobile */}
+          <div className="flex md:hidden items-center space-x-2">
+            {user && (
+              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800/50">
+                <LanternIcon health={user.lanternHealth} size="sm" />
+                <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
+              </div>
+            )}
+            
+            <ThemeToggle />
+            
+            <button className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-emerald-900/50 transition-colors duration-200 relative">
+              <Bell className="w-5 h-5 text-neutral-600 dark:text-text-inverse" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full"></div>
+            </button>
+
+            {/* Hamburger Menu Button */}
+            <button
+              onClick={() => setShowMobileSidebar(true)}
+              className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+            >
+              <Menu className="w-5 h-5 text-neutral-700 dark:text-neutral-300" />
+            </button>
+          </div>
         </div>
       </motion.header>
+
+      {/* Mobile Sidebar */}
+      <MobileSidebar
+        isOpen={showMobileSidebar}
+        onClose={() => setShowMobileSidebar(false)}
+        activeTab={activeTab}
+        onTabChange={onTabChange}
+        onShowForTeams={() => setShowForTeams(true)}
+        onShowB2B={() => setShowB2B(true)}
+      />
 
       {/* For Teams Modal */}
       <AnimatePresence>

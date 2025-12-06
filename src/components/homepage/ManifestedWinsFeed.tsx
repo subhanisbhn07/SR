@@ -54,6 +54,42 @@ const mockWins: ManifestedWin[] = [
     lightsReceived: 156,
     hasReceivedLight: false,
   },
+  {
+    id: '4',
+    userName: 'James K.',
+    title: 'Paid off all my debt',
+    category: 'Finance',
+    daysToManifest: 45,
+    signsLogged: 32,
+    probability: 5.2,
+    manifestedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+    lightsReceived: 234,
+    hasReceivedLight: false,
+  },
+  {
+    id: '5',
+    userName: 'Lisa M.',
+    title: 'Found my soulmate',
+    category: 'Love',
+    daysToManifest: 30,
+    signsLogged: 25,
+    probability: 7.8,
+    manifestedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    lightsReceived: 312,
+    hasReceivedLight: true,
+  },
+  {
+    id: '6',
+    userName: 'David P.',
+    title: 'Started my own business',
+    category: 'Career',
+    daysToManifest: 60,
+    signsLogged: 48,
+    probability: 3.5,
+    manifestedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+    lightsReceived: 189,
+    hasReceivedLight: false,
+  },
 ];
 
 const formatTimeAgo = (date: Date): string => {
@@ -84,66 +120,63 @@ export const ManifestedWinsFeed: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-green-500/10 to-teal-500/10 rounded-2xl p-5 mb-6 border border-green-500/20"
+        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
-              <Flame className="w-6 h-6 text-green-400" />
+            <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-500/20 flex items-center justify-center">
+              <Flame className="w-6 h-6 text-green-500 dark:text-green-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">Manifested Wins</h2>
-              <p className="text-sm text-neutral-400">Real stories from the road</p>
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Manifested Wins</h2>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">Real stories from the road</p>
             </div>
           </div>
-          <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full">
+          <span className="text-xs bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 px-2 py-1 rounded-full">
             {wins.length} new
           </span>
         </div>
 
-        <div className="space-y-3 mb-4">
-          {wins.slice(0, 2).map((win) => (
-            <div
-              key={win.id}
-              className="bg-neutral-800/50 rounded-xl p-3 border border-neutral-700/50"
-            >
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white font-medium">
-                  {win.userName.charAt(0)}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+                  {wins.slice(0, 6).map((win) => (
+                    <div
+                      key={win.id}
+                      className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 border border-surface-border-strong dark:border-surface-border-dark-strong cursor-pointer hover:border-green-300 dark:hover:border-green-500/30 transition-colors"
+                    >
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+                            {win.userName.charAt(0)}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <span className="text-xs font-medium text-neutral-900 dark:text-white block truncate">{win.userName}</span>
+                            <span className="text-xs text-neutral-600 dark:text-neutral-400">{formatTimeAgo(win.manifestedAt)}</span>
+                          </div>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleSendLight(win.id); }}
+                          disabled={win.hasReceivedLight}
+                          className={`p-1.5 rounded-lg transition-colors flex-shrink-0 ${
+                            win.hasReceivedLight
+                              ? 'bg-yellow-100 dark:bg-yellow-500/20 text-yellow-500 dark:text-yellow-400'
+                              : 'bg-neutral-100 dark:bg-neutral-700/50 text-neutral-400 hover:bg-yellow-100 dark:hover:bg-yellow-500/20 hover:text-yellow-500 dark:hover:text-yellow-400'
+                          }`}
+                        >
+                          <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
+                        </button>
+                      </div>
+                      <p className="text-xs text-neutral-800 dark:text-neutral-200 line-clamp-2 mb-2">"{win.title}"</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-neutral-600 dark:text-neutral-400">{win.daysToManifest}d · {win.signsLogged} signs</span>
+                        <span className="text-xs text-green-600 dark:text-green-400 font-medium">{(100 - win.probability).toFixed(1)}%</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-sm font-medium text-white">{win.userName}</span>
-                    <span className="text-xs text-neutral-500">{formatTimeAgo(win.manifestedAt)}</span>
-                  </div>
-                  <p className="text-sm text-neutral-300 truncate">"{win.title}"</p>
-                  <div className="flex items-center gap-3 mt-2">
-                    <span className="text-xs text-neutral-500">{win.daysToManifest} days</span>
-                    <span className="text-xs text-neutral-500">{win.signsLogged} signs</span>
-                    <span className="text-xs text-green-400 font-medium">Beat {100 - win.probability}% odds</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => handleSendLight(win.id)}
-                  disabled={win.hasReceivedLight}
-                  className={`p-2 rounded-lg transition-colors ${
-                    win.hasReceivedLight
-                      ? 'bg-yellow-500/20 text-yellow-400'
-                      : 'bg-neutral-700/50 text-neutral-400 hover:bg-yellow-500/20 hover:text-yellow-400'
-                  }`}
-                >
-                  <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-green-500/20 hover:bg-green-500/30 text-green-400 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
         >
-          View All Wins
+          Celebrate More Wins
           <ChevronRight className="w-4 h-4" />
         </button>
       </motion.div>
