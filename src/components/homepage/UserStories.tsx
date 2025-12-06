@@ -6,7 +6,7 @@ const stories = [
   {
     id: 1,
     name: "Sarah Chen",
-    avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100",
+    avatar: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
     quote: "This app made me sleep again",
     story: "After months of insomnia, SignRoad's sleep meditations helped me find peace at night.",
     gradient: "from-purple-500/10 to-pink-500/10"
@@ -14,7 +14,7 @@ const stories = [
   {
     id: 2,
     name: "Marcus Johnson",
-    avatar: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100",
+    avatar: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
     quote: "I manifested my dream job",
     story: "The abundance meditations shifted my mindset and opened doors I never imagined.",
     gradient: "from-green-500/10 to-teal-500/10"
@@ -22,7 +22,7 @@ const stories = [
   {
     id: 3,
     name: "Elena Rodriguez",
-    avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100",
+    avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
     quote: "My anxiety is finally manageable",
     story: "Daily practice with SignRoad gave me tools to handle stress with grace and confidence.",
     gradient: "from-blue-500/10 to-cyan-500/10"
@@ -30,7 +30,7 @@ const stories = [
   {
     id: 4,
     name: "James Wilson",
-    avatar: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=100",
+    avatar: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
     quote: "Found my inner peace",
     story: "SignRoad helped me reconnect with myself after years of feeling lost and disconnected.",
     gradient: "from-orange-500/10 to-amber-500/10"
@@ -38,7 +38,7 @@ const stories = [
   {
     id: 5,
     name: "Lisa Park",
-    avatar: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=100",
+    avatar: "https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
     quote: "Healed my relationship",
     story: "The forgiveness meditations helped me let go of resentment and rebuild trust.",
     gradient: "from-rose-500/10 to-pink-500/10"
@@ -46,7 +46,7 @@ const stories = [
   {
     id: 6,
     name: "David Kim",
-    avatar: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=100",
+    avatar: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
     quote: "Doubled my productivity",
     story: "Morning rituals and focus sessions transformed how I approach my work and goals.",
     gradient: "from-indigo-500/10 to-violet-500/10"
@@ -89,6 +89,8 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
               <img
                 src={story.avatar}
                 alt={story.name}
+                loading="lazy"
+                decoding="async"
                 className="w-16 h-16 rounded-full object-cover mb-3"
               />
               

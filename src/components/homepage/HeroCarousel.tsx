@@ -8,35 +8,35 @@ const heroSlides = [
     id: 1,
     title: "Your 1,000-Step Road Awaits",
     subtitle: "A manifestation journey where the universe sends you signs back",
-    image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop",
     gradient: "from-emerald-900/80 to-emerald-800/80"
   },
   {
     id: 2,
     title: "Keep Your Lantern Bright",
     subtitle: "Your progress dims but never resets — pick up where you left off",
-    image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop",
     gradient: "from-gold-900/80 to-gold-700/80"
   },
   {
     id: 3,
     title: "Watch for Today's Sign",
     subtitle: "Daily challenges from the universe — look for a white feather, a red door...",
-    image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop",
     gradient: "from-teal-900/80 to-teal-800/80"
   },
   {
     id: 4,
     title: "Own Your Morning",
     subtitle: "Start each day with intention and purpose",
-    image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop",
     gradient: "from-emerald-800/80 to-teal-900/80"
   },
   {
     id: 5,
     title: "Join Your Tribe",
     subtitle: "5-person accountability groups walking the road together",
-    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=800",
+    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop",
     gradient: "from-teal-800/80 to-emerald-900/80"
   }
 ];

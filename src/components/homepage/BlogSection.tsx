@@ -7,7 +7,7 @@ const blogs = [
     id: 1,
     title: "7 Micro-Habits That Rewire Limiting Beliefs",
     snippet: "Small daily actions that create profound shifts in your mindset and reality.",
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=400",
+    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop",
     date: "Dec 15, 2024",
     readTime: "5 min read"
   },
@@ -15,7 +15,7 @@ const blogs = [
     id: 2,
     title: "A Letter to the Version of Me That Gave Up",
     snippet: "A heartfelt reflection on resilience, growth, and the power of never giving up on yourself.",
-    image: "https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=400",
+    image: "https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop",
     date: "Dec 12, 2024",
     readTime: "8 min read"
   },
@@ -23,7 +23,7 @@ const blogs = [
     id: 3,
     title: "The Science Behind Manifestation: What Really Works",
     snippet: "Evidence-based insights into how visualization and intention setting create real change.",
-    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=400",
+    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop",
     date: "Dec 10, 2024",
     readTime: "6 min read"
   },
@@ -31,7 +31,7 @@ const blogs = [
     id: 4,
     title: "Morning Rituals of Highly Successful Manifestors",
     snippet: "Discover the daily practices that set the foundation for attracting abundance.",
-    image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=400",
+    image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop",
     date: "Dec 8, 2024",
     readTime: "7 min read"
   },
@@ -39,7 +39,7 @@ const blogs = [
     id: 5,
     title: "How to Trust the Universe When Nothing Makes Sense",
     snippet: "Finding faith in the journey even when the path seems unclear and uncertain.",
-    image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=400",
+    image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop",
     date: "Dec 5, 2024",
     readTime: "6 min read"
   },
@@ -47,7 +47,7 @@ const blogs = [
     id: 6,
     title: "The Power of Gratitude in Manifestation",
     snippet: "Why appreciation is the secret ingredient to attracting more of what you want.",
-    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=400",
+    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop",
     date: "Dec 3, 2024",
     readTime: "5 min read"
   }
@@ -83,9 +83,12 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
             className="p-4 rounded-2xl bg-surface-card dark:bg-surface-card-dark border border-surface-border-strong dark:border-surface-border-dark-strong cursor-pointer group transition-all duration-300 hover:shadow-lg shadow-sm"
           >
             <div className="flex flex-col">
-              <div
-                className="w-full aspect-video rounded-xl bg-cover bg-center mb-3"
-                style={{ backgroundImage: `url(${blog.image})` }}
+              <img
+                src={blog.image}
+                alt={blog.title}
+                loading="lazy"
+                decoding="async"
+                className="w-full aspect-video rounded-xl object-cover mb-3"
               />
               
               <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-accent-500 dark:group-hover:text-accent-400 transition-colors duration-200 line-clamp-2">

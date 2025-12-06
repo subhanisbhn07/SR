@@ -22,7 +22,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       transition={{ duration: 0.6 }}
       className="mt-12 mx-4 mb-24 md:mb-8"
     >
-      <div className="max-w-7xl mx-auto px-6 py-12 bg-surface-card dark:bg-surface-card-dark rounded-2xl border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm">
+      <div className="max-w-7xl mx-auto px-8 py-16 bg-surface-card dark:bg-surface-card-dark rounded-2xl border-2 border-surface-border-strong dark:border-surface-border-dark-strong shadow-md">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-1">
