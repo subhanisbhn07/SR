@@ -111,8 +111,9 @@ export const CoursesPage: React.FC = () => {
   }, [selectedRoad, progress, startRoad]);
 
   const handleStartSession = (course: Course) => {
-    // Map course to a day number (for demo, use course.id as day)
-    const dayNumber = course.id;
+    // Premium courses require subscription - use day 8 to trigger paywall for premium content
+    // This ensures premium courses always show the paywall for free users
+    const dayNumber = course.isPremium ? 8 : course.id;
     
     // Check if user can access this content
     if (course.isPremium && shouldShowPaywall(subscriptionStatus, dayNumber)) {

@@ -90,6 +90,13 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
       {/* Subtle gradient accent at top */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-gold-500" />
       
+      {/* Phase 4-5 Demo Banner - Remove after demo */}
+      <div className="mb-4 p-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg">
+        <p className="text-xs text-center text-purple-600 dark:text-purple-400 font-medium">
+          Phase 4-5 Demo: Day {currentJourneyDay}/365 · Status: {subscriptionStatus === 'active' ? 'Premium' : subscriptionStatus === 'trial' ? 'Trial' : 'Free'} · Click premium courses to see Paywall
+        </p>
+      </div>
+      
       {/* Header with Lantern and Progress - HERO styling */}
       <div className="flex items-center justify-between mb-5 pt-2">
         <div className="flex items-center gap-4">
