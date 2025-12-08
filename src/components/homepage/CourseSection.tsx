@@ -16,7 +16,7 @@ interface Course {
 }
 
 interface CourseSectionProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   courses: Course[];
   gradient?: string;
