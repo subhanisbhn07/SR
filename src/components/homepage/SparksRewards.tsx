@@ -146,13 +146,13 @@ export const SparksRewards: React.FC = () => {
           ))}
         </div>
 
-        <button
-          onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
-        >
-          Unlock More Rewards
-          <ChevronRight className="w-4 h-4" />
-        </button>
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  Unlock More Rewards
+                  <ChevronRight className="w-4 h-4" />
+                </button>
       </motion.div>
 
       <AnimatePresence>
@@ -236,19 +236,24 @@ export const SparksRewards: React.FC = () => {
                         </div>
                         <p className="text-xs text-neutral-500">{reward.description}</p>
                       </div>
-                      {!reward.unlocked && (
-                        <button
-                          disabled={userSparks < reward.cost}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 ${
-                            userSparks >= reward.cost
-                              ? 'bg-gold-500 text-neutral-900 hover:bg-gold-600'
-                              : 'bg-neutral-700 text-neutral-500 cursor-not-allowed'
-                          }`}
-                        >
-                          <Sparkles className="w-3 h-3" />
-                          {reward.cost}
-                        </button>
-                      )}
+                                            {!reward.unlocked && (
+                                              <button
+                                                disabled={userSparks < reward.cost}
+                                                onClick={() => {
+                                                  if (userSparks >= reward.cost) {
+                                                    alert(`Unlocking ${reward.name}! This would deduct ${reward.cost} Sparks from your balance.`);
+                                                  }
+                                                }}
+                                                className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 transition-all ${
+                                                  userSparks >= reward.cost
+                                                    ? 'bg-gold-500 text-neutral-900 hover:bg-gold-600 hover:scale-105 active:scale-95'
+                                                    : 'bg-neutral-700 text-neutral-500 cursor-not-allowed'
+                                                }`}
+                                              >
+                                                <Sparkles className="w-3 h-3" />
+                                                {reward.cost}
+                                              </button>
+                                            )}
                     </div>
                   </div>
                 ))}

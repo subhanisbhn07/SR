@@ -266,11 +266,34 @@ export const TribesCard: React.FC = () => {
                           </div>
                         )}
                       </div>
-                      {member.name === 'Open Spot' && (
-                        <button className="px-3 py-1.5 bg-teal-500/20 hover:bg-teal-500/30 text-teal-400 text-sm font-medium rounded-lg transition-colors">
-                          Invite
-                        </button>
-                      )}
+                                            {member.name === 'Open Spot' && (
+                                              <button 
+                                                onClick={async () => {
+                                                  const shareData = {
+                                                    title: 'Join my SignRoad Tribe!',
+                                                    text: 'Walk the manifestation road with me. Join The Manifestors tribe on SignRoad!',
+                                                    url: 'https://signroad.com/tribe/invite/manifestors'
+                                                  };
+                            
+                                                  try {
+                                                    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                                                      await navigator.share(shareData);
+                                                    } else {
+                                                      await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                                                      alert('Invite link copied to clipboard!');
+                                                    }
+                                                  } catch (err) {
+                                                    if ((err as Error).name !== 'AbortError') {
+                                                      await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                                                      alert('Invite link copied to clipboard!');
+                                                    }
+                                                  }
+                                                }}
+                                                className="px-3 py-1.5 bg-teal-500/20 hover:bg-teal-500/30 text-teal-400 text-sm font-medium rounded-lg transition-all hover:scale-105 active:scale-95"
+                                              >
+                                                Invite
+                                              </button>
+                                            )}
                     </div>
                   </div>
                 ))}
