@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, TrendingUp, Calendar, Sparkles } from 'lucide-react';
+import { TrendingUp, Calendar, Sparkles } from 'lucide-react';
 
 const moodOptions = [
   { emoji: '😊', label: 'Great', color: 'bg-green-500/20 border-green-500/50' },

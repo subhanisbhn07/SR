@@ -215,10 +215,9 @@ const editorsPicks = [
 
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
-  const { theme } = useThemeStore();
   const { isCardVisible } = useCardVisibility();
 
-  const handleIntentSelect = (intent: string) => {
+  const handleIntentSelect = () => {
     // Navigate to courses with the selected intent filter
     setActiveBottomTab('courses');
   };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Flame, Instagram, Twitter, Facebook, Youtube, Mail, MapPin, Phone } from 'lucide-react';
+import { Flame, Instagram, Twitter, Facebook, Youtube, Mail } from 'lucide-react';
 
 interface FooterProps {
   onNavigate?: (tab: string) => void;

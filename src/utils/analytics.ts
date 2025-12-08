@@ -24,12 +24,12 @@ export const analytics = {
       console.log(`[Analytics] ${eventName}`, properties);
     }
     
-    if (typeof window !== 'undefined' && (window as { gtag?: Function }).gtag) {
-      (window as { gtag?: Function }).gtag?.('event', eventName, properties);
+    if (typeof window !== 'undefined' && (window as { gtag?: (command: string, eventName: string, properties?: EventProperties) => void }).gtag) {
+      (window as { gtag?: (command: string, eventName: string, properties?: EventProperties) => void }).gtag?.('event', eventName, properties);
     }
     
-    if (typeof window !== 'undefined' && (window as { mixpanel?: { track: Function } }).mixpanel) {
-      (window as { mixpanel?: { track: Function } }).mixpanel?.track(eventName, properties);
+    if (typeof window !== 'undefined' && (window as { mixpanel?: { track: (eventName: string, properties?: EventProperties) => void } }).mixpanel) {
+      (window as { mixpanel?: { track: (eventName: string, properties?: EventProperties) => void } }).mixpanel?.track(eventName, properties);
     }
   },
 
@@ -38,8 +38,8 @@ export const analytics = {
       console.log(`[Analytics] Identify: ${userId}`, traits);
     }
     
-    if (typeof window !== 'undefined' && (window as { mixpanel?: { identify: Function; people: { set: Function } } }).mixpanel) {
-      const mp = (window as { mixpanel?: { identify: Function; people: { set: Function } } }).mixpanel;
+    if (typeof window !== 'undefined' && (window as { mixpanel?: { identify: (userId: string) => void; people: { set: (traits: EventProperties) => void } } }).mixpanel) {
+      const mp = (window as { mixpanel?: { identify: (userId: string) => void; people: { set: (traits: EventProperties) => void } } }).mixpanel;
       mp?.identify(userId);
       if (traits) {
         mp?.people.set(traits);

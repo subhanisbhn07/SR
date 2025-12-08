@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, Star, Clock, Users, ChevronRight } from 'lucide-react';
-import { Button } from '../ui/Button';
+import { Play, Star, Clock, ChevronRight } from 'lucide-react';
 import { Badge } from '../ui/Badge';
 
 interface Course {
