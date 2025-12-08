@@ -1,77 +1,174 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Flame, ChevronRight, X, Plus, Crown, Check } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useTribesStore } from '../../store/tribesStore';
 import { LanternIcon } from '../ui/LanternIcon';
 
-interface TribeMember {
-  id: string;
-  name: string;
-  avatar?: string;
-  lanternHealth: number;
-  showedUpToday: boolean;
-  isLeader: boolean;
-}
-
-const mockTribeMembers: TribeMember[] = [
-  { id: '1', name: 'You', lanternHealth: 82, showedUpToday: true, isLeader: false },
-  { id: '2', name: 'Sarah', lanternHealth: 91, showedUpToday: true, isLeader: true },
-  { id: '3', name: 'Marcus', lanternHealth: 67, showedUpToday: true, isLeader: false },
-  { id: '4', name: 'Elena', lanternHealth: 45, showedUpToday: false, isLeader: false },
-  { id: '5', name: 'Open Spot', lanternHealth: 0, showedUpToday: false, isLeader: false },
-];
-
 export const TribesCard: React.FC = () => {
-  useAuthStore();
+  const { currentTribe, hasJoinedTribe, checkIn, createTribe, joinTribe } = useTribesStore();
   const [showModal, setShowModal] = useState(false);
-  const [hasJoinedTribe, setHasJoinedTribe] = useState(true);
+  const [showJoinModal, setShowJoinModal] = useState(false);
+  const [inviteCode, setInviteCode] = useState('');
+  const [newTribeName, setNewTribeName] = useState('');
 
-  const tribeMembers = mockTribeMembers;
-  const showedUpCount = tribeMembers.filter(m => m.showedUpToday && m.name !== 'Open Spot').length;
-  const totalMembers = tribeMembers.filter(m => m.name !== 'Open Spot').length;
-  const tribeLanternAvg = Math.round(
-    tribeMembers
-      .filter(m => m.name !== 'Open Spot')
-      .reduce((sum, m) => sum + m.lanternHealth, 0) / totalMembers
-  );
+  // Get tribe members from store or empty array
+  const tribeMembers = currentTribe?.members || [];
+  
+  // Calculate stats
+  const showedUpCount = tribeMembers.filter(m => m.showedUpToday).length;
+  const totalMembers = tribeMembers.length;
+  const tribeLanternAvg = currentTribe?.tribeLanternHealth || 0;
 
-  if (!hasJoinedTribe) {
+  const handleCheckIn = () => {
+    const result = checkIn();
+    if (result.success) {
+      // Could show a toast notification here
+      console.log(`Checked in! Earned ${result.sparksEarned} sparks`);
+    }
+  };
+
+  const handleCreateTribe = () => {
+    if (newTribeName.trim()) {
+      createTribe(newTribeName.trim());
+      setNewTribeName('');
+      setShowJoinModal(false);
+    }
+  };
+
+  const handleJoinTribe = () => {
+    if (inviteCode.trim()) {
+      const result = joinTribe(inviteCode.trim().toUpperCase());
+      if (result.success) {
+        setInviteCode('');
+        setShowJoinModal(false);
+      } else {
+        alert(result.error || 'Failed to join tribe');
+      }
+    }
+  };
+
+  if (!hasJoinedTribe || !currentTribe) {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
-      >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
-            <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+      <>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
+              <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Join a Tribe</h2>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">5-person accountability groups</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Join a Tribe</h2>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">5-person accountability groups</p>
+
+          <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+            Walk the road together with 4 others. Share your journey, keep each other accountable, 
+            and watch your collective lantern grow brighter.
+          </p>
+
+          <div className="flex gap-3">
+            <button
+              onClick={() => setShowJoinModal(true)}
+              className="flex-1 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl transition-colors"
+            >
+              Find a Tribe
+            </button>
+            <button
+              onClick={() => setShowJoinModal(true)}
+              className="flex-1 py-2.5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-medium rounded-xl transition-colors"
+            >
+              Create One
+            </button>
           </div>
-        </div>
+        </motion.div>
 
-        <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
-          Walk the road together with 4 others. Share your journey, keep each other accountable, 
-          and watch your collective lantern grow brighter.
-        </p>
+        {/* Join/Create Tribe Modal */}
+        <AnimatePresence>
+          {showJoinModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowJoinModal(false)}
+            >
+              <motion.div
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                className="w-full max-w-md bg-neutral-900 rounded-t-3xl p-6"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-white">Join or Create a Tribe</h2>
+                  <button
+                    onClick={() => setShowJoinModal(false)}
+                    className="p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                  >
+                    <X className="w-5 h-5 text-neutral-400" />
+                  </button>
+                </div>
 
-        <div className="flex gap-3">
-          <button
-            onClick={() => setHasJoinedTribe(true)}
-            className="flex-1 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl transition-colors"
-          >
-            Find a Tribe
-          </button>
-          <button
-            onClick={() => setHasJoinedTribe(true)}
-            className="flex-1 py-2.5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-medium rounded-xl transition-colors"
-          >
-            Create One
-          </button>
-        </div>
-      </motion.div>
+                <div className="space-y-6">
+                  {/* Join with code */}
+                  <div>
+                    <label className="text-sm font-medium text-neutral-400 mb-2 block">Join with invite code</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={inviteCode}
+                        onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                        placeholder="ABCD12"
+                        maxLength={6}
+                        className="flex-1 px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-teal-500"
+                      />
+                      <button
+                        onClick={handleJoinTribe}
+                        disabled={inviteCode.length !== 6}
+                        className="px-4 py-3 bg-teal-500 hover:bg-teal-600 disabled:bg-neutral-700 disabled:text-neutral-500 text-white font-medium rounded-xl transition-colors"
+                      >
+                        Join
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 h-px bg-neutral-700" />
+                    <span className="text-sm text-neutral-500">or</span>
+                    <div className="flex-1 h-px bg-neutral-700" />
+                  </div>
+
+                  {/* Create new tribe */}
+                  <div>
+                    <label className="text-sm font-medium text-neutral-400 mb-2 block">Create a new tribe</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newTribeName}
+                        onChange={(e) => setNewTribeName(e.target.value)}
+                        placeholder="The Manifestors"
+                        className="flex-1 px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-teal-500"
+                      />
+                      <button
+                        onClick={handleCreateTribe}
+                        disabled={!newTribeName.trim()}
+                        className="px-4 py-3 bg-teal-500 hover:bg-teal-600 disabled:bg-neutral-700 disabled:text-neutral-500 text-white font-medium rounded-xl transition-colors"
+                      >
+                        Create
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </>
     );
   }
 
@@ -123,7 +220,7 @@ export const TribesCard: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-3 mb-4">
-          {tribeMembers.slice(0, 4).map((member, index) => (
+          {tribeMembers.slice(0, 4).map((member) => (
             <div
               key={member.id}
               className="flex flex-col items-center gap-1"
@@ -160,11 +257,18 @@ export const TribesCard: React.FC = () => {
         </div>
 
         <button
-          onClick={() => setShowModal(true)}
+          onClick={handleCheckIn}
           className="w-full py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
         >
           Check In With Tribe
           <ChevronRight className="w-4 h-4" />
+        </button>
+        
+        <button
+          onClick={() => setShowModal(true)}
+          className="w-full mt-2 py-2 text-teal-600 dark:text-teal-400 text-sm font-medium hover:underline"
+        >
+          View Tribe Details
         </button>
       </motion.div>
 
