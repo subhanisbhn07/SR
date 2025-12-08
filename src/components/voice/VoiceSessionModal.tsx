@@ -1,6 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Volume2, VolumeX } from 'lucide-react';
+import { X, Volume2, VolumeX, Download, CheckCircle } from 'lucide-react';
+import { useContentStore, COMPLETION_THRESHOLD } from '../../store/contentStore';
+import { useGamificationStore } from '../../store/gamificationStore';
 
 interface VoiceSessionModalProps {
   isOpen: boolean;
@@ -9,6 +11,9 @@ interface VoiceSessionModalProps {
   courseSubtitle?: string;
   durationLabel?: string;
   audioSrc?: string;
+  roadSlug?: string;
+  dayNumber?: number;
+  onComplete?: (sparksEarned: number, dayAdvanced: boolean) => void;
 }
 
 type PlayerState = 'idle' | 'playing' | 'paused' | 'completed';
@@ -144,20 +149,55 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
   courseSubtitle,
   durationLabel,
   audioSrc = '/audio/meditation-sample.mp3',
+  roadSlug,
+  dayNumber,
+  onComplete,
 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playerState, setPlayerState] = useState<PlayerState>('idle');
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [completionPercentage, setCompletionPercentage] = useState(0);
+  const [hasReachedThreshold, setHasReachedThreshold] = useState(false);
+
+  // Store hooks
+  const { startMeditation, updatePlaybackPosition, completeMeditation, downloadMeditation, downloadedMeditations } = useContentStore();
+  const { addSparks, incrementMeditationsCompleted } = useGamificationStore();
+
+  // Check if this meditation is downloaded for offline use
+  const isDownloaded = downloadedMeditations.some(
+    d => d.roadSlug === roadSlug && d.day === dayNumber
+  );
 
   // Reset state when modal opens
   useEffect(() => {
     if (isOpen) {
       setPlayerState('idle');
       setCurrentTime(0);
+      setCompletionPercentage(0);
+      setHasReachedThreshold(false);
+      
+      // Start meditation tracking if we have road/day info
+      if (roadSlug && dayNumber) {
+        startMeditation(roadSlug, dayNumber);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, roadSlug, dayNumber, startMeditation]);
+
+  // Track completion percentage
+  useEffect(() => {
+    if (duration > 0) {
+      const percentage = currentTime / duration;
+      setCompletionPercentage(percentage);
+      updatePlaybackPosition(currentTime);
+      
+      // Check if we've reached the 90% threshold
+      if (percentage >= COMPLETION_THRESHOLD && !hasReachedThreshold) {
+        setHasReachedThreshold(true);
+      }
+    }
+  }, [currentTime, duration, hasReachedThreshold, updatePlaybackPosition]);
 
   // Wire up audio events
   useEffect(() => {
@@ -166,7 +206,10 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
 
     const onLoaded = () => setDuration(audio.duration || 0);
     const onTimeUpdate = () => setCurrentTime(audio.currentTime || 0);
-    const onEnded = () => setPlayerState('completed');
+    const onEnded = () => {
+      setPlayerState('completed');
+      handleSessionComplete();
+    };
 
     audio.addEventListener('loadedmetadata', onLoaded);
     audio.addEventListener('timeupdate', onTimeUpdate);
@@ -178,6 +221,32 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
       audio.removeEventListener('ended', onEnded);
     };
   }, [audioSrc, isOpen]);
+
+  // Handle session completion with sparks and day progression
+  const handleSessionComplete = useCallback(() => {
+    const finalPercentage = duration > 0 ? currentTime / duration : 0;
+    const { sparksEarned, dayAdvanced } = completeMeditation(finalPercentage);
+    
+    if (sparksEarned > 0) {
+      addSparks(sparksEarned, 'meditation');
+      incrementMeditationsCompleted();
+    }
+    
+    // Notify parent component
+    if (onComplete) {
+      onComplete(sparksEarned, dayAdvanced);
+    }
+  }, [currentTime, duration, completeMeditation, addSparks, incrementMeditationsCompleted, onComplete]);
+
+  // Handle download for offline use
+  const handleDownload = useCallback(() => {
+    if (roadSlug && dayNumber) {
+      const success = downloadMeditation(roadSlug, dayNumber);
+      if (!success) {
+        console.log('Download limit reached (max 3 meditations)');
+      }
+    }
+  }, [roadSlug, dayNumber, downloadMeditation]);
 
   const handlePlayPause = async () => {
     const audio = audioRef.current;
@@ -321,28 +390,62 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
             </p>
           </div>
 
-          {/* Mute button - subtle, below progress */}
-          <button
-            onClick={handleToggleMute}
-            aria-label={isMuted ? 'Unmute' : 'Mute'}
-            className="mt-6 p-2 rounded-full hover:bg-white/5 transition-colors"
-          >
-            {isMuted ? (
-              <VolumeX className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
-            ) : (
-              <Volume2 className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
-            )}
-          </button>
+          {/* Controls row - mute and download */}
+          <div className="flex items-center gap-4 mt-6">
+            <button
+              onClick={handleToggleMute}
+              aria-label={isMuted ? 'Unmute' : 'Mute'}
+              className="p-2 rounded-full hover:bg-white/5 transition-colors"
+            >
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
+              )}
+            </button>
 
-          {/* Completion message - subtle toast style */}
-          {playerState === 'completed' && (
+            {/* Download button for offline use */}
+            {roadSlug && dayNumber && (
+              <button
+                onClick={handleDownload}
+                aria-label={isDownloaded ? 'Downloaded' : 'Download for offline'}
+                className="p-2 rounded-full hover:bg-white/5 transition-colors"
+                disabled={isDownloaded}
+              >
+                {isDownloaded ? (
+                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <Download className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
+                )}
+              </button>
+            )}
+          </div>
+
+          {/* 90% completion indicator */}
+          {hasReachedThreshold && playerState !== 'completed' && (
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-6 text-sm text-gold-400"
+              className="mt-4 text-xs text-emerald-400"
             >
-              +10 Sparks earned
+              90% reached - day will be marked complete
             </motion.p>
+          )}
+
+          {/* Completion message - subtle toast style */}
+          {playerState === 'completed' && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-6 text-center"
+            >
+              <p className="text-sm text-gold-400 mb-1">
+                +{completionPercentage >= COMPLETION_THRESHOLD ? '10' : completionPercentage >= 0.5 ? '5' : '0'} Sparks earned
+              </p>
+              {completionPercentage >= COMPLETION_THRESHOLD && (
+                <p className="text-xs text-emerald-400">Day completed - next day unlocked!</p>
+              )}
+            </motion.div>
           )}
         </motion.div>
 
