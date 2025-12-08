@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, Clock, Star, Lock, Play, X, Users, Sparkles } from 'lucide-react';
 import { VoiceSessionModal } from '../components/voice/VoiceSessionModal';
+import { Paywall } from '../components/subscription/Paywall';
+import { useSubscriptionStore, shouldShowPaywall } from '../store/subscriptionStore';
+import { useContentStore } from '../store/contentStore';
+import { useAuthStore } from '../store/authStore';
+import { useGamificationStore } from '../store/gamificationStore';
 
 interface Course {
   id: number;
@@ -84,11 +89,51 @@ export const CoursesPage: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showVoiceUI, setShowVoiceUI] = useState(false);
   const [activeCourse, setActiveCourse] = useState<Course | null>(null);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [paywallDayNumber, setPaywallDayNumber] = useState<number | undefined>(undefined);
+
+  // Store hooks for subscription and content
+  const { checkSubscriptionStatus } = useSubscriptionStore();
+  const { getRoadProgress, startRoad } = useContentStore();
+  const { selectedRoad } = useAuthStore();
+  const { addSparks } = useGamificationStore();
+  
+  const subscriptionStatus = checkSubscriptionStatus();
+  const roadSlug = selectedRoad || 'manifest';
+  const progress = getRoadProgress(roadSlug);
+  const currentDay = progress?.currentDay || 1;
+
+  // Initialize road progress if not started
+  React.useEffect(() => {
+    if (selectedRoad && !progress) {
+      startRoad(selectedRoad);
+    }
+  }, [selectedRoad, progress, startRoad]);
 
   const handleStartSession = (course: Course) => {
+    // Map course to a day number (for demo, use course.id as day)
+    const dayNumber = course.id;
+    
+    // Check if user can access this content
+    if (course.isPremium && shouldShowPaywall(subscriptionStatus, dayNumber)) {
+      setPaywallDayNumber(dayNumber);
+      setShowPaywall(true);
+      setSelectedCourse(null);
+      return;
+    }
+    
     setActiveCourse(course);
     setSelectedCourse(null);
     setShowVoiceUI(true);
+  };
+
+  const handleSessionComplete = (sparksEarned: number, dayAdvanced: boolean) => {
+    if (sparksEarned > 0) {
+      addSparks(sparksEarned, 'meditation');
+    }
+    if (dayAdvanced) {
+      console.log('Day advanced! Unlocked next day.');
+    }
   };
 
   const filteredCourses = selectedCategory === "All"
@@ -285,6 +330,16 @@ export const CoursesPage: React.FC = () => {
       courseTitle={activeCourse?.title ?? ''}
       courseSubtitle={activeCourse?.subtitle}
       durationLabel={activeCourse?.duration}
+      roadSlug={roadSlug}
+      dayNumber={activeCourse?.id || currentDay}
+      onComplete={handleSessionComplete}
+    />
+
+    {/* Paywall Modal */}
+    <Paywall
+      isOpen={showPaywall}
+      onClose={() => setShowPaywall(false)}
+      dayNumber={paywallDayNumber}
     />
     </>
   );

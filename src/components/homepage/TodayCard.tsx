@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Check, Sparkles, Eye, Clock, Flame, Search } from 'lucide-react';
+import { Play, Check, Sparkles, Eye, Clock, Flame, Search, Crown, Calendar } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useConfigStore } from '../../store/configStore';
 import { useSignsGoalsStore } from '../../store/signsGoalsStore';
 import { useGamificationStore } from '../../store/gamificationStore';
+import { useSubscriptionStore, FREE_CONTENT_LIMIT } from '../../store/subscriptionStore';
+import { useContentStore } from '../../store/contentStore';
 import { LanternIcon } from '../ui/LanternIcon';
 import { SignDiscoveryModal } from '../signs/SignDiscoveryModal';
 
@@ -14,24 +16,36 @@ interface TodayCardProps {
 
 export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
   const { user, selectedRoad } = useAuthStore();
-  const { freeTrialDays } = useConfigStore();
+  useConfigStore(); // Keep store connected for reactivity
   const { activeSigns, assignInitialSigns, markSignFound } = useSignsGoalsStore();
   const { lanternHealth, streakDays, sparks } = useGamificationStore();
+  const { checkSubscriptionStatus, getDaysRemainingInTrial } = useSubscriptionStore();
+  const { getRoadProgress, startRoad, getTotalCompletedDays } = useContentStore();
   const [signLogged, setSignLogged] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [showReward, setShowReward] = useState(false);
   const [showSignDiscovery, setShowSignDiscovery] = useState(false);
 
-  // Initialize signs on first load
+  // Subscription and content state
+  const subscriptionStatus = checkSubscriptionStatus();
+  const trialDaysRemaining = getDaysRemainingInTrial();
+  const roadSlug = selectedRoad || 'manifest';
+  const progress = getRoadProgress(roadSlug);
+  const currentJourneyDay = progress?.currentDay || 1;
+  const totalCompletedDays = getTotalCompletedDays();
+
+  // Initialize signs and road on first load
   useEffect(() => {
     assignInitialSigns();
-  }, [assignInitialSigns]);
+    if (selectedRoad && !progress) {
+      startRoad(selectedRoad);
+    }
+  }, [assignInitialSigns, selectedRoad, progress, startRoad]);
 
   // Get the first active sign to display
   const todaySign = activeSigns.length > 0 
     ? { id: activeSigns[0].id, challenge: `Look for a ${activeSigns[0].label.toLowerCase()}`, emoji: activeSigns[0].emoji }
     : { id: 'default', challenge: 'Look for a white feather', emoji: '🪶' };
-  const roadStep = user?.currentRoadStep || 1;
   // Use gamification store values (with fallbacks to user values for backward compatibility)
   const currentStreakDays = streakDays || user?.streakDays || 0;
   const currentLanternHealth = lanternHealth || user?.lanternHealth || 100;
@@ -67,9 +81,6 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     setTimeout(() => setShowReward(false), 2000);
   };
 
-  const isFreeTrialDay = roadStep <= freeTrialDays;
-  const daysUntilUnlock = freeTrialDays - roadStep;
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -91,11 +102,30 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
           <div>
             <h2 className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">Today</h2>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Step {roadStep} of {freeTrialDays} on <span className="font-medium text-emerald-600 dark:text-emerald-400">"{getRoadName()}"</span>
+              Day {currentJourneyDay} of 365 on <span className="font-medium text-emerald-600 dark:text-emerald-400">"{getRoadName()}"</span>
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
+          {/* Subscription Status Badge */}
+          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
+            subscriptionStatus === 'active' 
+              ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-700/40'
+              : subscriptionStatus === 'trial'
+                ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-700/40'
+                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700'
+          }`}>
+            {subscriptionStatus === 'active' && <Crown className="w-3.5 h-3.5" />}
+            {subscriptionStatus === 'trial' && <Calendar className="w-3.5 h-3.5" />}
+            <span>
+              {subscriptionStatus === 'active' 
+                ? 'Premium' 
+                : subscriptionStatus === 'trial' 
+                  ? `Trial: ${trialDaysRemaining}d left`
+                  : `Free (Days 1-${FREE_CONTENT_LIMIT})`
+              }
+            </span>
+          </div>
           <button
             onClick={() => setShowSignDiscovery(true)}
             className="flex items-center gap-2 px-3 py-2 bg-teal-500/10 hover:bg-teal-500/20 text-teal-600 dark:text-teal-400 rounded-full border border-teal-500/30 transition-colors"
@@ -111,24 +141,35 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         </div>
       </div>
 
-      {/* Free Trial Progress Bar */}
-      {isFreeTrialDay && (
-        <div className="mb-4 p-3 bg-neutral-100 dark:bg-neutral-900/50 rounded-xl">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-neutral-500 dark:text-neutral-400">Free Trial Progress</span>
-            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-              {daysUntilUnlock > 0 ? `${daysUntilUnlock} days until unlock` : 'Last free day!'}
-            </span>
-          </div>
-          <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${(roadStep / freeTrialDays) * 100}%` }}
-              className="h-full bg-emerald-500 rounded-full"
-            />
-          </div>
+      {/* 365-Day Journey Progress */}
+      <div className="mb-4 p-3 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl border border-emerald-200/50 dark:border-emerald-700/30">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400">365-Day Journey</span>
+          <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+            {totalCompletedDays} days completed
+          </span>
         </div>
-      )}
+        <div className="h-2 bg-emerald-200/50 dark:bg-emerald-900/50 rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${(currentJourneyDay / 365) * 100}%` }}
+            className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
+          />
+        </div>
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-xs text-neutral-500 dark:text-neutral-400">
+            {currentJourneyDay <= FREE_CONTENT_LIMIT 
+              ? `${FREE_CONTENT_LIMIT - currentJourneyDay + 1} free days remaining`
+              : subscriptionStatus === 'active' || subscriptionStatus === 'trial'
+                ? `${365 - currentJourneyDay} days to mastery`
+                : 'Upgrade to continue your journey'
+            }
+          </span>
+          <span className="text-xs text-emerald-600 dark:text-emerald-400">
+            {Math.round((currentJourneyDay / 365) * 100)}% complete
+          </span>
+        </div>
+      </div>
 
       {/* Forgiving nudge if lantern is dimming */}
       {currentLanternHealth < 50 && (
