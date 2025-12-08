@@ -239,9 +239,15 @@ export const SparksRewards: React.FC = () => {
                       {!reward.unlocked && (
                         <button
                           disabled={userSparks < reward.cost}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 ${
+                          onClick={() => {
+                            if (userSparks >= reward.cost) {
+                              // In a real app, this would call an API
+                              alert(`Unlocked "${reward.name}"! 🎉\nIn the full version, this will deduct ${reward.cost} Sparks from your balance.`);
+                            }
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1 transition-all ${
                             userSparks >= reward.cost
-                              ? 'bg-gold-500 text-neutral-900 hover:bg-gold-600'
+                              ? 'bg-gold-500 text-neutral-900 hover:bg-gold-600 hover:scale-105 active:scale-95'
                               : 'bg-neutral-700 text-neutral-500 cursor-not-allowed'
                           }`}
                         >

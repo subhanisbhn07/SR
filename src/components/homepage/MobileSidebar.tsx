@@ -161,18 +161,26 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
                 <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider px-3">More</p>
               </div>
               <button
-                onClick={onClose}
+                onClick={() => {
+                  onTabChange?.('profile');
+                  onClose();
+                }}
                 className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 <Settings className="w-5 h-5" />
                 <span className="font-medium">Settings</span>
+                <span className="ml-auto text-xs text-neutral-400">in Profile</span>
               </button>
               <button
-                onClick={onClose}
+                onClick={() => {
+                  onTabChange?.('profile');
+                  onClose();
+                }}
                 className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 <HelpCircle className="w-5 h-5" />
                 <span className="font-medium">Help & Support</span>
+                <span className="ml-auto text-xs text-neutral-400">in Profile</span>
               </button>
             </nav>
 

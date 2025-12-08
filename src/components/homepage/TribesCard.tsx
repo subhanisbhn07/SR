@@ -267,7 +267,22 @@ export const TribesCard: React.FC = () => {
                         )}
                       </div>
                       {member.name === 'Open Spot' && (
-                        <button className="px-3 py-1.5 bg-teal-500/20 hover:bg-teal-500/30 text-teal-400 text-sm font-medium rounded-lg transition-colors">
+                        <button
+                          onClick={() => {
+                            const link = 'https://signroad.com/invite/the-manifestors';
+                            if (navigator.share) {
+                              navigator.share({
+                                title: 'Join My Tribe on SignRoad',
+                                text: 'Walk the manifestation road with me! Join The Manifestors tribe.',
+                                url: link,
+                              }).catch(() => {});
+                            } else {
+                              navigator.clipboard.writeText(link);
+                              alert('Invite link copied to clipboard!');
+                            }
+                          }}
+                          className="px-3 py-1.5 bg-teal-500/20 hover:bg-teal-500/30 text-teal-400 text-sm font-medium rounded-lg transition-colors"
+                        >
                           Invite
                         </button>
                       )}

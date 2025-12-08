@@ -1,22 +1,74 @@
 /** @type {import('tailwindcss').Config} */
+/**
+ * ============================================================================
+ * SIGNROAD DESIGN SYSTEM v1 - COLOR GUIDE
+ * ============================================================================
+ *
+ * QUICK REFERENCE - WHAT COLOR TO USE WHERE:
+ *
+ * ┌─────────────────────────────────────────────────────────────────────────┐
+ * │ ELEMENT                     │ SUN MODE (Light)      │ MOON MODE (Dark)  │
+ * ├─────────────────────────────┼───────────────────────┼───────────────────┤
+ * │ Page Background             │ bg-neutral-50         │ dark:bg-neutral-950│
+ * │ Card Background             │ bg-white              │ dark:bg-neutral-900│
+ * │ Primary Text                │ text-neutral-900      │ dark:text-white   │
+ * │ Secondary Text              │ text-neutral-500      │ dark:text-neutral-400│
+ * │ Borders (subtle)            │ border-neutral-200    │ dark:border-neutral-800│
+ * │ Borders (visible)           │ border-neutral-300    │ dark:border-neutral-700│
+ * ├─────────────────────────────┼───────────────────────┼───────────────────┤
+ * │ Primary Button              │ bg-teal-500           │ dark:bg-teal-500  │
+ * │ Primary Button Hover        │ hover:bg-teal-600     │ dark:hover:bg-teal-600│
+ * │ Secondary Button            │ bg-neutral-100        │ dark:bg-neutral-800│
+ * │ Ghost Button Hover          │ hover:bg-teal-50      │ dark:hover:bg-teal-500/10│
+ * ├─────────────────────────────┼───────────────────────┼───────────────────┤
+ * │ Brand Accent (CTAs)         │ text-teal-600         │ dark:text-teal-400│
+ * │ Gold Accent (Rewards)       │ text-gold-500         │ dark:text-gold-400│
+ * │ Success State               │ text-green-500        │ dark:text-green-400│
+ * │ Error State                 │ text-red-500          │ dark:text-red-400 │
+ * └─────────────────────────────┴───────────────────────┴───────────────────┘
+ *
+ * COLOR DISTRIBUTION (70-15-10-5 Rule):
+ * • 70% Neutrals: Page backgrounds, card surfaces, body text
+ * • 15% Primary Teal: Navigation, primary CTAs, brand elements
+ * • 10% Secondary Teal: Icons, links, highlights, hover states
+ * • 5% Gold: Sparks, rewards, achievements ONLY (use sparingly!)
+ *
+ * BRAND COLORS:
+ * • Transformative Teal (#0E7A77) - Primary brand, buttons, nav
+ * • Teal Soft (#17A7A2) - Secondary actions, icons, highlights
+ * • Reward Gold (#EEC76A) - Sparks, badges, rewards ONLY
+ *
+ * COMMON PATTERNS:
+ *
+ * Card:
+ *   className="bg-white dark:bg-neutral-900 border border-neutral-200
+ *              dark:border-neutral-800 rounded-2xl"
+ *
+ * Primary Button:
+ *   className="bg-teal-500 hover:bg-teal-600 text-white font-medium
+ *              rounded-xl transition-colors"
+ *
+ * Text Link:
+ *   className="text-teal-600 dark:text-teal-400 hover:text-teal-700
+ *              dark:hover:text-teal-300"
+ *
+ * Input Field:
+ *   className="bg-white dark:bg-neutral-800 border border-neutral-200
+ *              dark:border-neutral-700 rounded-lg text-neutral-900
+ *              dark:text-white focus:ring-2 focus:ring-teal-500"
+ *
+ * ============================================================================
+ */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // === SIGNROAD DESIGN SYSTEM v1 ===
-        // "TRANSFORMATIVE TEAL FRAMEWORK"
-        // 
-        // COLOR USAGE RATIOS (Critical for Tier-1 Premium):
-        // - 70% NEUTRAL: Backgrounds, cards, surfaces, body text
-        // - 15% PRIMARY TEAL: Navigation, primary buttons, brand identity
-        // - 10% SECONDARY TEAL: Icons, secondary buttons, highlights, hover states
-        // - 5% GOLD: Rewards, achievements, premium CTAs, badges (SPARINGLY!)
-        //
-        // === PRIMARY BRAND COLOR - TRANSFORMATIVE TEAL ===
-        // Psychology: Calm innovation, conscious decisions, bridges nature + technology
-        // Use for: Navigation, primary buttons, brand identity, key UI chrome
+        // =====================================================================
+        // PRIMARY BRAND COLOR - TRANSFORMATIVE TEAL
+        // Use for: Navigation, primary buttons, brand identity
+        // =====================================================================
         teal: {
           DEFAULT: '#0E7A77',
           50: '#E6F5F4',

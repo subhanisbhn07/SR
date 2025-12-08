@@ -86,6 +86,9 @@ interface ForTeamsLandingProps {
 
 export const ForTeamsLanding: React.FC<ForTeamsLandingProps> = ({ onClose, isModal = false }) => {
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
+  const [demoEmail, setDemoEmail] = useState('');
+  const [demoSubmitted, setDemoSubmitted] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(1);
   const [teamName, setTeamName] = useState('');
   const [teamSize, setTeamSize] = useState('');
@@ -157,7 +160,10 @@ export const ForTeamsLanding: React.FC<ForTeamsLandingProps> = ({ onClose, isMod
               Start Free Trial
               <ChevronRight className="w-4 h-4" />
             </button>
-            <button className="px-6 py-3 bg-neutral-800 rounded-xl font-medium hover:bg-neutral-700 transition-colors">
+            <button
+              onClick={() => setShowDemoModal(true)}
+              className="px-6 py-3 bg-neutral-800 rounded-xl font-medium hover:bg-neutral-700 transition-colors"
+            >
               Schedule Demo
             </button>
           </div>
@@ -383,6 +389,113 @@ export const ForTeamsLanding: React.FC<ForTeamsLandingProps> = ({ onClose, isMod
                   {onboardingStep === 3 ? 'Launch Team' : 'Continue'}
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Schedule Demo Modal */}
+      <AnimatePresence>
+        {showDemoModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            onClick={() => {
+              setShowDemoModal(false);
+              setDemoSubmitted(false);
+              setDemoEmail('');
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="w-full max-w-md bg-neutral-900 rounded-2xl p-6 border border-neutral-700"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {demoSubmitted ? (
+                <div className="text-center py-6">
+                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check className="w-8 h-8 text-green-400" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Demo Scheduled!</h3>
+                  <p className="text-neutral-400 text-sm mb-6">
+                    We'll reach out to {demoEmail} within 24 hours to schedule your personalized demo.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setShowDemoModal(false);
+                      setDemoSubmitted(false);
+                      setDemoEmail('');
+                    }}
+                    className="px-6 py-2.5 bg-blue-500 rounded-xl font-medium hover:bg-blue-600 transition-colors"
+                  >
+                    Got It
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className="text-xl font-bold">Schedule a Demo</h3>
+                      <p className="text-neutral-400 text-sm">See SignRoad for Teams in action</p>
+                    </div>
+                    <button
+                      onClick={() => setShowDemoModal(false)}
+                      className="p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                    >
+                      <X className="w-5 h-5 text-neutral-400" />
+                    </button>
+                  </div>
+
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center gap-3 p-3 bg-neutral-800/50 rounded-lg">
+                      <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <BarChart3 className="w-5 h-5 text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">Team Analytics Dashboard</p>
+                        <p className="text-xs text-neutral-400">See real-time wellness metrics</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-neutral-800/50 rounded-lg">
+                      <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <Users className="w-5 h-5 text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">Tribe Formation</p>
+                        <p className="text-xs text-neutral-400">Create accountability groups</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input
+                    type="email"
+                    value={demoEmail}
+                    onChange={(e) => setDemoEmail(e.target.value)}
+                    placeholder="Enter your work email"
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-blue-500 mb-4"
+                  />
+
+                  <button
+                    onClick={() => {
+                      if (demoEmail && demoEmail.includes('@')) {
+                        setDemoSubmitted(true);
+                      }
+                    }}
+                    disabled={!demoEmail || !demoEmail.includes('@')}
+                    className="w-full py-2.5 bg-blue-500 rounded-xl font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Request Demo
+                  </button>
+
+                  <p className="text-xs text-neutral-500 text-center mt-4">
+                    We'll contact you within 24 hours to schedule your demo.
+                  </p>
+                </>
+              )}
             </motion.div>
           </motion.div>
         )}
