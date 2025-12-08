@@ -1,18 +1,19 @@
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  avatar?: string;
-  mode: 'consumer' | 'enterprise';
-  streak: number;
-  totalSessions: number;
-  joinedAt: Date;
-  preferences: UserPreferences;
-  lanternHealth: number;
-  sparks: number;
-  currentRoadStep: number;
-  tribeId?: string;
-}
+// Re-export User types from authStore for backward compatibility
+export type { User, AppUser } from '../store/authStore';
+
+// Re-export database types
+export type {
+  Database,
+  Sign,
+  UserSignLog,
+  UserActiveSign,
+  MeditationSession,
+  SparksTransaction,
+  Tribe,
+  Manifestation,
+  Road,
+  RoadStep,
+} from './database';
 
 export interface UserPreferences {
   notifications: boolean;

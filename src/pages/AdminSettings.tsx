@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Calendar, Sun, Moon, ArrowLeft, Monitor, Tablet, Smartphone, LayoutGrid, RotateCcw } from 'lucide-react';
-import { useConfigStore, CardVisibilitySettings, CardVisibility } from '../store/configStore';
+import { Settings, Calendar, Sun, Moon, ArrowLeft, Monitor, Tablet, Smartphone, LayoutGrid, RotateCcw, Database, Key, CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { useConfigStore, CardVisibilitySettings } from '../store/configStore';
 import { useThemeStore } from '../store/themeStore';
 import { useNavigate } from 'react-router-dom';
+import { saveSupabaseConfig, getSupabaseConfigValues, clearSupabaseConfig, isSupabaseConfigured, getSupabase } from '../lib/supabase';
 
 // Card display names for the admin panel
 const cardDisplayNames: Record<keyof CardVisibilitySettings, string> = {
@@ -29,6 +30,64 @@ export const AdminSettings: React.FC = () => {
   const navigate = useNavigate();
 
   const trialOptions = [7, 14, 21, 30];
+
+  // Supabase configuration state
+  const [supabaseUrl, setSupabaseUrl] = useState('');
+  const [supabaseAnonKey, setSupabaseAnonKey] = useState('');
+  const [showAnonKey, setShowAnonKey] = useState(false);
+  const [supabaseStatus, setSupabaseStatus] = useState<'unconfigured' | 'configured' | 'testing' | 'connected' | 'error'>('unconfigured');
+  const [supabaseError, setSupabaseError] = useState<string | null>(null);
+
+  // Load existing Supabase config on mount
+  useEffect(() => {
+    const config = getSupabaseConfigValues();
+    if (config.url) setSupabaseUrl(config.url);
+    if (config.anonKey) setSupabaseAnonKey(config.anonKey);
+    if (isSupabaseConfigured()) {
+      setSupabaseStatus('configured');
+    }
+  }, []);
+
+  const handleSaveSupabaseConfig = async () => {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      setSupabaseError('Both URL and Anon Key are required');
+      return;
+    }
+
+    setSupabaseStatus('testing');
+    setSupabaseError(null);
+
+    try {
+      // Save config first
+      saveSupabaseConfig(supabaseUrl, supabaseAnonKey);
+      
+      // Test connection
+      const supabase = getSupabase();
+      if (supabase) {
+        const { error } = await supabase.from('users').select('count').limit(1);
+        if (error && !error.message.includes('does not exist')) {
+          // Table might not exist yet, but connection works
+          if (error.message.includes('Invalid API key') || error.message.includes('Invalid URL')) {
+            throw new Error(error.message);
+          }
+        }
+        setSupabaseStatus('connected');
+      } else {
+        setSupabaseStatus('configured');
+      }
+    } catch (err) {
+      setSupabaseError(err instanceof Error ? err.message : 'Connection failed');
+      setSupabaseStatus('error');
+    }
+  };
+
+  const handleClearSupabaseConfig = () => {
+    clearSupabaseConfig();
+    setSupabaseUrl('');
+    setSupabaseAnonKey('');
+    setSupabaseStatus('unconfigured');
+    setSupabaseError(null);
+  };
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-neutral-900' : 'bg-neutral-50'}`}>
@@ -141,6 +200,176 @@ export const AdminSettings: React.FC = () => {
               </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* Supabase Configuration Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className={`rounded-2xl p-6 mt-6 ${
+            theme === 'dark' 
+              ? 'bg-neutral-800 border border-neutral-700' 
+              : 'bg-white border border-neutral-200 shadow-sm'
+          }`}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+              theme === 'dark' ? 'bg-emerald-500/20' : 'bg-emerald-100'
+            }`}>
+              <Database className={`w-6 h-6 ${theme === 'dark' ? 'text-emerald-400' : 'text-emerald-600'}`} />
+            </div>
+            <div className="flex-1">
+              <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-neutral-900'}`}>
+                Backend Configuration
+              </h2>
+              <p className={`text-sm ${theme === 'dark' ? 'text-neutral-400' : 'text-neutral-500'}`}>
+                Connect to Supabase for user authentication and data persistence
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              {supabaseStatus === 'connected' && (
+                <span className="flex items-center gap-1 text-emerald-500 text-sm">
+                  <CheckCircle className="w-4 h-4" />
+                  Connected
+                </span>
+              )}
+              {supabaseStatus === 'configured' && (
+                <span className="flex items-center gap-1 text-yellow-500 text-sm">
+                  <AlertCircle className="w-4 h-4" />
+                  Configured
+                </span>
+              )}
+              {supabaseStatus === 'error' && (
+                <span className="flex items-center gap-1 text-red-500 text-sm">
+                  <AlertCircle className="w-4 h-4" />
+                  Error
+                </span>
+              )}
+              {supabaseStatus === 'testing' && (
+                <span className="flex items-center gap-1 text-blue-500 text-sm animate-pulse">
+                  Testing...
+                </span>
+              )}
+            </div>
+          </div>
+
+          {supabaseStatus === 'unconfigured' && (
+            <div className={`p-4 rounded-xl mb-6 ${
+              theme === 'dark' ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-blue-50 border border-blue-200'
+            }`}>
+              <p className={`text-sm ${theme === 'dark' ? 'text-blue-300' : 'text-blue-700'}`}>
+                <strong>Getting Started:</strong> Create a free Supabase project at{' '}
+                <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="underline">
+                  supabase.com
+                </a>
+                , then enter your project URL and anon key below.
+              </p>
+            </div>
+          )}
+
+          {supabaseError && (
+            <div className={`p-4 rounded-xl mb-6 ${
+              theme === 'dark' ? 'bg-red-500/10 border border-red-500/20' : 'bg-red-50 border border-red-200'
+            }`}>
+              <p className={`text-sm ${theme === 'dark' ? 'text-red-300' : 'text-red-700'}`}>
+                <strong>Error:</strong> {supabaseError}
+              </p>
+            </div>
+          )}
+
+          <div className="space-y-4">
+            <div>
+              <label className={`flex items-center gap-2 text-sm font-medium mb-2 ${
+                theme === 'dark' ? 'text-neutral-300' : 'text-neutral-700'
+              }`}>
+                <Database className="w-4 h-4" />
+                Supabase URL
+              </label>
+              <input
+                type="url"
+                value={supabaseUrl}
+                onChange={(e) => setSupabaseUrl(e.target.value)}
+                placeholder="https://your-project.supabase.co"
+                className={`w-full px-4 py-3 rounded-xl border transition-colors ${
+                  theme === 'dark'
+                    ? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400 focus:border-emerald-500'
+                    : 'bg-white border-neutral-300 text-neutral-900 placeholder-neutral-400 focus:border-emerald-500'
+                } focus:outline-none focus:ring-2 focus:ring-emerald-500/20`}
+              />
+            </div>
+
+            <div>
+              <label className={`flex items-center gap-2 text-sm font-medium mb-2 ${
+                theme === 'dark' ? 'text-neutral-300' : 'text-neutral-700'
+              }`}>
+                <Key className="w-4 h-4" />
+                Anon Key (Public)
+              </label>
+              <div className="relative">
+                <input
+                  type={showAnonKey ? 'text' : 'password'}
+                  value={supabaseAnonKey}
+                  onChange={(e) => setSupabaseAnonKey(e.target.value)}
+                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  className={`w-full px-4 py-3 pr-12 rounded-xl border transition-colors ${
+                    theme === 'dark'
+                      ? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400 focus:border-emerald-500'
+                      : 'bg-white border-neutral-300 text-neutral-900 placeholder-neutral-400 focus:border-emerald-500'
+                  } focus:outline-none focus:ring-2 focus:ring-emerald-500/20`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowAnonKey(!showAnonKey)}
+                  className={`absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded ${
+                    theme === 'dark' ? 'text-neutral-400 hover:text-white' : 'text-neutral-500 hover:text-neutral-700'
+                  }`}
+                >
+                  {showAnonKey ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+              <p className={`text-xs mt-1 ${theme === 'dark' ? 'text-neutral-500' : 'text-neutral-400'}`}>
+                This is the public anon key, safe to use in browser apps
+              </p>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={handleSaveSupabaseConfig}
+                disabled={supabaseStatus === 'testing'}
+                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all ${
+                  supabaseStatus === 'testing'
+                    ? 'bg-neutral-400 text-white cursor-not-allowed'
+                    : 'bg-emerald-500 text-white hover:bg-emerald-600'
+                }`}
+              >
+                {supabaseStatus === 'testing' ? 'Testing Connection...' : 'Save & Test Connection'}
+              </button>
+              {(supabaseStatus === 'configured' || supabaseStatus === 'connected' || supabaseStatus === 'error') && (
+                <button
+                  onClick={handleClearSupabaseConfig}
+                  className={`py-3 px-4 rounded-xl font-medium transition-all ${
+                    theme === 'dark'
+                      ? 'bg-neutral-700 text-neutral-300 hover:bg-neutral-600'
+                      : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                  }`}
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+
+          {supabaseStatus === 'connected' && (
+            <div className={`mt-6 p-4 rounded-xl ${
+              theme === 'dark' ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-200'
+            }`}>
+              <p className={`text-sm ${theme === 'dark' ? 'text-emerald-300' : 'text-emerald-700'}`}>
+                <strong>Next Steps:</strong> Run the database migration SQL in your Supabase SQL Editor to create the required tables. 
+                You can find the schema in <code className="px-1 py-0.5 rounded bg-black/10">src/types/database.ts</code>.
+              </p>
+            </div>
+          )}
         </motion.div>
 
         {/* Card Visibility Management Section */}
