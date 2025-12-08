@@ -1,100 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, ChevronRight, X, MessageCircle, Share2 } from 'lucide-react';
-import { LanternIcon } from '../ui/LanternIcon';
-
-interface ManifestedWin {
-  id: string;
-  userName: string;
-  userAvatar?: string;
-  title: string;
-  category: string;
-  daysToManifest: number;
-  signsLogged: number;
-  probability: number;
-  manifestedAt: Date;
-  lightsReceived: number;
-  hasReceivedLight: boolean;
-}
-
-const mockWins: ManifestedWin[] = [
-  {
-    id: '1',
-    userName: 'Sarah C.',
-    title: 'Got my dream job offer',
-    category: 'Career',
-    daysToManifest: 21,
-    signsLogged: 18,
-    probability: 8.3,
-    manifestedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-    lightsReceived: 47,
-    hasReceivedLight: false,
-  },
-  {
-    id: '2',
-    userName: 'Marcus J.',
-    title: 'Reconnected with my father',
-    category: 'Relationships',
-    daysToManifest: 14,
-    signsLogged: 12,
-    probability: 12.5,
-    manifestedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-    lightsReceived: 89,
-    hasReceivedLight: true,
-  },
-  {
-    id: '3',
-    userName: 'Elena R.',
-    title: 'Finally sleeping through the night',
-    category: 'Health',
-    daysToManifest: 7,
-    signsLogged: 7,
-    probability: 23.1,
-    manifestedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-    lightsReceived: 156,
-    hasReceivedLight: false,
-  },
-  {
-    id: '4',
-    userName: 'James K.',
-    title: 'Paid off all my debt',
-    category: 'Finance',
-    daysToManifest: 45,
-    signsLogged: 32,
-    probability: 5.2,
-    manifestedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-    lightsReceived: 234,
-    hasReceivedLight: false,
-  },
-  {
-    id: '5',
-    userName: 'Lisa M.',
-    title: 'Found my soulmate',
-    category: 'Love',
-    daysToManifest: 30,
-    signsLogged: 25,
-    probability: 7.8,
-    manifestedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-    lightsReceived: 312,
-    hasReceivedLight: true,
-  },
-  {
-    id: '6',
-    userName: 'David P.',
-    title: 'Started my own business',
-    category: 'Career',
-    daysToManifest: 60,
-    signsLogged: 48,
-    probability: 3.5,
-    manifestedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
-    lightsReceived: 189,
-    hasReceivedLight: false,
-  },
-];
+import { Flame, ChevronRight, X, MessageCircle, Share2, Trophy, Heart } from 'lucide-react';
+import { useManifestedWinsStore, WIN_CATEGORIES, ManifestedWin } from '../../store/manifestedWinsStore';
 
 const formatTimeAgo = (date: Date): string => {
   const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
+  const diffMs = now.getTime() - new Date(date).getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   
   if (diffDays === 0) return 'Today';
@@ -104,16 +15,22 @@ const formatTimeAgo = (date: Date): string => {
 };
 
 export const ManifestedWinsFeed: React.FC = () => {
+  const { wins, likeWin, unlikeWin, selectedCategory, setCategory } = useManifestedWinsStore();
   const [showModal, setShowModal] = useState(false);
-  const [wins, setWins] = useState(mockWins);
 
-  const handleSendLight = (winId: string) => {
-    setWins(prev => prev.map(win => 
-      win.id === winId 
-        ? { ...win, lightsReceived: win.lightsReceived + 1, hasReceivedLight: true }
-        : win
-    ));
+  const handleSendLight = (winId: string, isLiked: boolean) => {
+    if (isLiked) {
+      unlikeWin(winId);
+    } else {
+      likeWin(winId);
+    }
   };
+
+  const filteredWins = selectedCategory === 'all' 
+    ? wins 
+    : wins.filter(w => w.category === selectedCategory);
+
+  const categories = ['all', ...Object.keys(WIN_CATEGORIES)] as const;
 
   return (
     <>
@@ -138,35 +55,43 @@ export const ManifestedWinsFeed: React.FC = () => {
         </div>
 
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-                  {wins.slice(0, 6).map((win) => (
+                  {filteredWins.slice(0, 6).map((win) => (
                     <div
                       key={win.id}
-                      className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 border border-surface-border-strong dark:border-surface-border-dark-strong cursor-pointer hover:border-green-300 dark:hover:border-green-500/30 transition-colors"
+                      className={`bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 border cursor-pointer transition-colors ${
+                        win.isHallOfFame 
+                          ? 'border-gold-300 dark:border-gold-500/30 ring-1 ring-gold-200 dark:ring-gold-500/20' 
+                          : 'border-surface-border-strong dark:border-surface-border-dark-strong hover:border-green-300 dark:hover:border-green-500/30'
+                      }`}
                     >
                         <div className="flex items-center gap-2 mb-2">
                           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
                             {win.userName.charAt(0)}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <span className="text-xs font-medium text-neutral-900 dark:text-white block truncate">{win.userName}</span>
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs font-medium text-neutral-900 dark:text-white block truncate">{win.userName}</span>
+                              {win.isHallOfFame && <Trophy className="w-3 h-3 text-gold-500" />}
+                            </div>
                             <span className="text-xs text-neutral-600 dark:text-neutral-400">{formatTimeAgo(win.manifestedAt)}</span>
                           </div>
                         <button
-                          onClick={(e) => { e.stopPropagation(); handleSendLight(win.id); }}
-                          disabled={win.hasReceivedLight}
+                          onClick={(e) => { e.stopPropagation(); handleSendLight(win.id, win.isLikedByUser); }}
                           className={`p-1.5 rounded-lg transition-colors flex-shrink-0 ${
-                            win.hasReceivedLight
-                              ? 'bg-yellow-100 dark:bg-yellow-500/20 text-yellow-500 dark:text-yellow-400'
-                              : 'bg-neutral-100 dark:bg-neutral-700/50 text-neutral-400 hover:bg-yellow-100 dark:hover:bg-yellow-500/20 hover:text-yellow-500 dark:hover:text-yellow-400'
+                            win.isLikedByUser
+                              ? 'bg-pink-100 dark:bg-pink-500/20 text-pink-500 dark:text-pink-400'
+                              : 'bg-neutral-100 dark:bg-neutral-700/50 text-neutral-400 hover:bg-pink-100 dark:hover:bg-pink-500/20 hover:text-pink-500 dark:hover:text-pink-400'
                           }`}
                         >
-                          <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
+                          <Heart className={`w-4 h-4 ${win.isLikedByUser ? 'fill-current' : ''}`} />
                         </button>
                       </div>
                       <p className="text-xs text-neutral-800 dark:text-neutral-200 line-clamp-2 mb-2">"{win.title}"</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-neutral-600 dark:text-neutral-400">{win.daysToManifest}d · {win.signsLogged} signs</span>
-                        <span className="text-xs text-green-600 dark:text-green-400 font-medium">{(100 - win.probability).toFixed(1)}%</span>
+                        <span className="text-xs text-neutral-600 dark:text-neutral-400">{win.daysOnRoad}d on road</span>
+                        <span className="text-xs text-pink-500 font-medium flex items-center gap-1">
+                          <Heart className="w-3 h-3" /> {win.likes}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -211,13 +136,31 @@ export const ManifestedWinsFeed: React.FC = () => {
                 </button>
               </div>
 
+              <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setCategory(cat as typeof selectedCategory)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+                      selectedCategory === cat
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
+                    }`}
+                  >
+                    {cat === 'all' ? 'All' : WIN_CATEGORIES[cat as ManifestedWin['category']].label}
+                  </button>
+                ))}
+              </div>
+
               <div className="space-y-4">
-                {wins.map((win) => (
+                {filteredWins.map((win) => (
                   <motion.div
                     key={win.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-neutral-800/50 rounded-xl p-4 border border-neutral-700/50"
+                    className={`bg-neutral-800/50 rounded-xl p-4 border ${
+                      win.isHallOfFame ? 'border-gold-500/30 ring-1 ring-gold-500/20' : 'border-neutral-700/50'
+                    }`}
                   >
                     <div className="flex items-start gap-3 mb-3">
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white font-bold text-lg">
@@ -226,29 +169,31 @@ export const ManifestedWinsFeed: React.FC = () => {
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
                           <span className="font-medium text-white">{win.userName}</span>
+                          {win.isHallOfFame && (
+                            <span className="text-xs bg-gold-500/20 text-gold-400 px-2 py-0.5 rounded-full flex items-center gap-1">
+                              <Trophy className="w-3 h-3" /> Hall of Fame
+                            </span>
+                          )}
                           <span className="text-xs bg-neutral-700 text-neutral-400 px-2 py-0.5 rounded-full">
-                            {win.category}
+                            {WIN_CATEGORIES[win.category].label}
                           </span>
                         </div>
                         <span className="text-xs text-neutral-500">{formatTimeAgo(win.manifestedAt)}</span>
                       </div>
                     </div>
 
-                    <p className="text-white font-medium mb-3">"{win.title}"</p>
+                    <p className="text-white font-medium mb-2">"{win.title}"</p>
+                    <p className="text-sm text-neutral-400 mb-3">{win.description}</p>
 
                     <div className="bg-neutral-900/50 rounded-lg p-3 mb-3">
-                      <div className="grid grid-cols-3 gap-2 text-center">
-                        <div>
-                          <p className="text-lg font-bold text-white">{win.daysToManifest}</p>
-                          <p className="text-xs text-neutral-500">days</p>
+                      <div className="flex items-center justify-between">
+                        <div className="text-center">
+                          <p className="text-lg font-bold text-white">{win.daysOnRoad}</p>
+                          <p className="text-xs text-neutral-500">days on road</p>
                         </div>
-                        <div>
-                          <p className="text-lg font-bold text-white">{win.signsLogged}</p>
-                          <p className="text-xs text-neutral-500">signs</p>
-                        </div>
-                        <div>
-                          <p className="text-lg font-bold text-green-400">{100 - win.probability}%</p>
-                          <p className="text-xs text-neutral-500">odds beat</p>
+                        <div className="text-center">
+                          <p className="text-lg font-bold text-pink-400">{win.likes}</p>
+                          <p className="text-xs text-neutral-500">likes</p>
                         </div>
                       </div>
                     </div>
@@ -256,16 +201,15 @@ export const ManifestedWinsFeed: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <button
-                          onClick={() => handleSendLight(win.id)}
-                          disabled={win.hasReceivedLight}
+                          onClick={() => handleSendLight(win.id, win.isLikedByUser)}
                           className={`flex items-center gap-1.5 text-sm transition-colors ${
-                            win.hasReceivedLight
-                              ? 'text-yellow-400'
-                              : 'text-neutral-400 hover:text-yellow-400'
+                            win.isLikedByUser
+                              ? 'text-pink-400'
+                              : 'text-neutral-400 hover:text-pink-400'
                           }`}
                         >
-                          <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
-                          <span>{win.lightsReceived}</span>
+                          <Heart className={`w-4 h-4 ${win.isLikedByUser ? 'fill-current' : ''}`} />
+                          <span>{win.likes}</span>
                         </button>
                         <button className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors">
                           <MessageCircle className="w-4 h-4" />
