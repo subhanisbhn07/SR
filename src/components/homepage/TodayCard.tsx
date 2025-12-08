@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Check, Sparkles, Eye, Clock, Flame } from 'lucide-react';
+import { Play, Check, Sparkles, Eye, Clock, Flame, Search } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useConfigStore } from '../../store/configStore';
 import { useSignsGoalsStore } from '../../store/signsGoalsStore';
+import { useGamificationStore } from '../../store/gamificationStore';
 import { LanternIcon } from '../ui/LanternIcon';
+import { SignDiscoveryModal } from '../signs/SignDiscoveryModal';
 
 interface TodayCardProps {
   onStartSession?: () => void;
@@ -14,9 +16,11 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
   const { user, selectedRoad } = useAuthStore();
   const { freeTrialDays } = useConfigStore();
   const { activeSigns, assignInitialSigns, markSignFound } = useSignsGoalsStore();
+  const { lanternHealth, streakDays, sparks } = useGamificationStore();
   const [signLogged, setSignLogged] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [showReward, setShowReward] = useState(false);
+  const [showSignDiscovery, setShowSignDiscovery] = useState(false);
 
   // Initialize signs on first load
   useEffect(() => {
@@ -28,8 +32,10 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     ? { id: activeSigns[0].id, challenge: `Look for a ${activeSigns[0].label.toLowerCase()}`, emoji: activeSigns[0].emoji }
     : { id: 'default', challenge: 'Look for a white feather', emoji: '🪶' };
   const roadStep = user?.currentRoadStep || 1;
-  const streakDays = user?.streakDays || 7;
-  const lanternHealth = user?.lanternHealth || 82;
+  // Use gamification store values (with fallbacks to user values for backward compatibility)
+  const currentStreakDays = streakDays || user?.streakDays || 0;
+  const currentLanternHealth = lanternHealth || user?.lanternHealth || 100;
+  const currentSparks = sparks || user?.sparks || 0;
 
   const getRoadName = () => {
     switch (selectedRoad) {
@@ -76,12 +82,12 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
       {/* Header with Lantern and Progress - HERO styling */}
       <div className="flex items-center justify-between mb-5 pt-2">
         <div className="flex items-center gap-4">
-          <LanternIcon 
-            health={lanternHealth} 
-            size="lg" 
-            showTooltip={true}
-            streakDays={streakDays}
-          />
+            <LanternIcon 
+              health={currentLanternHealth} 
+              size="lg" 
+              showTooltip={true}
+              streakDays={currentStreakDays}
+            />
           <div>
             <h2 className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">Today</h2>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
@@ -89,10 +95,19 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-gold-50 dark:bg-gold-900/20 px-4 py-2 rounded-full border border-gold-200 dark:border-gold-700/40 shadow-sm">
-          <Sparkles className="w-5 h-5 text-gold-600 dark:text-gold-400" />
-          <span className="text-base font-bold text-gold-700 dark:text-gold-400">{user?.sparks || 0}</span>
-          <span className="text-xl">{todaySign.emoji}</span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowSignDiscovery(true)}
+            className="flex items-center gap-2 px-3 py-2 bg-teal-500/10 hover:bg-teal-500/20 text-teal-600 dark:text-teal-400 rounded-full border border-teal-500/30 transition-colors"
+          >
+            <Search className="w-4 h-4" />
+            <span className="text-sm font-medium">Find Signs</span>
+          </button>
+          <div className="flex items-center gap-2 bg-gold-50 dark:bg-gold-900/20 px-4 py-2 rounded-full border border-gold-200 dark:border-gold-700/40 shadow-sm">
+            <Sparkles className="w-5 h-5 text-gold-600 dark:text-gold-400" />
+            <span className="text-base font-bold text-gold-700 dark:text-gold-400">{currentSparks}</span>
+            <span className="text-xl">{todaySign.emoji}</span>
+          </div>
         </div>
       </div>
 
@@ -116,7 +131,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
       )}
 
       {/* Forgiving nudge if lantern is dimming */}
-      {lanternHealth < 50 && (
+      {currentLanternHealth < 50 && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
@@ -276,6 +291,12 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Sign Discovery Modal */}
+      <SignDiscoveryModal
+        isOpen={showSignDiscovery}
+        onClose={() => setShowSignDiscovery(false)}
+      />
     </motion.div>
   );
 };
