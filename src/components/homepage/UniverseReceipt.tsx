@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Share2, Copy, Check, Trophy, Download, Star } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import html2canvas from 'html2canvas';
+import { NeumoCard } from '../ui/NeumoCard';
 
 interface ManifestationData {
   id: string;
@@ -181,12 +182,13 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-neumo-surface rounded-neumo-lg p-5 mb-6 shadow-neumo border border-neumo-border"
+        className="mb-6"
       >
+        <NeumoCard showBlob={true} blobColor="gold">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-neumo bg-neumo-surface-soft flex items-center justify-center">
-              <Trophy className="w-6 h-6 text-neumo-text-secondary" />
+            <div className="w-12 h-12 rounded-neumo bg-brand-teal flex items-center justify-center shadow-teal-glow">
+              <Trophy className="w-6 h-6 text-white" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-neumo-text">Latest Win</h2>
@@ -210,11 +212,12 @@ Start your road: signroad.com
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           <Share2 className="w-4 h-4" />
           Share Universe Receipt
         </button>
+        </NeumoCard>
       </motion.div>
 
       <AnimatePresence>

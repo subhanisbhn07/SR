@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Flame, ChevronRight, X, Plus, Crown, Check } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { LanternIcon } from '../ui/LanternIcon';
+import { NeumoCard } from '../ui/NeumoCard';
 
 interface TribeMember {
   id: string;
@@ -80,12 +81,13 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-neumo-surface rounded-neumo-lg p-5 mb-6 shadow-neumo border border-neumo-border"
+        className="mb-6"
       >
+        <NeumoCard showBlob={true} blobColor="teal">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-neumo bg-neumo-surface-soft flex items-center justify-center">
-              <Users className="w-6 h-6 text-neumo-text-secondary" />
+            <div className="w-12 h-12 rounded-neumo bg-brand-teal flex items-center justify-center shadow-teal-glow">
+              <Users className="w-6 h-6 text-white" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-neumo-text">Your Tribe</h2>
@@ -114,7 +116,7 @@ export const TribesCard: React.FC = () => {
                   member.name === 'Open Spot'
                     ? 'bg-neumo-border border border-dashed border-neumo-text-muted'
                     : member.showedUpToday
-                    ? 'bg-neutral-500'
+                    ? 'bg-brand-teal'
                     : 'bg-neumo-border'
                 }`}
               />
@@ -161,11 +163,12 @@ export const TribesCard: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           Check In With Tribe
           <ChevronRight className="w-4 h-4" />
         </button>
+        </NeumoCard>
       </motion.div>
 
       <AnimatePresence>

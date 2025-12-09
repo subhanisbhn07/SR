@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { LoginForm } from './components/auth/LoginForm';
 import { Homepage } from './pages/Homepage';
 import { ChooseYourRoad } from './components/onboarding/ChooseYourRoad';
 import { AdminSettings } from './pages/AdminSettings';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { PageLoader } from './components/ui/PageLoader';
 
 function App() {
   const { isAuthenticated, mode, hasCompletedOnboarding, completeOnboarding, user } = useAuthStore();
+  const [isBooting, setIsBooting] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsBooting(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isBooting) {
+    return <PageLoader message="Loading SignRoad..." />;
+  }
   
   if (!isAuthenticated) {
     return (
@@ -34,7 +46,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/admin/settings" element={<AdminSettings />} />
-        <Route path="*" element={<Homepage />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

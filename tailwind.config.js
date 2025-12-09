@@ -14,6 +14,14 @@ export default {
         // - Minimal color - grayscale only
         // - Generous rounded corners
         //
+        // === BRAND COLORS - Transformative Teal ===
+        brand: {
+          teal: '#0E7A77',            // Primary brand color - Transformative Teal
+          'teal-light': '#17A7A2',    // Lighter teal for hover states
+          'teal-soft': '#1BA29F',     // Soft teal for backgrounds
+          'teal-dark': '#0A5C5A',     // Darker teal for emphasis
+          'teal-muted': '#E6F4F4',    // Very light teal for subtle backgrounds
+        },
         // === NEUMORPHIC BASE COLORS ===
         neumo: {
           bg: '#E0E5EC',              // Main background - soft gray
@@ -23,7 +31,7 @@ export default {
           'text-secondary': '#636E72', // Secondary text - medium gray
           'text-muted': '#B2BEC3',    // Muted text - light gray
           border: '#D1D9E6',          // Subtle borders
-          accent: '#636E72',          // Accent (neutral gray)
+          accent: '#0E7A77',          // Accent now uses brand teal
         },
         // === BACKGROUNDS ===
         background: {
@@ -196,16 +204,16 @@ export default {
           'active': '#CDD4DC',
           'active-dark': '#CDD4DC',
         },
-        // === BUTTON COLORS ===
+        // === BUTTON COLORS (Teal Primary) ===
         btn: {
-          'primary': '#636E72',
-          'primary-hover': '#4A5568',
+          'primary': '#0E7A77',
+          'primary-hover': '#0A5C5A',
           'secondary': '#E0E5EC',
           'secondary-hover': '#D1D9E6',
-          'accent': '#636E72',
-          'accent-hover': '#4A5568',
+          'accent': '#0E7A77',
+          'accent-hover': '#0A5C5A',
           'ghost': 'transparent',
-          'ghost-hover': '#D1D9E6',
+          'ghost-hover': '#E6F4F4',
         },
         // === BADGE COLORS ===
         badge: {
@@ -299,6 +307,12 @@ export default {
         'neumo-inset-sm': 'inset 2px 2px 6px rgba(163, 177, 198, 0.35), inset -2px -2px 6px rgba(255, 255, 255, 0.85)',
         // Flat (no shadow)
         'neumo-flat': 'none',
+        // === UIVERSE CARD STYLE - Stronger shadows for blob cards ===
+        'neumo-card': '20px 20px 60px #bebebe, -20px -20px 60px #ffffff',
+        'neumo-card-sm': '12px 12px 36px #bebebe, -12px -12px 36px #ffffff',
+        // Teal glow for CTAs and highlights
+        'teal-glow': '0 4px 20px rgba(14, 122, 119, 0.3)',
+        'teal-glow-lg': '0 8px 32px rgba(14, 122, 119, 0.4)',
         // Legacy shadows mapped to neumorphic
         'glow': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
         'glow-lg': '10px 10px 28px rgba(163, 177, 198, 0.55), -10px -10px 28px rgba(255, 255, 255, 0.95)',
@@ -324,6 +338,9 @@ export default {
         'bounce-gentle': 'bounceGentle 2s infinite',
         'pulse-slow': 'pulse 3s infinite',
         'float': 'float 6s ease-in-out infinite',
+        'blob-bounce': 'blobBounce 5s infinite ease',
+        'dots-bounce': 'dotsBounce 0.5s alternate infinite ease',
+        'spinner-orb': 'spinnerOrb 1.7s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -341,6 +358,21 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
+        },
+        blobBounce: {
+          '0%': { transform: 'translate(-100%, -100%) translate3d(0, 0, 0)' },
+          '25%': { transform: 'translate(-100%, -100%) translate3d(100%, 0, 0)' },
+          '50%': { transform: 'translate(-100%, -100%) translate3d(100%, 100%, 0)' },
+          '75%': { transform: 'translate(-100%, -100%) translate3d(0, 100%, 0)' },
+          '100%': { transform: 'translate(-100%, -100%) translate3d(0, 0, 0)' },
+        },
+        dotsBounce: {
+          '0%': { top: '60px', height: '5px', borderRadius: '50px 50px 25px 25px', transform: 'scaleX(1.7)' },
+          '40%': { height: '20px', borderRadius: '50%', transform: 'scaleX(1)' },
+          '100%': { top: '0%' },
+        },
+        spinnerOrb: {
+          'to': { transform: 'rotate(360deg)' },
         },
       },
     },

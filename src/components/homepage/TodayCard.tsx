@@ -5,6 +5,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useConfigStore } from '../../store/configStore';
 import { useSignsGoalsStore } from '../../store/signsGoalsStore';
 import { LanternIcon } from '../ui/LanternIcon';
+import { NeumoCard } from '../ui/NeumoCard';
 
 interface TodayCardProps {
   onStartSession?: () => void;
@@ -68,10 +69,12 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-neumo-surface rounded-neumo-lg p-6 mb-6 shadow-neumo border border-neumo-border relative overflow-hidden"
+      className="mb-6"
     >
-      {/* Subtle gradient accent at top */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-neutral-400 via-neutral-500 to-neutral-600" />
+      <NeumoCard size="lg" showBlob={true} blobColor="teal">
+        <div className="relative">
+          {/* Subtle gradient accent at top */}
+          <div className="absolute -top-6 -left-6 -right-6 h-1 bg-gradient-to-r from-brand-teal via-brand-teal-light to-brand-teal-soft rounded-t-lg" />
       
       {/* Header with Lantern and Progress - HERO styling */}
       <div className="flex items-center justify-between mb-5 pt-2">
@@ -109,7 +112,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${(roadStep / freeTrialDays) * 100}%` }}
-              className="h-full bg-neutral-500 rounded-full"
+              className="h-full bg-brand-teal rounded-full"
             />
           </div>
         </div>
@@ -168,7 +171,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!signLogged && (
               <button
                 onClick={handleLogSign}
-                className="px-3 py-1.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text text-sm font-medium rounded-neumo transition-all"
+                className="px-3 py-1.5 bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white text-sm font-medium rounded-neumo transition-all"
               >
                 Log It
               </button>
@@ -211,7 +214,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!sessionCompleted && (
               <button
                 onClick={handleStartSession}
-                className="px-3 py-1.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text text-sm font-medium rounded-neumo transition-all flex items-center gap-1"
+                className="px-3 py-1.5 bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white text-sm font-medium rounded-neumo transition-all flex items-center gap-1"
               >
                 <Play className="w-3 h-3" />
                 Play
@@ -260,18 +263,20 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
           >
             <div className="bg-neumo-bg rounded-neumo-lg p-6 shadow-neumo-lg">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-neumo-bg shadow-neumo-sm flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-neumo-text" />
+                <div className="w-12 h-12 rounded-full bg-brand-teal shadow-teal-glow flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <p className="font-semibold text-neumo-text">Reward Earned!</p>
-                  <p className="text-sm text-neumo-text-secondary">+5 Sparks, +3 Lantern Health</p>
+                  <p className="text-sm text-brand-teal">+5 Sparks, +3 Lantern Health</p>
                 </div>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+        </div>
+      </NeumoCard>
     </motion.div>
   );
 };

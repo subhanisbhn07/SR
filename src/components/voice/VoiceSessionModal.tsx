@@ -31,12 +31,12 @@ const VoiceOrb: React.FC<{ playerState: PlayerState; onClick: () => void }> = ({
       onClick={onClick}
       aria-label={ariaLabel}
       aria-pressed={isActive}
-      className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-emerald-400/50 rounded-full cursor-pointer"
+      className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-brand-teal/50 rounded-full cursor-pointer"
     >
       {/* Single soft halo glow - more intense when playing */}
       <motion.div
         className={`absolute inset-0 rounded-full blur-2xl ${
-          isCompleted ? 'bg-gold-500/20' : 'bg-emerald-500/20'
+          isCompleted ? 'bg-amber-500/20' : 'bg-brand-teal/20'
         }`}
         animate={isActive 
           ? { scale: [1, 1.2, 1], opacity: [0.25, 0.5, 0.25] } 
@@ -49,14 +49,14 @@ const VoiceOrb: React.FC<{ playerState: PlayerState; onClick: () => void }> = ({
         transition={{ duration: 3, repeat: isActive ? Infinity : 0, ease: 'easeInOut' }}
       />
 
-      {/* Core orb with emerald/teal gradient */}
+      {/* Core orb with teal gradient - Transformative Teal */}
       <motion.div
         className={`relative w-28 h-28 md:w-32 md:h-32 rounded-full flex items-center justify-center ${
           isCompleted 
-            ? 'bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 shadow-[0_0_50px_rgba(251,191,36,0.5)]'
+            ? 'bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 shadow-[0_0_50px_rgba(251,191,36,0.5)]'
             : isPaused
-              ? 'bg-gradient-to-br from-emerald-500 via-teal-600 to-emerald-700 shadow-[0_0_35px_rgba(16,185,129,0.35)]'
-              : 'bg-gradient-to-br from-emerald-400 via-teal-500 to-emerald-600 shadow-[0_0_45px_rgba(16,185,129,0.45)]'
+              ? 'bg-gradient-to-br from-brand-teal via-brand-teal-dark to-brand-teal shadow-[0_0_35px_rgba(14,122,119,0.35)]'
+              : 'bg-gradient-to-br from-brand-teal-light via-brand-teal to-brand-teal-dark shadow-[0_0_45px_rgba(14,122,119,0.45)]'
         }`}
         animate={isActive 
           ? { scale: [1, 1.05, 1] } 
@@ -81,7 +81,7 @@ const VoiceOrb: React.FC<{ playerState: PlayerState; onClick: () => void }> = ({
           {/* Outer spark ring */}
           <motion.div
             className={`absolute w-10 h-10 md:w-12 md:h-12 rounded-full ${
-              isCompleted ? 'bg-white/20' : 'bg-white/15'
+              isCompleted ? 'bg-white/25' : 'bg-white/15'
             }`}
             animate={isActive 
               ? { scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }
@@ -117,7 +117,7 @@ const VoiceOrb: React.FC<{ playerState: PlayerState; onClick: () => void }> = ({
           {/* Center glow dot */}
           <motion.div
             className={`absolute w-2 h-2 md:w-2.5 md:h-2.5 rounded-full ${
-              isCompleted ? 'bg-gold-200' : 'bg-emerald-200'
+              isCompleted ? 'bg-amber-200' : 'bg-brand-teal-muted'
             }`}
             animate={isActive 
               ? { scale: [1, 1.5, 1], opacity: [0.8, 1, 0.8] }
@@ -249,10 +249,10 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
         {/* Clean dark background */}
         <div className="absolute inset-0 bg-neutral-950" />
 
-        {/* Single centered glow behind orb */}
+        {/* Single centered glow behind orb - Transformative Teal */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-emerald-600/15 rounded-full blur-3xl"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-teal/15 rounded-full blur-3xl"
             animate={playerState === 'playing' 
               ? { scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] } 
               : { scale: 1, opacity: 0.15 }
@@ -285,7 +285,7 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
               <p className="text-neutral-400 text-sm">{courseSubtitle}</p>
             )}
             {durationLabel && (
-              <span className="inline-block mt-2 px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded-full">
+              <span className="inline-block mt-2 px-2.5 py-0.5 bg-brand-teal/10 text-brand-teal-light text-xs rounded-full">
                 {durationLabel}
               </span>
             )}
@@ -304,14 +304,14 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
             {stateLabel}
           </motion.p>
 
-          {/* Progress bar - thin and elegant */}
+          {/* Progress bar - thin and elegant with Transformative Teal */}
           <div className="w-full max-w-xs">
             <div
               className="w-full h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer"
               onClick={handleProgressClick}
             >
               <motion.div
-                className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full"
+                className="h-full bg-gradient-to-r from-brand-teal-light to-brand-teal rounded-full"
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
@@ -339,7 +339,7 @@ export const VoiceSessionModal: React.FC<VoiceSessionModalProps> = ({
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-6 text-sm text-gold-400"
+              className="mt-6 text-sm text-amber-400"
             >
               +10 Sparks earned
             </motion.p>

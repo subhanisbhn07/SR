@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Lock, Check, ChevronRight, X } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { NeumoCard } from '../ui/NeumoCard';
 
 interface Reward {
   id: string;
@@ -88,12 +89,13 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-neumo-surface rounded-neumo-lg p-5 mb-6 shadow-neumo border border-neumo-border"
+        className="mb-6"
       >
+        <NeumoCard showBlob={true} blobColor="teal">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-neumo bg-neumo-surface-soft flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-neumo-text" />
+            <div className="w-12 h-12 rounded-neumo bg-brand-teal flex items-center justify-center shadow-teal-glow">
+              <Sparkles className="w-6 h-6 text-white" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-neumo-text">Your Sparks</h2>
@@ -115,7 +117,7 @@ export const SparksRewards: React.FC = () => {
             </div>
             <div className="h-2 bg-neumo-border rounded-full overflow-hidden shadow-neumo-inset-sm">
               <div 
-                className="h-full bg-neutral-500 rounded-full transition-all duration-500"
+                className="h-full bg-brand-teal rounded-full transition-all duration-500"
                 style={{ width: `${(userSparks / 100) * 100}%` }}
               />
             </div>
@@ -148,11 +150,12 @@ export const SparksRewards: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           Unlock More Rewards
           <ChevronRight className="w-4 h-4" />
         </button>
+        </NeumoCard>
       </motion.div>
 
       <AnimatePresence>
