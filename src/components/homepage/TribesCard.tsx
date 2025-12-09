@@ -40,10 +40,10 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
+        className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow backdrop-blur-glass"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-gold-500/20 flex items-center justify-center">
             <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
           </div>
           <div>
@@ -80,12 +80,12 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
+        className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow backdrop-blur-glass"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
-              <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+            <div className="w-12 h-12 rounded-xl bg-lavender-500/20 flex items-center justify-center">
+              <Users className="w-6 h-6 text-lavender-500 dark:text-lavender-400" />
             </div>
             <div>
               <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Your Tribe</h2>
@@ -101,7 +101,7 @@ export const TribesCard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 mb-4">
+        <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl p-3 mb-4 border border-glass-border">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-neutral-500 dark:text-neutral-400">Today's Check-ins</span>
             <span className="text-sm font-medium text-teal-600 dark:text-teal-400">{showedUpCount}/{totalMembers}</span>

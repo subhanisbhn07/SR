@@ -88,7 +88,7 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-surface-card-warm dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
+        className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow backdrop-blur-glass"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -108,7 +108,7 @@ export const SparksRewards: React.FC = () => {
 
         {/* Neuromarketing: Progress hint to next reward */}
         {userSparks < 100 && (
-          <div className="mb-4 p-3 bg-gold-50 dark:bg-gold-500/10 rounded-xl border border-gold-200 dark:border-gold-500/20">
+          <div className="mb-4 p-3 bg-gold-500/10 rounded-xl border border-gold-500/20 shadow-glow">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-gold-700 dark:text-gold-400 font-medium">Next reward at 100 Sparks</span>
               <span className="text-xs text-gold-600 dark:text-gold-400">{100 - userSparks} to go!</span>
@@ -128,8 +128,8 @@ export const SparksRewards: React.FC = () => {
               key={reward.id}
               className={`p-3 rounded-xl text-center ${
                 reward.unlocked 
-                  ? 'bg-gold-100 dark:bg-gold-500/20 border border-gold-200 dark:border-gold-500/30' 
-                  : 'bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700/50'
+                  ? 'bg-gold-500/20 border border-gold-500/30 shadow-glow' 
+                  : 'bg-surface-elevated dark:bg-surface-elevated-dark border border-glass-border'
               }`}
             >
               <div className="text-2xl mb-1">{reward.emoji}</div>

@@ -27,7 +27,7 @@ const mockManifestation: ManifestationData = {
 };
 
 export const UniverseReceipt: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user } = useAuthStore(); 
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -149,10 +149,10 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-gold-500/30 shadow-sm dark:shadow-none"
+        className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow backdrop-blur-glass"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-gold-100 dark:bg-gold-500/20 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-gold-500/20 flex items-center justify-center">
             <Trophy className="w-6 h-6 text-gold-500 dark:text-gold-400" />
           </div>
           <div>
@@ -181,11 +181,11 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-gold-500/30 shadow-sm dark:shadow-none"
+        className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow backdrop-blur-glass"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gold-100 dark:bg-gold-500/20 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-gold-500/20 flex items-center justify-center shadow-glow">
               <Trophy className="w-6 h-6 text-gold-500 dark:text-gold-400" />
             </div>
             <div>
@@ -193,13 +193,13 @@ Start your road: signroad.com
               <p className="text-sm text-neutral-500 dark:text-neutral-400">You manifested something!</p>
             </div>
           </div>
-          <div className="flex items-center gap-1 bg-gold-100 dark:bg-gold-500/20 px-3 py-1.5 rounded-full">
+          <div className="flex items-center gap-1 bg-gold-500/20 px-3 py-1.5 rounded-full border border-gold-500/30 shadow-glow">
             <Star className="w-4 h-4 text-gold-500 dark:text-gold-400 fill-gold-500 dark:fill-gold-400" />
             <span className="text-sm font-medium text-gold-600 dark:text-gold-400">New</span>
           </div>
         </div>
 
-        <div className="bg-neutral-100 dark:bg-neutral-800/50 rounded-xl p-4 mb-4">
+        <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl p-4 mb-4 border border-glass-border">
           <p className="text-neutral-900 dark:text-white font-medium mb-2">"{manifestation.title}"</p>
           <div className="flex items-center gap-4 text-sm">
             <span className="text-neutral-600 dark:text-neutral-400">{manifestation.daysToManifest} days</span>

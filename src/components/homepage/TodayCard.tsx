@@ -68,7 +68,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-surface-card-dark rounded-2xl p-6 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none relative overflow-hidden"
+      className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-6 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow relative overflow-hidden backdrop-blur-glass"
     >
       {/* Subtle gradient accent at top */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-gold-500" />
@@ -89,7 +89,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-gold-50 dark:bg-gold-900/20 px-4 py-2 rounded-full border border-gold-200 dark:border-gold-700/40 shadow-sm">
+        <div className="flex items-center gap-2 bg-gold-500/10 dark:bg-gold-500/20 px-4 py-2 rounded-full border border-gold-500/20 dark:border-gold-500/30 shadow-glow">
           <Sparkles className="w-5 h-5 text-gold-600 dark:text-gold-400" />
           <span className="text-base font-bold text-gold-700 dark:text-gold-400">{user?.sparks || 0}</span>
           <span className="text-xl">{todaySign.emoji}</span>
@@ -98,7 +98,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
 
       {/* Free Trial Progress Bar */}
       {isFreeTrialDay && (
-        <div className="mb-4 p-3 bg-neutral-100 dark:bg-neutral-900/50 rounded-xl">
+        <div className="mb-4 p-3 bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl border border-glass-border">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-neutral-500 dark:text-neutral-400">Free Trial Progress</span>
             <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
@@ -141,8 +141,8 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           className={`p-4 rounded-xl border transition-all ${
             signLogged 
-              ? 'bg-success-50 dark:bg-success-500/10 border-success-200 dark:border-success-500/30' 
-              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-teal-300 dark:hover:border-teal-500/50'
+              ? 'bg-success-500/10 border-success-500/30 shadow-glow-mint' 
+              : 'bg-surface-elevated dark:bg-surface-elevated-dark border-glass-border hover:border-gold-500/30 hover:shadow-glow'
           }`}
         >
           <div className="flex items-start gap-3">
@@ -182,8 +182,8 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           className={`p-4 rounded-xl border transition-all ${
             sessionCompleted 
-              ? 'bg-success-50 dark:bg-success-500/10 border-success-200 dark:border-success-500/30' 
-              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-emerald-300 dark:hover:border-emerald-500/50'
+              ? 'bg-success-500/10 border-success-500/30 shadow-glow-mint' 
+              : 'bg-surface-elevated dark:bg-surface-elevated-dark border-glass-border hover:border-gold-500/30 hover:shadow-glow'
           }`}
         >
           <div className="flex items-start gap-3">
