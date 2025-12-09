@@ -70,14 +70,15 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
             return (
               <motion.button
                 key={category.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3, delay: 0.03 * index }}
+                transition={{ duration: 0.2, delay: Math.min(0.02 * index, 0.15) }}
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onCategorySelect?.(category.name)}
-                className={`p-4 md:p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 border-l-4 ${accent.border} cursor-pointer group transition-all duration-200 hover:shadow-md text-left shadow-sm`}
+                aria-label={`Explore ${category.name} courses`}
+                className={`p-4 md:p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 border-l-4 ${accent.border} cursor-pointer group transition-all duration-200 hover:shadow-md text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950`}
               >
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-lg ${accent.iconBg} flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-200`}>
@@ -99,7 +100,8 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
           onClick={() => setShowAll(!showAll)}
-          className="mt-4 mx-auto flex items-center gap-2 px-4 py-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
+          aria-expanded={showAll}
+          className="mt-4 mx-auto flex items-center gap-2 px-4 py-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
         >
           {showAll ? (
             <>

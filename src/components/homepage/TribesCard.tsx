@@ -278,7 +278,7 @@ export const TribesCard: React.FC = () => {
 
               <div className="mt-6 p-4 bg-neutral-800/50 rounded-xl">
                 <div className="flex items-start gap-3">
-                  <Flame className="w-5 h-5 text-accent-400 mt-0.5" />
+                  <Flame className="w-5 h-5 text-gold-500 mt-0.5" />
                   <div>
                     <p className="text-sm text-white font-medium">Keep the tribe lantern bright!</p>
                     <p className="text-xs text-neutral-400 mt-1">

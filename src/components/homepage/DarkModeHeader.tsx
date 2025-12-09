@@ -76,23 +76,25 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
               <button
                 onClick={() => setShowEnterpriseMenu(!showEnterpriseMenu)}
                 onBlur={() => setTimeout(() => setShowEnterpriseMenu(false), 150)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 transition-colors"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-teal-100 dark:bg-teal-500/20 hover:bg-teal-200 dark:hover:bg-teal-500/30 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                aria-expanded={showEnterpriseMenu}
+                aria-haspopup="true"
               >
-                <Building2 className="w-3.5 h-3.5 text-blue-400" />
-                <span className="text-xs font-medium text-blue-400">Enterprise</span>
-                <ChevronDown className={`w-3 h-3 text-blue-400 transition-transform ${showEnterpriseMenu ? 'rotate-180' : ''}`} />
+                <Building2 className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+                <span className="text-xs font-medium text-teal-600 dark:text-teal-400">Enterprise</span>
+                <ChevronDown className={`w-3 h-3 text-teal-600 dark:text-teal-400 transition-transform ${showEnterpriseMenu ? 'rotate-180' : ''}`} />
               </button>
-              
+
               {showEnterpriseMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-neutral-800 border border-neutral-700 rounded-xl shadow-xl overflow-hidden z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden z-50">
                   <button
                     onClick={() => {
                       setShowForTeams(true);
                       setShowEnterpriseMenu(false);
                     }}
-                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-700 transition-colors flex items-center gap-2"
+                    className="w-full px-4 py-3 text-left text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors flex items-center gap-2"
                   >
-                    <Building2 className="w-4 h-4 text-blue-400" />
+                    <Building2 className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                     For Teams
                     <span className="text-xs text-neutral-500 ml-auto">Pricing</span>
                   </button>
@@ -101,11 +103,11 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                       setShowB2B(true);
                       setShowEnterpriseMenu(false);
                     }}
-                    className="w-full px-4 py-3 text-left text-sm text-neutral-200 hover:bg-neutral-700 transition-colors flex items-center gap-2 border-t border-neutral-700"
+                    className="w-full px-4 py-3 text-left text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors flex items-center gap-2 border-t border-neutral-200 dark:border-neutral-700"
                   >
-                    <Building2 className="w-4 h-4 text-emerald-400" />
+                    <Building2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     Enterprise Sales
-                    <span className="text-xs text-emerald-400 ml-auto">Book a Call</span>
+                    <span className="text-xs text-emerald-600 dark:text-emerald-400 ml-auto">Book a Call</span>
                   </button>
                 </div>
               )}
@@ -113,27 +115,34 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
 
             {user && (
               <>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-800/50">
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800/50">
                   <LanternIcon health={user.lanternHealth} size="sm" />
-                  <span className="text-xs font-medium text-neutral-300">{user.lanternHealth}</span>
+                  <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
                 </div>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gold-500/20">
-                  <Sparkles className="w-4 h-4 text-gold-500" />
-                  <span className="text-xs font-medium text-gold-500">{user.sparks}</span>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gold-100 dark:bg-gold-500/20">
+                  <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-500" />
+                  <span className="text-xs font-medium text-gold-600 dark:text-gold-500">{user.sparks}</span>
                 </div>
               </>
             )}
 
             <ThemeToggle />
 
-            <button className={`p-2 rounded-lg transition-colors duration-200 relative ${
-              theme === 'dark' ? 'hover:bg-emerald-900/50' : 'hover:bg-neutral-100'
-            }`}>
+            <button
+              aria-label="Notifications"
+              className={`p-2 rounded-lg transition-colors duration-200 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
+                theme === 'dark' ? 'hover:bg-emerald-900/50' : 'hover:bg-neutral-100'
+              }`}
+            >
               <Bell className={`w-5 h-5 ${theme === 'dark' ? 'text-text-inverse' : 'text-neutral-600'}`} />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full"></div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full" aria-hidden="true"></div>
+              <span className="sr-only">You have new notifications</span>
             </button>
-            
-            <button className="w-8 h-8 rounded-full overflow-hidden">
+
+            <button
+              aria-label="User profile"
+              className="w-8 h-8 rounded-full overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface-card-dark"
+            >
               {user?.avatar ? (
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               ) : (
@@ -147,23 +156,35 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
           {/* Right Side - Mobile */}
           <div className="flex md:hidden items-center space-x-2">
             {user && (
-              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800/50">
-                <LanternIcon health={user.lanternHealth} size="sm" />
-                <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
-              </div>
+              <>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800/50">
+                  <LanternIcon health={user.lanternHealth} size="sm" />
+                  <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
+                </div>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gold-100 dark:bg-gold-500/20">
+                  <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-500" />
+                  <span className="text-xs font-medium text-gold-600 dark:text-gold-500">{user.sparks}</span>
+                </div>
+              </>
             )}
-            
+
             <ThemeToggle />
             
-            <button className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-emerald-900/50 transition-colors duration-200 relative">
+            <button
+              aria-label="Notifications"
+              className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-emerald-900/50 transition-colors duration-200 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+            >
               <Bell className="w-5 h-5 text-neutral-600 dark:text-text-inverse" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full"></div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full" aria-hidden="true"></div>
+              <span className="sr-only">You have new notifications</span>
             </button>
 
             {/* Hamburger Menu Button */}
             <button
               onClick={() => setShowMobileSidebar(true)}
-              className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+              aria-label="Open navigation menu"
+              aria-expanded={showMobileSidebar}
+              className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
             >
               <Menu className="w-5 h-5 text-neutral-700 dark:text-neutral-300" />
             </button>

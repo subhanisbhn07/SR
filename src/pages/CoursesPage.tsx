@@ -116,9 +116,9 @@ export const CoursesPage: React.FC = () => {
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900 ${
               selectedCategory === category
-                ? 'bg-primary-500 text-white'
+                ? 'bg-teal-500 text-white'
                 : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-300 dark:hover:bg-neutral-700'
             }`}
           >
@@ -136,11 +136,11 @@ export const CoursesPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
               onClick={() => handleCourseClick(course)}
-              className="w-full text-left bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-surface-border dark:border-neutral-700/50 hover:border-primary-300 dark:hover:border-primary-700 transition-all cursor-pointer"
+              className="w-full text-left bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-surface-border dark:border-neutral-700/50 hover:border-teal-300 dark:hover:border-teal-700 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
             >
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0">
-                  <BookOpen className="w-6 h-6 text-primary-500 dark:text-primary-400" />
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500/20 to-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <BookOpen className="w-6 h-6 text-teal-500 dark:text-teal-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -162,8 +162,8 @@ export const CoursesPage: React.FC = () => {
                     <span>{(course.students / 1000).toFixed(1)}k</span>
                   </div>
                 </div>
-                <div className="w-9 h-9 rounded-full bg-primary-100 dark:bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-                  <Play className="w-4 h-4 text-primary-500 dark:text-primary-400" />
+                <div className="w-9 h-9 rounded-full bg-teal-100 dark:bg-teal-500/20 flex items-center justify-center flex-shrink-0">
+                  <Play className="w-4 h-4 text-teal-500 dark:text-teal-400" />
                 </div>
               </div>
             </motion.button>
@@ -210,7 +210,8 @@ export const CoursesPage: React.FC = () => {
               </div>
               <button
                 onClick={() => setSelectedCourse(null)}
-                className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                aria-label="Close course details"
               >
                 <X className="w-5 h-5 text-neutral-500" />
               </button>
@@ -262,7 +263,7 @@ export const CoursesPage: React.FC = () => {
             {/* CTA Button */}
             <button
               onClick={() => handleStartSession(selectedCourse)}
-              className="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
             >
               <Play className="w-5 h-5" />
               {selectedCourse.isPremium ? 'Unlock & Start Session' : 'Start Session'}
