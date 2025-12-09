@@ -40,36 +40,40 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
+        className="bg-gradient-card dark:bg-gradient-card-dark rounded-3xl p-5 md:p-6 mb-6 shadow-neu dark:shadow-neu-dark"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
-            <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+        <div className="flex items-center gap-4 mb-5">
+          <div className="w-14 h-14 rounded-2xl bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center shadow-neu-sm dark:shadow-neu-dark-sm">
+            <Users className="w-7 h-7 text-teal-600 dark:text-teal-400" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Join a Tribe</h2>
+            <h2 className="text-lg font-bold text-neutral-800 dark:text-white">Join a Tribe</h2>
             <p className="text-sm text-neutral-500 dark:text-neutral-400">5-person accountability groups</p>
           </div>
         </div>
 
-        <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
-          Walk the road together with 4 others. Share your journey, keep each other accountable, 
+        <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-5 leading-relaxed">
+          Walk the road together with 4 others. Share your journey, keep each other accountable,
           and watch your collective lantern grow brighter.
         </p>
 
         <div className="flex gap-3">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setHasJoinedTribe(true)}
-            className="flex-1 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl transition-colors"
+            className="flex-1 py-3 bg-gradient-teal text-white font-semibold rounded-2xl shadow-neu-sm dark:shadow-neu-dark-sm hover:shadow-neu-teal transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
           >
             Find a Tribe
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setHasJoinedTribe(true)}
-            className="flex-1 py-2.5 bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-medium rounded-xl transition-colors"
+            className="flex-1 py-3 bg-gradient-neu dark:bg-gradient-neu-dark text-neutral-700 dark:text-neutral-300 font-semibold rounded-2xl shadow-neu-sm dark:shadow-neu-dark-sm hover:shadow-neu transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
           >
             Create One
-          </button>
+          </motion.button>
         </div>
       </motion.div>
     );
@@ -80,41 +84,41 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
+        className="bg-gradient-card dark:bg-gradient-card-dark rounded-3xl p-5 md:p-6 mb-6 shadow-neu dark:shadow-neu-dark"
       >
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
-              <Users className="w-6 h-6 text-teal-600 dark:text-teal-400" />
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center shadow-neu-sm dark:shadow-neu-dark-sm">
+              <Users className="w-7 h-7 text-teal-600 dark:text-teal-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Your Tribe</h2>
+              <h2 className="text-lg font-bold text-neutral-800 dark:text-white">Your Tribe</h2>
               <p className="text-sm text-neutral-500 dark:text-neutral-400">The Manifestors</p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="flex items-center gap-1">
+          <div className="text-right px-4 py-2 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-sm dark:shadow-neu-dark-sm">
+            <div className="flex items-center gap-1.5">
               <LanternIcon health={tribeLanternAvg} size="sm" />
-              <span className="text-lg font-bold text-neutral-900 dark:text-white">{tribeLanternAvg}</span>
+              <span className="text-lg font-bold text-neutral-800 dark:text-white">{tribeLanternAvg}</span>
             </div>
             <p className="text-xs text-neutral-500">Tribe Lantern</p>
           </div>
         </div>
 
-        <div className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 mb-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">Today's Check-ins</span>
-            <span className="text-sm font-medium text-teal-600 dark:text-teal-400">{showedUpCount}/{totalMembers}</span>
+        <div className="p-4 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-inset-sm dark:shadow-neu-dark-inset mb-5">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400">Today's Check-ins</span>
+            <span className="text-sm font-bold text-teal-600 dark:text-teal-400">{showedUpCount}/{totalMembers}</span>
           </div>
           <div className="flex gap-2">
             {tribeMembers.map((member) => (
               <div
                 key={member.id}
-                className={`flex-1 h-2 rounded-full ${
+                className={`flex-1 h-3 rounded-full ${
                   member.name === 'Open Spot'
                     ? 'bg-neutral-300 dark:bg-neutral-700 border border-dashed border-neutral-400 dark:border-neutral-600'
                     : member.showedUpToday
-                    ? 'bg-gradient-to-r from-teal-500 to-emerald-500'
+                    ? 'bg-gradient-teal shadow-sm'
                     : 'bg-neutral-300 dark:bg-neutral-700'
                 }`}
               />
@@ -122,50 +126,53 @@ export const TribesCard: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3 mb-4">
-          {tribeMembers.slice(0, 4).map((member, index) => (
-            <div
+        <div className="flex items-center justify-center gap-4 mb-5">
+          {tribeMembers.slice(0, 4).map((member) => (
+            <motion.div
               key={member.id}
-              className="flex flex-col items-center gap-1"
+              whileHover={{ scale: 1.05 }}
+              className="flex flex-col items-center gap-1.5"
             >
               <div
-                className={`w-10 h-10 rounded-full border-2 flex items-center justify-center text-sm font-medium relative ${
+                className={`w-12 h-12 rounded-2xl flex items-center justify-center text-sm font-semibold relative shadow-neu-sm dark:shadow-neu-dark-sm ${
                   member.showedUpToday
-                    ? 'border-teal-500 bg-teal-100 dark:bg-teal-500/30 text-teal-600 dark:text-teal-300'
-                    : 'border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
+                    ? 'bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-300'
+                    : 'bg-gradient-neu dark:bg-gradient-neu-dark text-neutral-500 dark:text-neutral-400'
                 }`}
               >
                 {member.isLeader && (
-                  <Crown className="w-3 h-3 absolute -top-1 -right-1 text-gold-500" />
+                  <Crown className="w-4 h-4 absolute -top-1.5 -right-1.5 text-gold-500 drop-shadow-sm" />
                 )}
                 {member.name === 'Open Spot' ? (
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-5 h-5" />
                 ) : (
                   member.name.charAt(0)
                 )}
               </div>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 truncate max-w-[50px]">
+              <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 truncate max-w-[55px]">
                 {member.name === 'Open Spot' ? '+' : member.name.split(' ')[0]}
               </span>
-            </div>
+            </motion.div>
           ))}
           {tribeMembers.length > 4 && (
-            <div className="flex flex-col items-center gap-1">
-              <div className="w-10 h-10 rounded-full border-2 border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center text-xs text-neutral-500 dark:text-neutral-400">
+            <div className="flex flex-col items-center gap-1.5">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-sm dark:shadow-neu-dark-sm flex items-center justify-center text-xs font-semibold text-neutral-500 dark:text-neutral-400">
                 +{tribeMembers.length - 4}
               </div>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400">more</span>
+              <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">more</span>
             </div>
           )}
         </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+          className="w-full py-3 bg-gradient-teal text-white font-bold rounded-2xl shadow-neu-sm dark:shadow-neu-dark-sm hover:shadow-neu-teal-glow transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
         >
           Check In With Tribe
-          <ChevronRight className="w-4 h-4" />
-        </button>
+          <ChevronRight className="w-5 h-5" />
+        </motion.button>
       </motion.div>
 
       <AnimatePresence>

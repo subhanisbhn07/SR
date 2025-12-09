@@ -68,48 +68,51 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-surface-card-dark rounded-2xl p-6 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none relative overflow-hidden"
+      className="bg-gradient-card dark:bg-gradient-card-dark rounded-3xl p-6 md:p-8 mb-6 shadow-neu dark:shadow-neu-dark relative overflow-hidden"
     >
-      {/* Subtle gradient accent at top */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-gold-500" />
-      
+      {/* Premium teal accent bar */}
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-600 via-teal-500 to-teal-soft-500 rounded-t-3xl" />
+
       {/* Header with Lantern and Progress - HERO styling */}
-      <div className="flex items-center justify-between mb-5 pt-2">
+      <div className="flex items-center justify-between mb-6 pt-2">
         <div className="flex items-center gap-4">
-          <LanternIcon 
-            health={lanternHealth} 
-            size="lg" 
-            showTooltip={true}
-            streakDays={streakDays}
-          />
+          <div className="p-3 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-sm dark:shadow-neu-dark-sm">
+            <LanternIcon
+              health={lanternHealth}
+              size="lg"
+              showTooltip={true}
+              streakDays={streakDays}
+            />
+          </div>
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">Today</h2>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Step {roadStep} of {freeTrialDays} on <span className="font-medium text-emerald-600 dark:text-emerald-400">"{getRoadName()}"</span>
+            <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 dark:text-white tracking-tight">Today</h2>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+              Step {roadStep} of {freeTrialDays} on <span className="font-semibold text-teal-600 dark:text-teal-400">"{getRoadName()}"</span>
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-gold-50 dark:bg-gold-900/20 px-4 py-2 rounded-full border border-gold-200 dark:border-gold-700/40 shadow-sm">
+        <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-sm dark:shadow-neu-dark-sm">
           <Sparkles className="w-5 h-5 text-gold-600 dark:text-gold-400" />
-          <span className="text-base font-bold text-gold-700 dark:text-gold-400">{user?.sparks || 0}</span>
-          <span className="text-xl">{todaySign.emoji}</span>
+          <span className="text-lg font-bold text-gold-700 dark:text-gold-400">{user?.sparks || 0}</span>
+          <span className="text-xl ml-1">{todaySign.emoji}</span>
         </div>
       </div>
 
-      {/* Free Trial Progress Bar */}
+      {/* Free Trial Progress Bar - Neumorphic */}
       {isFreeTrialDay && (
-        <div className="mb-4 p-3 bg-neutral-100 dark:bg-neutral-900/50 rounded-xl">
+        <div className="mb-5 p-4 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-inset-sm dark:shadow-neu-dark-inset">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-neutral-500 dark:text-neutral-400">Free Trial Progress</span>
-            <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+            <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">Free Trial Progress</span>
+            <span className="text-xs text-teal-600 dark:text-teal-400 font-semibold">
               {daysUntilUnlock > 0 ? `${daysUntilUnlock} days until unlock` : 'Last free day!'}
             </span>
           </div>
-          <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
+          <div className="h-3 bg-neutral-200/50 dark:bg-neutral-800/50 rounded-full overflow-hidden shadow-neu-inset-sm dark:shadow-neu-dark-inset">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${(roadStep / freeTrialDays) * 100}%` }}
-              className="h-full bg-emerald-500 rounded-full"
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="h-full bg-gradient-teal rounded-full shadow-sm"
             />
           </div>
         </div>
@@ -120,15 +123,17 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="mb-4 p-3 bg-orange-500/10 border border-orange-500/20 rounded-xl"
+          className="mb-5 p-4 rounded-2xl bg-orange-50 dark:bg-orange-900/20 shadow-neu-sm dark:shadow-neu-dark-sm border-l-4 border-orange-400"
         >
-          <div className="flex items-start gap-2">
-            <Flame className="w-4 h-4 text-orange-400 mt-0.5" />
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-orange-100 dark:bg-orange-800/30">
+              <Flame className="w-5 h-5 text-orange-500 dark:text-orange-400" />
+            </div>
             <div>
-              <p className="text-sm text-orange-300">
+              <p className="text-sm font-medium text-orange-700 dark:text-orange-300">
                 Your Lantern dimmed a little while you rested.
               </p>
-              <p className="text-xs text-orange-400/70 mt-1">
+              <p className="text-xs text-orange-600/80 dark:text-orange-400/70 mt-1">
                 Want to rekindle it in 3 minutes? Just complete today's ritual below.
               </p>
             </div>
@@ -136,33 +141,36 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         </motion.div>
       )}
 
-      <div className="space-y-3">
-        {/* Sign Challenge */}
+      <div className="space-y-4">
+        {/* Sign Challenge - Neumorphic Card */}
         <motion.div
-          className={`p-4 rounded-xl border transition-all ${
-            signLogged 
-              ? 'bg-success-50 dark:bg-success-500/10 border-success-200 dark:border-success-500/30' 
-              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-teal-300 dark:hover:border-teal-500/50'
+          whileHover={{ scale: signLogged ? 1 : 1.01 }}
+          className={`p-5 rounded-2xl transition-all duration-300 ${
+            signLogged
+              ? 'bg-success-50 dark:bg-success-900/20 shadow-neu-sm dark:shadow-neu-dark-sm border-l-4 border-success-500'
+              : 'bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu dark:shadow-neu-dark hover:shadow-neu-teal dark:hover:shadow-neu-dark-teal'
           }`}
         >
-          <div className="flex items-start gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${
-              signLogged ? 'bg-success-500/20' : 'bg-teal-500/20'
+          <div className="flex items-start gap-4">
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-neu-sm dark:shadow-neu-dark-sm ${
+              signLogged
+                ? 'bg-success-100 dark:bg-success-800/30'
+                : 'bg-teal-100 dark:bg-teal-900/30'
             }`}>
-              {signLogged ? <Check className="w-5 h-5 text-success-400" /> : todaySign.emoji}
+              {signLogged ? <Check className="w-6 h-6 text-success-500" /> : todaySign.emoji}
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <Eye className="w-4 h-4 text-neutral-400" />
-                <span className="text-xs font-medium text-neutral-400 uppercase tracking-wide">
+              <div className="flex items-center gap-2 mb-1.5">
+                <Eye className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
+                <span className="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">
                   Today's Sign
                 </span>
               </div>
-              <p className={`font-medium ${signLogged ? 'text-green-600 dark:text-green-400' : 'text-neutral-900 dark:text-white'}`}>
+              <p className={`font-semibold text-base ${signLogged ? 'text-success-600 dark:text-success-400' : 'text-neutral-800 dark:text-white'}`}>
                 {signLogged ? 'Sign logged! +5 Sparks, +3 Lantern' : todaySign.challenge}
               </p>
               {!signLogged && (
-                <p className="text-xs text-neutral-500 mt-1">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
                   When you see it, tap to log
                 </p>
               )}
@@ -170,7 +178,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!signLogged && (
               <button
                 onClick={handleLogSign}
-                className="px-3 py-1.5 bg-teal-500/20 hover:bg-teal-500/30 text-teal-600 dark:text-teal-400 text-sm font-medium rounded-lg transition-colors"
+                className="px-4 py-2 bg-gradient-teal-soft text-white text-sm font-semibold rounded-xl shadow-neu-sm dark:shadow-neu-dark-sm hover:shadow-neu-teal transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
                 Log It
               </button>
@@ -178,36 +186,39 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
           </div>
         </motion.div>
 
-        {/* Micro-Session */}
+        {/* Micro-Session - Neumorphic Card */}
         <motion.div
-          className={`p-4 rounded-xl border transition-all ${
-            sessionCompleted 
-              ? 'bg-success-50 dark:bg-success-500/10 border-success-200 dark:border-success-500/30' 
-              : 'bg-neutral-50 dark:bg-neutral-800/50 border-neutral-200 dark:border-neutral-700/50 hover:border-emerald-300 dark:hover:border-emerald-500/50'
+          whileHover={{ scale: sessionCompleted ? 1 : 1.01 }}
+          className={`p-5 rounded-2xl transition-all duration-300 ${
+            sessionCompleted
+              ? 'bg-success-50 dark:bg-success-900/20 shadow-neu-sm dark:shadow-neu-dark-sm border-l-4 border-success-500'
+              : 'bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu dark:shadow-neu-dark hover:shadow-neu-teal dark:hover:shadow-neu-dark-teal'
           }`}
         >
-          <div className="flex items-start gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-              sessionCompleted ? 'bg-success-500/20' : 'bg-emerald-500/20'
+          <div className="flex items-start gap-4">
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-neu-sm dark:shadow-neu-dark-sm ${
+              sessionCompleted
+                ? 'bg-success-100 dark:bg-success-800/30'
+                : 'bg-teal-100 dark:bg-teal-900/30'
             }`}>
               {sessionCompleted ? (
-                <Check className="w-5 h-5 text-success-400" />
+                <Check className="w-6 h-6 text-success-500" />
               ) : (
-                <Play className="w-5 h-5 text-emerald-400" />
+                <Play className="w-6 h-6 text-teal-600 dark:text-teal-400" />
               )}
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <Clock className="w-4 h-4 text-neutral-400" />
-                <span className="text-xs font-medium text-neutral-400 uppercase tracking-wide">
+              <div className="flex items-center gap-2 mb-1.5">
+                <Clock className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
+                <span className="text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">
                   Today's Micro-Session
                 </span>
               </div>
-              <p className={`font-medium ${sessionCompleted ? 'text-green-600 dark:text-green-400' : 'text-neutral-900 dark:text-white'}`}>
+              <p className={`font-semibold text-base ${sessionCompleted ? 'text-success-600 dark:text-success-400' : 'text-neutral-800 dark:text-white'}`}>
                 {sessionCompleted ? 'Session complete! +10 Sparks, +5 Lantern' : '5-min Evening Wind Down'}
               </p>
               {!sessionCompleted && (
-                <p className="text-xs text-neutral-500 mt-1">
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
                   Queued for you based on your road
                 </p>
               )}
@@ -215,9 +226,9 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!sessionCompleted && (
               <button
                 onClick={handleStartSession}
-                className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-1 shadow-sm"
+                className="px-4 py-2 bg-gradient-teal text-white text-sm font-semibold rounded-xl shadow-neu-sm dark:shadow-neu-dark-sm hover:shadow-neu-teal-glow transition-all duration-200 flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
-                <Play className="w-3 h-3" />
+                <Play className="w-4 h-4" />
                 Play
               </button>
             )}
@@ -230,22 +241,22 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700/50"
+          className="mt-5 pt-5 border-t border-neutral-200/50 dark:border-neutral-700/30"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
-              <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                {signLogged && sessionCompleted 
-                  ? 'All done! Your Lantern is shining bright.' 
-                  : signLogged 
-                    ? 'Great start! Complete your session for full rewards.' 
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-gradient-gold animate-pulse shadow-sm" />
+              <span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                {signLogged && sessionCompleted
+                  ? 'All done! Your Lantern is shining bright.'
+                  : signLogged
+                    ? 'Great start! Complete your session for full rewards.'
                     : 'Nice! Now watch for your sign today.'}
               </span>
             </div>
             {signLogged && sessionCompleted && (
-              <div className="flex items-center gap-1 text-xs text-gold-600 dark:text-gold-400 font-medium">
-                <Sparkles className="w-3 h-3" />
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gold-100 dark:bg-gold-900/30 text-sm text-gold-700 dark:text-gold-400 font-semibold">
+                <Sparkles className="w-4 h-4" />
                 +15 Sparks
               </div>
             )}
@@ -262,14 +273,14 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             exit={{ opacity: 0, scale: 0.8, y: -20 }}
             className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
           >
-            <div className="bg-white dark:bg-neutral-800/95 border border-gold-500/50 rounded-2xl p-6 shadow-2xl">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gold-500 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-neutral-900" />
+            <div className="bg-gradient-card dark:bg-gradient-card-dark rounded-3xl p-8 shadow-neu-xl dark:shadow-neu-dark-lg">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-gold flex items-center justify-center shadow-neu-gold">
+                  <Sparkles className="w-8 h-8 text-neutral-900" />
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 dark:text-white">Reward Earned!</p>
-                  <p className="text-sm text-gold-600 dark:text-gold-400">+5 Sparks, +3 Lantern Health</p>
+                  <p className="text-xl font-bold text-neutral-800 dark:text-white">Reward Earned!</p>
+                  <p className="text-base text-gold-600 dark:text-gold-400 font-medium">+5 Sparks, +3 Lantern Health</p>
                 </div>
               </div>
             </div>

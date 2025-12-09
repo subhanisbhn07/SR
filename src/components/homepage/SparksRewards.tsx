@@ -88,71 +88,76 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-md dark:shadow-none"
+        className="bg-gradient-card dark:bg-gradient-card-dark rounded-3xl p-5 md:p-6 mb-6 shadow-neu dark:shadow-neu-dark"
       >
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gold-500 flex items-center justify-center shadow-sm">
-              <Sparkles className="w-6 h-6 text-neutral-900" />
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-gold flex items-center justify-center shadow-neu-gold dark:shadow-neu-dark-sm">
+              <Sparkles className="w-7 h-7 text-neutral-900" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Your Sparks</h2>
+              <h2 className="text-lg font-bold text-neutral-800 dark:text-white">Your Sparks</h2>
               <p className="text-sm text-neutral-500 dark:text-neutral-400">Earned rewards, never purchased</p>
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-right px-4 py-2 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-sm dark:shadow-neu-dark-sm">
             <div className="text-2xl font-bold text-gold-600 dark:text-gold-400">{userSparks}</div>
             <p className="text-xs text-neutral-500">{unlockedCount}/{rewards.length} unlocked</p>
           </div>
         </div>
 
-        {/* Neuromarketing: Progress hint to next reward */}
+        {/* Progress hint to next reward - Neumorphic */}
         {userSparks < 100 && (
-          <div className="mb-4 p-3 bg-gold-50 dark:bg-gold-500/10 rounded-xl border border-gold-200 dark:border-gold-500/20">
+          <div className="mb-5 p-4 rounded-2xl bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-inset-sm dark:shadow-neu-dark-inset">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-gold-700 dark:text-gold-400 font-medium">Next reward at 100 Sparks</span>
-              <span className="text-xs text-gold-600 dark:text-gold-400">{100 - userSparks} to go!</span>
+              <span className="text-xs text-gold-700 dark:text-gold-400 font-semibold">Next reward at 100 Sparks</span>
+              <span className="text-xs text-gold-600 dark:text-gold-400 font-medium">{100 - userSparks} to go!</span>
             </div>
-            <div className="h-2 bg-gold-200 dark:bg-gold-900/50 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gold-500 rounded-full transition-all duration-500"
-                style={{ width: `${(userSparks / 100) * 100}%` }}
+            <div className="h-3 bg-neutral-200/50 dark:bg-neutral-800/50 rounded-full overflow-hidden shadow-neu-inset-sm dark:shadow-neu-dark-inset">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${(userSparks / 100) * 100}%` }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="h-full bg-gradient-gold rounded-full shadow-sm"
               />
             </div>
           </div>
         )}
 
-        <div className="grid grid-cols-3 gap-3 mb-4">
+        <div className="grid grid-cols-3 gap-3 mb-5">
           {rewards.slice(0, 3).map((reward) => (
-            <div
+            <motion.div
               key={reward.id}
-              className={`p-3 rounded-xl text-center ${
-                reward.unlocked 
-                  ? 'bg-gold-100 dark:bg-gold-500/20 border border-gold-200 dark:border-gold-500/30' 
-                  : 'bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700/50'
+              whileHover={{ scale: 1.03 }}
+              className={`p-4 rounded-2xl text-center transition-all duration-200 ${
+                reward.unlocked
+                  ? 'bg-gold-100 dark:bg-gold-900/20 shadow-neu-gold dark:shadow-neu-dark-sm'
+                  : 'bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-sm dark:shadow-neu-dark-sm'
               }`}
             >
-              <div className="text-2xl mb-1">{reward.emoji}</div>
-              <p className={`text-xs font-medium ${reward.unlocked ? 'text-gold-700 dark:text-gold-400' : 'text-neutral-500'}`}>
+              <div className="text-2xl mb-2">{reward.emoji}</div>
+              <p className={`text-xs font-semibold ${reward.unlocked ? 'text-gold-700 dark:text-gold-400' : 'text-neutral-500'}`}>
                 {reward.name}
               </p>
               {!reward.unlocked && (
-                <div className="flex items-center justify-center gap-1 mt-1">
-                  <Lock className="w-3 h-3 text-neutral-400 dark:text-neutral-600" />
-                  <span className="text-xs text-neutral-400 dark:text-neutral-600">{reward.cost}</span>
+                <div className="flex items-center justify-center gap-1 mt-1.5">
+                  <Lock className="w-3 h-3 text-neutral-400 dark:text-neutral-500" />
+                  <span className="text-xs text-neutral-400 dark:text-neutral-500 font-medium">{reward.cost}</span>
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+          className="w-full py-3 bg-gradient-gold text-neutral-900 font-bold rounded-2xl shadow-neu-gold dark:shadow-neu-dark-sm hover:shadow-neu-xl transition-all duration-200 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
         >
           Unlock More Rewards
-          <ChevronRight className="w-4 h-4" />
-        </button>
+          <ChevronRight className="w-5 h-5" />
+        </motion.button>
       </motion.div>
 
       <AnimatePresence>

@@ -305,6 +305,52 @@ export default {
       backdropBlur: {
         xs: '2px',
       },
+      // === NEUMORPHIC SHADOW SYSTEM ===
+      // Premium soft UI shadows using Transformative Teal as accent
+      boxShadow: {
+        // Light mode neumorphic shadows (soft, premium feel)
+        'neu-sm': '4px 4px 8px #d1d5db, -4px -4px 8px #ffffff',
+        'neu': '6px 6px 12px #d1d5db, -6px -6px 12px #ffffff',
+        'neu-md': '8px 8px 16px #d1d5db, -8px -8px 16px #ffffff',
+        'neu-lg': '12px 12px 24px #d1d5db, -12px -12px 24px #ffffff',
+        'neu-xl': '20px 20px 40px #c4c9cd, -20px -20px 40px #ffffff',
+        // Inset shadows (pressed state)
+        'neu-inset': 'inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff',
+        'neu-inset-sm': 'inset 2px 2px 4px #d1d5db, inset -2px -2px 4px #ffffff',
+        // Teal-tinted shadows for accent elements
+        'neu-teal': '6px 6px 12px rgba(14, 122, 119, 0.15), -6px -6px 12px #ffffff',
+        'neu-teal-glow': '0 0 20px rgba(14, 122, 119, 0.2), 6px 6px 12px #d1d5db, -6px -6px 12px #ffffff',
+        // Gold accent shadow
+        'neu-gold': '6px 6px 12px rgba(238, 199, 106, 0.2), -6px -6px 12px #ffffff',
+        // Dark mode neumorphic shadows
+        'neu-dark-sm': '4px 4px 8px #0d1716, -4px -4px 8px #1f3532',
+        'neu-dark': '6px 6px 12px #0d1716, -6px -6px 12px #1f3532',
+        'neu-dark-md': '8px 8px 16px #0d1716, -8px -8px 16px #1f3532',
+        'neu-dark-lg': '12px 12px 24px #0a1211, -12px -12px 24px #243936',
+        'neu-dark-inset': 'inset 4px 4px 8px #0d1716, inset -4px -4px 8px #1f3532',
+        // Teal glow for dark mode
+        'neu-dark-teal': '0 0 20px rgba(14, 122, 119, 0.3), 6px 6px 12px #0d1716, -6px -6px 12px #1f3532',
+        // Elevated card shadow (more dramatic)
+        'elevated': '0 10px 40px -10px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'elevated-dark': '0 10px 40px -10px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3)',
+        // Soft card shadow
+        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+        'soft-dark': '0 2px 15px -3px rgba(0, 0, 0, 0.4), 0 10px 20px -2px rgba(0, 0, 0, 0.3)',
+      },
+      // Gradient backgrounds for premium feel
+      backgroundImage: {
+        'gradient-neu': 'linear-gradient(145deg, #f0f1f2, #e0e1e2)',
+        'gradient-neu-dark': 'linear-gradient(145deg, #1e302e, #162422)',
+        'gradient-teal': 'linear-gradient(145deg, #0f8581, #0d6d6a)',
+        'gradient-teal-soft': 'linear-gradient(145deg, #19b3ad, #159b96)',
+        'gradient-gold': 'linear-gradient(145deg, #f2ce72, #e9c062)',
+        'gradient-card': 'linear-gradient(145deg, #ffffff, #f5f6f7)',
+        'gradient-card-dark': 'linear-gradient(145deg, #1e302e, #172725)',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+        '5xl': '2.5rem',
+      },
     },
   },
   plugins: [],

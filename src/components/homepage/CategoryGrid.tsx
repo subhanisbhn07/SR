@@ -25,27 +25,27 @@ const getAccentClasses = (accent: string) => {
   switch (accent) {
     case 'emerald':
       return {
-        iconBg: 'bg-emerald-50 dark:bg-emerald-900/30',
-        iconText: 'text-emerald-600 dark:text-emerald-400',
-        border: 'border-l-emerald-400 dark:border-l-emerald-600',
+        iconBg: 'bg-teal-100 dark:bg-teal-900/30',
+        shadow: 'hover:shadow-neu-teal dark:hover:shadow-neu-dark-teal',
+        accent: 'from-teal-500',
       };
     case 'teal':
       return {
-        iconBg: 'bg-teal-50 dark:bg-teal-900/30',
-        iconText: 'text-teal-600 dark:text-teal-400',
-        border: 'border-l-teal-400 dark:border-l-teal-600',
+        iconBg: 'bg-teal-soft-100 dark:bg-teal-soft-900/30',
+        shadow: 'hover:shadow-neu-teal dark:hover:shadow-neu-dark-teal',
+        accent: 'from-teal-soft-500',
       };
     case 'gold':
       return {
-        iconBg: 'bg-gold-50 dark:bg-gold-900/30',
-        iconText: 'text-gold-600 dark:text-gold-400',
-        border: 'border-l-gold-400 dark:border-l-gold-600',
+        iconBg: 'bg-gold-100 dark:bg-gold-900/30',
+        shadow: 'hover:shadow-neu-gold dark:hover:shadow-neu-dark-sm',
+        accent: 'from-gold-500',
       };
     default:
       return {
-        iconBg: 'bg-emerald-50 dark:bg-emerald-900/30',
-        iconText: 'text-emerald-600 dark:text-emerald-400',
-        border: 'border-l-emerald-400 dark:border-l-emerald-600',
+        iconBg: 'bg-teal-100 dark:bg-teal-900/30',
+        shadow: 'hover:shadow-neu-teal dark:hover:shadow-neu-dark-teal',
+        accent: 'from-teal-500',
       };
   }
 };
@@ -61,9 +61,9 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
       transition={{ duration: 0.6, delay: 0.4 }}
       className="mb-12"
     >
-      <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">Explore by Intention</h2>
-      
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+      <h2 className="text-2xl md:text-3xl font-bold text-neutral-800 dark:text-neutral-100 mb-6">Explore by Intention</h2>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
         <AnimatePresence>
           {visibleCategories.map((category, index) => {
             const accent = getAccentClasses(category.accentColor);
@@ -74,17 +74,20 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2, delay: Math.min(0.02 * index, 0.15) }}
-                whileHover={{ scale: 1.02, y: -2 }}
+                whileHover={{ scale: 1.03, y: -3 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => onCategorySelect?.(category.name)}
                 aria-label={`Explore ${category.name} courses`}
-                className={`p-4 md:p-5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 border-l-4 ${accent.border} cursor-pointer group transition-all duration-200 hover:shadow-md text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950`}
+                className={`p-5 md:p-6 rounded-2xl bg-gradient-card dark:bg-gradient-card-dark shadow-neu dark:shadow-neu-dark ${accent.shadow} cursor-pointer group transition-all duration-300 text-left relative overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950`}
               >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-lg ${accent.iconBg} flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-200`}>
+                {/* Subtle gradient accent line */}
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accent.accent} to-transparent opacity-60`} />
+
+                <div className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-2xl ${accent.iconBg} flex items-center justify-center text-2xl shadow-neu-sm dark:shadow-neu-dark-sm group-hover:scale-110 transition-transform duration-300`}>
                     {category.emoji}
                   </div>
-                  <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 leading-tight">
+                  <h3 className="text-sm md:text-base font-semibold text-neutral-800 dark:text-neutral-100 leading-tight">
                     {category.name}
                   </h3>
                 </div>
@@ -101,7 +104,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
           transition={{ delay: 0.3 }}
           onClick={() => setShowAll(!showAll)}
           aria-expanded={showAll}
-          className="mt-4 mx-auto flex items-center gap-2 px-4 py-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
+          className="mt-6 mx-auto flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-teal-600 dark:text-teal-400 bg-gradient-neu dark:bg-gradient-neu-dark shadow-neu-sm dark:shadow-neu-dark-sm hover:shadow-neu transition-all duration-200 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
         >
           {showAll ? (
             <>
