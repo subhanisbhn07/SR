@@ -5,267 +5,280 @@ export default {
   theme: {
     extend: {
       colors: {
-        // === SIGNROAD DESIGN SYSTEM v1 ===
-        // "TRANSFORMATIVE TEAL FRAMEWORK"
+        // === SIGNROAD PRD COLOR SYSTEM ===
+        // Based on SignRoad PRD v1.0 (December 8, 2024)
         // 
-        // COLOR USAGE RATIOS (Critical for Tier-1 Premium):
+        // COLOR USAGE RATIOS:
         // - 70% NEUTRAL: Backgrounds, cards, surfaces, body text
         // - 15% PRIMARY TEAL: Navigation, primary buttons, brand identity
-        // - 10% SECONDARY TEAL: Icons, secondary buttons, highlights, hover states
-        // - 5% GOLD: Rewards, achievements, premium CTAs, badges (SPARINGLY!)
+        // - 10% SECONDARY: Icons, secondary buttons, highlights
+        // - 5% GOLD: Rewards, achievements, premium CTAs (SPARINGLY!)
         //
-        // === PRIMARY BRAND COLOR - TRANSFORMATIVE TEAL ===
-        // Psychology: Calm innovation, conscious decisions, bridges nature + technology
-        // Use for: Navigation, primary buttons, brand identity, key UI chrome
+        // === PRIMARY COLOR - TRANSFORMATIVE TEAL (PRD: #00CED1) ===
+        // Use for: Primary buttons, interactive elements, brand identity, headings
         teal: {
-          DEFAULT: '#0E7A77',
-          50: '#E6F5F4',
-          100: '#CCEBe9',
-          200: '#99D7D3',
-          300: '#66C3BD',
-          400: '#33AFA7',
-          500: '#0E7A77', // Transformative Teal - PRIMARY
-          600: '#0C6966',
-          700: '#0A5855',
-          800: '#084744',
-          900: '#063633',
-          950: '#042522',
+          DEFAULT: '#00CED1',
+          50: '#E0FAFA',
+          100: '#B3F2F3',
+          200: '#80EAEC',
+          300: '#4DE2E5',
+          400: '#26DBDE',
+          500: '#00CED1', // Transformative Teal - PRD PRIMARY
+          600: '#00B8BA',
+          700: '#009A9C',
+          800: '#007C7E',
+          900: '#005E60',
+          950: '#004042',
         },
-        // === SECONDARY BRAND COLOR - TEAL SOFT ===
-        // Psychology: Approachability, interaction signaling, gentle invitation
-        // Use for: Icons, secondary buttons, highlights, hover states
-        'teal-soft': {
-          DEFAULT: '#17A7A2',
-          50: '#E8F7F6',
-          100: '#D1EFED',
-          200: '#A3DFDB',
-          300: '#75CFC9',
-          400: '#47BFB7',
-          500: '#17A7A2', // Teal Soft - SECONDARY
-          600: '#148F8B',
-          700: '#117774',
-          800: '#0E5F5D',
-          900: '#0B4746',
-          950: '#082F2F',
+        // === SECONDARY COLORS (PRD) ===
+        // Moonlit Silver (#C0C0C0) - Subtle highlights, badge outlines, secondary icons
+        silver: {
+          DEFAULT: '#C0C0C0',
+          50: '#F5F5F5',
+          100: '#E8E8E8',
+          200: '#D4D4D4',
+          300: '#C0C0C0', // Moonlit Silver - PRD
+          400: '#A8A8A8',
+          500: '#909090',
+          600: '#787878',
+          700: '#606060',
+          800: '#484848',
+          900: '#303030',
         },
-        // === ACCENT BRAND COLOR - GOLD ===
-        // Psychology: Emotional uplift, reward wiring, premium association
-        // Use for: Rewards, achievements, premium CTAs, badges (SPARINGLY - 5% max!)
+        // Nebula Purple (#9D7BE8) - Rare sign tiers, mystical moments, special features
+        purple: {
+          DEFAULT: '#9D7BE8',
+          50: '#F3EFFE',
+          100: '#E7DFFD',
+          200: '#CFBFFB',
+          300: '#B79FF9',
+          400: '#9D7BE8', // Nebula Purple - PRD
+          500: '#8B5CE6',
+          600: '#7A3DE4',
+          700: '#6A1EE2',
+          800: '#5A00D0',
+          900: '#4A00B0',
+        },
+        // === ACCENT COLOR - STARDUST GOLD (PRD: #FFD700) ===
+        // Use for: Rewards, achievements, Sparks counter, celebration moments
         gold: {
-          DEFAULT: '#EEC76A',
-          50: '#FDF9EE',
-          100: '#FBF3DD',
-          200: '#F7E7BB',
-          300: '#F3DB99',
-          400: '#EFCF77',
-          500: '#EEC76A', // Gold - ACCENT (use sparingly!)
-          600: '#DDBB5E', // Hover state
-          700: '#C9A84E',
-          800: '#A68B3E',
-          900: '#836E2E',
-          950: '#60511E',
-          // Dark mode variant (prevents harsh glare in Moon Mode)
-          'dark': '#D6B35C',
+          DEFAULT: '#FFD700',
+          50: '#FFFDE7',
+          100: '#FFF9C4',
+          200: '#FFF59D',
+          300: '#FFF176',
+          400: '#FFEE58',
+          500: '#FFD700', // Stardust Gold - PRD
+          600: '#FFC400',
+          700: '#FFB300',
+          800: '#FFA000',
+          900: '#FF8F00',
+          950: '#FF6F00',
+          'dark': '#E6C200',
         },
         // Legacy emerald alias (maps to teal for backward compatibility)
         emerald: {
-          DEFAULT: '#0E7A77',
-          50: '#E6F5F4',
-          100: '#CCEBe9',
-          200: '#99D7D3',
-          300: '#66C3BD',
-          400: '#33AFA7',
-          500: '#0E7A77',
-          600: '#0C6966',
-          700: '#0A5855',
-          800: '#084744',
-          900: '#063633',
-          950: '#042522',
+          DEFAULT: '#00CED1',
+          50: '#E0FAFA',
+          100: '#B3F2F3',
+          200: '#80EAEC',
+          300: '#4DE2E5',
+          400: '#26DBDE',
+          500: '#00CED1',
+          600: '#00B8BA',
+          700: '#009A9C',
+          800: '#007C7E',
+          900: '#005E60',
+          950: '#004042',
         },
-        // === NEUTRAL PALETTE (Design System v1) ===
-        // Sun Mode (Light) and Moon Mode (Dark) specific values
+        // === NEUTRAL PALETTE (PRD) ===
+        // Snow White (#FFFAFA) - Light mode background, clean premium feel, cards
+        // Mist (#E8E8E8) - Light mode dividers, card borders, subtle separators
+        // Ash (#4A5568) - Dark mode text, secondary text, muted content
+        // Charcoal (#2C3E50) - Dark mode background, footer, primary text in light mode
         neutral: {
-          white: '#FFFFFF',      // Pure white - card surfaces (light)
-          50: '#F6F7F8',         // Page Background (Sun Mode) - EXACT from spec
-          100: '#E5E9EB',        // Border/Divider (Sun Mode) - EXACT from spec
-          200: '#E5E7EB',
-          300: '#CFD8DC',        // Cool Gray - muted icons
-          400: '#8A9A9A',        // Muted/Disabled (Sun Mode) - EXACT from spec
-          500: '#5B6B6E',        // Text Secondary (Sun Mode) - EXACT from spec
-          600: '#5B6B6E',        // Secondary text alias
-          700: '#1C1F21',        // Text Primary (Sun Mode) - EXACT from spec
-          800: '#1C1F21',        // Text Primary alias
-          900: '#1C1F21',        // Primary text
-          950: '#121E1D',        // Page Background (Moon Mode) - EXACT from spec
+          white: '#FFFAFA',      // Snow White - PRD page background (light)
+          50: '#FFFAFA',         // Snow White - PRD
+          100: '#E8E8E8',        // Mist - PRD dividers
+          200: '#D4D4D4',
+          300: '#C0C0C0',        // Moonlit Silver
+          400: '#8A9A9A',        // Muted/Disabled
+          500: '#4A5568',        // Ash - PRD secondary text
+          600: '#4A5568',        // Ash alias
+          700: '#2C3E50',        // Charcoal - PRD primary text (light)
+          800: '#2C3E50',        // Charcoal alias
+          900: '#2C3E50',        // Charcoal
+          950: '#1A252F',        // Darker charcoal for dark mode
         },
-        // === TEXT COLORS (Design System v1) ===
+        // === TEXT COLORS (PRD) ===
         text: {
-          // Sun Mode (Light)
-          primary: '#1C1F21',    // Text Primary (Sun Mode) - EXACT from spec
-          secondary: '#5B6B6E',  // Text Secondary (Sun Mode) - EXACT from spec
-          muted: '#8A9A9A',      // Muted/Disabled (Sun Mode) - EXACT from spec
-          inverse: '#E0E4E3',    // Text on teal backgrounds
-          // Moon Mode (Dark) - use dark: prefix in components
-          'primary-dark': '#E0E4E3',    // Text Primary (Moon Mode) - EXACT from spec
-          'secondary-dark': '#A3B0AE',  // Text Secondary (Moon Mode) - EXACT from spec
-          'muted-dark': '#4A5856',      // Muted/Disabled (Moon Mode) - EXACT from spec
+          // Light Mode - Charcoal (#2C3E50) for primary text
+          primary: '#2C3E50',    // Charcoal - PRD primary text (light)
+          secondary: '#4A5568',  // Ash - PRD secondary text
+          muted: '#8A9A9A',      // Muted/Disabled
+          inverse: '#FFFAFA',    // Snow White - text on dark backgrounds
+          // Dark Mode
+          'primary-dark': '#FFFAFA',    // Snow White - PRD text (dark)
+          'secondary-dark': '#C0C0C0',  // Moonlit Silver - secondary (dark)
+          'muted-dark': '#4A5568',      // Ash - muted (dark)
         },
-        // === STATE COLORS ===
+        // === FUNCTIONAL COLORS (PRD) ===
+        // Sage Green (#8FBC8F) - Success states: "Meditation complete", "Sign logged"
         success: {
-          50: '#ECFDF5',
-          100: '#D1FAE5',
-          200: '#A7F3D0',
-          300: '#6EE7B7',
-          400: '#34D399',        // Success - green-mint
-          500: '#10B981',
-          600: '#059669',
-          700: '#047857',
-          800: '#065F46',
-          900: '#064E3B',
+          50: '#F0F7F0',
+          100: '#D8ECD8',
+          200: '#B8DDB8',
+          300: '#98CE98',
+          400: '#8FBC8F',        // Sage Green - PRD success
+          500: '#7CAC7C',
+          600: '#699C69',
+          700: '#568C56',
+          800: '#437C43',
+          900: '#306C30',
         },
+        // Sunset Coral (#FF6F61) - Error states (gentle, not aggressive), warnings
         warning: {
-          50: '#FFFBEB',
-          100: '#FEF3C7',
-          200: '#FDE68A',
-          300: '#FCD34D',
-          400: '#FBBF24',
-          500: '#F59E0B',        // Warning - amber
-          600: '#D97706',
-          700: '#B45309',
-          800: '#92400E',
-          900: '#78350F',
+          50: '#FFF5F4',
+          100: '#FFE8E6',
+          200: '#FFD1CC',
+          300: '#FFB9B3',
+          400: '#FFA199',
+          500: '#FF8A80',
+          600: '#FF6F61',        // Sunset Coral - PRD warning/error
+          700: '#E65C4F',
+          800: '#CC493D',
+          900: '#B3362B',
         },
         error: {
-          50: '#FEF2F2',
-          100: '#FEE2E2',
-          200: '#FECACA',
-          300: '#FCA5A5',
-          400: '#F87171',
-          500: '#EF4444',        // Error - modern red
-          600: '#DC2626',
-          700: '#B91C1C',
-          800: '#991B1B',
-          900: '#7F1D1D',
+          50: '#FFF5F4',
+          100: '#FFE8E6',
+          200: '#FFD1CC',
+          300: '#FFB9B3',
+          400: '#FFA199',
+          500: '#FF6F61',        // Sunset Coral - PRD error (gentle)
+          600: '#E65C4F',
+          700: '#CC493D',
+          800: '#B3362B',
+          900: '#992919',
         },
+        // Sky Blue (#87CEEB) - Informational content: tips, help text, hints
         info: {
           50: '#F0F9FF',
-          100: '#E0F2FE',
-          200: '#BAE6FD',
-          300: '#7DD3FC',
-          400: '#38BDF8',        // Info - cyan-blue
-          500: '#0EA5E9',
-          600: '#0284C7',
-          700: '#0369A1',
-          800: '#075985',
-          900: '#0C4A6E',
+          100: '#E0F4FF',
+          200: '#B8E6FA',
+          300: '#87CEEB',        // Sky Blue - PRD info
+          400: '#6BC1E8',
+          500: '#4FB4E5',
+          600: '#33A7E2',
+          700: '#179ADF',
+          800: '#0B8DD6',
+          900: '#0080CD',
         },
-        // === SEMANTIC SURFACE TOKENS (Design System v1) ===
-        // Sun Mode (Light) and Moon Mode (Dark) exact values from spec
+        // === SEMANTIC SURFACE TOKENS (PRD) ===
+        // Light Mode: Snow White (#FFFAFA) background
+        // Dark Mode: Charcoal (#2C3E50) background
         surface: {
-          // Sun Mode (Light) - EXACT from spec
-          'page': '#F6F7F8',              // Page Background (Sun Mode)
-          'card': '#FFFFFF',              // Card Surface (Sun Mode)
-          'border': '#E5E9EB',            // Border/Divider (Sun Mode) - subtle
-          'border-strong': '#C8CED2',     // Stronger border for visible card edges (Sun Mode)
-          // Moon Mode (Dark) - EXACT from spec
-          'page-dark': '#121E1D',         // Page Background (Moon Mode)
-          'card-dark': '#1A2D2B',         // Card Surface (Moon Mode)
-          'border-dark': '#253333',       // Border/Divider (Moon Mode) - subtle
-          'border-dark-strong': '#3A4A48', // Stronger border for visible card edges (Moon Mode)
+          // Light Mode - Snow White based
+          'page': '#FFFAFA',              // Snow White - PRD page background (light)
+          'card': '#FFFFFF',              // Pure white cards
+          'border': '#E8E8E8',            // Mist - PRD dividers
+          'border-strong': '#C0C0C0',     // Moonlit Silver - stronger borders
+          // Dark Mode - Charcoal based
+          'page-dark': '#2C3E50',         // Charcoal - PRD dark background
+          'card-dark': '#34495E',         // Slightly lighter charcoal for cards
+          'border-dark': '#4A5568',       // Ash - PRD dark dividers
+          'border-dark-strong': '#5A6A7A', // Lighter ash for visible borders
           // Elevated surfaces
-          'elevated': '#FFFFFF',          // Elevated surfaces (light)
-          'elevated-dark': '#1A2D2B',     // Elevated surfaces (dark) - same as card-dark
+          'elevated': '#FFFFFF',          // Pure white elevated (light)
+          'elevated-dark': '#3D566E',     // Elevated charcoal (dark)
           // Footer backgrounds
-          'footer': '#F6F7F8',            // Footer (light) - same as page
-          'footer-dark': '#121E1D',       // Footer (dark) - same as page-dark
+          'footer': '#FFFAFA',            // Snow White footer (light)
+          'footer-dark': '#2C3E50',       // Charcoal footer (dark)
           // Interactive states
-          'hover': '#F0F1F2',             // Hover state (light)
-          'hover-dark': '#223332',        // Hover state (dark)
-          'active': '#E5E9EB',            // Active/pressed state (light)
-          'active-dark': '#2A3B39',       // Active/pressed state (dark)
+          'hover': '#F5F5F5',             // Subtle hover (light)
+          'hover-dark': '#3D566E',        // Hover state (dark)
+          'active': '#E8E8E8',            // Mist - active (light)
+          'active-dark': '#4A5568',       // Ash - active (dark)
         },
-        // === MUTED VARIANTS FOR DARK MODE (Premium, less neon) ===
-        // Use these for dark mode surfaces to avoid crypto/game vibes
+        // === MUTED VARIANTS FOR DARK MODE ===
         muted: {
-          'teal': '#0F8F87',              // Teal -20% saturation for dark mode
-          'gold': '#D6B15A',              // Gold -15% brightness for dark mode surfaces
-          'gold-surface': '#C9A84E',      // Even more muted gold for backgrounds
+          'teal': '#00B8BA',              // Slightly muted teal for dark mode
+          'gold': '#E6C200',              // Muted gold for dark mode
+          'gold-surface': '#D4B000',      // Even more muted gold for backgrounds
         },
-        // === INTENTION TINTS (Tinted neutrals, not pastels) ===
-        // Use for Explore by Intention cards instead of pastels
+        // === INTENTION TINTS (Tinted neutrals) ===
         intent: {
-          'peace': '#F3F7F6',             // Inner Peace - soft mint neutral
-          'motivation': '#F7F4EF',        // Motivation - warm sand neutral
-          'gratitude': '#F4F6FB',         // Gratitude - soft blue neutral
-          'abundance': '#F6F5F0',         // Abundance - cream neutral
-          'sleep': '#F2F4F7',             // Sleep - cool gray neutral
-          'healing': '#F5F3F6',           // Healing - soft lavender neutral
+          'peace': '#F0FAFA',             // Inner Peace - soft teal tint
+          'motivation': '#FFFAF0',        // Motivation - warm cream
+          'gratitude': '#F0F8FF',         // Gratitude - soft blue
+          'abundance': '#FFFFF0',         // Abundance - ivory
+          'sleep': '#F0F0FA',             // Sleep - soft lavender
+          'healing': '#F5FFF5',           // Healing - soft mint
         },
-        // === SEMANTIC COMPONENT TOKENS (Design System v1) ===
-        // Button colors - per spec
+        // === BUTTON COLORS (PRD) ===
         btn: {
-          'primary': '#0E7A77',        // Transformative Teal - primary CTA
-          'primary-hover': '#0C6966',  // Teal darker - hover
-          'secondary': '#17A7A2',      // Teal Soft - secondary actions
-          'secondary-hover': '#148F8B', // Teal Soft darker - hover
-          'accent': '#EEC76A',         // Gold - reward/premium CTAs (use sparingly!)
-          'accent-hover': '#DDBB5E',   // Gold darker - hover
+          'primary': '#00CED1',        // Transformative Teal - PRD primary CTA
+          'primary-hover': '#00B8BA',  // Teal darker - hover (darken 10%)
+          'secondary': '#C0C0C0',      // Moonlit Silver - secondary actions
+          'secondary-hover': '#A8A8A8', // Silver darker - hover
+          'accent': '#FFD700',         // Stardust Gold - PRD reward CTAs
+          'accent-hover': '#E6C200',   // Gold darker - hover
           'ghost': 'transparent',      // Ghost button
-          'ghost-hover': 'rgba(14, 122, 119, 0.1)', // Ghost hover (teal tint)
+          'ghost-hover': 'rgba(0, 206, 209, 0.1)', // Ghost hover (teal tint)
         },
-        // Badge colors - per Design System v1
+        // Badge colors (PRD)
         badge: {
-          'new': '#17A7A2',            // Teal Soft - "NEW" badges
-          'popular': '#EEC76A',        // Gold - "Popular" badges
-          'premium': '#0E7A77',        // Transformative Teal - "Premium" badges
-          'free': '#10B981',           // Success green - "Free" badges
+          'new': '#00CED1',            // Transformative Teal - "NEW" badges
+          'popular': '#FFD700',        // Stardust Gold - "Popular" badges
+          'premium': '#9D7BE8',        // Nebula Purple - "Premium" badges
+          'free': '#8FBC8F',           // Sage Green - "Free" badges
         },
-        // Progress colors - per Design System v1
+        // Progress colors (PRD)
         progress: {
-          'track': '#E5E9EB',          // Light track (Sun Mode border)
-          'track-dark': '#253333',     // Dark track (Moon Mode border)
-          'fill': '#0E7A77',           // Transformative Teal fill
-          'fill-gold': '#EEC76A',      // Gold fill for rewards
+          'track': '#E8E8E8',          // Mist - light track
+          'track-dark': '#4A5568',     // Ash - dark track
+          'fill': '#00CED1',           // Transformative Teal fill
+          'fill-gold': '#FFD700',      // Stardust Gold fill for rewards
         },
-        // Legacy aliases for backward compatibility (maps to Design System v1 colors)
+        // Legacy aliases for backward compatibility (maps to PRD colors)
         primary: {
-          50: '#E6F5F4',
-          100: '#CCEBe9',
-          200: '#99D7D3',
-          300: '#66C3BD',
-          400: '#33AFA7',
-          500: '#0E7A77', // Transformative Teal
-          600: '#0C6966',
-          700: '#0A5855',
-          800: '#084744',
-          900: '#063633',
-          950: '#042522',
+          50: '#E0FAFA',
+          100: '#B3F2F3',
+          200: '#80EAEC',
+          300: '#4DE2E5',
+          400: '#26DBDE',
+          500: '#00CED1', // Transformative Teal - PRD
+          600: '#00B8BA',
+          700: '#009A9C',
+          800: '#007C7E',
+          900: '#005E60',
+          950: '#004042',
         },
         secondary: {
-          50: '#E8F7F6',
-          100: '#D1EFED',
-          200: '#A3DFDB',
-          300: '#75CFC9',
-          400: '#47BFB7',
-          500: '#17A7A2', // Teal Soft
-          600: '#148F8B',
-          700: '#117774',
-          800: '#0E5F5D',
-          900: '#0B4746',
-          950: '#082F2F',
+          50: '#F5F5F5',
+          100: '#E8E8E8',
+          200: '#D4D4D4',
+          300: '#C0C0C0', // Moonlit Silver - PRD
+          400: '#A8A8A8',
+          500: '#909090',
+          600: '#787878',
+          700: '#606060',
+          800: '#484848',
+          900: '#303030',
+          950: '#181818',
         },
         accent: {
-          50: '#FDF9EE',
-          100: '#FBF3DD',
-          200: '#F7E7BB',
-          300: '#F3DB99',
-          400: '#EFCF77',
-          500: '#EEC76A', // Gold
-          600: '#DDBB5E',
-          700: '#C9A84E',
-          800: '#A68B3E',
-          900: '#836E2E',
-          950: '#60511E',
+          50: '#FFFDE7',
+          100: '#FFF9C4',
+          200: '#FFF59D',
+          300: '#FFF176',
+          400: '#FFEE58',
+          500: '#FFD700', // Stardust Gold - PRD
+          600: '#FFC400',
+          700: '#FFB300',
+          800: '#FFA000',
+          900: '#FF8F00',
+          950: '#FF6F00',
         },
       },
       fontFamily: {
