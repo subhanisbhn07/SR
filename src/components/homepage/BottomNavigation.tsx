@@ -35,19 +35,21 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
               key={item.id}
               onClick={() => onTabChange(item.id)}
               whileTap={{ scale: 0.9 }}
-              className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200 ${
-                isActive 
-                  ? 'text-accent-600 dark:text-accent-400' 
+              className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900 ${
+                isActive
+                  ? 'text-teal-600 dark:text-gold-400'
                   : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
               }`}
+              aria-label={item.label}
+              aria-current={isActive ? 'page' : undefined}
             >
-              <Icon className={`w-5 h-5 mb-1 ${isActive ? 'text-accent-400' : ''}`} />
+              <Icon className={`w-5 h-5 mb-1 ${isActive ? 'text-teal-500 dark:text-gold-400' : ''}`} />
               <span className="text-xs font-medium">{item.label}</span>
-              
+
               {isActive && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-accent-400 rounded-full"
+                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-teal-500 dark:bg-gold-400 rounded-full"
                 />
               )}
             </motion.button>
