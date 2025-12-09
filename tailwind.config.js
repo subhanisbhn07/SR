@@ -17,7 +17,8 @@ export default {
         // === NEUMORPHIC BASE COLORS ===
         neumo: {
           bg: '#E0E5EC',              // Main background - soft gray
-          surface: '#E0E5EC',         // Cards use same as bg
+          surface: '#E5EAF2',         // Cards - slightly lighter for depth
+          'surface-soft': '#EDF1F7',  // Inner blocks/inputs - even lighter
           text: '#2D3436',            // Primary text - dark gray
           'text-secondary': '#636E72', // Secondary text - medium gray
           'text-muted': '#B2BEC3',    // Muted text - light gray
@@ -285,23 +286,25 @@ export default {
         display: ['DM Sans', '-apple-system', 'system-ui', 'sans-serif'],
         body: ['DM Sans', '-apple-system', 'system-ui', 'sans-serif'],
       },
-      // === NEUMORPHIC SHADOWS ===
+      // === NEUMORPHIC SHADOWS (Refined - softer, more blur, less harsh) ===
       boxShadow: {
-        // Raised elements (cards, buttons)
-        'neumo': '8px 8px 16px rgba(163, 177, 198, 0.6), -8px -8px 16px rgba(255, 255, 255, 0.8)',
-        'neumo-sm': '4px 4px 8px rgba(163, 177, 198, 0.5), -4px -4px 8px rgba(255, 255, 255, 0.7)',
-        'neumo-lg': '12px 12px 24px rgba(163, 177, 198, 0.7), -12px -12px 24px rgba(255, 255, 255, 0.9)',
+        // Main raised cards - softer with more blur
+        'neumo': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        // Subtle raised (inner sections, small cards, buttons)
+        'neumo-sm': '3px 3px 10px rgba(163, 177, 198, 0.35), -3px -3px 10px rgba(255, 255, 255, 0.85)',
+        // Hero-level emphasis (top hero card only)
+        'neumo-lg': '10px 10px 28px rgba(163, 177, 198, 0.55), -10px -10px 28px rgba(255, 255, 255, 0.95)',
         // Pressed/inset elements (inputs, active states)
-        'neumo-inset': 'inset 6px 6px 12px rgba(163, 177, 198, 0.6), inset -6px -6px 12px rgba(255, 255, 255, 0.8)',
-        'neumo-inset-sm': 'inset 3px 3px 6px rgba(163, 177, 198, 0.5), inset -3px -3px 6px rgba(255, 255, 255, 0.7)',
+        'neumo-inset': 'inset 4px 4px 12px rgba(163, 177, 198, 0.5), inset -4px -4px 12px rgba(255, 255, 255, 0.9)',
+        'neumo-inset-sm': 'inset 2px 2px 6px rgba(163, 177, 198, 0.35), inset -2px -2px 6px rgba(255, 255, 255, 0.85)',
         // Flat (no shadow)
         'neumo-flat': 'none',
         // Legacy shadows mapped to neumorphic
-        'glow': '8px 8px 16px rgba(163, 177, 198, 0.6), -8px -8px 16px rgba(255, 255, 255, 0.8)',
-        'glow-lg': '12px 12px 24px rgba(163, 177, 198, 0.7), -12px -12px 24px rgba(255, 255, 255, 0.9)',
-        'glow-violet': '8px 8px 16px rgba(163, 177, 198, 0.6), -8px -8px 16px rgba(255, 255, 255, 0.8)',
-        'glow-mint': '8px 8px 16px rgba(163, 177, 198, 0.6), -8px -8px 16px rgba(255, 255, 255, 0.8)',
-        'glass': '8px 8px 16px rgba(163, 177, 198, 0.6), -8px -8px 16px rgba(255, 255, 255, 0.8)',
+        'glow': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        'glow-lg': '10px 10px 28px rgba(163, 177, 198, 0.55), -10px -10px 28px rgba(255, 255, 255, 0.95)',
+        'glow-violet': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        'glow-mint': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        'glass': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
       },
       // === BORDER RADIUS ===
       borderRadius: {

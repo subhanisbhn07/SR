@@ -34,16 +34,16 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = `inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${fullWidth ? 'w-full' : ''}`;
   
   const variants = {
-    // Primary - Neumorphic raised button
-    primary: 'bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text focus:ring-neumo-accent',
+    // Primary - Neumorphic raised button with proper depth
+    primary: 'bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text focus:ring-neumo-accent',
     // Secondary - Neumorphic subtle button
-    secondary: 'bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text-secondary focus:ring-neumo-accent',
-    // Accent - Neumorphic accent button
-    accent: 'bg-neumo-bg shadow-neumo hover:shadow-neumo-inset text-neumo-text focus:ring-neumo-accent font-semibold',
+    secondary: 'bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text-secondary focus:ring-neumo-accent',
+    // Accent - Neumorphic accent button with border
+    accent: 'bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text border border-neumo-border focus:ring-neumo-accent font-semibold',
     // Outline - Neumorphic border button
-    outline: 'border-2 border-neumo-border text-neumo-text-secondary hover:bg-neumo-border focus:ring-neumo-accent',
+    outline: 'border border-neumo-border text-neumo-text-secondary hover:bg-neumo-surface-soft focus:ring-neumo-accent',
     // Ghost - Minimal emphasis
-    ghost: 'text-neumo-text-secondary hover:bg-neumo-border focus:ring-neumo-accent',
+    ghost: 'text-neumo-text-secondary hover:bg-neumo-surface-soft focus:ring-neumo-accent',
   };
   
   const sizes = {

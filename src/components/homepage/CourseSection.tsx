@@ -60,7 +60,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                                   transition={{ duration: 0.4, delay: 0.05 * index }}
                                   whileHover={{ scale: 1.03, y: -4 }}
                                   onClick={() => onCourseSelect?.(course.id)}
-                                  className="p-3 md:p-4 rounded-neumo bg-neumo-bg cursor-pointer group transition-all duration-300 shadow-neumo-sm hover:shadow-neumo-inset text-left w-full"
+                                  className="p-3 md:p-4 rounded-neumo bg-neumo-surface border border-neumo-border cursor-pointer group transition-all duration-300 shadow-neumo-sm hover:shadow-neumo-inset-sm text-left w-full"
                                 >
                   <div className="relative mb-3">
                     <div
@@ -105,7 +105,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
             <div className="mt-6 text-center">
               <button
                 onClick={onViewMore}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text-secondary hover:text-neumo-text font-medium rounded-neumo transition-all duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text-secondary hover:text-neumo-text font-medium rounded-neumo transition-all duration-200"
               >
                 View More
                 <ChevronRight className="w-4 h-4" />

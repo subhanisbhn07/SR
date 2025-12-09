@@ -40,10 +40,10 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-neumo-bg rounded-neumo-lg p-5 mb-6 shadow-neumo"
+        className="bg-neumo-surface rounded-neumo-lg p-5 mb-6 shadow-neumo border border-neumo-border"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-neumo bg-neumo-bg flex items-center justify-center shadow-neumo-sm">
+          <div className="w-12 h-12 rounded-neumo bg-neumo-surface-soft flex items-center justify-center">
             <Users className="w-6 h-6 text-neumo-text-secondary" />
           </div>
           <div>
@@ -80,11 +80,11 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-neumo-bg rounded-neumo-lg p-5 mb-6 shadow-neumo"
+        className="bg-neumo-surface rounded-neumo-lg p-5 mb-6 shadow-neumo border border-neumo-border"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-neumo bg-neumo-bg flex items-center justify-center shadow-neumo-sm">
+            <div className="w-12 h-12 rounded-neumo bg-neumo-surface-soft flex items-center justify-center">
               <Users className="w-6 h-6 text-neumo-text-secondary" />
             </div>
             <div>
@@ -101,7 +101,7 @@ export const TribesCard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-neumo-bg rounded-neumo p-3 mb-4 shadow-neumo-inset-sm">
+        <div className="bg-neumo-surface-soft rounded-neumo p-3 mb-4 shadow-neumo-inset-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-neumo-text-secondary">Today's Check-ins</span>
             <span className="text-sm font-medium text-neumo-text">{showedUpCount}/{totalMembers}</span>
@@ -161,7 +161,7 @@ export const TribesCard: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           Check In With Tribe
           <ChevronRight className="w-4 h-4" />

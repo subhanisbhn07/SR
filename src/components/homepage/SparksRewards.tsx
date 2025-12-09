@@ -88,11 +88,11 @@ export const SparksRewards: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-neumo-bg rounded-neumo-lg p-5 mb-6 shadow-neumo"
+        className="bg-neumo-surface rounded-neumo-lg p-5 mb-6 shadow-neumo border border-neumo-border"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-neumo bg-neumo-bg flex items-center justify-center shadow-neumo-sm">
+            <div className="w-12 h-12 rounded-neumo bg-neumo-surface-soft flex items-center justify-center">
               <Sparkles className="w-6 h-6 text-neumo-text" />
             </div>
             <div>
@@ -108,7 +108,7 @@ export const SparksRewards: React.FC = () => {
 
         {/* Neuromarketing: Progress hint to next reward */}
         {userSparks < 100 && (
-          <div className="mb-4 p-3 bg-neumo-bg rounded-neumo shadow-neumo-inset-sm">
+          <div className="mb-4 p-3 bg-neumo-surface-soft rounded-neumo shadow-neumo-inset-sm">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-neumo-text-secondary font-medium">Next reward at 100 Sparks</span>
               <span className="text-xs text-neumo-text">{100 - userSparks} to go!</span>
@@ -126,9 +126,9 @@ export const SparksRewards: React.FC = () => {
           {rewards.slice(0, 3).map((reward) => (
             <div
               key={reward.id}
-              className={`p-3 rounded-neumo text-center ${
+              className={`p-3 rounded-neumo text-center bg-neumo-surface-soft ${
                 reward.unlocked 
-                  ? 'shadow-neumo-inset' 
+                  ? 'shadow-neumo-inset-sm' 
                   : 'shadow-neumo-sm'
               }`}
             >
@@ -148,7 +148,7 @@ export const SparksRewards: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           Unlock More Rewards
           <ChevronRight className="w-4 h-4" />

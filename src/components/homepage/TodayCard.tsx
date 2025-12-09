@@ -68,7 +68,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-neumo-bg rounded-neumo-lg p-6 mb-6 shadow-neumo relative overflow-hidden"
+      className="bg-neumo-surface rounded-neumo-lg p-6 mb-6 shadow-neumo border border-neumo-border relative overflow-hidden"
     >
       {/* Subtle gradient accent at top */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-neutral-400 via-neutral-500 to-neutral-600" />
@@ -89,7 +89,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-neumo-bg px-4 py-2 rounded-full shadow-neumo-sm">
+        <div className="flex items-center gap-2 bg-neumo-surface-soft px-4 py-2 rounded-full shadow-neumo-inset-sm">
           <Sparkles className="w-5 h-5 text-neumo-text-secondary" />
           <span className="text-base font-bold text-neumo-text">{user?.sparks || 0}</span>
           <span className="text-xl">{todaySign.emoji}</span>
@@ -98,7 +98,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
 
       {/* Free Trial Progress Bar */}
       {isFreeTrialDay && (
-        <div className="mb-4 p-3 bg-neumo-bg rounded-neumo shadow-neumo-inset-sm">
+        <div className="mb-4 p-3 bg-neumo-surface-soft rounded-neumo shadow-neumo-inset-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-neumo-text-muted">Free Trial Progress</span>
             <span className="text-xs text-neumo-text-secondary font-medium">
@@ -120,7 +120,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="mb-4 p-3 bg-neumo-bg rounded-neumo shadow-neumo-inset-sm"
+          className="mb-4 p-3 bg-neumo-surface-soft rounded-neumo shadow-neumo-inset-sm"
         >
           <div className="flex items-start gap-2">
             <Flame className="w-4 h-4 text-neumo-text-secondary mt-0.5" />
@@ -139,14 +139,14 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
       <div className="space-y-3">
         {/* Sign Challenge */}
         <motion.div
-          className={`p-4 rounded-neumo transition-all ${
+          className={`p-4 rounded-neumo transition-all bg-neumo-surface-soft ${
             signLogged 
-              ? 'shadow-neumo-inset' 
-              : 'shadow-neumo hover:shadow-neumo-sm'
+              ? 'shadow-neumo-inset-sm' 
+              : 'shadow-neumo-sm hover:shadow-neumo-inset-sm'
           }`}
         >
           <div className="flex items-start gap-3">
-            <div className={`w-10 h-10 rounded-neumo flex items-center justify-center text-xl shadow-neumo-sm`}>
+            <div className="w-10 h-10 rounded-neumo flex items-center justify-center text-xl bg-neumo-surface">
               {signLogged ? <Check className="w-5 h-5 text-neumo-text" /> : todaySign.emoji}
             </div>
             <div className="flex-1">
@@ -168,7 +168,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!signLogged && (
               <button
                 onClick={handleLogSign}
-                className="px-3 py-1.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset-sm text-neumo-text text-sm font-medium rounded-neumo transition-all"
+                className="px-3 py-1.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text text-sm font-medium rounded-neumo transition-all"
               >
                 Log It
               </button>
@@ -178,14 +178,14 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
 
         {/* Micro-Session */}
         <motion.div
-          className={`p-4 rounded-neumo transition-all ${
+          className={`p-4 rounded-neumo transition-all bg-neumo-surface-soft ${
             sessionCompleted 
-              ? 'shadow-neumo-inset' 
-              : 'shadow-neumo hover:shadow-neumo-sm'
+              ? 'shadow-neumo-inset-sm' 
+              : 'shadow-neumo-sm hover:shadow-neumo-inset-sm'
           }`}
         >
           <div className="flex items-start gap-3">
-            <div className={`w-10 h-10 rounded-neumo flex items-center justify-center shadow-neumo-sm`}>
+            <div className="w-10 h-10 rounded-neumo flex items-center justify-center bg-neumo-surface">
               {sessionCompleted ? (
                 <Check className="w-5 h-5 text-neumo-text" />
               ) : (
@@ -211,7 +211,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
             {!sessionCompleted && (
               <button
                 onClick={handleStartSession}
-                className="px-3 py-1.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset-sm text-neumo-text text-sm font-medium rounded-neumo transition-all flex items-center gap-1"
+                className="px-3 py-1.5 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text text-sm font-medium rounded-neumo transition-all flex items-center gap-1"
               >
                 <Play className="w-3 h-3" />
                 Play
