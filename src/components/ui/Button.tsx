@@ -34,16 +34,16 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClasses = `inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${fullWidth ? 'w-full' : ''}`;
   
   const variants = {
-    // Emerald - Primary brand CTA (most important actions)
-    primary: 'bg-emerald-500 hover:bg-emerald-600 text-white focus:ring-emerald-400 shadow-lg hover:shadow-xl',
-    // Teal - Secondary actions (alternative paths)
-    secondary: 'bg-teal-500 hover:bg-teal-600 text-white focus:ring-teal-400 shadow-lg hover:shadow-xl',
-    // Gold - Accent CTA (rewards, premium, celebrations) - use sparingly (10% rule)
-    accent: 'bg-gold-500 hover:bg-gold-600 text-neutral-900 focus:ring-gold-400 shadow-lg hover:shadow-xl font-semibold',
-    // Teal outline - Tertiary actions
-    outline: 'border-2 border-teal-500 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950 focus:ring-teal-400',
+    // Primary - Neumorphic raised button
+    primary: 'bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text focus:ring-neumo-accent',
+    // Secondary - Neumorphic subtle button
+    secondary: 'bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text-secondary focus:ring-neumo-accent',
+    // Accent - Neumorphic accent button
+    accent: 'bg-neumo-bg shadow-neumo hover:shadow-neumo-inset text-neumo-text focus:ring-neumo-accent font-semibold',
+    // Outline - Neumorphic border button
+    outline: 'border-2 border-neumo-border text-neumo-text-secondary hover:bg-neumo-border focus:ring-neumo-accent',
     // Ghost - Minimal emphasis
-    ghost: 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950 focus:ring-emerald-400',
+    ghost: 'text-neumo-text-secondary hover:bg-neumo-border focus:ring-neumo-accent',
   };
   
   const sizes = {

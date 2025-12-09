@@ -149,26 +149,26 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow backdrop-blur-glass"
+        className="bg-neumo-bg rounded-neumo-lg p-5 mb-6 shadow-neumo"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-gold-500/20 flex items-center justify-center">
-            <Trophy className="w-6 h-6 text-gold-500 dark:text-gold-400" />
+          <div className="w-12 h-12 rounded-neumo bg-neumo-bg flex items-center justify-center shadow-neumo-sm">
+            <Trophy className="w-6 h-6 text-neumo-text-secondary" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Universe Receipt</h2>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">Share your manifestation wins</p>
+            <h2 className="text-lg font-semibold text-neumo-text">Universe Receipt</h2>
+            <p className="text-sm text-neumo-text-secondary">Share your manifestation wins</p>
           </div>
         </div>
 
-        <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-4">
+        <p className="text-sm text-neumo-text-secondary mb-4">
           When you manifest something on your road, you'll get a Universe Receipt to share 
           with the world. It shows the odds you beat and your journey stats.
         </p>
 
         <button
           onClick={() => setHasManifestation(true)}
-          className="w-full py-2.5 bg-gold-500/20 hover:bg-gold-500/30 text-gold-600 dark:text-gold-400 font-medium rounded-xl transition-colors"
+          className="w-full py-2.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all"
         >
           Log a Manifestation
         </button>
@@ -181,36 +181,36 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-surface-card dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-glass-border dark:border-glass-border shadow-glass dark:shadow-glow backdrop-blur-glass"
+        className="bg-neumo-bg rounded-neumo-lg p-5 mb-6 shadow-neumo"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gold-500/20 flex items-center justify-center shadow-glow">
-              <Trophy className="w-6 h-6 text-gold-500 dark:text-gold-400" />
+            <div className="w-12 h-12 rounded-neumo bg-neumo-bg flex items-center justify-center shadow-neumo-sm">
+              <Trophy className="w-6 h-6 text-neumo-text-secondary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Latest Win</h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">You manifested something!</p>
+              <h2 className="text-lg font-semibold text-neumo-text">Latest Win</h2>
+              <p className="text-sm text-neumo-text-secondary">You manifested something!</p>
             </div>
           </div>
-          <div className="flex items-center gap-1 bg-gold-500/20 px-3 py-1.5 rounded-full border border-gold-500/30 shadow-glow">
-            <Star className="w-4 h-4 text-gold-500 dark:text-gold-400 fill-gold-500 dark:fill-gold-400" />
-            <span className="text-sm font-medium text-gold-600 dark:text-gold-400">New</span>
+          <div className="flex items-center gap-1 bg-neumo-bg px-3 py-1.5 rounded-full shadow-neumo-sm">
+            <Star className="w-4 h-4 text-neumo-text-secondary fill-neumo-text-secondary" />
+            <span className="text-sm font-medium text-neumo-text">New</span>
           </div>
         </div>
 
-        <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl p-4 mb-4 border border-glass-border">
-          <p className="text-neutral-900 dark:text-white font-medium mb-2">"{manifestation.title}"</p>
+        <div className="bg-neumo-bg rounded-neumo p-4 mb-4 shadow-neumo-inset-sm">
+          <p className="text-neumo-text font-medium mb-2">"{manifestation.title}"</p>
           <div className="flex items-center gap-4 text-sm">
-            <span className="text-neutral-600 dark:text-neutral-400">{manifestation.daysToManifest} days</span>
-            <span className="text-neutral-600 dark:text-neutral-400">{manifestation.signsLogged} signs</span>
-            <span className="text-gold-600 dark:text-gold-400 font-medium">Beat {100 - manifestation.probability}% odds</span>
+            <span className="text-neumo-text-secondary">{manifestation.daysToManifest} days</span>
+            <span className="text-neumo-text-secondary">{manifestation.signsLogged} signs</span>
+            <span className="text-neumo-text font-medium">Beat {100 - manifestation.probability}% odds</span>
           </div>
         </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           <Share2 className="w-4 h-4" />
           Share Universe Receipt
@@ -223,7 +223,7 @@ Start your road: signroad.com
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-neumo-text/30 p-4 overflow-y-auto"
             onClick={() => setShowModal(false)}
           >
             <motion.div
@@ -231,7 +231,7 @@ Start your road: signroad.com
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="w-full max-w-sm bg-neutral-100 dark:bg-neutral-900 rounded-2xl overflow-hidden my-4"
+              className="w-full max-w-sm bg-neumo-bg rounded-neumo-lg overflow-hidden my-4 shadow-neumo-lg"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Old-school Receipt Design - 9:18 ratio */}
@@ -349,12 +349,12 @@ Start your road: signroad.com
               </div>
 
               {/* Action buttons */}
-              <div className="p-4 bg-neutral-200 dark:bg-neutral-800">
+              <div className="p-4 bg-neumo-bg">
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={handleShareReceipt}
                     disabled={isGenerating}
-                    className="w-full py-3 bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-500/50 text-neutral-900 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset disabled:opacity-50 text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
                   >
                     {isGenerating ? (
                       <span>Generating...</span>
@@ -369,18 +369,18 @@ Start your road: signroad.com
                     <button
                       onClick={handleDownloadReceipt}
                       disabled={isGenerating}
-                      className="flex-1 py-3 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400 dark:hover:bg-neutral-600 text-neutral-800 dark:text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                      className="flex-1 py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
                     >
                       <Download className="w-4 h-4" />
                       Download
                     </button>
                     <button
                       onClick={handleCopyReceipt}
-                      className="flex-1 py-3 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400 dark:hover:bg-neutral-600 text-neutral-800 dark:text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                      className="flex-1 py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
                     >
                       {copied ? (
                         <>
-                          <Check className="w-4 h-4 text-green-600" />
+                          <Check className="w-4 h-4 text-neumo-text" />
                           Copied!
                         </>
                       ) : (
@@ -393,7 +393,7 @@ Start your road: signroad.com
                   </div>
                   <button
                     onClick={() => setShowModal(false)}
-                    className="w-full py-2 text-neutral-600 dark:text-neutral-400 text-sm hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors"
+                    className="w-full py-2 text-neumo-text-secondary text-sm hover:text-neumo-text transition-colors"
                   >
                     Close
                   </button>

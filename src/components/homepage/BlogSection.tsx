@@ -69,7 +69,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
       className={compact ? "mb-4" : "mb-12"}
     >
       {!compact && (
-        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">Insights & Reflections</h2>
+        <h2 className="text-2xl font-bold text-neumo-text mb-6">Insights & Reflections</h2>
       )}
       
       <div className={`grid ${compact ? 'grid-cols-1 gap-3' : 'grid-cols-2 md:grid-cols-3 gap-4'}`}>
@@ -80,31 +80,31 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className="p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 cursor-pointer group transition-all duration-300 hover:shadow-lg shadow-sm"
+            className="p-4 rounded-neumo-lg bg-neumo-bg cursor-pointer group transition-all duration-300 shadow-neumo-sm hover:shadow-neumo-inset"
           >
             <div className="flex flex-col">
               <div
-                className="w-full aspect-video rounded-xl bg-cover bg-center mb-3"
+                className="w-full aspect-video rounded-neumo bg-cover bg-center mb-3 shadow-neumo-inset-sm"
                 style={{ backgroundImage: `url(${blog.image})` }}
               />
               
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2 group-hover:text-accent-500 dark:group-hover:text-accent-400 transition-colors duration-200 line-clamp-2">
+              <h3 className="text-sm font-semibold text-neumo-text mb-2 group-hover:text-neumo-text-secondary transition-colors duration-200 line-clamp-2">
                 {blog.title}
               </h3>
               
-              <p className="text-neutral-600 dark:text-neutral-300 text-xs mb-3 line-clamp-2">
+              <p className="text-neumo-text-secondary text-xs mb-3 line-clamp-2">
                 {blog.snippet}
               </p>
               
               <div className="flex items-center justify-between mt-auto">
-                <div className="flex items-center space-x-2 text-xs text-neutral-500 dark:text-neutral-400">
+                <div className="flex items-center space-x-2 text-xs text-neumo-text-muted">
                   <div className="flex items-center space-x-1">
                     <Calendar className="w-3 h-3" />
                     <span>{blog.date}</span>
                   </div>
                 </div>
                 
-                <ArrowRight className="w-4 h-4 text-accent-500 dark:text-accent-400 group-hover:translate-x-1 transition-transform duration-200" />
+                <ArrowRight className="w-4 h-4 text-neumo-text-secondary group-hover:translate-x-1 transition-transform duration-200" />
               </div>
             </div>
           </motion.article>

@@ -11,7 +11,7 @@ function App() {
   
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex items-center justify-center p-4 transition-colors duration-200">
+      <div className="min-h-screen bg-neumo-bg flex items-center justify-center p-4">
         <LoginForm />
       </div>
     );

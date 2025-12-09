@@ -55,7 +55,7 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-neumo-text/30 z-50"
           />
 
           {/* Sidebar */}
@@ -64,48 +64,48 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-72 max-w-[80vw] bg-white dark:bg-neutral-900 z-50 flex flex-col shadow-2xl"
+            className="fixed top-0 right-0 bottom-0 w-72 max-w-[80vw] bg-neumo-bg z-50 flex flex-col shadow-neumo-lg"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
+            <div className="flex items-center justify-between p-4 border-b border-neumo-border">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-purple-500 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">S</span>
+                <div className="w-10 h-10 bg-neumo-bg rounded-neumo flex items-center justify-center shadow-neumo-sm">
+                  <span className="text-neumo-text font-bold text-lg">S</span>
                 </div>
-                <span className="font-semibold text-neutral-900 dark:text-neutral-100">SignRoad</span>
+                <span className="font-semibold text-neumo-text">SignRoad</span>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                className="p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
               >
-                <X className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
+                <X className="w-5 h-5 text-neumo-text-secondary" />
               </button>
             </div>
 
             {/* User Info */}
             {user && (
-              <div className="p-4 border-b border-neutral-200 dark:border-neutral-800">
+              <div className="p-4 border-b border-neumo-border">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-accent-100 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full overflow-hidden bg-neumo-bg shadow-neumo-sm flex items-center justify-center">
                     {user.avatar ? (
                       <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
                     ) : (
-                      <User className="w-6 h-6 text-accent-600" />
+                      <User className="w-6 h-6 text-neumo-text-secondary" />
                     )}
                   </div>
                   <div>
-                    <p className="font-medium text-neutral-900 dark:text-neutral-100">{user.name}</p>
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400">{user.email}</p>
+                    <p className="font-medium text-neumo-text">{user.name}</p>
+                    <p className="text-sm text-neumo-text-secondary">{user.email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 dark:bg-neutral-800">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm">
                     <LanternIcon health={user.lanternHealth} size="sm" />
-                    <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
+                    <span className="text-sm font-medium text-neumo-text-secondary">{user.lanternHealth}</span>
                   </div>
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent-100 dark:bg-accent-500/20">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm">
                     <span className="text-sm">✨</span>
-                    <span className="text-sm font-medium text-accent-600 dark:text-accent-400">{user.sparks}</span>
+                    <span className="text-sm font-medium text-neumo-text-secondary">{user.sparks}</span>
                   </div>
                 </div>
               </div>
@@ -114,7 +114,7 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto py-4">
               <div className="px-3 mb-2">
-                <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider px-3">Navigation</p>
+                <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">Navigation</p>
               </div>
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -123,10 +123,10 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
                   <button
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
-                    className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${
+                    className={`w-full flex items-center gap-3 px-6 py-3 transition-all ${
                       isActive
-                        ? 'bg-accent-100 dark:bg-accent-500/20 text-accent-600 dark:text-accent-400 border-r-2 border-accent-500 dark:border-accent-400'
-                        : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100'
+                        ? 'bg-neumo-bg shadow-neumo-inset text-neumo-text border-r-2 border-neumo-accent'
+                        : 'text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -137,39 +137,39 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
 
               {/* Enterprise Section */}
               <div className="mt-6 px-3 mb-2">
-                <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider px-3">Enterprise</p>
+                <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">Enterprise</p>
               </div>
               <button
                 onClick={() => handleEnterpriseClick('teams')}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
               >
-                <Building2 className="w-5 h-5 text-blue-500 dark:text-blue-400" />
+                <Building2 className="w-5 h-5 text-neumo-text-secondary" />
                 <span className="font-medium">For Teams</span>
-                <span className="ml-auto text-xs text-neutral-500">Pricing</span>
+                <span className="ml-auto text-xs text-neumo-text-muted">Pricing</span>
               </button>
               <button
                 onClick={() => handleEnterpriseClick('b2b')}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
               >
-                <Building2 className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
+                <Building2 className="w-5 h-5 text-neumo-text-secondary" />
                 <span className="font-medium">Enterprise Sales</span>
-                <span className="ml-auto text-xs text-emerald-500 dark:text-emerald-400">Book a Call</span>
+                <span className="ml-auto text-xs text-neumo-text-secondary">Book a Call</span>
               </button>
 
               {/* Settings Section */}
               <div className="mt-6 px-3 mb-2">
-                <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider px-3">More</p>
+                <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">More</p>
               </div>
               <button
                 onClick={onClose}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
               >
                 <Settings className="w-5 h-5" />
                 <span className="font-medium">Settings</span>
               </button>
               <button
                 onClick={onClose}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+                className="w-full flex items-center gap-3 px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
               >
                 <HelpCircle className="w-5 h-5" />
                 <span className="font-medium">Help & Support</span>
@@ -177,13 +177,13 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
             </nav>
 
             {/* Sign Out */}
-            <div className="p-4 border-t border-neutral-200 dark:border-neutral-800">
+            <div className="p-4 border-t border-neumo-border">
               <button
                 onClick={() => {
                   logout();
                   onClose();
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text-secondary transition-all"
               >
                 <LogOut className="w-5 h-5" />
                 <span className="font-medium">Sign Out</span>

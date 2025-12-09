@@ -41,8 +41,8 @@ export const MoodPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <h1 className="text-2xl font-bold text-neutral-900 dark:text-white mb-2">Mood Check-In</h1>
-        <p className="text-neutral-500 dark:text-neutral-400 text-sm">Track how you're feeling today</p>
+        <h1 className="text-2xl font-bold text-neumo-text mb-2">Mood Check-In</h1>
+        <p className="text-neumo-text-secondary text-sm">Track how you're feeling today</p>
       </motion.div>
 
       {!moodLogged ? (
@@ -50,18 +50,18 @@ export const MoodPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white dark:bg-surface-card-dark rounded-2xl p-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm dark:shadow-none mb-6"
+          className="bg-neumo-bg rounded-neumo-lg p-6 shadow-neumo mb-6"
         >
-          <h2 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 text-center">How are you feeling?</h2>
+          <h2 className="text-lg font-semibold text-neumo-text mb-4 text-center">How are you feeling?</h2>
           <div className="flex justify-center gap-3 sm:gap-4 mb-6">
             {moodOptions.map((option) => (
               <button
                 key={option.label}
                 onClick={() => handleMoodSelect(option.emoji)}
-                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center text-xl sm:text-2xl border-2 transition-all ${
+                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-neumo flex items-center justify-center text-xl sm:text-2xl transition-all ${
                   selectedMood === option.emoji
-                    ? option.color
-                    : 'bg-neutral-100 dark:bg-neutral-700/50 border-transparent hover:border-neutral-300 dark:hover:border-neutral-600'
+                    ? 'bg-neumo-bg shadow-neumo-inset'
+                    : 'bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset'
                 }`}
               >
                 {option.emoji}
@@ -74,12 +74,12 @@ export const MoodPage: React.FC = () => {
               animate={{ opacity: 1, height: 'auto' }}
               className="max-w-sm mx-auto"
             >
-              <p className="text-center text-neutral-500 dark:text-neutral-400 mb-4">
+              <p className="text-center text-neumo-text-secondary mb-4">
                 You're feeling {moodOptions.find(m => m.emoji === selectedMood)?.label.toLowerCase()}
               </p>
               <button
                 onClick={handleLogMood}
-                className="w-full py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-colors"
+                className="w-full py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all"
               >
                 Log Mood
               </button>
@@ -90,13 +90,13 @@ export const MoodPage: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-br from-primary-500/20 to-teal-500/20 rounded-2xl p-6 border border-primary-500/30 mb-6 text-center"
+          className="bg-neumo-bg rounded-neumo-lg p-6 shadow-neumo mb-6 text-center"
         >
-          <div className="w-16 h-16 rounded-full bg-primary-500/20 flex items-center justify-center mx-auto mb-4">
-            <Sparkles className="w-8 h-8 text-primary-500 dark:text-primary-400" />
+          <div className="w-16 h-16 rounded-full bg-neumo-bg shadow-neumo-inset-sm flex items-center justify-center mx-auto mb-4">
+            <Sparkles className="w-8 h-8 text-neumo-text-secondary" />
           </div>
-          <h2 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">Mood Logged!</h2>
-          <p className="text-neutral-500 dark:text-neutral-400 text-sm">+5 Sparks earned for checking in</p>
+          <h2 className="text-lg font-semibold text-neumo-text mb-2">Mood Logged!</h2>
+          <p className="text-neumo-text-secondary text-sm">+5 Sparks earned for checking in</p>
         </motion.div>
       )}
 
@@ -105,18 +105,18 @@ export const MoodPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="lg:col-span-2 bg-white dark:bg-surface-card-dark rounded-2xl p-5 sm:p-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm dark:shadow-none"
+          className="lg:col-span-2 bg-neumo-bg rounded-neumo-lg p-5 sm:p-6 shadow-neumo"
         >
           <div className="flex items-center gap-2 mb-4">
-            <Calendar className="w-5 h-5 text-primary-500 dark:text-primary-400" />
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">This Week</h2>
+            <Calendar className="w-5 h-5 text-neumo-text-secondary" />
+            <h2 className="text-lg font-semibold text-neumo-text">This Week</h2>
           </div>
           <div className="grid grid-cols-7 gap-2 sm:gap-3">
             {weeklyMoods.map((day, index) => (
               <div key={day.day} className="flex flex-col items-center gap-2">
-                <span className="text-xs text-neutral-500 dark:text-neutral-400">{day.day}</span>
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center text-lg sm:text-xl ${
-                  day.mood ? 'bg-neutral-100 dark:bg-neutral-700/50' : 'bg-neutral-50 dark:bg-neutral-800/50 border border-dashed border-neutral-300 dark:border-neutral-700'
+                <span className="text-xs text-neumo-text-secondary">{day.day}</span>
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-neumo flex items-center justify-center text-lg sm:text-xl ${
+                  day.mood ? 'bg-neumo-bg shadow-neumo-inset-sm' : 'bg-neumo-bg shadow-neumo-sm'
                 }`}>
                   {day.mood || (index === 6 ? '?' : '')}
                 </div>
@@ -129,20 +129,20 @@ export const MoodPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 sm:p-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm dark:shadow-none"
+          className="bg-neumo-bg rounded-neumo-lg p-5 sm:p-6 shadow-neumo"
         >
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-5 h-5 text-green-500 dark:text-green-400" />
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Your Trend</h2>
+            <TrendingUp className="w-5 h-5 text-neumo-text-secondary" />
+            <h2 className="text-lg font-semibold text-neumo-text">Your Trend</h2>
           </div>
           <div className="flex items-center justify-between lg:flex-col lg:items-start lg:gap-4">
             <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Average mood this week</p>
-              <p className="text-2xl font-bold text-neutral-900 dark:text-white">Good 🙂</p>
+              <p className="text-sm text-neumo-text-secondary mb-1">Average mood this week</p>
+              <p className="text-2xl font-bold text-neumo-text">Good 🙂</p>
             </div>
             <div className="text-right lg:text-left">
-              <p className="text-sm text-green-500 dark:text-green-400 font-medium">+12%</p>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400">vs last week</p>
+              <p className="text-sm text-neumo-text-secondary font-medium">+12%</p>
+              <p className="text-xs text-neumo-text-muted">vs last week</p>
             </div>
           </div>
         </motion.div>

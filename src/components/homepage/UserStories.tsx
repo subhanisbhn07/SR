@@ -70,8 +70,8 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
     >
       {!compact && (
         <div className="text-center mb-8">
-          <p className="text-accent-500 dark:text-accent-400 text-lg mb-2">"This app made me sleep again."</p>
-          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">How SignRoad Changed My Life</h2>
+          <p className="text-neumo-text-secondary text-lg mb-2">"This app made me sleep again."</p>
+          <h2 className="text-2xl font-bold text-neumo-text">How SignRoad Changed My Life</h2>
         </div>
       )}
       
@@ -83,20 +83,20 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className="p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-emerald-200 dark:border-teal-700/50 cursor-pointer group transition-all duration-300 hover:shadow-lg shadow-sm"
+            className="p-4 rounded-neumo-lg bg-neumo-bg cursor-pointer group transition-all duration-300 shadow-neumo-sm hover:shadow-neumo-inset"
           >
             <div className="flex flex-col items-center text-center">
               <img
                 src={story.avatar}
                 alt={story.name}
-                className="w-16 h-16 rounded-full object-cover mb-3"
+                className="w-16 h-16 rounded-full object-cover mb-3 shadow-neumo-sm"
               />
               
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-1">{story.name}</h3>
-              <p className="text-accent-500 dark:text-accent-400 font-medium text-xs mb-2">"{story.quote}"</p>
-              <p className="text-neutral-600 dark:text-neutral-300 text-xs mb-3 line-clamp-2">{story.story}</p>
+              <h3 className="text-sm font-semibold text-neumo-text mb-1">{story.name}</h3>
+              <p className="text-neumo-text-secondary font-medium text-xs mb-2">"{story.quote}"</p>
+              <p className="text-neumo-text-secondary text-xs mb-3 line-clamp-2">{story.story}</p>
               
-              <button className="flex items-center space-x-1 text-accent-500 dark:text-accent-400 hover:text-accent-600 dark:hover:text-accent-300 transition-colors duration-200 group">
+              <button className="flex items-center space-x-1 text-neumo-text-secondary hover:text-neumo-text transition-colors duration-200 group">
                 <span className="text-xs font-medium">Read Story</span>
                 <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-200" />
               </button>

@@ -120,19 +120,19 @@ export const ManifestedWinsFeed: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white dark:bg-surface-card-dark rounded-2xl p-5 mb-6 border border-surface-border-strong dark:border-surface-border-dark-strong shadow-sm"
+        className="bg-neumo-bg rounded-neumo-lg p-5 mb-6 shadow-neumo"
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-500/20 flex items-center justify-center">
-              <Flame className="w-6 h-6 text-green-500 dark:text-green-400" />
+            <div className="w-12 h-12 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm flex items-center justify-center">
+              <Flame className="w-6 h-6 text-neumo-text-secondary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Manifested Wins</h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">Real stories from the road</p>
+              <h2 className="text-lg font-semibold text-neumo-text">Manifested Wins</h2>
+              <p className="text-sm text-neumo-text-secondary">Real stories from the road</p>
             </div>
           </div>
-          <span className="text-xs bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 px-2 py-1 rounded-full">
+          <span className="text-xs bg-neumo-bg shadow-neumo-inset-sm text-neumo-text-secondary px-2 py-1 rounded-full">
             {wins.length} new
           </span>
         </div>
@@ -141,32 +141,32 @@ export const ManifestedWinsFeed: React.FC = () => {
                   {wins.slice(0, 6).map((win) => (
                     <div
                       key={win.id}
-                      className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-3 border border-surface-border-strong dark:border-surface-border-dark-strong cursor-pointer hover:border-green-300 dark:hover:border-green-500/30 transition-colors"
+                      className="bg-neumo-bg rounded-neumo p-3 shadow-neumo-sm cursor-pointer hover:shadow-neumo-inset transition-all"
                     >
                         <div className="flex items-center gap-2 mb-2">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white text-sm font-medium flex-shrink-0">
+                          <div className="w-8 h-8 rounded-full bg-neumo-bg shadow-neumo-sm flex items-center justify-center text-neumo-text text-sm font-medium flex-shrink-0">
                             {win.userName.charAt(0)}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <span className="text-xs font-medium text-neutral-900 dark:text-white block truncate">{win.userName}</span>
-                            <span className="text-xs text-neutral-600 dark:text-neutral-400">{formatTimeAgo(win.manifestedAt)}</span>
+                            <span className="text-xs font-medium text-neumo-text block truncate">{win.userName}</span>
+                            <span className="text-xs text-neumo-text-secondary">{formatTimeAgo(win.manifestedAt)}</span>
                           </div>
                         <button
                           onClick={(e) => { e.stopPropagation(); handleSendLight(win.id); }}
                           disabled={win.hasReceivedLight}
-                          className={`p-1.5 rounded-lg transition-colors flex-shrink-0 ${
+                          className={`p-1.5 rounded-neumo transition-all flex-shrink-0 ${
                             win.hasReceivedLight
-                              ? 'bg-yellow-100 dark:bg-yellow-500/20 text-yellow-500 dark:text-yellow-400'
-                              : 'bg-neutral-100 dark:bg-neutral-700/50 text-neutral-400 hover:bg-yellow-100 dark:hover:bg-yellow-500/20 hover:text-yellow-500 dark:hover:text-yellow-400'
+                              ? 'bg-neumo-bg shadow-neumo-inset text-neumo-text-secondary'
+                              : 'bg-neumo-bg shadow-neumo-sm text-neumo-text-muted hover:shadow-neumo-inset hover:text-neumo-text-secondary'
                           }`}
                         >
                           <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
                         </button>
                       </div>
-                      <p className="text-xs text-neutral-800 dark:text-neutral-200 line-clamp-2 mb-2">"{win.title}"</p>
+                      <p className="text-xs text-neumo-text line-clamp-2 mb-2">"{win.title}"</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-neutral-600 dark:text-neutral-400">{win.daysToManifest}d · {win.signsLogged} signs</span>
-                        <span className="text-xs text-green-600 dark:text-green-400 font-medium">{(100 - win.probability).toFixed(1)}%</span>
+                        <span className="text-xs text-neumo-text-secondary">{win.daysToManifest}d · {win.signsLogged} signs</span>
+                        <span className="text-xs text-neumo-text-secondary font-medium">{(100 - win.probability).toFixed(1)}%</span>
                       </div>
                     </div>
                   ))}
@@ -174,7 +174,7 @@ export const ManifestedWinsFeed: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-gold-500 hover:bg-gold-600 text-neutral-900 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+          className="w-full py-2.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           Celebrate More Wins
           <ChevronRight className="w-4 h-4" />
@@ -187,7 +187,7 @@ export const ManifestedWinsFeed: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-end justify-center bg-neumo-text/30"
             onClick={() => setShowModal(false)}
           >
             <motion.div
@@ -195,19 +195,19 @@ export const ManifestedWinsFeed: React.FC = () => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="w-full max-w-md bg-neutral-900 rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto"
+              className="w-full max-w-md bg-neumo-bg rounded-t-neumo-xl p-6 max-h-[85vh] overflow-y-auto shadow-neumo-lg"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-xl font-bold text-white">Manifested Wins</h2>
-                  <p className="text-sm text-neutral-400">Real stories from travelers on the road</p>
+                  <h2 className="text-xl font-bold text-neumo-text">Manifested Wins</h2>
+                  <p className="text-sm text-neumo-text-secondary">Real stories from travelers on the road</p>
                 </div>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="p-2 rounded-lg hover:bg-neutral-800 transition-colors"
+                  className="p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
                 >
-                  <X className="w-5 h-5 text-neutral-400" />
+                  <X className="w-5 h-5 text-neumo-text-secondary" />
                 </button>
               </div>
 
@@ -217,38 +217,38 @@ export const ManifestedWinsFeed: React.FC = () => {
                     key={win.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-neutral-800/50 rounded-xl p-4 border border-neutral-700/50"
+                    className="bg-neumo-bg rounded-neumo p-4 shadow-neumo-sm"
                   >
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center text-white font-bold text-lg">
+                      <div className="w-12 h-12 rounded-full bg-neumo-bg shadow-neumo-sm flex items-center justify-center text-neumo-text font-bold text-lg">
                         {win.userName.charAt(0)}
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-medium text-white">{win.userName}</span>
-                          <span className="text-xs bg-neutral-700 text-neutral-400 px-2 py-0.5 rounded-full">
+                          <span className="font-medium text-neumo-text">{win.userName}</span>
+                          <span className="text-xs bg-neumo-bg shadow-neumo-inset-sm text-neumo-text-secondary px-2 py-0.5 rounded-full">
                             {win.category}
                           </span>
                         </div>
-                        <span className="text-xs text-neutral-500">{formatTimeAgo(win.manifestedAt)}</span>
+                        <span className="text-xs text-neumo-text-muted">{formatTimeAgo(win.manifestedAt)}</span>
                       </div>
                     </div>
 
-                    <p className="text-white font-medium mb-3">"{win.title}"</p>
+                    <p className="text-neumo-text font-medium mb-3">"{win.title}"</p>
 
-                    <div className="bg-neutral-900/50 rounded-lg p-3 mb-3">
+                    <div className="bg-neumo-bg rounded-neumo p-3 mb-3 shadow-neumo-inset-sm">
                       <div className="grid grid-cols-3 gap-2 text-center">
                         <div>
-                          <p className="text-lg font-bold text-white">{win.daysToManifest}</p>
-                          <p className="text-xs text-neutral-500">days</p>
+                          <p className="text-lg font-bold text-neumo-text">{win.daysToManifest}</p>
+                          <p className="text-xs text-neumo-text-muted">days</p>
                         </div>
                         <div>
-                          <p className="text-lg font-bold text-white">{win.signsLogged}</p>
-                          <p className="text-xs text-neutral-500">signs</p>
+                          <p className="text-lg font-bold text-neumo-text">{win.signsLogged}</p>
+                          <p className="text-xs text-neumo-text-muted">signs</p>
                         </div>
                         <div>
-                          <p className="text-lg font-bold text-green-400">{100 - win.probability}%</p>
-                          <p className="text-xs text-neutral-500">odds beat</p>
+                          <p className="text-lg font-bold text-neumo-text-secondary">{100 - win.probability}%</p>
+                          <p className="text-xs text-neumo-text-muted">odds beat</p>
                         </div>
                       </div>
                     </div>
@@ -260,19 +260,19 @@ export const ManifestedWinsFeed: React.FC = () => {
                           disabled={win.hasReceivedLight}
                           className={`flex items-center gap-1.5 text-sm transition-colors ${
                             win.hasReceivedLight
-                              ? 'text-yellow-400'
-                              : 'text-neutral-400 hover:text-yellow-400'
+                              ? 'text-neumo-text-secondary'
+                              : 'text-neumo-text-muted hover:text-neumo-text-secondary'
                           }`}
                         >
                           <LanternIcon health={win.hasReceivedLight ? 100 : 50} size="xs" showLabel={false} />
                           <span>{win.lightsReceived}</span>
                         </button>
-                        <button className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors">
+                        <button className="flex items-center gap-1.5 text-sm text-neumo-text-muted hover:text-neumo-text transition-colors">
                           <MessageCircle className="w-4 h-4" />
                           <span>Reply</span>
                         </button>
                       </div>
-                      <button className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors">
+                      <button className="flex items-center gap-1.5 text-sm text-neumo-text-muted hover:text-neumo-text transition-colors">
                         <Share2 className="w-4 h-4" />
                         <span>Share</span>
                       </button>
@@ -281,12 +281,12 @@ export const ManifestedWinsFeed: React.FC = () => {
                 ))}
               </div>
 
-              <div className="mt-6 p-4 bg-green-500/10 rounded-xl border border-green-500/20">
+              <div className="mt-6 p-4 bg-neumo-bg rounded-neumo shadow-neumo-inset-sm">
                 <div className="flex items-start gap-3">
-                  <Flame className="w-5 h-5 text-green-400 mt-0.5" />
+                  <Flame className="w-5 h-5 text-neumo-text-secondary mt-0.5" />
                   <div>
-                    <p className="text-sm text-white font-medium">Send light to celebrate wins</p>
-                    <p className="text-xs text-neutral-400 mt-1">
+                    <p className="text-sm text-neumo-text font-medium">Send light to celebrate wins</p>
+                    <p className="text-xs text-neumo-text-secondary mt-1">
                       When you send light to someone's manifestation, you strengthen the collective energy 
                       and earn Sparks for your own journey.
                     </p>

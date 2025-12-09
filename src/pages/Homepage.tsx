@@ -34,23 +34,18 @@ interface CollapsibleSectionProps {
 
 const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, children, defaultOpen = false }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const { theme } = useThemeStore();
   
   return (
-    <div className={`mb-6 rounded-2xl border ${
-      theme === 'dark' ? 'border-neutral-700 bg-neutral-800/50' : 'border-neutral-200 bg-white'
-    }`}>
+    <div className="mb-6 rounded-neumo-lg bg-neumo-bg shadow-neumo">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between p-4 text-left ${
-          theme === 'dark' ? 'text-neutral-200' : 'text-neutral-800'
-        }`}
+        className="w-full flex items-center justify-between p-4 text-left text-neumo-text"
       >
         <span className="font-semibold text-lg">{title}</span>
         {isOpen ? (
-          <ChevronUp className="w-5 h-5 text-neutral-500" />
+          <ChevronUp className="w-5 h-5 text-neumo-text-secondary" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-neutral-500" />
+          <ChevronDown className="w-5 h-5 text-neumo-text-secondary" />
         )}
       </button>
       <AnimatePresence>
@@ -257,7 +252,7 @@ export const Homepage: React.FC = () => {
             </section>
 
             {/* Visual separator between Must-see and Nice-to-see */}
-            <div className="h-px bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8" />
+            <div className="h-px bg-gradient-to-r from-transparent via-neumo-border to-transparent my-8" />
 
             {/* ============================================
                 SECTION 2: NICE-TO-SEE (Engagement & Discovery)
@@ -280,7 +275,7 @@ export const Homepage: React.FC = () => {
               
               {/* Course Sections - Limited to 3-4 cards with View All */}
               {isCardVisible('startYourJourney') && (
-                <div className="mb-8 p-5 rounded-2xl bg-emerald-50 dark:bg-neutral-800/50 border-l-4 border-emerald-500 dark:border-emerald-600">
+                <div className="mb-8 p-5 rounded-neumo-lg bg-neumo-bg shadow-neumo">
                   <CourseSection 
                     title="Start Your Journey" 
                     subtitle="Curated paths for your manifestation road"
@@ -303,7 +298,7 @@ export const Homepage: React.FC = () => {
             </section>
 
             {/* Visual separator before Deep-explore */}
-            <div className="h-px bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8" />
+            <div className="h-px bg-gradient-to-r from-transparent via-neumo-border to-transparent my-8" />
 
             {/* ============================================
                 SECTION 3: DEEP-EXPLORE (Collapsible on Mobile)
@@ -384,7 +379,7 @@ export const Homepage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-surface-page dark:bg-surface-page-dark text-neutral-900 dark:text-neutral-100">
+    <div className="min-h-screen overflow-x-hidden bg-neumo-bg text-neumo-text">
       <DarkModeHeader activeTab={activeBottomTab} onTabChange={setActiveBottomTab} />
       
       <main className="pb-20 overflow-x-hidden">
