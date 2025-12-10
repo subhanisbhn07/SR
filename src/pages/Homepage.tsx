@@ -20,6 +20,7 @@ import { SparksRewards } from '../components/homepage/SparksRewards';
 import { TribesCard } from '../components/homepage/TribesCard';
 import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
 import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
+import { ReferralCard } from '../components/homepage/ReferralCard';
 import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';
 import { JournalPage } from './JournalPage';
@@ -249,6 +250,9 @@ export const Homepage: React.FC = () => {
               
               {/* Latest Win - Social proof & celebration */}
               {isCardVisible('latestWin') && <UniverseReceipt />}
+              
+              {/* Referral Card - Appears after user engagement threshold */}
+              <ReferralCard />
             </section>
 
             {/* Visual separator between Must-see and Nice-to-see */}

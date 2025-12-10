@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useAuthStore } from '../../store/authStore';
 import { useConfigStore } from '../../store/configStore';
@@ -10,7 +10,11 @@ interface LoginFormData {
   password: string;
 }
 
-export const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  onBack?: () => void;
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({ onBack }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login, mode } = useAuthStore();
@@ -44,6 +48,16 @@ export const LoginForm: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="w-full max-w-md mx-auto"
     >
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-neumo-text-secondary hover:text-neumo-text mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm">Back to home</span>
+        </button>
+      )}
+      
       <div className="text-center mb-6">
         <div className="w-16 h-16 bg-brand-teal rounded-full flex items-center justify-center mx-auto mb-4 shadow-teal-glow">
           <span className="text-white font-bold text-xl">SR</span>

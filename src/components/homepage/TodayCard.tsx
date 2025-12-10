@@ -100,9 +100,9 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
       {isFreeTrialDay && (
         <div className="mb-4 p-3 bg-neumo-surface-soft rounded-neumo shadow-neumo-inset-sm">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-neumo-text-muted">Free Trial Progress</span>
+            <span className="text-xs text-neumo-text-muted">Your {freeTrialDays}-Day Road</span>
             <span className="text-xs text-neumo-text-secondary font-medium">
-              {daysUntilUnlock > 0 ? `${daysUntilUnlock} days until unlock` : 'Last free day!'}
+              {daysUntilUnlock > 0 ? `${daysUntilUnlock} days where your Lantern grows free` : 'Last free day - your flame is yours to keep!'}
             </span>
           </div>
           <div className="h-2 bg-neumo-border rounded-full overflow-hidden shadow-neumo-inset-sm">
