@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Calendar, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, ArrowRight, X } from 'lucide-react';
 
 const blogs = [
   {
@@ -60,8 +60,10 @@ interface BlogSectionProps {
 export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => {
   // Show fewer blogs in compact mode
   const displayBlogs = compact ? blogs.slice(0, 3) : blogs;
+  const [activeBlog, setActiveBlog] = useState<typeof blogs[0] | null>(null);
   
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -80,6 +82,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
+            onClick={() => setActiveBlog(blog)}
             className="p-4 rounded-neumo-lg bg-neumo-bg cursor-pointer group transition-all duration-300 shadow-neumo-sm hover:shadow-neumo-inset"
           >
             <div className="flex flex-col">
@@ -111,5 +114,67 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
         ))}
       </div>
     </motion.div>
+
+      {/* Blog Detail Modal */}
+      <AnimatePresence>
+        {activeBlog && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveBlog(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-neumo-bg rounded-neumo-lg shadow-neumo-lg p-6 max-w-md w-full max-h-[80vh] overflow-y-auto"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="text-xl font-bold text-neumo-text pr-8">{activeBlog.title}</h3>
+                <button
+                  onClick={() => setActiveBlog(null)}
+                  className="p-2 rounded-neumo bg-neumo-surface hover:shadow-neumo-inset transition-all flex-shrink-0"
+                >
+                  <X className="w-5 h-5 text-neumo-text-secondary" />
+                </button>
+              </div>
+
+              <div
+                className="w-full aspect-video rounded-neumo bg-cover bg-center mb-4 shadow-neumo-inset-sm"
+                style={{ backgroundImage: `url(${activeBlog.image})` }}
+              />
+
+              <div className="flex items-center gap-3 mb-4 text-sm text-neumo-text-muted">
+                <div className="flex items-center gap-1">
+                  <Calendar className="w-4 h-4" />
+                  <span>{activeBlog.date}</span>
+                </div>
+                <span>•</span>
+                <span>{activeBlog.readTime}</span>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-neumo-text leading-relaxed">{activeBlog.snippet}</p>
+                
+                <div className="pt-4 border-t border-neumo-border">
+                  <p className="text-sm text-neumo-text-secondary mb-3">
+                    Continue your journey with guided meditations and daily practices.
+                  </p>
+                  <button
+                    onClick={() => setActiveBlog(null)}
+                    className="w-full px-4 py-3 bg-brand-teal text-white rounded-neumo font-medium shadow-teal-glow hover:bg-brand-teal-dark transition-all"
+                  >
+                    Explore Courses
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };

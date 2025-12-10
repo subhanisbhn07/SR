@@ -73,9 +73,6 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
     >
       <NeumoCard size="lg" showBlob={true} blobColor="teal">
         <div className="relative">
-          {/* Subtle gradient accent at top */}
-          <div className="absolute -top-6 -left-6 -right-6 h-1 bg-gradient-to-r from-brand-teal via-brand-teal-light to-brand-teal-soft rounded-t-lg" />
-      
       {/* Header with Lantern and Progress - HERO styling */}
       <div className="flex items-center justify-between mb-5 pt-2">
         <div className="flex items-center gap-4">

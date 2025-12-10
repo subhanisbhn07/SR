@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, X } from 'lucide-react';
 
 const stories = [
   {
@@ -60,8 +60,10 @@ interface UserStoriesProps {
 export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => {
   // Show fewer stories in compact mode
   const displayStories = compact ? stories.slice(0, 3) : stories;
+  const [activeStory, setActiveStory] = useState<typeof stories[0] | null>(null);
   
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -83,6 +85,7 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.05 * index }}
             whileHover={{ scale: 1.02, y: -2 }}
+            onClick={() => setActiveStory(story)}
             className="p-4 rounded-neumo-lg bg-neumo-bg cursor-pointer group transition-all duration-300 shadow-neumo-sm hover:shadow-neumo-inset"
           >
             <div className="flex flex-col items-center text-center">
@@ -105,5 +108,63 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
         ))}
       </div>
     </motion.div>
+
+      {/* Story Detail Modal */}
+      <AnimatePresence>
+        {activeStory && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveStory(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-neumo-bg rounded-neumo-lg shadow-neumo-lg p-6 max-w-md w-full max-h-[80vh] overflow-y-auto"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={activeStory.avatar}
+                    alt={activeStory.name}
+                    className="w-16 h-16 rounded-full object-cover shadow-neumo-sm"
+                  />
+                  <div>
+                    <h3 className="text-lg font-bold text-neumo-text">{activeStory.name}</h3>
+                    <p className="text-sm text-brand-teal font-medium">"{activeStory.quote}"</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveStory(null)}
+                  className="p-2 rounded-neumo bg-neumo-surface hover:shadow-neumo-inset transition-all"
+                >
+                  <X className="w-5 h-5 text-neumo-text-secondary" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-neumo-text leading-relaxed">{activeStory.story}</p>
+                
+                <div className="pt-4 border-t border-neumo-border">
+                  <p className="text-sm text-neumo-text-secondary mb-3">
+                    Ready to start your own transformation journey?
+                  </p>
+                  <button
+                    onClick={() => setActiveStory(null)}
+                    className="w-full px-4 py-3 bg-brand-teal text-white rounded-neumo font-medium shadow-teal-glow hover:bg-brand-teal-dark transition-all"
+                  >
+                    Continue Your Journey
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
