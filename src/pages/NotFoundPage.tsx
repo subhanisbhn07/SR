@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 
 export function NotFoundPage() {
   return (
-    <div className="sr-404-container">
-      <div className="sr-404-card">
-        <div className="sr-404-number">404</div>
-        <h1 className="sr-404-title">Path Not Found</h1>
-        <p className="sr-404-message">
+    <div className="sr-404-container min-h-screen flex flex-col items-center justify-center bg-neumo-bg p-8">
+      <div className="sr-404-card text-center p-12 rounded-2xl bg-white shadow-neumo max-w-md">
+        <div className="sr-404-number text-8xl font-bold text-brand-teal mb-4">404</div>
+        <h1 className="sr-404-title text-2xl font-semibold text-neumo-text mb-4">Path Not Found</h1>
+        <p className="sr-404-message text-neumo-text-secondary mb-8">
           The road you're looking for seems to have wandered off. 
           Let's guide you back to your journey.
         </p>
-        <Link to="/" className="sr-404-btn">
+        <Link to="/" className="sr-404-btn inline-flex items-center gap-2 px-6 py-3 bg-brand-teal text-white rounded-xl font-medium hover:bg-brand-teal-dark transition-colors">
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             width="20" 

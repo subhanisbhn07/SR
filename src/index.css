@@ -1,6 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import uiverse.io inspired components after Tailwind */
-@import './styles/uiverse.css';
