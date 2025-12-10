@@ -77,7 +77,7 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
         </div>
       )}
       
-      <div className={`grid ${compact ? 'grid-cols-1 gap-3' : 'grid-cols-2 md:grid-cols-3 gap-4'}`}>
+      <div className={`grid ${compact ? 'grid-cols-1 gap-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'}`}>
         {displayStories.map((story, index) => (
           <motion.div
             key={story.id}
@@ -97,7 +97,7 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
               
               <h3 className="text-sm font-semibold text-neumo-text mb-1">{story.name}</h3>
               <p className="text-neumo-text-secondary font-medium text-xs mb-2">"{story.quote}"</p>
-              <p className="text-neumo-text-secondary text-xs mb-3 line-clamp-2">{story.story}</p>
+              <p className="text-neumo-text-secondary text-xs mb-3 line-clamp-3">{story.story}</p>
               
               <button className="flex items-center space-x-1 text-neumo-text-secondary hover:text-neumo-text transition-colors duration-200 group">
                 <span className="text-xs font-medium">Read Story</span>

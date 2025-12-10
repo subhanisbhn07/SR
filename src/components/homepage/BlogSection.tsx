@@ -70,11 +70,14 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
       transition={{ duration: 0.6 }}
       className={compact ? "mb-4" : "mb-12"}
     >
-      {!compact && (
-        <h2 className="text-2xl font-bold text-neumo-text mb-6">Insights & Reflections</h2>
-      )}
+            {!compact && (
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-neumo-text">Insights & Reflections</h2>
+                <p className="text-neumo-text-secondary text-sm mt-1">Short reflections from the SignRoad team</p>
+              </div>
+            )}
       
-      <div className={`grid ${compact ? 'grid-cols-1 gap-3' : 'grid-cols-2 md:grid-cols-3 gap-4'}`}>
+      <div className={`grid ${compact ? 'grid-cols-1 gap-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'}`}>
         {displayBlogs.map((blog, index) => (
           <motion.article
             key={blog.id}
@@ -95,9 +98,9 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
                 {blog.title}
               </h3>
               
-              <p className="text-neumo-text-secondary text-xs mb-3 line-clamp-2">
-                {blog.snippet}
-              </p>
+                            <p className="text-neumo-text-secondary text-xs mb-3 line-clamp-3">
+                              {blog.snippet}
+                            </p>
               
               <div className="flex items-center justify-between mt-auto">
                 <div className="flex items-center space-x-2 text-xs text-neumo-text-muted">

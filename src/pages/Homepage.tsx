@@ -340,28 +340,28 @@ export const Homepage: React.FC = () => {
                 </div>
               )}
               
-              {/* User Stories - Collapsible on mobile */}
-              {isCardVisible('userStories') && (
-                <div className="md:hidden">
-                  <CollapsibleSection title="Success Stories" defaultOpen={false}>
-                    <UserStories compact />
-                  </CollapsibleSection>
-                </div>
-              )}
+                            {/* User Stories - Collapsible on mobile */}
+                            {isCardVisible('userStories') && (
+                              <div className="md:hidden">
+                                <CollapsibleSection title="Success Stories" defaultOpen={true}>
+                                  <UserStories />
+                                </CollapsibleSection>
+                              </div>
+                            )}
               {isCardVisible('userStories') && (
                 <div className="hidden md:block">
                   <UserStories />
                 </div>
               )}
               
-              {/* Blog Section - Collapsible on mobile */}
-              {isCardVisible('blogSection') && (
-                <div className="md:hidden">
-                  <CollapsibleSection title="Insights & Reflections" defaultOpen={false}>
-                    <BlogSection compact />
-                  </CollapsibleSection>
-                </div>
-              )}
+                            {/* Blog Section - Collapsible on mobile */}
+                            {isCardVisible('blogSection') && (
+                              <div className="md:hidden">
+                                <CollapsibleSection title="Insights & Reflections" defaultOpen={true}>
+                                  <BlogSection />
+                                </CollapsibleSection>
+                              </div>
+                            )}
               {isCardVisible('blogSection') && (
                 <div className="hidden md:block">
                   <BlogSection />
