@@ -261,6 +261,10 @@ class ApiService {
   async getPage(slug: string): Promise<{ page: { id: string; slug: string; title: string; content: string } }> {
     return this.request(`/api/content/pages/${slug}`);
   }
+
+  async getAppSettings(): Promise<{ settings: { free_trial_days: number; card_visibility: Record<string, { desktop: boolean; tablet: boolean; mobile: boolean }> } }> {
+    return this.request('/api/settings');
+  }
 }
 
 export const api = new ApiService();

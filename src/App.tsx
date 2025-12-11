@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
+import { useConfigStore } from './store/configStore';
 import { LoginForm } from './components/auth/LoginForm';
 import { Homepage } from './pages/Homepage';
 import { LandingPage } from './pages/LandingPage';
 import { ChooseYourRoad } from './components/onboarding/ChooseYourRoad';
-import { AdminSettings } from './pages/AdminSettings';
 
 function App() {
   const { isAuthenticated, mode, hasCompletedOnboarding, completeOnboarding, user } = useAuthStore();
+  const { loadFromBackend, loadedFromBackend } = useConfigStore();
   const [showLoginForm, setShowLoginForm] = useState(false);
+
+  // Load app settings from backend on startup
+  useEffect(() => {
+    if (!loadedFromBackend) {
+      loadFromBackend();
+    }
+  }, [loadFromBackend, loadedFromBackend]);
   
   // Show landing page or login form for unauthenticated users
   if (!isAuthenticated) {
@@ -48,7 +56,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/admin/settings" element={<AdminSettings />} />
         <Route path="*" element={<Homepage />} />
       </Routes>
     </Router>

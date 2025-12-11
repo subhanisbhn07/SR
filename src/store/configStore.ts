@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { api } from '../services/api';
 
 // Card visibility settings per device type
 export interface CardVisibility {
@@ -32,6 +33,9 @@ interface ConfigState {
   cardVisibility: CardVisibilitySettings;
   setCardVisibility: (cardId: keyof CardVisibilitySettings, device: keyof CardVisibility, visible: boolean) => void;
   resetCardVisibility: () => void;
+  isLoading: boolean;
+  loadedFromBackend: boolean;
+  loadFromBackend: () => Promise<void>;
 }
 
 // Default: all cards visible on all devices
@@ -73,6 +77,25 @@ export const useConfigStore = create<ConfigState>()(
       },
       resetCardVisibility: () => {
         set({ cardVisibility: defaultCardVisibility });
+      },
+      isLoading: false,
+      loadedFromBackend: false,
+      loadFromBackend: async () => {
+        set({ isLoading: true });
+        try {
+          const response = await api.getAppSettings();
+          const { free_trial_days, card_visibility } = response.settings;
+          set({
+            freeTrialDays: free_trial_days,
+            cardVisibility: card_visibility as CardVisibilitySettings,
+            loadedFromBackend: true,
+            isLoading: false,
+          });
+        } catch (error) {
+          console.error('Failed to load settings from backend, using defaults:', error);
+          // Keep existing/default values if backend fails
+          set({ isLoading: false });
+        }
       },
     }),
     {
