@@ -41,32 +41,33 @@ export const LoginForm: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-md mx-auto"
+      className="w-full max-w-md mx-auto bg-white dark:bg-neutral-900 rounded-2xl shadow-lg shadow-neutral-200/50 dark:shadow-neutral-900/50 p-6 sm:p-8 border border-neutral-100 dark:border-neutral-800"
     >
-      {/* Theme toggle in top right corner */}
-      <div className="flex justify-end mb-4">
+      {/* Header with logo and theme toggle */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 bg-teal-500 rounded-xl flex items-center justify-center shadow-md">
+            <span className="text-white font-bold text-sm">SR</span>
+          </div>
+          <span className="text-lg font-semibold text-teal-600 dark:text-teal-400">SignRoad</span>
+        </div>
         <ThemeToggle />
       </div>
       
-      <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-          <span className="text-white font-bold text-xl">SR</span>
-        </div>
-        <h1 className="text-3xl font-bold text-neutral-900 dark:text-white mb-2">
-          Welcome to SignRoad
+      {/* Welcome text - more compact */}
+      <div className="text-center mb-5">
+        <h1 className="text-2xl font-bold text-neutral-900 dark:text-white mb-1">
+          Welcome Back
         </h1>
-        <p className="text-neutral-600 dark:text-neutral-300">
+        <p className="text-sm text-neutral-600 dark:text-neutral-300">
           {mode === 'consumer' 
-            ? 'A 1,000-step manifestation road where the universe sends you signs back'
-            : 'Elevate your team\'s wellness with guided manifestation journeys'
+            ? 'Your 1,000-step manifestation journey awaits'
+            : 'Elevate your team\'s wellness journey'
           }
-        </p>
-        <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-2 font-medium">
-          {mode === 'consumer' && `${freeTrialDays} free steps to prove it to yourself`}
         </p>
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Input
           label="Email"
           type="email"
@@ -135,12 +136,22 @@ export const LoginForm: React.FC = () => {
         </div>
       </form>
       
-      <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+      {/* Trial info badge */}
+      {mode === 'consumer' && (
+        <div className="mt-4 text-center">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 text-sm font-medium rounded-full">
+            <span className="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse" />
+            {freeTrialDays} free steps to prove it to yourself
+          </span>
+        </div>
+      )}
+      
+      <div className="mt-5 pt-4 border-t border-neutral-200 dark:border-neutral-700">
         <p className="text-xs text-center text-neutral-500 dark:text-neutral-400">
           By signing in, you agree to our{' '}
-          <a href="#" className="text-emerald-600 dark:text-emerald-400 hover:underline">Terms of Service</a>
+          <a href="#" className="text-teal-600 dark:text-teal-400 hover:underline">Terms of Service</a>
           {' '}and{' '}
-          <a href="#" className="text-emerald-600 dark:text-emerald-400 hover:underline">Privacy Policy</a>
+          <a href="#" className="text-teal-600 dark:text-teal-400 hover:underline">Privacy Policy</a>
         </p>
       </div>
     </motion.div>

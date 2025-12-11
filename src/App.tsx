@@ -23,16 +23,49 @@ function App() {
   if (!isAuthenticated) {
     if (showLoginForm) {
       return (
-        <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 flex items-center justify-center p-4 transition-colors duration-200">
-          <div className="relative">
+        <div className="min-h-screen bg-[#FBFBFB] dark:bg-neutral-950 relative overflow-hidden transition-colors duration-200">
+          {/* Subtle background pattern matching landing page */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute right-0 top-0 w-1/2 h-1/2 opacity-[0.08]">
+              <svg viewBox="0 0 400 400" className="w-full h-full">
+                <path 
+                  d="M50 350 Q200 200 350 100" 
+                  stroke="#0E7A77" 
+                  strokeWidth="2" 
+                  fill="none"
+                  strokeDasharray="8 4"
+                />
+                <circle cx="350" cy="100" r="20" fill="#0E7A77" opacity="0.3" />
+                <circle cx="200" cy="200" r="10" fill="#EEC76A" opacity="0.5" />
+              </svg>
+            </div>
+            <div className="absolute left-0 bottom-0 w-1/3 h-1/3 opacity-[0.05]">
+              <svg viewBox="0 0 200 200" className="w-full h-full">
+                <circle cx="100" cy="100" r="80" stroke="#0E7A77" strokeWidth="1" fill="none" />
+                <circle cx="100" cy="100" r="40" stroke="#EEC76A" strokeWidth="1" fill="none" />
+              </svg>
+            </div>
+          </div>
+          
+          {/* Header with back button */}
+          <header className="relative z-10 px-4 sm:px-6 pt-4 pb-2">
             <button 
               onClick={() => setShowLoginForm(false)}
-              className="absolute -top-12 left-0 text-sm text-teal-500 hover:text-teal-600 transition-colors"
+              className="inline-flex items-center gap-1 text-sm text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors font-medium"
             >
-              &larr; Back to homepage
+              <span>&larr;</span> Back to home
             </button>
-            <LoginForm />
-          </div>
+          </header>
+          
+          {/* Login form container - positioned higher on mobile */}
+          <main className="relative z-10 flex justify-center px-4 sm:px-6 pt-2 sm:pt-8 pb-6">
+            <div className="w-full max-w-md">
+              <LoginForm />
+            </div>
+          </main>
+          
+          {/* Bottom decorative element */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 via-gold-500 to-teal-500 opacity-30" />
         </div>
       );
     }
