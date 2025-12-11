@@ -23,6 +23,8 @@ import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
 import { ReferralCard } from '../components/homepage/ReferralCard';
 import { DailyMessageCard } from '../components/homepage/DailyMessageCard';
 import { HeroPromise } from '../components/homepage/HeroPromise';
+import { OnboardingWizard } from '../components/onboarding/OnboardingWizard';
+import { DayBasedNudge } from '../components/onboarding/DayBasedNudge';
 import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';
 import { JournalPage } from './JournalPage';
@@ -213,6 +215,7 @@ const editorsPicks = [
 
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const { theme } = useThemeStore();
   const { isCardVisible } = useCardVisibility();
 
@@ -240,7 +243,10 @@ export const Homepage: React.FC = () => {
                 SECTION 0: HERO PROMISE (First Impression)
                 Core value prop: Manifestation with receipts
                 ============================================ */}
-            <HeroPromise onGetStarted={() => setActiveBottomTab('courses')} />
+            <HeroPromise onGetStarted={() => setShowOnboarding(true)} />
+            
+            {/* Day-Based Nudge - Contextual messaging based on user's step */}
+            <DayBasedNudge onAction={() => setActiveBottomTab('courses')} />
             
             {/* ============================================
                 SECTION 1: MUST-SEE (Above the Fold)
@@ -405,6 +411,17 @@ export const Homepage: React.FC = () => {
       <BottomNavigation 
         activeTab={activeBottomTab} 
         onTabChange={setActiveBottomTab} 
+      />
+      
+      {/* Onboarding Wizard - Triggered by "Start Your 7-Step Free Trial" CTA */}
+      <OnboardingWizard
+        isOpen={showOnboarding}
+        onClose={() => setShowOnboarding(false)}
+        onComplete={() => {
+          setShowOnboarding(false);
+          // Navigate to courses after onboarding
+          setActiveBottomTab('courses');
+        }}
       />
     </div>
   );
