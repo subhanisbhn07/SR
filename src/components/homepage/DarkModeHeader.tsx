@@ -70,7 +70,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
 
                     {/* Right Side - Desktop */}
           <div className="hidden md:flex items-center space-x-2">
-            {/* Enterprise Dropdown - Desktop only */}
+            {/* Enterprise Dropdown - Hidden for B2C focus (re-enable when B2B is ready)
             <div className="relative">
               <button
                 onClick={() => setShowEnterpriseMenu(!showEnterpriseMenu)}
@@ -109,6 +109,7 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                 </div>
               )}
             </div>
+            */}
 
             {user && (
               <>

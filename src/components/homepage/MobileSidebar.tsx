@@ -135,7 +135,7 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
                 );
               })}
 
-              {/* Enterprise Section */}
+              {/* Enterprise Section - Hidden for B2C focus (re-enable when B2B is ready)
               <div className="mt-6 px-3 mb-2">
                 <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">Enterprise</p>
               </div>
@@ -155,6 +155,7 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
                 <span className="font-medium">Enterprise Sales</span>
                 <span className="ml-auto text-xs text-neumo-text-secondary">Book a Call</span>
               </button>
+              */}
 
               {/* Settings Section */}
               <div className="mt-6 px-3 mb-2">
