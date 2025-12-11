@@ -9,9 +9,9 @@ export const ReferralCard: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Only show referral card after user has logged some signs (engagement threshold)
-  const hasEngaged = (user?.streakDays || 0) >= 3;
-  const isPaidUser = user?.subscriptionStatus === 'active';
+  // Show referral card for all logged-in users (post-login, referral is the main CTA)
+  const hasEngaged = true; // Always show for logged-in users per user's philosophy
+  const isPaidUser = user?.subscriptionStatus === 'active' || user?.subscriptionTier !== 'free';
   
   // Generate referral link (in real app, this would be unique per user)
   const referralLink = `https://signroad.com/join/${user?.id || 'demo'}`;

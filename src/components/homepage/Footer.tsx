@@ -88,27 +88,27 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h3 className="text-neumo-text font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <button onClick={() => document.getElementById('blog-section')?.scrollIntoView({ behavior: 'smooth' })} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors text-left">
                   Blog
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <a href="mailto:hello@signroad.com" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                   Help Center
                 </a>
               </li>
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <button onClick={() => document.getElementById('stories-section')?.scrollIntoView({ behavior: 'smooth' })} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors text-left">
                   Community
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <button onClick={() => document.getElementById('stories-section')?.scrollIntoView({ behavior: 'smooth' })} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors text-left">
                   Testimonials
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <a href="mailto:hello@signroad.com?subject=FAQ" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                   FAQ
                 </a>
               </li>
@@ -120,22 +120,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h3 className="text-neumo-text font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <a href="mailto:hello@signroad.com?subject=Privacy%20Policy" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <a href="mailto:hello@signroad.com?subject=Terms%20of%20Service" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <a href="mailto:hello@signroad.com?subject=Cookie%20Policy" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                   Cookie Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                <a href="mailto:hello@signroad.com?subject=Refund%20Policy" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                   Refund Policy
                 </a>
               </li>
@@ -158,14 +158,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               &copy; {new Date().getFullYear()} SignRoad. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+              <a href="mailto:hello@signroad.com?subject=Accessibility" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                 Accessibility
               </a>
-              <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
-                Sitemap
-              </a>
-              <a href="#" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
-                Status
+              <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                Back to Top
+              </button>
+              <a href="mailto:hello@signroad.com?subject=Support" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                Support
               </a>
             </div>
           </div>

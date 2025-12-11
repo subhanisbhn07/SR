@@ -77,6 +77,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
   return (
     <>
     <motion.div
+      id="blog-section"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -178,13 +179,13 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ compact = false }) => 
                 
                 <div className="pt-4 border-t border-neumo-border">
                   <p className="text-sm text-neumo-text-secondary mb-3">
-                    Ready to experience these principles for yourself?
+                    Know someone who needs to read this? Share the road with them.
                   </p>
                   <button
                     onClick={() => setActiveBlog(null)}
                     className="w-full px-4 py-3 bg-brand-teal text-white rounded-neumo font-medium shadow-teal-glow hover:bg-brand-teal-dark transition-all"
                   >
-                    Start Your Free Road
+                    Share This Insight
                   </button>
                 </div>
               </div>

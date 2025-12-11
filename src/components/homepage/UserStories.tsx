@@ -77,6 +77,7 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
   return (
     <>
     <motion.div
+      id="stories-section"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -165,13 +166,13 @@ export const UserStories: React.FC<UserStoriesProps> = ({ compact = false }) => 
                 
                 <div className="pt-4 border-t border-neumo-border">
                   <p className="text-sm text-neumo-text-secondary mb-3">
-                    Ready to start your own transformation journey?
+                    If this story resonates, invite one traveler to start their own road.
                   </p>
                   <button
                     onClick={() => setActiveStory(null)}
                     className="w-full px-4 py-3 bg-brand-teal text-white rounded-neumo font-medium shadow-teal-glow hover:bg-brand-teal-dark transition-all"
                   >
-                    Start Your Free Road
+                    Share This Journey
                   </button>
                 </div>
               </div>

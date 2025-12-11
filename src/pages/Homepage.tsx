@@ -21,6 +21,7 @@ import { TribesCard } from '../components/homepage/TribesCard';
 import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
 import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
 import { ReferralCard } from '../components/homepage/ReferralCard';
+import { DailyMessageCard } from '../components/homepage/DailyMessageCard';
 import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';
 import { JournalPage } from './JournalPage';
@@ -242,6 +243,9 @@ export const Homepage: React.FC = () => {
               {/* Today Card - HERO of the page, visually dominant */}
               {isCardVisible('todayCard') && <TodayCard />}
               
+              {/* Daily Message with Barnum effect - personalized feel */}
+              <DailyMessageCard />
+              
               {/* Desktop: 2-column layout for Sparks + Tribe */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
                 {isCardVisible('sparksRewards') && <SparksRewards />}
@@ -277,12 +281,12 @@ export const Homepage: React.FC = () => {
                 </div>
               )}
               
-              {/* Course Sections - Limited to 3-4 cards with View All */}
+              {/* Daily Audio Sections - Limited to 3-4 cards with View All */}
               {isCardVisible('startYourJourney') && (
                 <div className="mb-8 p-5 rounded-neumo-lg bg-neumo-bg shadow-neumo">
                   <CourseSection 
-                    title="Start Your Journey" 
-                    subtitle="Curated paths for your manifestation road"
+                    title="Today's Daily Audio" 
+                    subtitle="Micro-sessions queued for your road"
                     courses={featuredCourses.slice(0, 4)}
                     onCourseSelect={() => setActiveBottomTab('courses')}
                     onViewMore={() => setActiveBottomTab('courses')}
@@ -293,7 +297,7 @@ export const Homepage: React.FC = () => {
               {isCardVisible('whatOthersLove') && (
                 <CourseSection 
                   title="What Others Love" 
-                  subtitle="Top-rated by the SignRoad community"
+                  subtitle="Top-rated audio by the SignRoad community"
                   courses={topRatedCourses.slice(0, 3)}
                   onCourseSelect={() => setActiveBottomTab('courses')}
                   onViewMore={() => setActiveBottomTab('courses')}
