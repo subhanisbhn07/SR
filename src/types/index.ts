@@ -12,6 +12,8 @@ export interface User {
   sparks: number;
   currentRoadStep: number;
   tribeId?: string;
+  subscriptionStatus?: string;
+  trialEndsAt?: string | null;
 }
 
 export interface UserPreferences {
