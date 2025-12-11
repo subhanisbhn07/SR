@@ -22,6 +22,7 @@ import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
 import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
 import { ReferralCard } from '../components/homepage/ReferralCard';
 import { DailyMessageCard } from '../components/homepage/DailyMessageCard';
+import { HeroPromise } from '../components/homepage/HeroPromise';
 import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';
 import { JournalPage } from './JournalPage';
@@ -234,6 +235,12 @@ export const Homepage: React.FC = () => {
       default:
         return (
           <div className="px-4 py-6 max-w-lg md:max-w-3xl lg:max-w-6xl xl:max-w-7xl mx-auto">
+            
+            {/* ============================================
+                SECTION 0: HERO PROMISE (First Impression)
+                Core value prop: Manifestation with receipts
+                ============================================ */}
+            <HeroPromise onGetStarted={() => setActiveBottomTab('courses')} />
             
             {/* ============================================
                 SECTION 1: MUST-SEE (Above the Fold)
