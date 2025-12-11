@@ -1,156 +1,187 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
+  Menu, 
+  X, 
   Sparkles, 
   Target, 
-  Eye, 
-  Headphones, 
-  TrendingUp, 
-  Trophy,
+  MessageCircle, 
+  Share2,
+  Zap,
+  Feather,
+  CheckCircle,
+  Play,
+  ArrowRight,
   Users,
+  Calendar,
+  Compass,
+  Headphones,
+  Trophy,
+  Eye,
+  TrendingUp,
   ChevronDown,
   ChevronUp,
-  MessageCircle,
-  Play,
-  Check,
-  Zap
+  Check
 } from 'lucide-react';
-import { useAuthStore } from '../store/authStore';
-import { LoginForm } from '../components/auth/LoginForm';
 
 // ============================================
-// HERO SECTION
+// SECTION 1: HERO WITH NAVBAR
 // ============================================
-const HeroSection: React.FC<{ onGetStarted: () => void }> = ({ onGetStarted }) => {
+
+interface NavbarProps {
+  onLoginClick: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center px-4 py-16 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950" />
-      
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl"
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
-      </div>
+    <nav className="w-full bg-[#FBFBFB]">
+      <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
+            <Compass className="w-5 h-5 text-white" />
+          </div>
+          <span className="text-xl font-semibold text-teal-500">SignRoad</span>
+        </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/20 border border-amber-500/30 mb-8"
-        >
-          <Sparkles className="w-4 h-4 text-amber-400" />
-          <span className="text-sm text-amber-300 font-medium">Your manifestation journey starts here</span>
-        </motion.div>
-
-        {/* Main Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
-        >
-          Master your manifestation journey in just{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
-            10 minutes a day
-          </span>
-        </motion.h1>
-
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg md:text-xl text-neutral-300 mb-10 max-w-2xl mx-auto leading-relaxed"
-        >
-          From spotting signs from the universe to manifesting your goals—discover your life's purpose with structure, guidance, and proof.
-        </motion.p>
-
-        {/* CTA Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col items-center gap-4"
-        >
-          <button
-            onClick={onGetStarted}
-            className="px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-neutral-900 font-bold text-lg rounded-xl shadow-lg shadow-amber-500/25 transition-all duration-300 hover:scale-105"
+        <div className="hidden md:flex items-center gap-8">
+          <a href="#how-it-works" className="text-text-primary hover:text-teal-500 transition-colors relative group">
+            How It Works
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all group-hover:w-full" />
+          </a>
+          <a href="#pricing" className="text-text-primary hover:text-teal-500 transition-colors relative group">
+            Pricing
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all group-hover:w-full" />
+          </a>
+          <a href="#faq" className="text-text-primary hover:text-teal-500 transition-colors relative group">
+            FAQ
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all group-hover:w-full" />
+          </a>
+          <button 
+            onClick={onLoginClick}
+            className="px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors"
           >
-            Start Your 7-Day Free Journey
+            Login / Sign Up
           </button>
-          <p className="text-sm text-neutral-500">
-            No credit card required. $11.11/month after trial.
-          </p>
-        </motion.div>
+        </div>
 
-        {/* Journey Preview Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
+        <button 
+          className="md:hidden p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {[
-            { icon: Target, label: 'Set Goal', color: 'text-blue-400' },
-            { icon: Eye, label: 'Find Signs', color: 'text-purple-400' },
-            { icon: Headphones, label: 'Daily Audio', color: 'text-teal-400' },
-            { icon: Trophy, label: 'Get Receipt', color: 'text-amber-400' },
-          ].map((step, index) => (
-            <motion.div
-              key={step.label}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-              className="flex flex-col items-center gap-2 p-4 rounded-xl bg-white/5 border border-white/10"
-            >
-              <step.icon className={`w-8 h-8 ${step.color}`} />
-              <span className="text-sm text-neutral-300">{step.label}</span>
-            </motion.div>
-          ))}
-        </motion.div>
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
-    </section>
+
+      {isMobileMenuOpen && (
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="md:hidden bg-white border-t border-surface-border px-6 py-4 space-y-4"
+        >
+          <a href="#how-it-works" className="block text-text-primary hover:text-teal-500 py-2">How It Works</a>
+          <a href="#pricing" className="block text-text-primary hover:text-teal-500 py-2">Pricing</a>
+          <a href="#faq" className="block text-text-primary hover:text-teal-500 py-2">FAQ</a>
+          <button 
+            onClick={onLoginClick}
+            className="w-full px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors"
+          >
+            Login / Sign Up
+          </button>
+        </motion.div>
+      )}
+    </nav>
   );
 };
 
-// ============================================
-// TRUST BAR
-// ============================================
-const TrustBar: React.FC = () => {
-  const stats = [
-    { value: '12,000+', label: 'Active manifesters' },
-    { value: '47,293', label: 'Universe Receipts generated' },
-    { value: '3.2 days', label: 'Average time to first sign' },
-  ];
-
+const HeroSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney }) => {
   return (
-    <section className="py-8 bg-neutral-900 border-y border-neutral-800">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center"
+    <section className="bg-[#FBFBFB] py-16 md:py-24 relative overflow-hidden">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-[0.15] pointer-events-none">
+        <svg viewBox="0 0 400 400" className="w-full h-full">
+          <path 
+            d="M50 350 Q200 200 350 100" 
+            stroke="#0E7A77" 
+            strokeWidth="2" 
+            fill="none"
+            strokeDasharray="8 4"
+          />
+          <circle cx="350" cy="100" r="20" fill="#0E7A77" opacity="0.3" />
+          <circle cx="200" cy="200" r="10" fill="#EEC76A" opacity="0.5" />
+        </svg>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-6 relative z-10">
+        <div className="max-w-[700px] mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-200 mb-6"
+          >
+            <Sparkles className="w-4 h-4 text-teal-500" />
+            <span className="text-sm text-teal-600 font-medium">Your manifestation journey starts here</span>
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-[32px] md:text-[44px] font-bold text-text-primary leading-[1.2] mb-6"
+          >
+            Master your manifestation journey in just{' '}
+            <span className="text-teal-500">10 minutes a day</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-base md:text-lg text-text-secondary mb-8 max-w-[600px] mx-auto"
+          >
+            From spotting signs from the universe to manifesting your goals—discover your life's purpose with structure, guidance, and proof.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col items-center gap-4"
+          >
+            <button 
+              onClick={onStartJourney}
+              className="px-8 py-4 bg-gold-500 hover:bg-gold-600 text-text-primary font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-lg"
             >
-              <div className="text-2xl md:text-3xl font-bold text-amber-400">{stat.value}</div>
-              <div className="text-sm text-neutral-400">{stat.label}</div>
-            </motion.div>
-          ))}
+              Start Your 7-Day Free Journey
+              <ArrowRight className="w-5 h-5" />
+            </button>
+            <p className="text-sm text-text-secondary">
+              No credit card required. $11.11/month after trial.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex justify-center gap-4 mt-12"
+          >
+            {[
+              { icon: <Target className="w-5 h-5" />, label: 'Set Goal' },
+              { icon: <Eye className="w-5 h-5" />, label: 'Find Signs' },
+              { icon: <Headphones className="w-5 h-5" />, label: 'Daily Audio' },
+              { icon: <Trophy className="w-5 h-5" />, label: 'Get Receipt' },
+            ].map((item, index) => (
+              <div 
+                key={index}
+                className="flex flex-col items-center gap-2 px-4 py-3 bg-white rounded-xl shadow-sm border border-neutral-100"
+              >
+                <div className="text-teal-500">{item.icon}</div>
+                <span className="text-xs text-text-secondary font-medium">{item.label}</span>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>
@@ -158,57 +189,33 @@ const TrustBar: React.FC = () => {
 };
 
 // ============================================
-// HOW IT WORKS
+// SECTION 2: TRUST BAR
 // ============================================
-const HowItWorks: React.FC = () => {
-  const steps = [
-    { number: 1, title: 'Create your manifestation goal', description: 'Set a clear intention for what you want to manifest', icon: Target },
-    { number: 2, title: 'Get signs to look for', description: 'Receive daily signs from the universe to spot in real life', icon: Eye },
-    { number: 3, title: 'Complete daily audio lessons', description: '10-minute guided sessions teaching manifestation techniques', icon: Headphones },
-    { number: 4, title: 'Spot your signs', description: 'Train your awareness to notice synchronicities around you', icon: Sparkles },
-    { number: 5, title: 'Track your progress', description: 'Monitor sessions completed, signs found, and streaks built', icon: TrendingUp },
-    { number: 6, title: 'Achieve your goal', description: 'Watch as the universe delivers what you manifested', icon: Check },
-    { number: 7, title: 'Get your Universe Receipt', description: 'Receive proof of your manifestation with real data to share', icon: Trophy },
+
+const TrustBar: React.FC = () => {
+  const stats = [
+    { value: '12,000+', label: 'Active manifesters', icon: <Users className="w-5 h-5" /> },
+    { value: '47,293', label: 'Universe Receipts generated', icon: <Trophy className="w-5 h-5" /> },
+    { value: '3.2 days', label: 'Average time to first sign', icon: <Calendar className="w-5 h-5" /> },
   ];
 
   return (
-    <section className="py-20 bg-neutral-950 px-4">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            How It Works: 7 Steps to Mastery
-          </h2>
-          <p className="text-neutral-400 max-w-2xl mx-auto">
-            A structured path from setting your intention to manifesting your dreams
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {steps.map((step, index) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 30 }}
+    <section className="bg-white py-8 border-y border-neutral-100">
+      <div className="max-w-[1200px] mx-auto px-6">
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+          {stats.map((stat, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative p-6 rounded-2xl bg-neutral-900 border border-neutral-800 hover:border-amber-500/50 transition-colors ${
-                step.number === 7 ? 'md:col-span-2 lg:col-span-1' : ''
-              }`}
+              className="flex items-center gap-3"
             >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
-                  <step.icon className="w-6 h-6 text-amber-400" />
-                </div>
-                <div>
-                  <div className="text-xs text-amber-400 font-medium mb-1">Step {step.number}</div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                  <p className="text-sm text-neutral-400">{step.description}</p>
-                </div>
+              <div className="text-teal-500">{stat.icon}</div>
+              <div>
+                <div className="text-xl font-bold text-teal-500">{stat.value}</div>
+                <div className="text-sm text-text-secondary">{stat.label}</div>
               </div>
             </motion.div>
           ))}
@@ -219,41 +226,230 @@ const HowItWorks: React.FC = () => {
 };
 
 // ============================================
-// DAILY AUDIO & MESSAGE SECTION
+// SECTION 3: WHY SIGNROAD IS DIFFERENT
 // ============================================
-const DailyLearningSection: React.FC = () => {
+
+const WhyDifferentSection: React.FC = () => {
+  const features = [
+    {
+      icon: <Eye className="w-7 h-7" />,
+      title: "Signs from the Universe, Not Just Tracks",
+      description: "Every day, you receive a sign challenge: \"Look for a white feather.\" When you see it in the real world, you log it. The universe plays back.",
+      preview: (
+        <div className="bg-neutral-50 rounded-xl p-4 mt-4">
+          <div className="text-xs text-teal-500 font-medium mb-1">TODAY'S SIGN</div>
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🪶</span>
+            <span className="text-sm text-text-primary">Look for a white feather</span>
+          </div>
+        </div>
+      )
+    },
+    {
+      icon: <Zap className="w-7 h-7" />,
+      title: "Progress That Never Resets, Only Dims",
+      description: "Your Lantern dims when you rest, but never goes out. No harsh streak resets. No shame. Just gentle encouragement to rekindle your flame.",
+      preview: (
+        <div className="bg-neutral-50 rounded-xl p-4 mt-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs text-teal-500 font-medium">YOUR LANTERN</span>
+            <span className="text-lg font-bold text-teal-500">82%</span>
+          </div>
+          <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
+            <div className="h-full w-[82%] bg-teal-500 rounded-full" />
+          </div>
+          <p className="text-xs text-text-secondary mt-2 flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-gold-500" />
+            Sparks earned only, never purchased
+          </p>
+        </div>
+      )
+    },
+    {
+      icon: <Share2 className="w-7 h-7" />,
+      title: "Receipts and Tribes That Prove It Works",
+      description: "When you manifest something, you get a shareable Universe Receipt showing the odds you beat. Walk the road with 5-person accountability tribes.",
+      preview: (
+        <div className="bg-neutral-50 rounded-xl p-4 mt-4">
+          <div className="text-xs text-teal-500 font-medium mb-2">LATEST WIN</div>
+          <p className="text-sm text-text-primary font-medium">"Got my dream job"</p>
+          <div className="flex gap-4 mt-2 text-xs text-text-secondary">
+            <span>21 days</span>
+            <span>18 signs</span>
+            <span className="text-teal-500 font-medium">Beat 91.7% odds</span>
+          </div>
+        </div>
+      )
+    }
+  ];
+
   return (
-    <section className="py-20 bg-neutral-900 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-[#F6F7F8] py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
+            Why SignRoad is Unlike Calm or Headspace
+          </h2>
+          <p className="text-text-secondary max-w-[600px] mx-auto">
+            We're not another meditation library. We're a manifestation journey where the universe responds to you.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white rounded-2xl p-6 shadow-sm"
+            >
+              <div className="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center mb-4">
+                <div className="text-teal-500">{feature.icon}</div>
+              </div>
+              <h3 className="text-lg font-semibold text-text-primary mb-2">{feature.title}</h3>
+              <p className="text-sm text-text-secondary">{feature.description}</p>
+              {feature.preview}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ============================================
+// SECTION 4: HOW IT WORKS (7 STEPS)
+// ============================================
+
+const HowItWorksSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney }) => {
+  const steps = [
+    { icon: <Target className="w-6 h-6" />, title: 'Create your manifestation goal', description: 'Set a clear intention for what you want to manifest' },
+    { icon: <Eye className="w-6 h-6" />, title: 'Get signs to look for', description: 'Receive daily signs from the universe to spot in real life' },
+    { icon: <Headphones className="w-6 h-6" />, title: 'Complete daily audio lessons', description: '10-minute guided sessions teaching manifestation techniques' },
+    { icon: <Feather className="w-6 h-6" />, title: 'Spot your signs', description: 'Train your awareness to notice synchronicities around you' },
+    { icon: <TrendingUp className="w-6 h-6" />, title: 'Track your progress', description: 'Monitor sessions completed, signs found, and streaks built' },
+    { icon: <CheckCircle className="w-6 h-6" />, title: 'Achieve your goal', description: 'Watch as the universe delivers what you manifested' },
+    { icon: <Trophy className="w-6 h-6" />, title: 'Get your Universe Receipt', description: 'Receive proof of your manifestation with real data to share' },
+  ];
+
+  return (
+    <section id="how-it-works" className="bg-white py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
+            How It Works: 7 Steps to Mastery
+          </h2>
+          <p className="text-text-secondary max-w-[600px] mx-auto">
+            A structured path from setting your intention to manifesting your dreams
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {steps.slice(0, 4).map((step, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-neutral-50 rounded-xl p-5 relative"
+            >
+              <div className="absolute -top-3 -left-3 w-7 h-7 bg-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                {index + 1}
+              </div>
+              <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3">
+                <div className="text-teal-500">{step.icon}</div>
+              </div>
+              <h3 className="text-base font-semibold text-text-primary mb-1">{step.title}</h3>
+              <p className="text-sm text-text-secondary">{step.description}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-[900px] mx-auto mb-12">
+          {steps.slice(4).map((step, index) => (
+            <motion.div
+              key={index + 4}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: (index + 4) * 0.1 }}
+              className="bg-neutral-50 rounded-xl p-5 relative"
+            >
+              <div className="absolute -top-3 -left-3 w-7 h-7 bg-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                {index + 5}
+              </div>
+              <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3">
+                <div className="text-teal-500">{step.icon}</div>
+              </div>
+              <h3 className="text-base font-semibold text-text-primary mb-1">{step.title}</h3>
+              <p className="text-sm text-text-secondary">{step.description}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <button 
+            onClick={onStartJourney}
+            className="px-6 py-3 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors inline-flex items-center gap-2"
+          >
+            Start Your Journey
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ============================================
+// SECTION 5: DAILY LEARNING (AUDIO + MESSAGE)
+// ============================================
+
+const DailyLearningSection: React.FC = () => {
+  return (
+    <section className="bg-[#FBFBFB] py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
             Sequential Learning Journey
           </h2>
-          <p className="text-neutral-400 max-w-2xl mx-auto">
+          <p className="text-text-secondary max-w-[600px] mx-auto">
             1,000+ audio lessons teaching manifestation & meditation. Everyone follows the same proven path.
           </p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Daily Audio Card */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="p-8 rounded-2xl bg-gradient-to-br from-teal-500/20 to-teal-600/10 border border-teal-500/30"
+            className="bg-white rounded-2xl p-8 shadow-sm border border-teal-100"
           >
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-xl bg-teal-500/30 flex items-center justify-center">
-                <Headphones className="w-7 h-7 text-teal-400" />
+              <div className="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center">
+                <Headphones className="w-7 h-7 text-teal-500" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Daily Audio Lessons</h3>
-                <p className="text-teal-300 text-sm">10 minutes of guided learning</p>
+                <h3 className="text-xl font-bold text-text-primary">Daily Audio Lessons</h3>
+                <p className="text-teal-500 text-sm">10 minutes of guided learning</p>
               </div>
             </div>
             
@@ -264,40 +460,39 @@ const DailyLearningSection: React.FC = () => {
                 'Topics: awareness, manifestation, meditation',
                 'AI-generated voices with 12 background sounds',
               ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-neutral-300">
-                  <Play className="w-4 h-4 text-teal-400 mt-1 flex-shrink-0" />
+                <li key={i} className="flex items-start gap-3 text-text-secondary">
+                  <Play className="w-4 h-4 text-teal-500 mt-1 flex-shrink-0" />
                   <span className="text-sm">{item}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="p-4 rounded-xl bg-neutral-900/50 border border-teal-500/20">
-              <div className="text-xs text-teal-400 mb-1">Now Playing: Step 3</div>
-              <div className="text-white font-medium mb-2">"How to Spot Signs"</div>
-              <div className="h-1 bg-neutral-700 rounded-full overflow-hidden">
+            <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-100">
+              <div className="text-xs text-teal-500 font-medium mb-1">Now Playing: Step 3</div>
+              <div className="text-text-primary font-medium mb-2">"How to Spot Signs"</div>
+              <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
                 <div className="h-full w-2/3 bg-teal-500 rounded-full" />
               </div>
-              <div className="flex justify-between text-xs text-neutral-500 mt-1">
+              <div className="flex justify-between text-xs text-text-secondary mt-1">
                 <span>6:42</span>
                 <span>10:00</span>
               </div>
             </div>
           </motion.div>
 
-          {/* Daily Message Card */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/30"
+            className="bg-white rounded-2xl p-8 shadow-sm border border-gold-200"
           >
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-xl bg-purple-500/30 flex items-center justify-center">
-                <MessageCircle className="w-7 h-7 text-purple-400" />
+              <div className="w-14 h-14 bg-gold-50 rounded-xl flex items-center justify-center">
+                <MessageCircle className="w-7 h-7 text-gold-500" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Daily Personalized Message</h3>
-                <p className="text-purple-300 text-sm">Wisdom tailored just for you</p>
+                <h3 className="text-xl font-bold text-text-primary">Daily Personalized Message</h3>
+                <p className="text-gold-600 text-sm">Wisdom tailored just for you</p>
               </div>
             </div>
             
@@ -308,16 +503,16 @@ const DailyLearningSection: React.FC = () => {
                 'Daily encouragement and validation',
                 'Free forever - even after trial ends',
               ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-neutral-300">
-                  <Sparkles className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
+                <li key={i} className="flex items-start gap-3 text-text-secondary">
+                  <Sparkles className="w-4 h-4 text-gold-500 mt-1 flex-shrink-0" />
                   <span className="text-sm">{item}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="p-4 rounded-xl bg-neutral-900/50 border border-purple-500/20">
-              <div className="text-xs text-purple-400 mb-2">Today's Message</div>
-              <p className="text-white italic">
+            <div className="bg-gold-50 rounded-xl p-4 border border-gold-100">
+              <div className="text-xs text-gold-600 font-medium mb-2">Today's Message</div>
+              <p className="text-text-primary italic text-sm">
                 "Sarah, the universe is aligning in your favor today. Trust the signs you're about to receive—they're meant specifically for you."
               </p>
             </div>
@@ -329,82 +524,83 @@ const DailyLearningSection: React.FC = () => {
 };
 
 // ============================================
-// USER STORIES / TESTIMONIALS
+// SECTION 6: USER STORIES
 // ============================================
-const UserStories: React.FC = () => {
+
+const UserStoriesSection: React.FC = () => {
   const stories = [
     {
       name: 'Emma R.',
-      avatar: 'E',
       role: 'Marketing Manager',
-      story: 'I was skeptical at first, but after finding my third sign in one week, I knew something was different. Manifested my dream job in 18 days.',
-      manifestation: 'Dream job at tech startup',
+      avatar: 'E',
+      quote: "I was skeptical at first, but after finding my third sign in one week, I knew something was different. Manifested my dream job in 18 days.",
+      result: 'Dream job at tech startup',
       days: 18,
       signs: 5,
     },
     {
       name: 'Marcus T.',
-      avatar: 'M',
       role: 'Software Engineer',
-      story: 'The structured approach is what sold me. No more random affirmations—this actually tracks your progress and shows you proof.',
-      manifestation: 'Relationship with soulmate',
+      avatar: 'M',
+      quote: "The structured approach is what sold me. No more random affirmations—this actually tracks your progress and shows you proof.",
+      result: 'Relationship with soulmate',
       days: 34,
       signs: 12,
     },
     {
       name: 'Aisha K.',
-      avatar: 'A',
       role: 'Freelance Designer',
-      story: 'My tribe keeps me accountable. Seeing their wins motivates me to keep going. Already manifested 3 goals in 2 months.',
-      manifestation: '$10K client contract',
+      avatar: 'A',
+      quote: "My tribe keeps me accountable. Seeing their wins motivates me to keep going. Already manifested 3 goals in 2 months.",
+      result: '$10K client contract',
       days: 21,
       signs: 8,
     },
   ];
 
   return (
-    <section className="py-20 bg-neutral-950 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-white py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
             Real Stories, Real Results
           </h2>
-          <p className="text-neutral-400 max-w-2xl mx-auto">
+          <p className="text-text-secondary max-w-[600px] mx-auto">
             Join thousands who have transformed their lives through structured manifestation
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {stories.map((story, index) => (
             <motion.div
-              key={story.name}
-              initial={{ opacity: 0, y: 30 }}
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="p-6 rounded-2xl bg-neutral-900 border border-neutral-800"
+              className="bg-neutral-50 rounded-2xl p-6"
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-neutral-900 font-bold">
+                <div className="w-12 h-12 bg-gold-500 rounded-full flex items-center justify-center text-text-primary font-bold">
                   {story.avatar}
                 </div>
                 <div>
-                  <div className="font-semibold text-white">{story.name}</div>
-                  <div className="text-sm text-neutral-500">{story.role}</div>
+                  <div className="font-semibold text-text-primary">{story.name}</div>
+                  <div className="text-sm text-text-secondary">{story.role}</div>
                 </div>
               </div>
               
-              <p className="text-neutral-300 text-sm mb-4 leading-relaxed">"{story.story}"</p>
+              <p className="text-text-secondary text-sm mb-4 italic">"{story.quote}"</p>
               
-              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                <div className="text-xs text-amber-400 mb-1">Manifested</div>
-                <div className="text-white font-medium text-sm mb-2">{story.manifestation}</div>
-                <div className="flex gap-4 text-xs text-neutral-400">
+              <div className="bg-white rounded-xl p-4 border border-neutral-200">
+                <div className="text-xs text-teal-500 font-medium mb-1">Manifested</div>
+                <div className="font-semibold text-text-primary text-sm mb-2">{story.result}</div>
+                <div className="flex gap-4 text-xs text-text-secondary">
                   <span>{story.days} days</span>
                   <span>{story.signs} signs found</span>
                 </div>
@@ -418,8 +614,9 @@ const UserStories: React.FC = () => {
 };
 
 // ============================================
-// EXAMPLE RECEIPTS / PROOF SECTION
+// SECTION 7: UNIVERSE RECEIPTS (PROOF)
 // ============================================
+
 const ProofSection: React.FC = () => {
   const receipts = [
     {
@@ -429,7 +626,6 @@ const ProofSection: React.FC = () => {
       signs: 18,
       sessions: 24,
       streak: 7,
-      category: 'Career',
     },
     {
       goal: 'Found my soulmate',
@@ -438,7 +634,6 @@ const ProofSection: React.FC = () => {
       signs: 32,
       sessions: 41,
       streak: 14,
-      category: 'Love',
     },
     {
       goal: 'Launched successful business',
@@ -447,23 +642,22 @@ const ProofSection: React.FC = () => {
       signs: 48,
       sessions: 58,
       streak: 21,
-      category: 'Finance',
     },
   ];
 
   return (
-    <section className="py-20 bg-neutral-900 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-[#F6F7F8] py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
             Proof It Works
           </h2>
-          <p className="text-neutral-400 max-w-2xl mx-auto">
+          <p className="text-text-secondary max-w-[600px] mx-auto">
             Real Universe Receipts from our community. Every stat is tracked and verified.
           </p>
         </motion.div>
@@ -471,7 +665,7 @@ const ProofSection: React.FC = () => {
         <div className="grid md:grid-cols-3 gap-6">
           {receipts.map((receipt, index) => (
             <motion.div
-              key={receipt.goal}
+              key={index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -479,25 +673,20 @@ const ProofSection: React.FC = () => {
               className="relative overflow-hidden rounded-2xl"
               style={{ fontFamily: 'monospace' }}
             >
-              {/* Receipt paper background */}
               <div className="bg-[#fdfaf4] p-6 text-neutral-800">
-                {/* Tear edge top */}
                 <div className="absolute top-0 left-0 right-0 h-3 bg-[repeating-linear-gradient(90deg,transparent,transparent_8px,#fdfaf4_8px,#fdfaf4_16px)]" style={{ borderBottom: '2px dashed #d4c5a9' }} />
                 
                 <div className="pt-4">
-                  {/* Header */}
                   <div className="text-center mb-4">
                     <div className="text-sm font-bold tracking-widest text-neutral-700">UNIVERSE RECEIPT</div>
                     <div className="text-xs text-neutral-500">================================</div>
                   </div>
 
-                  {/* User & Goal */}
                   <div className="text-center mb-4">
                     <div className="text-xs text-neutral-500">{receipt.user} manifested:</div>
                     <div className="text-sm font-bold text-neutral-900 mt-1">"{receipt.goal}"</div>
                   </div>
 
-                  {/* Stats */}
                   <div className="text-xs text-neutral-500 text-center mb-3">- - - - - - - - - - - - -</div>
                   <div className="space-y-1 text-xs mb-4">
                     <div className="flex justify-between">
@@ -518,15 +707,13 @@ const ProofSection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Verified stamp */}
                   <div className="flex justify-center">
-                    <div className="px-4 py-2 border-2 border-blue-600 rounded-full text-blue-600 text-xs font-bold transform -rotate-6">
+                    <div className="px-4 py-2 border-2 border-teal-600 rounded-full text-teal-600 text-xs font-bold transform -rotate-6">
                       VERIFIED
                     </div>
                   </div>
                 </div>
 
-                {/* Tear edge bottom */}
                 <div className="absolute bottom-0 left-0 right-0 h-3 bg-[repeating-linear-gradient(90deg,transparent,transparent_8px,#fdfaf4_8px,#fdfaf4_16px)]" style={{ borderTop: '2px dashed #d4c5a9' }} />
               </div>
             </motion.div>
@@ -538,36 +725,45 @@ const ProofSection: React.FC = () => {
 };
 
 // ============================================
-// TRIBES SECTION
+// SECTION 8: TRIBES
 // ============================================
+
 const TribesSection: React.FC = () => {
+  const tribeMembers = [
+    { name: 'Sarah', health: 92 },
+    { name: 'Marcus', health: 85 },
+    { name: 'Emma', health: 78 },
+    { name: 'David', health: 88 },
+    { name: 'Aisha', health: 95 },
+  ];
+
+  const avgHealth = Math.round(tribeMembers.reduce((sum, m) => sum + m.health, 0) / tribeMembers.length * 10) / 10;
+
   return (
-    <section className="py-20 bg-neutral-950 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-white py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
               Join Your Tribe
             </h2>
-            <p className="text-neutral-400 mb-6">
+            <p className="text-text-secondary mb-6">
               5-person accountability groups that keep you motivated and on track. See others' wins, share your progress, and grow together.
             </p>
             
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {[
                 'Matched with like-minded manifesters',
                 'See real-time progress of tribe members',
                 'Collective Tribe Lantern shows group energy',
                 'Celebrate wins together',
               ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-neutral-300">
-                  <div className="w-6 h-6 rounded-full bg-teal-500/20 flex items-center justify-center">
-                    <Check className="w-4 h-4 text-teal-400" />
-                  </div>
+                <li key={i} className="flex items-center gap-3 text-text-secondary">
+                  <Check className="w-5 h-5 text-teal-500 flex-shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -578,48 +774,42 @@ const TribesSection: React.FC = () => {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="p-6 rounded-2xl bg-neutral-900 border border-neutral-800"
+            className="bg-neutral-50 rounded-2xl p-6"
           >
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <Users className="w-6 h-6 text-teal-400" />
-                <span className="font-semibold text-white">Manifestation Masters</span>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-teal-500" />
+                <span className="font-semibold text-text-primary">Manifestation Masters</span>
               </div>
-              <div className="px-3 py-1 rounded-full bg-teal-500/20 text-teal-400 text-xs">
-                5/5 Active
-              </div>
+              <span className="text-xs bg-teal-100 text-teal-600 px-2 py-1 rounded-full font-medium">5/5 Active</span>
             </div>
 
-            <div className="space-y-3">
-              {[
-                { name: 'Sarah', health: 92, checked: true },
-                { name: 'Marcus', health: 85, checked: true },
-                { name: 'Emma', health: 78, checked: false },
-                { name: 'David', health: 88, checked: true },
-                { name: 'Aisha', health: 95, checked: true },
-              ].map((member) => (
-                <div key={member.name} className="flex items-center justify-between p-3 rounded-xl bg-neutral-800/50">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-neutral-900 text-sm font-bold">
-                      {member.name[0]}
+            <div className="space-y-3 mb-6">
+              {tribeMembers.map((member, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gold-500 rounded-full flex items-center justify-center text-text-primary font-bold text-sm">
+                    {member.name[0]}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium text-text-primary">{member.name}</span>
+                      <span className="text-xs text-text-secondary">{member.health}%</span>
                     </div>
-                    <span className="text-white text-sm">{member.name}</span>
+                    <div className="h-1.5 bg-neutral-200 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-teal-500 rounded-full transition-all"
+                        style={{ width: `${member.health}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="text-xs text-neutral-400">{member.health}%</div>
-                    {member.checked && (
-                      <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
-                        <Check className="w-3 h-3 text-green-400" />
-                      </div>
-                    )}
-                  </div>
+                  <CheckCircle className="w-4 h-4 text-teal-500" />
                 </div>
               ))}
             </div>
 
-            <div className="mt-4 p-3 rounded-xl bg-teal-500/10 border border-teal-500/20 text-center">
-              <div className="text-xs text-teal-400 mb-1">Tribe Lantern</div>
-              <div className="text-2xl font-bold text-white">87.6%</div>
+            <div className="bg-teal-50 rounded-xl p-4 text-center border border-teal-100">
+              <div className="text-xs text-teal-600 font-medium mb-1">Tribe Lantern</div>
+              <div className="text-2xl font-bold text-teal-500">{avgHealth}%</div>
             </div>
           </motion.div>
         </div>
@@ -629,41 +819,43 @@ const TribesSection: React.FC = () => {
 };
 
 // ============================================
-// PRICING SECTION
+// SECTION 9: PRICING
 // ============================================
-const PricingSection: React.FC<{ onGetStarted: () => void }> = ({ onGetStarted }) => {
+
+const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney }) => {
   return (
-    <section className="py-20 bg-neutral-900 px-4">
-      <div className="max-w-4xl mx-auto">
+    <section id="pricing" className="bg-[#FBFBFB] py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-neutral-400">
+          <p className="text-text-secondary">
             Start free for 7 days. Cancel anytime.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Monthly */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-[800px] mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-8 rounded-2xl bg-neutral-800 border border-neutral-700"
+            className="bg-white rounded-2xl p-8 shadow-sm border border-neutral-200"
           >
-            <div className="text-lg font-semibold text-white mb-2">Monthly</div>
-            <div className="flex items-baseline gap-1 mb-4">
-              <span className="text-4xl font-bold text-white">$11.11</span>
-              <span className="text-neutral-400">/month</span>
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-text-primary mb-2">Monthly</h3>
+              <div className="flex items-baseline gap-1">
+                <span className="text-4xl font-bold text-text-primary">$11.11</span>
+                <span className="text-text-secondary">/month</span>
+              </div>
+              <p className="text-sm text-teal-500 mt-1">Angel number pricing for manifesters</p>
             </div>
-            <p className="text-sm text-neutral-400 mb-6">Angel number pricing for manifesters</p>
-            
+
             <ul className="space-y-3 mb-8">
               {[
                 'All 1000+ sequential audio lessons',
@@ -671,41 +863,42 @@ const PricingSection: React.FC<{ onGetStarted: () => void }> = ({ onGetStarted }
                 'Unlimited goals & receipts',
                 'Tribe access',
                 '12 background sounds',
-              ].map((feature) => (
-                <li key={feature} className="flex items-center gap-3 text-neutral-300 text-sm">
-                  <Check className="w-4 h-4 text-teal-400" />
-                  <span>{feature}</span>
+              ].map((item, i) => (
+                <li key={i} className="flex items-center gap-3 text-text-secondary text-sm">
+                  <Check className="w-4 h-4 text-teal-500 flex-shrink-0" />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
 
-            <button
-              onClick={onGetStarted}
-              className="w-full py-3 rounded-xl bg-neutral-700 hover:bg-neutral-600 text-white font-medium transition-colors"
+            <button 
+              onClick={onStartJourney}
+              className="w-full py-3 border-2 border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white font-medium rounded-lg transition-colors"
             >
               Start Free Trial
             </button>
           </motion.div>
 
-          {/* Annual */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="relative p-8 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30"
+            className="bg-white rounded-2xl p-8 shadow-sm border-2 border-gold-400 relative"
           >
-            <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-amber-500 text-neutral-900 text-xs font-bold">
+            <div className="absolute -top-3 right-6 bg-gold-500 text-text-primary text-xs font-bold px-3 py-1 rounded-full">
               Save 33%
             </div>
-            
-            <div className="text-lg font-semibold text-white mb-2">Annual</div>
-            <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-white">$88.88</span>
-              <span className="text-neutral-400">/year</span>
+
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-text-primary mb-2">Annual</h3>
+              <div className="flex items-baseline gap-1">
+                <span className="text-4xl font-bold text-text-primary">$88.88</span>
+                <span className="text-text-secondary">/year</span>
+              </div>
+              <p className="text-sm text-gold-600 mt-1">That's just $7.40/month</p>
             </div>
-            <p className="text-sm text-amber-400 mb-6">That's just $7.40/month</p>
-            
+
             <ul className="space-y-3 mb-8">
               {[
                 'Everything in Monthly',
@@ -713,31 +906,30 @@ const PricingSection: React.FC<{ onGetStarted: () => void }> = ({ onGetStarted }
                 'Premium receipt designs',
                 'Private Tribes',
                 'Early access to new features',
-              ].map((feature) => (
-                <li key={feature} className="flex items-center gap-3 text-neutral-300 text-sm">
-                  <Check className="w-4 h-4 text-amber-400" />
-                  <span>{feature}</span>
+              ].map((item, i) => (
+                <li key={i} className="flex items-center gap-3 text-text-secondary text-sm">
+                  <Check className="w-4 h-4 text-gold-500 flex-shrink-0" />
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
 
-            <button
-              onClick={onGetStarted}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-neutral-900 font-bold transition-colors"
+            <button 
+              onClick={onStartJourney}
+              className="w-full py-3 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors"
             >
               Start Free Trial
             </button>
           </motion.div>
         </div>
 
-        {/* What stays free */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 p-6 rounded-2xl bg-neutral-800/50 border border-neutral-700"
+          className="text-center mt-12"
         >
-          <h3 className="text-lg font-semibold text-white mb-4 text-center">What Stays Free Forever</h3>
+          <h3 className="font-semibold text-text-primary mb-4">What Stays Free Forever</h3>
           <div className="flex flex-wrap justify-center gap-4">
             {[
               'Daily personalized message',
@@ -745,11 +937,11 @@ const PricingSection: React.FC<{ onGetStarted: () => void }> = ({ onGetStarted }
               '1 active sign',
               'Public Tribe access',
               'Basic Universe Receipt',
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-700/50 text-neutral-300 text-sm">
-                <Zap className="w-3 h-3 text-amber-400" />
-                <span>{item}</span>
-              </div>
+            ].map((item, i) => (
+              <span key={i} className="flex items-center gap-2 text-sm text-text-secondary">
+                <Sparkles className="w-4 h-4 text-gold-500" />
+                {item}
+              </span>
             ))}
           </div>
         </motion.div>
@@ -759,48 +951,49 @@ const PricingSection: React.FC<{ onGetStarted: () => void }> = ({ onGetStarted }
 };
 
 // ============================================
-// FAQ SECTION
+// SECTION 10: FAQ
 // ============================================
+
 const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs = [
     {
       question: 'How do signs work?',
-      answer: 'Each day, you receive a sign to look for in your daily life (like a feather, coin, or butterfly). When you spot it, you log it in the app. This trains your awareness and helps you notice synchronicities. You can have up to 3 active signs at once with Premium.',
+      answer: 'Each day, you receive a sign to look for in your daily life (like a white feather, a specific number, or a butterfly). When you spot it, you log it in the app. This trains your awareness and helps you notice the synchronicities the universe sends your way.',
     },
     {
-      question: 'What if I don\'t achieve my goal during the trial?',
-      answer: 'That\'s completely normal! Manifestation takes time, and the 7-day trial is about experiencing the process, not rushing results. Many users see their first signs within days, but goals often manifest over weeks or months. The journey is just as important as the destination.',
+      question: "What if I don't achieve my goal during the trial?",
+      answer: "That's completely normal! Manifestation is a journey, not a race. Your progress, signs logged, and sessions completed are all tracked. Many users see their first signs within days, but achieving larger goals can take weeks or months. The 7-day trial lets you experience the full platform.",
     },
     {
       question: 'Can I share my Universe Receipts?',
-      answer: 'Absolutely! Universe Receipts are designed to be shared. When you achieve a goal, you get a beautiful receipt showing your real stats (days, signs found, sessions completed). You can download it as an image or share directly to Instagram, TikTok, or any social platform.',
+      answer: 'Absolutely! Universe Receipts are designed to be shared. They show your real stats (days, signs, sessions, streak) and can be downloaded as images or shared directly to social media. Many users share them to inspire others.',
     },
     {
-      question: 'What\'s included in free vs. premium?',
-      answer: 'Free users get daily personalized messages, 1 active sign, 3 background sounds, public Tribe access, and basic receipts. Premium unlocks all 1000+ audio lessons, 3 active signs, 12 background sounds, unlimited goals, premium receipt designs, and private Tribes.',
+      question: "What's included in free vs. premium?",
+      answer: 'Free forever: Daily personalized message, 1 active sign, 3 background sounds, public Tribe access, and basic Universe Receipts. Premium adds: All 1000+ audio lessons, 3 active signs, 12 background sounds, unlimited goals, premium receipt designs, and private Tribes.',
     },
     {
       question: 'Why $11.11 and $88.88?',
-      answer: 'These are angel numbers! In manifestation and numerology, repeating numbers like 11:11 are considered powerful signs from the universe. We chose these prices to align with the spiritual nature of the platform and the manifestation community.',
+      answer: "These are angel numbers! In numerology, 11:11 represents spiritual awakening and manifestation, while 8 symbolizes abundance and prosperity. We chose these prices intentionally to align with the manifestation journey you're embarking on.",
     },
     {
       question: 'How is this different from other meditation apps?',
-      answer: 'Unlike Calm or Headspace, SignRoad is specifically designed for manifestation with a structured learning path. We track your progress, assign real-world signs to find, and give you proof of your manifestations through Universe Receipts. It\'s not just meditation—it\'s a complete manifestation system.',
+      answer: "Most apps give you meditation tracks to listen to passively. SignRoad is an active manifestation journey with goals, sign challenges, progress tracking, accountability tribes, and proof of your manifestations through Universe Receipts. It's structured, gamified, and results-oriented.",
     },
   ];
 
   return (
-    <section className="py-20 bg-neutral-950 px-4">
-      <div className="max-w-3xl mx-auto">
+    <section id="faq" className="bg-white py-16 md:py-20">
+      <div className="max-w-[800px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
             Frequently Asked Questions
           </h2>
         </motion.div>
@@ -812,24 +1005,29 @@ const FAQSection: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="rounded-xl bg-neutral-900 border border-neutral-800 overflow-hidden"
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              className="border border-neutral-200 rounded-xl overflow-hidden"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-5 text-left"
+                className="w-full px-6 py-4 flex items-center justify-between text-left bg-white hover:bg-neutral-50 transition-colors"
               >
-                <span className="font-medium text-white pr-4">{faq.question}</span>
+                <span className="font-medium text-text-primary">{faq.question}</span>
                 {openIndex === index ? (
-                  <ChevronUp className="w-5 h-5 text-neutral-400 flex-shrink-0" />
+                  <ChevronUp className="w-5 h-5 text-teal-500 flex-shrink-0" />
                 ) : (
-                  <ChevronDown className="w-5 h-5 text-neutral-400 flex-shrink-0" />
+                  <ChevronDown className="w-5 h-5 text-text-secondary flex-shrink-0" />
                 )}
               </button>
               {openIndex === index && (
-                <div className="px-5 pb-5">
-                  <p className="text-neutral-400 text-sm leading-relaxed">{faq.answer}</p>
-                </div>
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="px-6 pb-4"
+                >
+                  <p className="text-text-secondary text-sm leading-relaxed">{faq.answer}</p>
+                </motion.div>
               )}
             </motion.div>
           ))}
@@ -840,29 +1038,30 @@ const FAQSection: React.FC = () => {
 };
 
 // ============================================
-// FOOTER
+// SECTION 11: FOOTER
 // ============================================
+
 const LandingFooter: React.FC = () => {
   return (
-    <footer className="py-12 bg-neutral-900 border-t border-neutral-800 px-4">
-      <div className="max-w-6xl mx-auto">
+    <footer className="bg-[#121E1D] py-12">
+      <div className="max-w-[1200px] mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-neutral-900" />
+            <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
+              <Compass className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">SignRoad</span>
+            <span className="text-xl font-semibold text-white">SignRoad</span>
           </div>
-          
-          <div className="flex items-center gap-6 text-sm text-neutral-400">
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
+
+          <div className="flex gap-6">
+            <a href="#" className="text-sm text-neutral-400 hover:text-teal-400 transition-colors">Privacy</a>
+            <a href="#" className="text-sm text-neutral-400 hover:text-teal-400 transition-colors">Terms</a>
+            <a href="#" className="text-sm text-neutral-400 hover:text-teal-400 transition-colors">Contact</a>
           </div>
-          
-          <div className="text-sm text-neutral-500">
-            &copy; 2025 SignRoad. All rights reserved.
-          </div>
+
+          <p className="text-sm text-neutral-400">
+            &copy; {new Date().getFullYear()} SignRoad. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
@@ -872,44 +1071,32 @@ const LandingFooter: React.FC = () => {
 // ============================================
 // MAIN LANDING PAGE COMPONENT
 // ============================================
-export const LandingPage: React.FC = () => {
-  const [showLogin, setShowLogin] = useState(false);
-  const { isAuthenticated } = useAuthStore();
 
-  // If somehow authenticated, this shouldn't render (App.tsx handles routing)
-  if (isAuthenticated) {
-    return null;
-  }
+interface LandingPageProps {
+  onLoginClick: () => void;
+}
 
-  if (showLogin) {
-    return (
-      <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
-        <div className="w-full max-w-md">
-          <button
-            onClick={() => setShowLogin(false)}
-            className="mb-6 text-neutral-400 hover:text-white transition-colors flex items-center gap-2"
-          >
-            <ChevronDown className="w-4 h-4 rotate-90" />
-            Back to home
-          </button>
-          <LoginForm />
-        </div>
-      </div>
-    );
-  }
+export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
+  const handleStartJourney = () => {
+    onLoginClick();
+  };
 
   return (
-    <div className="min-h-screen bg-neutral-950">
-      <HeroSection onGetStarted={() => setShowLogin(true)} />
+    <div className="min-h-screen bg-[#FBFBFB]">
+      <Navbar onLoginClick={onLoginClick} />
+      <HeroSection onStartJourney={handleStartJourney} />
       <TrustBar />
-      <HowItWorks />
+      <WhyDifferentSection />
+      <HowItWorksSection onStartJourney={handleStartJourney} />
       <DailyLearningSection />
-      <UserStories />
+      <UserStoriesSection />
       <ProofSection />
       <TribesSection />
-      <PricingSection onGetStarted={() => setShowLogin(true)} />
+      <PricingSection onStartJourney={handleStartJourney} />
       <FAQSection />
       <LandingFooter />
     </div>
   );
 };
+
+export default LandingPage;
