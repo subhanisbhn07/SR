@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// PRD: Subscription tiers and pricing
-// Seeker Monthly: $8.99/month
-// Seeker Annual: $44.99/year (save 58%)
-// Master Lifetime: $149 one-time
-// Student: 50% discount with verification
+// SignRoad Subscription Model (Updated per Product Spec v1)
+// Trial: First 7 STEPS free (not calendar days) - even if takes 15 days
+// Monthly: $11.11/month
+// Annual: $88.88/year (save 33%)
+// Master Lifetime: $149 one-time (future)
+// Student: 50% discount with verification (future)
 
 export type SubscriptionTier = 'free' | 'seeker_monthly' | 'seeker_annual' | 'master_lifetime' | 'student';
 export type SubscriptionStatus = 'trial' | 'active' | 'cancelled' | 'expired' | 'free';
@@ -40,16 +41,16 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     id: 'free',
     tier: 'free',
     name: 'Free Trial',
-    description: '14 days of full access, no credit card required',
+    description: 'First 7 steps free, no credit card required',
     price: 0,
     currency: 'USD',
     interval: 'month',
     features: [
-      '14-day free trial',
-      'First 7 road steps',
-      'Basic meditation sessions',
+      'First 7 steps free',
       'Daily sign challenges',
-      'Limited Sparks earning',
+      'Daily audio sessions',
+      'Daily Barnum messages',
+      'Universe Receipt preview',
     ],
   },
   {
