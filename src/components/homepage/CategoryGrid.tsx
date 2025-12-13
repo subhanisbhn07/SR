@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface CategoryGridProps {
   onCategorySelect?: (category: string) => void;
+  showAll?: boolean;
 }
 
 const categories = [
@@ -29,9 +30,9 @@ const getAccentClasses = () => {
   };
 };
 
-export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) => {
-  const [showAll, setShowAll] = useState(false);
-  const visibleCategories = showAll ? categories : categories.slice(0, 8);
+export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect, showAll: showAllProp = false }) => {
+  const [showAllState, setShowAllState] = useState(showAllProp);
+  const visibleCategories = showAllProp || showAllState ? categories : categories.slice(0, 8);
 
   return (
     <motion.div
@@ -72,15 +73,16 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ onCategorySelect }) 
         </AnimatePresence>
       </div>
 
-      {categories.length > 8 && (
+      {/* Only show toggle button if showAllProp is not forced true */}
+      {!showAllProp && categories.length > 8 && (
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          onClick={() => setShowAll(!showAll)}
+          onClick={() => setShowAllState(!showAllState)}
           className="mt-4 mx-auto flex items-center gap-2 px-4 py-2 text-sm font-medium text-neumo-text-secondary hover:text-neumo-text transition-colors"
         >
-          {showAll ? (
+          {showAllState ? (
             <>
               Show less <ChevronUp className="w-4 h-4" />
             </>

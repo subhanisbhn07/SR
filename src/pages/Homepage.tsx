@@ -8,7 +8,6 @@ import { HeroCarousel } from '../components/homepage/HeroCarousel';
 import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
 import { IntentBasedNav } from '../components/homepage/IntentBasedNav';
 import { CategoryGrid } from '../components/homepage/CategoryGrid';
-import { CourseSection } from '../components/homepage/CourseSection';
 import { UserStories } from '../components/homepage/UserStories';
 import { BlogSection } from '../components/homepage/BlogSection';
 import { NewsletterSignup } from '../components/homepage/NewsletterSignup';
@@ -19,7 +18,6 @@ import { TodayCard } from '../components/homepage/TodayCard';
 import { SparksRewards } from '../components/homepage/SparksRewards';
 import { TribesCard } from '../components/homepage/TribesCard';
 import { UniverseReceipt } from '../components/homepage/UniverseReceipt';
-import { ManifestedWinsFeed } from '../components/homepage/ManifestedWinsFeed';
 import { ReferralCard } from '../components/homepage/ReferralCard';
 import { DailyMessageCard } from '../components/homepage/DailyMessageCard';
 import { HeroPromise } from '../components/homepage/HeroPromise';
@@ -72,146 +70,6 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, children
   );
 };
 
-const featuredCourses = [
-  {
-    id: 1,
-    title: "The Confidence Reset",
-    subtitle: "Rebuild your belief in 15 mins",
-    duration: "15 min",
-    isPremium: false,
-    image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 2,
-    title: "Morning Manifestation",
-    subtitle: "Start your day with intention",
-    duration: "12 min",
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 3,
-    title: "Deep Sleep Journey",
-    subtitle: "Release the day and rest deeply",
-    duration: "25 min",
-    isPremium: false,
-    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 4,
-    title: "Stress Release",
-    subtitle: "Let go of tension and find calm",
-    duration: "18 min",
-    isPremium: false,
-    image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 5,
-    title: "Gratitude Practice",
-    subtitle: "Cultivate appreciation daily",
-    duration: "10 min",
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=200"
-  }
-];
-
-const topRatedCourses = [
-  {
-    id: 6,
-    title: "Anxiety to Peace",
-    subtitle: "Transform worry into wisdom",
-    duration: "18 min",
-    rating: 4.8,
-    students: 12,
-    isPremium: false,
-    image: "https://images.pexels.com/photos/3822622/pexels-photo-3822622.jpeg?auto=compress&cs=tinysrgb&w=200",
-    badge: "Most Loved"
-  },
-  {
-    id: 7,
-    title: "Abundance Mindset",
-    subtitle: "Shift from scarcity to prosperity",
-    duration: "20 min",
-    rating: 4.9,
-    students: 8,
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1051449/pexels-photo-1051449.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 8,
-    title: "Self-Love Journey",
-    subtitle: "Embrace your authentic self",
-    duration: "22 min",
-    rating: 4.7,
-    students: 15,
-    isPremium: false,
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 9,
-    title: "Focus & Clarity",
-    subtitle: "Sharpen your mental edge",
-    duration: "15 min",
-    rating: 4.9,
-    students: 20,
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 10,
-    title: "Evening Unwind",
-    subtitle: "Release the day's stress",
-    duration: "20 min",
-    rating: 4.8,
-    students: 18,
-    isPremium: false,
-    image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=200"
-  }
-];
-
-const editorsPicks = [
-  {
-    id: 11,
-    title: "Inner Child Healing",
-    subtitle: "Reconnect with your authentic self",
-    duration: "22 min",
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=200",
-    badge: "Why we love this"
-  },
-  {
-    id: 12,
-    title: "Forgiveness Practice",
-    subtitle: "Release resentment and find peace",
-    duration: "18 min",
-    isPremium: false,
-    image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 13,
-    title: "Manifestation Mastery",
-    subtitle: "Unlock your creative power",
-    duration: "25 min",
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 14,
-    title: "Chakra Balancing",
-    subtitle: "Align your energy centers",
-    duration: "30 min",
-    isPremium: true,
-    image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200"
-  },
-  {
-    id: 15,
-    title: "Breath of Life",
-    subtitle: "Powerful breathing techniques",
-    duration: "12 min",
-    isPremium: false,
-    image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=200"
-  }
-];
 
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
@@ -280,41 +138,15 @@ export const Homepage: React.FC = () => {
                 Secondary content that drives deeper engagement
                 ============================================ */}
             <section className="mb-8">
-              {/* Manifested Wins Feed - Community inspiration */}
-              {isCardVisible('manifestedWins') && <ManifestedWinsFeed />}
-              
               {/* Personal Greeting - Contextual motivation */}
               {isCardVisible('personalGreeting') && <PersonalGreeting />}
               
-              {/* Explore by Intention - Discovery navigation */}
+              {/* Explore by Intention - Discovery navigation (no show more/less) */}
               {isCardVisible('exploreByIntention') && (
-                <div className="mb-6">
+                <div className="mb-6 p-5 rounded-neumo-lg bg-neumo-surface shadow-neumo">
                   <IntentBasedNav onIntentSelect={handleIntentSelect} />
-                  <CategoryGrid onCategorySelect={handleIntentSelect} />
+                  <CategoryGrid onCategorySelect={handleIntentSelect} showAll={true} />
                 </div>
-              )}
-              
-              {/* Daily Audio Sections - Limited to 3-4 cards with View All */}
-              {isCardVisible('startYourJourney') && (
-                <div className="mb-8 p-5 rounded-neumo-lg bg-neumo-bg shadow-neumo">
-                  <CourseSection 
-                    title="Today's Daily Audio" 
-                    subtitle="Micro-sessions queued for your road"
-                    courses={featuredCourses.slice(0, 4)}
-                    onCourseSelect={() => setActiveBottomTab('courses')}
-                    onViewMore={() => setActiveBottomTab('courses')}
-                  />
-                </div>
-              )}
-              
-              {isCardVisible('whatOthersLove') && (
-                <CourseSection 
-                  title="What Others Love" 
-                  subtitle="Top-rated audio by the SignRoad community"
-                  courses={topRatedCourses.slice(0, 3)}
-                  onCourseSelect={() => setActiveBottomTab('courses')}
-                  onViewMore={() => setActiveBottomTab('courses')}
-                />
               )}
             </section>
 
@@ -333,42 +165,14 @@ export const Homepage: React.FC = () => {
                 </div>
               )}
               
-              {/* Editor's Picks - Collapsible on mobile */}
-              {isCardVisible('editorsPicks') && (
+              {/* User Stories - with proper neumorphism styling */}
+              {isCardVisible('userStories') && (
                 <div className="md:hidden">
-                  <CollapsibleSection title="Editor's Picks" defaultOpen={false}>
-                    <CourseSection 
-                      title="" 
-                      courses={editorsPicks.slice(0, 3)}
-                      gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-                      onCourseSelect={() => setActiveBottomTab('courses')}
-                      onViewMore={() => setActiveBottomTab('courses')}
-                      compact
-                    />
+                  <CollapsibleSection title="Success Stories" defaultOpen={true}>
+                    <UserStories />
                   </CollapsibleSection>
                 </div>
               )}
-              {isCardVisible('editorsPicks') && (
-                <div className="hidden md:block">
-                  <CourseSection 
-                    title="Editor's Picks" 
-                    subtitle="Hand-selected journeys for transformation"
-                    courses={editorsPicks.slice(0, 4)}
-                    gradient="bg-gradient-to-br from-purple-500/10 to-pink-500/10"
-                    onCourseSelect={() => setActiveBottomTab('courses')}
-                    onViewMore={() => setActiveBottomTab('courses')}
-                  />
-                </div>
-              )}
-              
-                            {/* User Stories - Collapsible on mobile */}
-                            {isCardVisible('userStories') && (
-                              <div className="md:hidden">
-                                <CollapsibleSection title="Success Stories" defaultOpen={true}>
-                                  <UserStories />
-                                </CollapsibleSection>
-                              </div>
-                            )}
               {isCardVisible('userStories') && (
                 <div className="hidden md:block">
                   <UserStories />
