@@ -12,16 +12,17 @@ import {
   CheckCircle,
   Play,
   ArrowRight,
+  Star,
   Users,
   Calendar,
+  Heart,
   Compass,
-  Headphones,
-  Trophy,
-  Eye,
-  TrendingUp,
+  Sun,
+  DollarSign,
+  Check,
   ChevronDown,
   ChevronUp,
-  Check
+  Trophy
 } from 'lucide-react';
 
 // ============================================
@@ -38,6 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
   return (
     <nav className="w-full bg-[#FBFBFB]">
       <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
             <Compass className="w-5 h-5 text-white" />
@@ -45,17 +47,18 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           <span className="text-xl font-semibold text-teal-500">SignRoad</span>
         </div>
 
+        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <a href="#how-it-works" className="text-text-primary hover:text-teal-500 transition-colors relative group">
-            How It Works
+          <a href="#explore" className="text-text-primary hover:text-teal-500 transition-colors relative group">
+            Explore Signs
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all group-hover:w-full" />
           </a>
-          <a href="#pricing" className="text-text-primary hover:text-teal-500 transition-colors relative group">
-            Pricing
+          <a href="#daily-message" className="text-text-primary hover:text-teal-500 transition-colors relative group">
+            Daily Message
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all group-hover:w-full" />
           </a>
-          <a href="#faq" className="text-text-primary hover:text-teal-500 transition-colors relative group">
-            FAQ
+          <a href="#blog" className="text-text-primary hover:text-teal-500 transition-colors relative group">
+            Blog
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all group-hover:w-full" />
           </a>
           <button 
@@ -66,6 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
           </button>
         </div>
 
+        {/* Mobile Menu Button */}
         <button 
           className="md:hidden p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -74,15 +78,16 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="md:hidden bg-white border-t border-surface-border px-6 py-4 space-y-4"
         >
-          <a href="#how-it-works" className="block text-text-primary hover:text-teal-500 py-2">How It Works</a>
-          <a href="#pricing" className="block text-text-primary hover:text-teal-500 py-2">Pricing</a>
-          <a href="#faq" className="block text-text-primary hover:text-teal-500 py-2">FAQ</a>
+          <a href="#explore" className="block text-text-primary hover:text-teal-500 py-2">Explore Signs</a>
+          <a href="#daily-message" className="block text-text-primary hover:text-teal-500 py-2">Daily Message</a>
+          <a href="#blog" className="block text-text-primary hover:text-teal-500 py-2">Blog</a>
           <button 
             onClick={onLoginClick}
             className="w-full px-5 py-2.5 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors"
@@ -95,9 +100,13 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick }) => {
   );
 };
 
-const HeroSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney }) => {
+const HeroSection: React.FC<{ onStartJourney: () => void; onExploreSignsClick: () => void }> = ({ 
+  onStartJourney, 
+  onExploreSignsClick 
+}) => {
   return (
     <section className="bg-[#FBFBFB] py-16 md:py-24 relative overflow-hidden">
+      {/* Subtle background illustration */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-[0.15] pointer-events-none">
         <svg viewBox="0 0 400 400" className="w-full h-full">
           <path 
@@ -113,74 +122,44 @@ const HeroSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney 
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-        <div className="max-w-[700px] mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-200 mb-6"
-          >
-            <Sparkles className="w-4 h-4 text-teal-500" />
-            <span className="text-sm text-teal-600 font-medium">Your manifestation journey starts here</span>
-          </motion.div>
-
+        <div className="max-w-[620px]">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-[32px] md:text-[44px] font-bold text-text-primary leading-[1.2] mb-6"
+            transition={{ duration: 0.5 }}
+            className="text-[28px] md:text-[36px] font-semibold text-teal-500 leading-[1.2] mb-6"
           >
-            Master your manifestation journey in just{' '}
-            <span className="text-teal-500">10 minutes a day</span>
+            SignRoad: A Path with Infinite Possibilities
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base md:text-lg text-text-secondary mb-8 max-w-[600px] mx-auto"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-base md:text-lg text-text-primary mb-8"
           >
-            From spotting signs from the universe to manifesting your goals—discover your life's purpose with structure, guidance, and proof.
+            Find your signs. Create your goals. Follow your daily guidance from the Universe.
           </motion.p>
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col items-center gap-4"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col sm:flex-row gap-4"
           >
             <button 
               onClick={onStartJourney}
-              className="px-8 py-4 bg-gold-500 hover:bg-gold-600 text-text-primary font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-lg"
+              className="px-6 py-3 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
             >
-              Start Your 7-Day Free Journey
-              <ArrowRight className="w-5 h-5" />
+              Start Your Journey
+              <ArrowRight className="w-4 h-4" />
             </button>
-            <p className="text-sm text-text-secondary">
-              No credit card required. $11.11/month after trial.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex justify-center gap-4 mt-12"
-          >
-            {[
-              { icon: <Target className="w-5 h-5" />, label: 'Set Goal' },
-              { icon: <Eye className="w-5 h-5" />, label: 'Find Signs' },
-              { icon: <Headphones className="w-5 h-5" />, label: 'Daily Audio' },
-              { icon: <Trophy className="w-5 h-5" />, label: 'Get Receipt' },
-            ].map((item, index) => (
-              <div 
-                key={index}
-                className="flex flex-col items-center gap-2 px-4 py-3 bg-white rounded-xl shadow-sm border border-neutral-100"
-              >
-                <div className="text-teal-500">{item.icon}</div>
-                <span className="text-xs text-text-secondary font-medium">{item.label}</span>
-              </div>
-            ))}
+            <button 
+              onClick={onExploreSignsClick}
+              className="px-6 py-3 border-2 border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white font-medium rounded-lg transition-colors"
+            >
+              Explore Signs to Look Out For
+            </button>
           </motion.div>
         </div>
       </div>
@@ -189,21 +168,143 @@ const HeroSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney 
 };
 
 // ============================================
-// SECTION 2: TRUST BAR
+// SECTION 2: BENEFITS (4-CARD GRID)
 // ============================================
 
-const TrustBar: React.FC = () => {
-  const stats = [
-    { value: '12,000+', label: 'Active manifesters', icon: <Users className="w-5 h-5" /> },
-    { value: '47,293', label: 'Universe Receipts generated', icon: <Trophy className="w-5 h-5" /> },
-    { value: '3.2 days', label: 'Average time to first sign', icon: <Calendar className="w-5 h-5" /> },
+interface BenefitCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+const BenefitCard: React.FC<BenefitCardProps> = ({ icon, title, description }) => {
+  return (
+    <motion.div 
+      whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)' }}
+      className="bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all"
+    >
+      <div className="w-12 h-12 bg-teal-soft-50 rounded-xl flex items-center justify-center mb-4">
+        <div className="text-teal-soft-500">{icon}</div>
+      </div>
+      <h3 className="text-lg font-medium text-text-primary mb-2">{title}</h3>
+      <p className="text-sm text-text-secondary">{description}</p>
+    </motion.div>
+  );
+};
+
+const BenefitsSection: React.FC = () => {
+  const benefits = [
+    {
+      icon: <Sparkles className="w-6 h-6" />,
+      title: "Discover Signs in Your Life",
+      description: "Recognize Universe signals like coins, feathers, and synchronicities."
+    },
+    {
+      icon: <Target className="w-6 h-6" />,
+      title: "Create & Track Personal Goals",
+      description: "Define your intentions manually and update them as you progress."
+    },
+    {
+      icon: <MessageCircle className="w-6 h-6" />,
+      title: "Receive Daily Message & Audio",
+      description: "Get one message and guided audio daily to stay aligned."
+    },
+    {
+      icon: <Share2 className="w-6 h-6" />,
+      title: "Generate Shareable Receipts",
+      description: "Mark signs found or goals achieved and auto-create proof posters."
+    }
   ];
 
   return (
-    <section className="bg-white py-8 border-y border-neutral-100">
+    <section className="bg-white py-16 md:py-20">
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-          {stats.map((stat, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {benefits.map((benefit, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <BenefitCard {...benefit} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ============================================
+// SECTION 3: SOCIAL PROOF & COMMUNITY WINS
+// ============================================
+
+interface TestimonialCardProps {
+  avatar: string;
+  name: string;
+  testimonial: string;
+  hasBadge?: boolean;
+}
+
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ avatar, name, testimonial, hasBadge }) => {
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] min-w-[300px] md:min-w-0">
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-teal-600 font-semibold flex-shrink-0">
+          {avatar}
+        </div>
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="font-semibold text-text-primary">{name}</span>
+            {hasBadge && (
+              <span className="px-2 py-0.5 bg-gold-500 text-xs font-medium rounded-full">
+                Manifested Win
+              </span>
+            )}
+          </div>
+          <p className="text-sm text-text-secondary">{testimonial}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SocialProofSection: React.FC = () => {
+  const testimonials = [
+    {
+      avatar: "JM",
+      name: "Jessica M.",
+      testimonial: "I found a white feather the day after setting my intention. SignRoad helped me see it as a sign!",
+      hasBadge: true
+    },
+    {
+      avatar: "RK",
+      name: "Ryan K.",
+      testimonial: "The daily messages keep me grounded. It's like having a spiritual guide in my pocket.",
+      hasBadge: false
+    },
+    {
+      avatar: "AL",
+      name: "Amanda L.",
+      testimonial: "I manifested my dream job within 3 weeks of using SignRoad. The Universe Receipt feature is amazing!",
+      hasBadge: true
+    }
+  ];
+
+  const metrics = [
+    { icon: <Sparkles className="w-5 h-5" />, value: "12,400+", label: "Signs Logged" },
+    { icon: <Target className="w-5 h-5" />, value: "8,900+", label: "Goals Achieved" },
+    { icon: <Calendar className="w-5 h-5" />, value: "31,000+", label: "Daily Messages Delivered" }
+  ];
+
+  return (
+    <section className="bg-[#F6F7F8] py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
+        {/* Metrics Row */}
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 mb-12">
+          {metrics.map((metric, index) => (
             <motion.div 
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -212,11 +313,26 @@ const TrustBar: React.FC = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="flex items-center gap-3"
             >
-              <div className="text-teal-500">{stat.icon}</div>
+              <div className="text-teal-soft-500">{metric.icon}</div>
               <div>
-                <div className="text-xl font-bold text-teal-500">{stat.value}</div>
-                <div className="text-sm text-text-secondary">{stat.label}</div>
+                <div className="text-lg font-medium text-teal-soft-500">{metric.value}</div>
+                <div className="text-sm text-text-secondary">{metric.label}</div>
               </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Testimonials */}
+        <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <TestimonialCard {...testimonial} />
             </motion.div>
           ))}
         </div>
@@ -226,186 +342,82 @@ const TrustBar: React.FC = () => {
 };
 
 // ============================================
-// SECTION 3: WHY SIGNROAD IS DIFFERENT
+// SECTION 4: HOW IT WORKS (3 STEPS)
 // ============================================
 
-const WhyDifferentSection: React.FC = () => {
-  const features = [
-    {
-      icon: <Eye className="w-7 h-7" />,
-      title: "Signs from the Universe, Not Just Tracks",
-      description: "Every day, you receive a sign challenge: \"Look for a white feather.\" When you see it in the real world, you log it. The universe plays back.",
-      preview: (
-        <div className="bg-neutral-50 rounded-xl p-4 mt-4">
-          <div className="text-xs text-teal-500 font-medium mb-1">TODAY'S SIGN</div>
-          <div className="flex items-center gap-2">
-            <span className="text-lg">🪶</span>
-            <span className="text-sm text-text-primary">Look for a white feather</span>
-          </div>
+interface StepCardProps {
+  step: number;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+const StepCard: React.FC<StepCardProps> = ({ step, icon, title, description }) => {
+  return (
+    <div className="text-center">
+      <div className="w-16 h-16 bg-teal-soft-50 rounded-2xl flex items-center justify-center mx-auto mb-4 relative">
+        <div className="text-teal-soft-500">{icon}</div>
+        <div className="absolute -top-2 -right-2 w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+          {step}
         </div>
-      )
-    },
+      </div>
+      <h3 className="text-lg font-medium text-text-primary mb-2">{title}</h3>
+      <p className="text-sm text-text-secondary max-w-[280px] mx-auto">{description}</p>
+    </div>
+  );
+};
+
+const HowItWorksSection: React.FC<{ onCreateGoal: () => void }> = ({ onCreateGoal }) => {
+  const steps = [
     {
       icon: <Zap className="w-7 h-7" />,
-      title: "Progress That Never Resets, Only Dims",
-      description: "Your Lantern dims when you rest, but never goes out. No harsh streak resets. No shame. Just gentle encouragement to rekindle your flame.",
-      preview: (
-        <div className="bg-neutral-50 rounded-xl p-4 mt-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-teal-500 font-medium">YOUR LANTERN</span>
-            <span className="text-lg font-bold text-teal-500">82%</span>
-          </div>
-          <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
-            <div className="h-full w-[82%] bg-teal-500 rounded-full" />
-          </div>
-          <p className="text-xs text-text-secondary mt-2 flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-gold-500" />
-            Sparks earned only, never purchased
-          </p>
-        </div>
-      )
+      title: "Set Your First Goal",
+      description: "Create a goal that represents what you want to manifest."
     },
     {
-      icon: <Share2 className="w-7 h-7" />,
-      title: "Receipts and Tribes That Prove It Works",
-      description: "When you manifest something, you get a shareable Universe Receipt showing the odds you beat. Walk the road with 5-person accountability tribes.",
-      preview: (
-        <div className="bg-neutral-50 rounded-xl p-4 mt-4">
-          <div className="text-xs text-teal-500 font-medium mb-2">LATEST WIN</div>
-          <p className="text-sm text-text-primary font-medium">"Got my dream job"</p>
-          <div className="flex gap-4 mt-2 text-xs text-text-secondary">
-            <span>21 days</span>
-            <span>18 signs</span>
-            <span className="text-teal-500 font-medium">Beat 91.7% odds</span>
-          </div>
-        </div>
-      )
+      icon: <Feather className="w-7 h-7" />,
+      title: "Watch for Universe Signs",
+      description: "Coin, feather, bird, numbers — when you see it, tap 'Found'."
+    },
+    {
+      icon: <CheckCircle className="w-7 h-7" />,
+      title: "Record & Share Your Win",
+      description: "Enter the time → receipt auto-generated → share anywhere."
     }
   ];
 
   return (
-    <section className="bg-[#F6F7F8] py-16 md:py-20">
+    <section className="bg-[#FBFBFB] py-16 md:py-20">
       <div className="max-w-[1200px] mx-auto px-6">
-        <motion.div
+        <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-2xl md:text-[28px] font-semibold text-text-primary text-center mb-12"
         >
-          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
-            Why SignRoad is Unlike Calm or Headspace
-          </h2>
-          <p className="text-text-secondary max-w-[600px] mx-auto">
-            We're not another meditation library. We're a manifestation journey where the universe responds to you.
-          </p>
-        </motion.div>
+          How It Works
+        </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
+          {steps.map((step, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-2xl p-6 shadow-sm"
             >
-              <div className="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center mb-4">
-                <div className="text-teal-500">{feature.icon}</div>
-              </div>
-              <h3 className="text-lg font-semibold text-text-primary mb-2">{feature.title}</h3>
-              <p className="text-sm text-text-secondary">{feature.description}</p>
-              {feature.preview}
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// ============================================
-// SECTION 4: HOW IT WORKS (7 STEPS)
-// ============================================
-
-const HowItWorksSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney }) => {
-  const steps = [
-    { icon: <Target className="w-6 h-6" />, title: 'Create your manifestation goal', description: 'Set a clear intention for what you want to manifest' },
-    { icon: <Eye className="w-6 h-6" />, title: 'Get signs to look for', description: 'Receive daily signs from the universe to spot in real life' },
-    { icon: <Headphones className="w-6 h-6" />, title: 'Complete daily audio lessons', description: '10-minute guided sessions teaching manifestation techniques' },
-    { icon: <Feather className="w-6 h-6" />, title: 'Spot your signs', description: 'Train your awareness to notice synchronicities around you' },
-    { icon: <TrendingUp className="w-6 h-6" />, title: 'Track your progress', description: 'Monitor sessions completed, signs found, and streaks built' },
-    { icon: <CheckCircle className="w-6 h-6" />, title: 'Achieve your goal', description: 'Watch as the universe delivers what you manifested' },
-    { icon: <Trophy className="w-6 h-6" />, title: 'Get your Universe Receipt', description: 'Receive proof of your manifestation with real data to share' },
-  ];
-
-  return (
-    <section id="how-it-works" className="bg-white py-16 md:py-20">
-      <div className="max-w-[1200px] mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
-            How It Works: 7 Steps to Mastery
-          </h2>
-          <p className="text-text-secondary max-w-[600px] mx-auto">
-            A structured path from setting your intention to manifesting your dreams
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-          {steps.slice(0, 4).map((step, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-neutral-50 rounded-xl p-5 relative"
-            >
-              <div className="absolute -top-3 -left-3 w-7 h-7 bg-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                {index + 1}
-              </div>
-              <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3">
-                <div className="text-teal-500">{step.icon}</div>
-              </div>
-              <h3 className="text-base font-semibold text-text-primary mb-1">{step.title}</h3>
-              <p className="text-sm text-text-secondary">{step.description}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-[900px] mx-auto mb-12">
-          {steps.slice(4).map((step, index) => (
-            <motion.div
-              key={index + 4}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: (index + 4) * 0.1 }}
-              className="bg-neutral-50 rounded-xl p-5 relative"
-            >
-              <div className="absolute -top-3 -left-3 w-7 h-7 bg-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                {index + 5}
-              </div>
-              <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3">
-                <div className="text-teal-500">{step.icon}</div>
-              </div>
-              <h3 className="text-base font-semibold text-text-primary mb-1">{step.title}</h3>
-              <p className="text-sm text-text-secondary">{step.description}</p>
+              <StepCard step={index + 1} {...step} />
             </motion.div>
           ))}
         </div>
 
         <div className="text-center">
           <button 
-            onClick={onStartJourney}
+            onClick={onCreateGoal}
             className="px-6 py-3 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors inline-flex items-center gap-2"
           >
-            Start Your Journey
+            Create Your First Goal
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -415,108 +427,81 @@ const HowItWorksSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJo
 };
 
 // ============================================
-// SECTION 5: DAILY LEARNING (AUDIO + MESSAGE)
+// SECTION 5: EXPLORE YOUR PATH (FEATURE MODULE)
 // ============================================
 
-const DailyLearningSection: React.FC = () => {
+interface PathCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  onStart: () => void;
+}
+
+const PathCard: React.FC<PathCardProps> = ({ icon, title, description, onStart }) => {
   return (
-    <section className="bg-[#FBFBFB] py-16 md:py-20">
+    <motion.div 
+      whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)' }}
+      className="bg-white rounded-2xl p-5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all"
+    >
+      <div className="w-10 h-10 bg-teal-soft-50 rounded-xl flex items-center justify-center mb-3">
+        <div className="text-teal-soft-500">{icon}</div>
+      </div>
+      <h3 className="text-base font-medium text-text-primary mb-1">{title}</h3>
+      <p className="text-sm text-text-secondary mb-4">{description}</p>
+      <button 
+        onClick={onStart}
+        className="text-sm text-teal-500 hover:text-teal-600 font-medium transition-colors flex items-center gap-1"
+      >
+        Start Path
+        <ArrowRight className="w-3 h-3" />
+      </button>
+    </motion.div>
+  );
+};
+
+const ExplorePathsSection: React.FC<{ onPathSelect: (path: string) => void }> = ({ onPathSelect }) => {
+  const paths = [
+    { icon: <Zap className="w-5 h-5" />, title: "Motivation", description: "Ignite your inner drive" },
+    { icon: <Star className="w-5 h-5" />, title: "Career Growth", description: "Advance your professional path" },
+    { icon: <Heart className="w-5 h-5" />, title: "Inner Peace", description: "Find calm within chaos" },
+    { icon: <DollarSign className="w-5 h-5" />, title: "Abundance", description: "Attract prosperity" },
+    { icon: <Users className="w-5 h-5" />, title: "Relationship Clarity", description: "Understand your connections" },
+    { icon: <Compass className="w-5 h-5" />, title: "Signs of Alignment", description: "Recognize your path" }
+  ];
+
+  return (
+    <section id="explore" className="bg-white py-16 md:py-20">
       <div className="max-w-[1200px] mx-auto px-6">
-        <motion.div
+        <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-2xl md:text-[28px] font-semibold text-text-primary text-center mb-4"
         >
-          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
-            Sequential Learning Journey
-          </h2>
-          <p className="text-text-secondary max-w-[600px] mx-auto">
-            1,000+ audio lessons teaching manifestation & meditation. Everyone follows the same proven path.
-          </p>
-        </motion.div>
+          Explore Your Path
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="text-text-secondary text-center mb-12 max-w-[500px] mx-auto"
+        >
+          Choose an intention that resonates with where you are in your journey
+        </motion.p>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 shadow-sm border border-teal-100"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center">
-                <Headphones className="w-7 h-7 text-teal-500" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-text-primary">Daily Audio Lessons</h3>
-                <p className="text-teal-500 text-sm">10 minutes of guided learning</p>
-              </div>
-            </div>
-            
-            <ul className="space-y-3 mb-6">
-              {[
-                'Sequential curriculum - Step 1 to Step 1000',
-                'Unlock next lesson after completing current',
-                'Topics: awareness, manifestation, meditation',
-                'AI-generated voices with 12 background sounds',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-text-secondary">
-                  <Play className="w-4 h-4 text-teal-500 mt-1 flex-shrink-0" />
-                  <span className="text-sm">{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="bg-neutral-50 rounded-xl p-4 border border-neutral-100">
-              <div className="text-xs text-teal-500 font-medium mb-1">Now Playing: Step 3</div>
-              <div className="text-text-primary font-medium mb-2">"How to Spot Signs"</div>
-              <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
-                <div className="h-full w-2/3 bg-teal-500 rounded-full" />
-              </div>
-              <div className="flex justify-between text-xs text-text-secondary mt-1">
-                <span>6:42</span>
-                <span>10:00</span>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 shadow-sm border border-gold-200"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 bg-gold-50 rounded-xl flex items-center justify-center">
-                <MessageCircle className="w-7 h-7 text-gold-500" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-text-primary">Daily Personalized Message</h3>
-                <p className="text-gold-600 text-sm">Wisdom tailored just for you</p>
-              </div>
-            </div>
-            
-            <ul className="space-y-3 mb-6">
-              {[
-                '1,000+ unique messages in our database',
-                'Personalized with your name',
-                'Daily encouragement and validation',
-                'Free forever - even after trial ends',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3 text-text-secondary">
-                  <Sparkles className="w-4 h-4 text-gold-500 mt-1 flex-shrink-0" />
-                  <span className="text-sm">{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="bg-gold-50 rounded-xl p-4 border border-gold-100">
-              <div className="text-xs text-gold-600 font-medium mb-2">Today's Message</div>
-              <p className="text-text-primary italic text-sm">
-                "Sarah, the universe is aligning in your favor today. Trust the signs you're about to receive—they're meant specifically for you."
-              </p>
-            </div>
-          </motion.div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {paths.map((path, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+            >
+              <PathCard {...path} onStart={() => onPathSelect(path.title)} />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -524,7 +509,176 @@ const DailyLearningSection: React.FC = () => {
 };
 
 // ============================================
-// SECTION 6: USER STORIES
+// SECTION 6: DAILY MESSAGE & AUDIO
+// ============================================
+
+const DailyMessageSection: React.FC<{ onPlayAudio: () => void; onReadMessage: () => void }> = ({ 
+  onPlayAudio, 
+  onReadMessage 
+}) => {
+  return (
+    <section id="daily-message" className="bg-teal-500 py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-2xl p-8 md:p-12 max-w-[600px] mx-auto text-center"
+        >
+          <div className="w-16 h-16 bg-teal-soft-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <Sun className="w-8 h-8 text-teal-soft-500" />
+          </div>
+          <h2 className="text-2xl md:text-[28px] font-semibold text-text-primary mb-6">
+            Your Daily Message from the Universe Awaits
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={onPlayAudio}
+              className="px-6 py-3 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors inline-flex items-center justify-center gap-2"
+            >
+              <Play className="w-4 h-4" />
+              Play Today's Audio
+            </button>
+            <button 
+              onClick={onReadMessage}
+              className="px-6 py-3 border-2 border-white text-text-primary hover:bg-neutral-50 font-medium rounded-lg transition-colors"
+            >
+              Read Today's Message
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// ============================================
+// SECTION 7: STRONG CTA
+// ============================================
+
+const StrongCTASection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney }) => {
+  return (
+    <section className="bg-[#FBFBFB] py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6 text-center">
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-xl md:text-2xl text-text-primary mb-2"
+        >
+          Your next sign could appear today.
+        </motion.p>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="text-xl md:text-2xl text-text-primary mb-8"
+        >
+          Are you ready to see it?
+        </motion.p>
+        <motion.button 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          onClick={onStartJourney}
+          className="px-8 py-4 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors text-lg inline-flex items-center gap-2"
+        >
+          Start Your Journey
+          <ArrowRight className="w-5 h-5" />
+        </motion.button>
+      </div>
+    </section>
+  );
+};
+
+// ============================================
+// SECTION 8: BLOG SECTION (3 POSTS)
+// ============================================
+
+interface BlogCardProps {
+  image: string;
+  title: string;
+  excerpt: string;
+  onReadMore: () => void;
+}
+
+const BlogCard: React.FC<BlogCardProps> = ({ image, title, excerpt, onReadMore }) => {
+  return (
+    <motion.div 
+      whileHover={{ y: -4 }}
+      className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all"
+    >
+      <div className="h-48 bg-neutral-200 overflow-hidden">
+        <img src={image} alt={title} className="w-full h-full object-cover" />
+      </div>
+      <div className="p-6">
+        <h3 className="text-lg font-medium text-text-primary mb-2 line-clamp-2">{title}</h3>
+        <p className="text-sm text-text-secondary mb-4 line-clamp-3">{excerpt}</p>
+        <button 
+          onClick={onReadMore}
+          className="text-sm text-teal-500 hover:text-teal-600 font-medium transition-colors relative group"
+        >
+          Read More
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-500 transition-all group-hover:w-full" />
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+const BlogSection: React.FC = () => {
+  const posts = [
+    {
+      image: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=400",
+      title: "5 Signs the Universe is Trying to Tell You Something",
+      excerpt: "Learn to recognize the subtle messages that appear in your daily life and what they might mean for your journey."
+    },
+    {
+      image: "https://images.pexels.com/photos/1557238/pexels-photo-1557238.jpeg?auto=compress&cs=tinysrgb&w=400",
+      title: "The Science Behind Manifestation",
+      excerpt: "Discover how setting intentions and focusing your energy can create real changes in your life."
+    },
+    {
+      image: "https://images.pexels.com/photos/3771069/pexels-photo-3771069.jpeg?auto=compress&cs=tinysrgb&w=400",
+      title: "Creating a Daily Ritual for Alignment",
+      excerpt: "Simple practices you can incorporate into your morning routine to stay connected with your goals."
+    }
+  ];
+
+  return (
+    <section id="blog" className="bg-white py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-2xl md:text-[28px] font-semibold text-text-primary text-center mb-12"
+        >
+          Insights & Reflections
+        </motion.h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {posts.map((post, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <BlogCard {...post} onReadMore={() => {}} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ============================================
+// SECTION 9: USER STORIES (ENHANCED)
 // ============================================
 
 const UserStoriesSection: React.FC = () => {
@@ -567,7 +721,7 @@ const UserStoriesSection: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
+          <h2 className="text-2xl md:text-[28px] font-semibold text-text-primary mb-4">
             Real Stories, Real Results
           </h2>
           <p className="text-text-secondary max-w-[600px] mx-auto">
@@ -583,7 +737,8 @@ const UserStoriesSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-neutral-50 rounded-2xl p-6"
+              whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)' }}
+              className="bg-white rounded-2xl p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all"
             >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-gold-500 rounded-full flex items-center justify-center text-text-primary font-bold">
@@ -597,8 +752,8 @@ const UserStoriesSection: React.FC = () => {
               
               <p className="text-text-secondary text-sm mb-4 italic">"{story.quote}"</p>
               
-              <div className="bg-white rounded-xl p-4 border border-neutral-200">
-                <div className="text-xs text-teal-500 font-medium mb-1">Manifested</div>
+              <div className="bg-teal-soft-50 rounded-xl p-4">
+                <div className="text-xs text-teal-soft-500 font-medium mb-1">Manifested</div>
                 <div className="font-semibold text-text-primary text-sm mb-2">{story.result}</div>
                 <div className="flex gap-4 text-xs text-text-secondary">
                   <span>{story.days} days</span>
@@ -614,7 +769,7 @@ const UserStoriesSection: React.FC = () => {
 };
 
 // ============================================
-// SECTION 7: UNIVERSE RECEIPTS (PROOF)
+// SECTION 10: UNIVERSE RECEIPTS (PROOF)
 // ============================================
 
 const ProofSection: React.FC = () => {
@@ -654,8 +809,8 @@ const ProofSection: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
-            Proof It Works
+          <h2 className="text-2xl md:text-[28px] font-semibold text-text-primary mb-4">
+            Proof It Works: Universe Receipts
           </h2>
           <p className="text-text-secondary max-w-[600px] mx-auto">
             Real Universe Receipts from our community. Every stat is tracked and verified.
@@ -670,51 +825,47 @@ const ProofSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative overflow-hidden rounded-2xl"
+              whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)' }}
+              className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all"
               style={{ fontFamily: 'monospace' }}
             >
-              <div className="bg-[#fdfaf4] p-6 text-neutral-800">
-                <div className="absolute top-0 left-0 right-0 h-3 bg-[repeating-linear-gradient(90deg,transparent,transparent_8px,#fdfaf4_8px,#fdfaf4_16px)]" style={{ borderBottom: '2px dashed #d4c5a9' }} />
-                
-                <div className="pt-4">
-                  <div className="text-center mb-4">
-                    <div className="text-sm font-bold tracking-widest text-neutral-700">UNIVERSE RECEIPT</div>
-                    <div className="text-xs text-neutral-500">================================</div>
+              <div className="p-6">
+                <div className="text-center mb-4">
+                  <div className="w-12 h-12 bg-teal-soft-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <Trophy className="w-6 h-6 text-teal-soft-500" />
                   </div>
+                  <div className="text-sm font-bold tracking-widest text-text-primary">UNIVERSE RECEIPT</div>
+                </div>
 
-                  <div className="text-center mb-4">
-                    <div className="text-xs text-neutral-500">{receipt.user} manifested:</div>
-                    <div className="text-sm font-bold text-neutral-900 mt-1">"{receipt.goal}"</div>
+                <div className="text-center mb-4">
+                  <div className="text-xs text-text-secondary">{receipt.user} manifested:</div>
+                  <div className="text-sm font-bold text-text-primary mt-1">"{receipt.goal}"</div>
+                </div>
+
+                <div className="border-t border-b border-neutral-200 py-3 my-3 space-y-2 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-text-secondary">Days on the road</span>
+                    <span className="font-bold text-text-primary">{receipt.days}</span>
                   </div>
-
-                  <div className="text-xs text-neutral-500 text-center mb-3">- - - - - - - - - - - - -</div>
-                  <div className="space-y-1 text-xs mb-4">
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Days on the road</span>
-                      <span className="font-bold text-neutral-900">{receipt.days}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Signs logged</span>
-                      <span className="font-bold text-neutral-900">{receipt.signs}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Sessions completed</span>
-                      <span className="font-bold text-neutral-900">{receipt.sessions}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-neutral-600">Best streak</span>
-                      <span className="font-bold text-neutral-900">{receipt.streak} days</span>
-                    </div>
+                  <div className="flex justify-between">
+                    <span className="text-text-secondary">Signs logged</span>
+                    <span className="font-bold text-text-primary">{receipt.signs}</span>
                   </div>
-
-                  <div className="flex justify-center">
-                    <div className="px-4 py-2 border-2 border-teal-600 rounded-full text-teal-600 text-xs font-bold transform -rotate-6">
-                      VERIFIED
-                    </div>
+                  <div className="flex justify-between">
+                    <span className="text-text-secondary">Sessions completed</span>
+                    <span className="font-bold text-text-primary">{receipt.sessions}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-text-secondary">Best streak</span>
+                    <span className="font-bold text-text-primary">{receipt.streak} days</span>
                   </div>
                 </div>
 
-                <div className="absolute bottom-0 left-0 right-0 h-3 bg-[repeating-linear-gradient(90deg,transparent,transparent_8px,#fdfaf4_8px,#fdfaf4_16px)]" style={{ borderTop: '2px dashed #d4c5a9' }} />
+                <div className="flex justify-center">
+                  <div className="px-4 py-2 border-2 border-teal-500 rounded-full text-teal-500 text-xs font-bold">
+                    VERIFIED
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -725,106 +876,12 @@ const ProofSection: React.FC = () => {
 };
 
 // ============================================
-// SECTION 8: TRIBES
-// ============================================
-
-const TribesSection: React.FC = () => {
-  const tribeMembers = [
-    { name: 'Sarah', health: 92 },
-    { name: 'Marcus', health: 85 },
-    { name: 'Emma', health: 78 },
-    { name: 'David', health: 88 },
-    { name: 'Aisha', health: 95 },
-  ];
-
-  const avgHealth = Math.round(tribeMembers.reduce((sum, m) => sum + m.health, 0) / tribeMembers.length * 10) / 10;
-
-  return (
-    <section className="bg-white py-16 md:py-20">
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
-              Join Your Tribe
-            </h2>
-            <p className="text-text-secondary mb-6">
-              5-person accountability groups that keep you motivated and on track. See others' wins, share your progress, and grow together.
-            </p>
-            
-            <ul className="space-y-3">
-              {[
-                'Matched with like-minded manifesters',
-                'See real-time progress of tribe members',
-                'Collective Tribe Lantern shows group energy',
-                'Celebrate wins together',
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-text-secondary">
-                  <Check className="w-5 h-5 text-teal-500 flex-shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="bg-neutral-50 rounded-2xl p-6"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-teal-500" />
-                <span className="font-semibold text-text-primary">Manifestation Masters</span>
-              </div>
-              <span className="text-xs bg-teal-100 text-teal-600 px-2 py-1 rounded-full font-medium">5/5 Active</span>
-            </div>
-
-            <div className="space-y-3 mb-6">
-              {tribeMembers.map((member, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gold-500 rounded-full flex items-center justify-center text-text-primary font-bold text-sm">
-                    {member.name[0]}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-text-primary">{member.name}</span>
-                      <span className="text-xs text-text-secondary">{member.health}%</span>
-                    </div>
-                    <div className="h-1.5 bg-neutral-200 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-teal-500 rounded-full transition-all"
-                        style={{ width: `${member.health}%` }}
-                      />
-                    </div>
-                  </div>
-                  <CheckCircle className="w-4 h-4 text-teal-500" />
-                </div>
-              ))}
-            </div>
-
-            <div className="bg-teal-50 rounded-xl p-4 text-center border border-teal-100">
-              <div className="text-xs text-teal-600 font-medium mb-1">Tribe Lantern</div>
-              <div className="text-2xl font-bold text-teal-500">{avgHealth}%</div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// ============================================
-// SECTION 9: PRICING
+// SECTION 11: PRICING
 // ============================================
 
 const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourney }) => {
   return (
-    <section id="pricing" className="bg-[#FBFBFB] py-16 md:py-20">
+    <section id="pricing" className="bg-white py-16 md:py-20">
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -832,7 +889,7 @@ const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourn
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
+          <h2 className="text-2xl md:text-[28px] font-semibold text-text-primary mb-4">
             Simple, Transparent Pricing
           </h2>
           <p className="text-text-secondary">
@@ -845,7 +902,8 @@ const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourn
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 shadow-sm border border-neutral-200"
+            whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)' }}
+            className="bg-white rounded-2xl p-8 shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-all"
           >
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-text-primary mb-2">Monthly</h3>
@@ -853,7 +911,7 @@ const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourn
                 <span className="text-4xl font-bold text-text-primary">$11.11</span>
                 <span className="text-text-secondary">/month</span>
               </div>
-              <p className="text-sm text-teal-500 mt-1">Angel number pricing for manifesters</p>
+              <p className="text-sm text-teal-soft-500 mt-1">Angel number pricing for manifesters</p>
             </div>
 
             <ul className="space-y-3 mb-8">
@@ -865,7 +923,7 @@ const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourn
                 '12 background sounds',
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-text-secondary text-sm">
-                  <Check className="w-4 h-4 text-teal-500 flex-shrink-0" />
+                  <Check className="w-4 h-4 text-teal-soft-500 flex-shrink-0" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -884,7 +942,8 @@ const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourn
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-2xl p-8 shadow-sm border-2 border-gold-400 relative"
+            whileHover={{ y: -4, boxShadow: '0 8px 30px rgba(0, 0, 0, 0.08)' }}
+            className="bg-white rounded-2xl p-8 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border-2 border-gold-400 relative transition-all"
           >
             <div className="absolute -top-3 right-6 bg-gold-500 text-text-primary text-xs font-bold px-3 py-1 rounded-full">
               Save 33%
@@ -951,7 +1010,7 @@ const PricingSection: React.FC<{ onStartJourney: () => void }> = ({ onStartJourn
 };
 
 // ============================================
-// SECTION 10: FAQ
+// SECTION 12: FAQ
 // ============================================
 
 const FAQSection: React.FC = () => {
@@ -985,7 +1044,7 @@ const FAQSection: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="bg-white py-16 md:py-20">
+    <section id="faq" className="bg-[#FBFBFB] py-16 md:py-20">
       <div className="max-w-[800px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -993,7 +1052,7 @@ const FAQSection: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-4">
+          <h2 className="text-2xl md:text-[28px] font-semibold text-text-primary mb-4">
             Frequently Asked Questions
           </h2>
         </motion.div>
@@ -1006,15 +1065,15 @@ const FAQSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
-              className="border border-neutral-200 rounded-xl overflow-hidden"
+              className="bg-white rounded-2xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-4 flex items-center justify-between text-left bg-white hover:bg-neutral-50 transition-colors"
+                className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-neutral-50 transition-colors"
               >
                 <span className="font-medium text-text-primary">{faq.question}</span>
                 {openIndex === index ? (
-                  <ChevronUp className="w-5 h-5 text-teal-500 flex-shrink-0" />
+                  <ChevronUp className="w-5 h-5 text-teal-soft-500 flex-shrink-0" />
                 ) : (
                   <ChevronDown className="w-5 h-5 text-text-secondary flex-shrink-0" />
                 )}
@@ -1038,27 +1097,148 @@ const FAQSection: React.FC = () => {
 };
 
 // ============================================
-// SECTION 11: FOOTER
+// SECTION 13: NEWSLETTER SIGN-UP
+// ============================================
+
+const NewsletterSection: React.FC = () => {
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle newsletter signup
+    console.log('Newsletter signup:', email);
+    setEmail('');
+  };
+
+  return (
+    <section className="bg-white py-16 md:py-20">
+      <div className="max-w-[1200px] mx-auto px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="border border-teal-200 rounded-2xl p-8 md:p-12 max-w-[600px] mx-auto text-center"
+        >
+          <h2 className="text-xl md:text-2xl font-semibold text-text-primary mb-4">
+            Get weekly guidance, signs, and insights.
+          </h2>
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 bg-white border border-surface-border rounded-lg focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-colors"
+              required
+            />
+            <button 
+              type="submit"
+              className="px-6 py-3 bg-gold-500 hover:bg-gold-600 text-text-primary font-medium rounded-lg transition-colors whitespace-nowrap"
+            >
+              Subscribe
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// ============================================
+// SECTION 10: FOOTER
 // ============================================
 
 const LandingFooter: React.FC = () => {
+  const footerLinks = {
+    product: [
+      { label: "How It Works", href: "#how-it-works" },
+      { label: "Explore Signs", href: "#explore" },
+      { label: "Daily Message", href: "#daily-message" }
+    ],
+    company: [
+      { label: "About", href: "#" },
+      { label: "Blog", href: "#blog" },
+      { label: "Contact", href: "#" }
+    ],
+    legal: [
+      { label: "Terms", href: "#" },
+      { label: "Privacy", href: "#" }
+    ]
+  };
+
   return (
-    <footer className="bg-[#121E1D] py-12">
+    <footer className="bg-[#121E1D] py-12 md:py-16">
       <div className="max-w-[1200px] mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
-              <Compass className="w-5 h-5 text-white" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          {/* Logo & Description */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
+                <Compass className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-xl font-semibold text-white">SignRoad</span>
             </div>
-            <span className="text-xl font-semibold text-white">SignRoad</span>
+            <p className="text-sm text-neutral-400">
+              Find signs, set goals, and manifest progress with daily guidance.
+            </p>
           </div>
 
-          <div className="flex gap-6">
-            <a href="#" className="text-sm text-neutral-400 hover:text-teal-400 transition-colors">Privacy</a>
-            <a href="#" className="text-sm text-neutral-400 hover:text-teal-400 transition-colors">Terms</a>
-            <a href="#" className="text-sm text-neutral-400 hover:text-teal-400 transition-colors">Contact</a>
+          {/* Product Links */}
+          <div>
+            <h4 className="text-white font-medium mb-4">Product</h4>
+            <ul className="space-y-2">
+              {footerLinks.product.map((link, index) => (
+                <li key={index}>
+                  <a 
+                    href={link.href} 
+                    className="text-sm text-neutral-400 hover:text-teal-400 transition-colors relative group"
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full" />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
+          {/* Company Links */}
+          <div>
+            <h4 className="text-white font-medium mb-4">Company</h4>
+            <ul className="space-y-2">
+              {footerLinks.company.map((link, index) => (
+                <li key={index}>
+                  <a 
+                    href={link.href} 
+                    className="text-sm text-neutral-400 hover:text-teal-400 transition-colors relative group"
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal Links */}
+          <div>
+            <h4 className="text-white font-medium mb-4">Legal</h4>
+            <ul className="space-y-2">
+              {footerLinks.legal.map((link, index) => (
+                <li key={index}>
+                  <a 
+                    href={link.href} 
+                    className="text-sm text-neutral-400 hover:text-teal-400 transition-colors relative group"
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-[#253333] pt-8 text-center">
           <p className="text-sm text-neutral-400">
             &copy; {new Date().getFullYear()} SignRoad. All rights reserved.
           </p>
@@ -1081,19 +1261,43 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
     onLoginClick();
   };
 
+  const handleExploreSignsClick = () => {
+    const element = document.getElementById('explore');
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handlePathSelect = (path: string) => {
+    console.log('Selected path:', path);
+    onLoginClick();
+  };
+
+  const handlePlayAudio = () => {
+    onLoginClick();
+  };
+
+  const handleReadMessage = () => {
+    onLoginClick();
+  };
+
   return (
     <div className="min-h-screen bg-[#FBFBFB]">
       <Navbar onLoginClick={onLoginClick} />
-      <HeroSection onStartJourney={handleStartJourney} />
-      <TrustBar />
-      <WhyDifferentSection />
-      <HowItWorksSection onStartJourney={handleStartJourney} />
-      <DailyLearningSection />
+      <HeroSection 
+        onStartJourney={handleStartJourney} 
+        onExploreSignsClick={handleExploreSignsClick} 
+      />
+      <BenefitsSection />
+      <SocialProofSection />
+      <HowItWorksSection onCreateGoal={handleStartJourney} />
+      <ExplorePathsSection onPathSelect={handlePathSelect} />
+      <DailyMessageSection onPlayAudio={handlePlayAudio} onReadMessage={handleReadMessage} />
       <UserStoriesSection />
       <ProofSection />
-      <TribesSection />
       <PricingSection onStartJourney={handleStartJourney} />
       <FAQSection />
+      <StrongCTASection onStartJourney={handleStartJourney} />
+      <BlogSection />
+      <NewsletterSection />
       <LandingFooter />
     </div>
   );
