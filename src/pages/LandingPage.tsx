@@ -119,28 +119,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
 
   const universeReceipts = [
     {
-      name: 'Alex M.',
-      manifested: 'Got promoted to Senior Developer',
+      manifested: 'New job at dream company',
       days: 21,
       signs: 18,
       sessions: 24,
-      streak: '7 days',
+      probability: 91.7,
     },
     {
-      name: 'Jessica L.',
       manifested: 'Found my soulmate',
       days: 45,
       signs: 32,
       sessions: 41,
-      streak: '14 days',
+      probability: 87.3,
     },
     {
-      name: 'David K.',
       manifested: 'Launched successful business',
       days: 67,
       signs: 48,
       sessions: 58,
-      streak: '21 days',
+      probability: 94.2,
     },
   ];
 
@@ -529,73 +526,108 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="relative"
               >
-                {/* Receipt Paper Style */}
-                <div className="bg-white rounded-lg shadow-lg overflow-hidden" style={{ fontFamily: 'monospace' }}>
-                  {/* Receipt Header */}
-                  <div className="bg-neumo-accent text-white py-3 px-4 text-center">
-                    <div className="flex items-center justify-center gap-2 mb-1">
-                      <Sparkles className="w-4 h-4" />
-                      <span className="text-xs font-bold tracking-widest uppercase">Universe Receipt</span>
-                      <Sparkles className="w-4 h-4" />
-                    </div>
-                    <p className="text-[10px] opacity-80">SignRoad Manifestation Proof</p>
+                {/* Receipt Paper Style - Matching Reference Design */}
+                <div 
+                  className="rounded-lg shadow-lg overflow-hidden relative"
+                  style={{ 
+                    fontFamily: "'Courier New', Courier, monospace",
+                    backgroundColor: '#f5f0e8'
+                  }}
+                >
+                  {/* Top dashed border */}
+                  <div className="w-full h-4 flex items-center justify-center">
+                    <div className="w-full border-t-2 border-dashed" style={{ borderColor: '#c4b8a8' }}></div>
                   </div>
                   
-                  {/* Receipt Body */}
-                  <div className="p-5 bg-gradient-to-b from-white to-gray-50">
-                    {/* Dotted line */}
-                    <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
+                  {/* Receipt Content */}
+                  <div className="px-6 py-4">
+                    {/* Title */}
+                    <h3 className="text-center text-xl font-bold tracking-[0.3em] mb-3" style={{ color: '#2d3748' }}>
+                      UNIVERSE RECEIPT
+                    </h3>
                     
-                    {/* User & Manifestation */}
+                    {/* Equals separator */}
+                    <div className="text-center text-xs mb-4" style={{ color: '#a0aec0', letterSpacing: '0.1em' }}>
+                      ================================
+                    </div>
+                    
+                    {/* Cosmos delivered */}
+                    <p className="text-center text-sm italic mb-6" style={{ color: '#4a5568' }}>
+                      The cosmos has delivered
+                    </p>
+                    
+                    {/* Manifestation */}
+                    <div className="text-center mb-6">
+                      <p className="text-xs mb-1" style={{ color: '#718096' }}>a</p>
+                      <p className="text-xs mb-2" style={{ color: '#718096' }}>manifested:</p>
+                      <p className="text-lg font-bold" style={{ color: '#2d3748' }}>
+                        "{receipt.manifested}"
+                      </p>
+                    </div>
+                    
+                    {/* Dashed separator */}
+                    <div className="flex items-center justify-center my-4">
+                      <div className="flex-1 border-t border-dashed" style={{ borderColor: '#a0aec0' }}></div>
+                    </div>
+                    
+                    {/* Journey Stats */}
+                    <div className="mb-4">
+                      <p className="text-xs font-bold tracking-wider mb-3" style={{ color: '#2d3748' }}>
+                        JOURNEY STATS:
+                      </p>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span style={{ color: '#4a5568' }}>Days on the road</span>
+                          <span className="font-bold" style={{ color: '#2d3748' }}>{receipt.days}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span style={{ color: '#4a5568' }}>Signs logged</span>
+                          <span className="font-bold" style={{ color: '#2d3748' }}>{receipt.signs}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span style={{ color: '#4a5568' }}>Sessions completed</span>
+                          <span className="font-bold" style={{ color: '#2d3748' }}>{receipt.sessions}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Dashed separator */}
+                    <div className="flex items-center justify-center my-4">
+                      <div className="flex-1 border-t border-dashed" style={{ borderColor: '#a0aec0' }}></div>
+                    </div>
+                    
+                    {/* Probability */}
                     <div className="text-center mb-4">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide">Manifested By</p>
-                      <p className="font-bold text-gray-800 text-lg">{receipt.name}</p>
+                      <p className="text-sm mb-2" style={{ color: '#4a5568' }}>Probability beaten:</p>
+                      <p className="text-4xl font-bold mb-2" style={{ color: '#2d3748' }}>{receipt.probability}%</p>
+                      <p className="text-sm" style={{ color: '#4a5568' }}>The universe delivered.</p>
                     </div>
                     
-                    <div className="bg-neumo-accent/5 rounded-lg p-3 mb-4 border border-neumo-accent/20">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide text-center mb-1">Manifestation</p>
-                      <p className="font-semibold text-gray-800 text-center text-sm">"{receipt.manifested}"</p>
-                    </div>
-                    
-                    {/* Stats */}
-                    <div className="space-y-2 text-sm mb-4">
-                      <div className="flex justify-between items-center py-1 border-b border-gray-200">
-                        <span className="text-gray-600">Days on Road</span>
-                        <span className="font-bold text-gray-800">{receipt.days}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-1 border-b border-gray-200">
-                        <span className="text-gray-600">Signs Found</span>
-                        <span className="font-bold text-gray-800">{receipt.signs}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-1 border-b border-gray-200">
-                        <span className="text-gray-600">Sessions Done</span>
-                        <span className="font-bold text-gray-800">{receipt.sessions}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-1">
-                        <span className="text-gray-600">Best Streak</span>
-                        <span className="font-bold text-gray-800">{receipt.streak}</span>
-                      </div>
-                    </div>
-                    
-                    {/* Dotted line */}
-                    <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
-                    
-                    {/* Verification */}
-                    <div className="text-center">
-                      <div className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
-                        <Check className="w-3 h-3" />
-                        VERIFIED
-                      </div>
-                      <p className="text-[10px] text-gray-400 mt-2">Receipt #{String(index + 1).padStart(5, '0')}</p>
+                    {/* CTA */}
+                    <div className="text-center mt-6 mb-4">
+                      <p className="text-xs" style={{ color: '#718096' }}>Start your road:</p>
+                      <p className="text-sm font-bold" style={{ color: '#2d3748' }}>signroad.com</p>
                     </div>
                   </div>
                   
-                  {/* Receipt Tear Edge */}
-                  <div className="h-4 bg-white" style={{ 
-                    backgroundImage: 'radial-gradient(circle at 8px 0, transparent 8px, white 8px)',
-                    backgroundSize: '16px 16px',
-                    backgroundPosition: '0 -8px'
-                  }}></div>
+                  {/* SignRoad Verified Stamp */}
+                  <div className="absolute bottom-6 right-4">
+                    <div 
+                      className="w-20 h-20 rounded-full border-2 flex flex-col items-center justify-center transform rotate-12"
+                      style={{ 
+                        borderColor: '#3182ce',
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)'
+                      }}
+                    >
+                      <span className="text-xs font-bold" style={{ color: '#3182ce' }}>SIGNROAD</span>
+                      <span className="text-[10px]" style={{ color: '#3182ce' }}>VERIFIED</span>
+                    </div>
+                  </div>
+                  
+                  {/* Bottom dashed border */}
+                  <div className="w-full h-4 flex items-center justify-center">
+                    <div className="w-full border-t-2 border-dashed" style={{ borderColor: '#c4b8a8' }}></div>
+                  </div>
                 </div>
               </motion.div>
             ))}
