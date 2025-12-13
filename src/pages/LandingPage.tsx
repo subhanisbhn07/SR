@@ -343,7 +343,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-neumo-text mb-4">How It Works</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-neumo-text mb-4">What You Can Do on SignRoad</h2>
           </motion.div>
 
           <div className="space-y-6">
@@ -502,7 +502,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
         </div>
       </section>
 
-      {/* Universe Receipts Section */}
+      {/* Sample Receipts Section */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
@@ -512,10 +512,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-neumo-text mb-4">
-              Proof It Works: Universe Receipts
+              Sample Universe Receipts
             </h2>
             <p className="text-neumo-text-secondary">
-              Real Universe Receipts from our community. Every stat is tracked and verified.
+              When you manifest something, you get a shareable receipt like these.
             </p>
           </motion.div>
 
@@ -527,33 +527,75 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-neumo-bg rounded-neumo-lg p-6 shadow-neumo border border-neumo-border"
+                className="relative"
               >
-                <div className="text-center mb-4">
-                  <p className="text-xs text-neumo-text-muted uppercase tracking-wider mb-2">Universe Receipt</p>
-                  <p className="text-sm text-neumo-text-secondary">{receipt.name} manifested:</p>
-                  <p className="font-semibold text-neumo-text mt-1">"{receipt.manifested}"</p>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-neumo-text-secondary">Days on the road</span>
-                    <span className="font-semibold text-neumo-text">{receipt.days}</span>
+                {/* Receipt Paper Style */}
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden" style={{ fontFamily: 'monospace' }}>
+                  {/* Receipt Header */}
+                  <div className="bg-neumo-accent text-white py-3 px-4 text-center">
+                    <div className="flex items-center justify-center gap-2 mb-1">
+                      <Sparkles className="w-4 h-4" />
+                      <span className="text-xs font-bold tracking-widest uppercase">Universe Receipt</span>
+                      <Sparkles className="w-4 h-4" />
+                    </div>
+                    <p className="text-[10px] opacity-80">SignRoad Manifestation Proof</p>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-neumo-text-secondary">Signs logged</span>
-                    <span className="font-semibold text-neumo-text">{receipt.signs}</span>
+                  
+                  {/* Receipt Body */}
+                  <div className="p-5 bg-gradient-to-b from-white to-gray-50">
+                    {/* Dotted line */}
+                    <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
+                    
+                    {/* User & Manifestation */}
+                    <div className="text-center mb-4">
+                      <p className="text-xs text-gray-500 uppercase tracking-wide">Manifested By</p>
+                      <p className="font-bold text-gray-800 text-lg">{receipt.name}</p>
+                    </div>
+                    
+                    <div className="bg-neumo-accent/5 rounded-lg p-3 mb-4 border border-neumo-accent/20">
+                      <p className="text-xs text-gray-500 uppercase tracking-wide text-center mb-1">Manifestation</p>
+                      <p className="font-semibold text-gray-800 text-center text-sm">"{receipt.manifested}"</p>
+                    </div>
+                    
+                    {/* Stats */}
+                    <div className="space-y-2 text-sm mb-4">
+                      <div className="flex justify-between items-center py-1 border-b border-gray-200">
+                        <span className="text-gray-600">Days on Road</span>
+                        <span className="font-bold text-gray-800">{receipt.days}</span>
+                      </div>
+                      <div className="flex justify-between items-center py-1 border-b border-gray-200">
+                        <span className="text-gray-600">Signs Found</span>
+                        <span className="font-bold text-gray-800">{receipt.signs}</span>
+                      </div>
+                      <div className="flex justify-between items-center py-1 border-b border-gray-200">
+                        <span className="text-gray-600">Sessions Done</span>
+                        <span className="font-bold text-gray-800">{receipt.sessions}</span>
+                      </div>
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-gray-600">Best Streak</span>
+                        <span className="font-bold text-gray-800">{receipt.streak}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Dotted line */}
+                    <div className="border-b-2 border-dashed border-gray-300 mb-4"></div>
+                    
+                    {/* Verification */}
+                    <div className="text-center">
+                      <div className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
+                        <Check className="w-3 h-3" />
+                        VERIFIED
+                      </div>
+                      <p className="text-[10px] text-gray-400 mt-2">Receipt #{String(index + 1).padStart(5, '0')}</p>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-neumo-text-secondary">Sessions completed</span>
-                    <span className="font-semibold text-neumo-text">{receipt.sessions}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-neumo-text-secondary">Best streak</span>
-                    <span className="font-semibold text-neumo-text">{receipt.streak}</span>
-                  </div>
-                </div>
-                <div className="mt-4 pt-4 border-t border-neumo-border text-center">
-                  <span className="text-xs text-neumo-accent font-semibold uppercase">Verified</span>
+                  
+                  {/* Receipt Tear Edge */}
+                  <div className="h-4 bg-white" style={{ 
+                    backgroundImage: 'radial-gradient(circle at 8px 0, transparent 8px, white 8px)',
+                    backgroundSize: '16px 16px',
+                    backgroundPosition: '0 -8px'
+                  }}></div>
                 </div>
               </motion.div>
             ))}
@@ -820,7 +862,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             <div>
               <h4 className="font-semibold text-neumo-text mb-4">Product</h4>
               <ul className="space-y-2 text-sm text-neumo-text-secondary">
-                <li><a href="#" className="hover:text-neumo-text">How It Works</a></li>
+                <li><a href="#" className="hover:text-neumo-text">What You Can Do</a></li>
                 <li><a href="#signs" className="hover:text-neumo-text">Explore Signs</a></li>
                 <li><a href="#daily-message" className="hover:text-neumo-text">Daily Message</a></li>
               </ul>
