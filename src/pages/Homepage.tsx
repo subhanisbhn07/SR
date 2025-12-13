@@ -109,8 +109,9 @@ export const Homepage: React.FC = () => {
             {/* ============================================
                 SECTION 1: MUST-SEE (Above the Fold)
                 Core engagement: Today's action, progress, community
+                3-Layer Neumorphism: Section wrapper (bg-neumo-surface) → Cards (bg-neumo-bg)
                 ============================================ */}
-            <section className="mb-8">
+            <section className="mb-8 p-5 rounded-neumo-lg bg-neumo-surface shadow-neumo-sm">
               {/* Today Card - HERO of the page, visually dominant */}
               {isCardVisible('todayCard') && <TodayCard />}
               
@@ -165,7 +166,7 @@ export const Homepage: React.FC = () => {
                 </div>
               )}
               
-              {/* User Stories - with proper neumorphism styling */}
+              {/* User Stories - with proper neumorphism styling (section wrapper) */}
               {isCardVisible('userStories') && (
                 <div className="md:hidden">
                   <CollapsibleSection title="Success Stories" defaultOpen={true}>
@@ -174,21 +175,21 @@ export const Homepage: React.FC = () => {
                 </div>
               )}
               {isCardVisible('userStories') && (
-                <div className="hidden md:block">
+                <div className="hidden md:block p-5 rounded-neumo-lg bg-neumo-surface shadow-neumo-sm mb-6">
                   <UserStories />
                 </div>
               )}
               
-                            {/* Blog Section - Collapsible on mobile */}
-                            {isCardVisible('blogSection') && (
-                              <div className="md:hidden">
-                                <CollapsibleSection title="Insights & Reflections" defaultOpen={true}>
-                                  <BlogSection />
-                                </CollapsibleSection>
-                              </div>
-                            )}
+              {/* Blog Section - Collapsible on mobile, with neumorphism wrapper on desktop */}
               {isCardVisible('blogSection') && (
-                <div className="hidden md:block">
+                <div className="md:hidden">
+                  <CollapsibleSection title="Insights & Reflections" defaultOpen={true}>
+                    <BlogSection />
+                  </CollapsibleSection>
+                </div>
+              )}
+              {isCardVisible('blogSection') && (
+                <div className="hidden md:block p-5 rounded-neumo-lg bg-neumo-surface shadow-neumo-sm mb-6">
                   <BlogSection />
                 </div>
               )}
