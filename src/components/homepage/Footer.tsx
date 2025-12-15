@@ -51,6 +51,33 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
           </div>
 
+          {/* Explore Features */}
+          <div>
+            <h3 className="text-neumo-text font-semibold mb-4">Explore</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="/universe-receipts" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                  Universe Receipts
+                </a>
+              </li>
+              <li>
+                <a href="/daily-message" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                  Daily Message
+                </a>
+              </li>
+              <li>
+                <a href="/daily-audio" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                  Daily Audio
+                </a>
+              </li>
+              <li>
+                <a href="/sleep-orb" className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                  Sleep Orb
+                </a>
+              </li>
+            </ul>
+          </div>
+          
           {/* Quick Links */}
           <div>
             <h3 className="text-neumo-text font-semibold mb-4">Quick Links</h3>
@@ -73,11 +100,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li>
                 <a href="#" onClick={(e) => handleLinkClick(e, 'journal')} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
                   Journal
-                </a>
-              </li>
-              <li>
-                <a href="#" onClick={(e) => handleLinkClick(e, 'profile')} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
-                  Profile
                 </a>
               </li>
             </ul>

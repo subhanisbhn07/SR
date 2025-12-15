@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Target, MessageCircle, Receipt, Play, BookOpen, ArrowRight, Check, ChevronDown, Star, Sparkles, Users, Clock, Zap } from 'lucide-react';
+import { Eye, Target, MessageCircle, Receipt, Play, BookOpen, ArrowRight, Check, ChevronDown, Star, Sparkles, Users, Clock, Zap, Menu, X } from 'lucide-react';
 import { useConfigStore } from '../store/configStore';
 import { useAffinityStore } from '../store/affinityStore';
+
+// Landing page routes for navigation
+const landingPageRoutes = [
+  { path: '/universe-receipts', label: 'Universe Receipts', description: 'Proof when it manifests' },
+  { path: '/daily-message', label: 'Daily Message', description: 'Grounded daily guidance' },
+  { path: '/daily-audio', label: 'Daily Audio', description: '10-minute sessions' },
+  { path: '/sleep-orb', label: 'Sleep Orb', description: '12 soundscapes for rest' },
+];
 
 interface LandingPageProps {
   onGetStarted: () => void;
@@ -13,6 +21,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   const { setAffinity, setUtmParams } = useAffinityStore();
   const [email, setEmail] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showExploreMenu, setShowExploreMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   
   // Set affinity for default/platform landing page and capture UTM params
   useEffect(() => {
@@ -238,19 +248,139 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             </div>
             <span className="font-bold text-neumo-text">SignRoad</span>
           </div>
+          
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            <a href="#signs" className="text-sm text-neumo-text-secondary hover:text-neumo-text transition-colors">Explore Signs</a>
-            <a href="#daily-message" className="text-sm text-neumo-text-secondary hover:text-neumo-text transition-colors">Daily Message</a>
+            {/* Explore Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowExploreMenu(!showExploreMenu)}
+                onBlur={() => setTimeout(() => setShowExploreMenu(false), 150)}
+                className="flex items-center gap-1 text-sm text-neumo-text-secondary hover:text-neumo-text transition-colors"
+              >
+                Explore
+                <ChevronDown className={`w-4 h-4 transition-transform ${showExploreMenu ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {showExploreMenu && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-neumo-bg rounded-neumo shadow-neumo-lg overflow-hidden z-50">
+                  {landingPageRoutes.map((route, index) => (
+                    <a
+                      key={route.path}
+                      href={route.path}
+                      className={`block px-4 py-3 text-sm text-neumo-text hover:bg-neumo-border transition-colors ${
+                        index > 0 ? 'border-t border-neumo-border' : ''
+                      }`}
+                    >
+                      <span className="font-medium">{route.label}</span>
+                      <span className="block text-xs text-neumo-text-muted mt-0.5">{route.description}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+            <a href="#signs" className="text-sm text-neumo-text-secondary hover:text-neumo-text transition-colors">Features</a>
             <a href="#blog" className="text-sm text-neumo-text-secondary hover:text-neumo-text transition-colors">Blog</a>
           </div>
-          <button
-            onClick={onGetStarted}
-            className="px-4 py-2 bg-neumo-accent text-white text-sm font-medium rounded-neumo shadow-neumo-sm hover:shadow-neumo-inset transition-all"
-          >
-            Login / Sign Up
-          </button>
+          
+          {/* Desktop CTA + Mobile Menu Button */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onGetStarted}
+              className="px-4 py-2 bg-neumo-accent text-white text-sm font-medium rounded-neumo shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+            >
+              Login / Sign Up
+            </button>
+            
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setShowMobileMenu(true)}
+              className="md:hidden p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+            >
+              <Menu className="w-5 h-5 text-neumo-text-secondary" />
+            </button>
+          </div>
         </div>
       </nav>
+      
+      {/* Mobile Sidebar Menu */}
+      {showMobileMenu && (
+        <>
+          {/* Backdrop */}
+          <div
+            onClick={() => setShowMobileMenu(false)}
+            className="fixed inset-0 bg-neumo-text/30 z-50"
+          />
+          
+          {/* Sidebar */}
+          <div className="fixed top-0 right-0 bottom-0 w-72 max-w-[80vw] bg-neumo-bg z-50 flex flex-col shadow-neumo-lg">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-neumo-border">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-neumo-accent rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">S</span>
+                </div>
+                <span className="font-semibold text-neumo-text">SignRoad</span>
+              </div>
+              <button
+                onClick={() => setShowMobileMenu(false)}
+                className="p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+              >
+                <X className="w-5 h-5 text-neumo-text-secondary" />
+              </button>
+            </div>
+            
+            {/* Navigation Links */}
+            <nav className="flex-1 overflow-y-auto py-4">
+              <div className="px-3 mb-2">
+                <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">Explore Features</p>
+              </div>
+              {landingPageRoutes.map((route) => (
+                <a
+                  key={route.path}
+                  href={route.path}
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center justify-between px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
+                >
+                  <span className="font-medium">{route.label}</span>
+                  <span className="text-xs text-neumo-text-muted">{route.description}</span>
+                </a>
+              ))}
+              
+              <div className="mt-6 px-3 mb-2">
+                <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">Quick Links</p>
+              </div>
+              <a
+                href="#signs"
+                onClick={() => setShowMobileMenu(false)}
+                className="block px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors font-medium"
+              >
+                Features
+              </a>
+              <a
+                href="#blog"
+                onClick={() => setShowMobileMenu(false)}
+                className="block px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors font-medium"
+              >
+                Blog
+              </a>
+            </nav>
+            
+            {/* CTA Button */}
+            <div className="p-4 border-t border-neumo-border">
+              <button
+                onClick={() => {
+                  setShowMobileMenu(false);
+                  onGetStarted();
+                }}
+                className="w-full px-4 py-3 bg-neumo-accent text-white font-semibold rounded-neumo shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+              >
+                Login / Sign Up
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 pb-12">
