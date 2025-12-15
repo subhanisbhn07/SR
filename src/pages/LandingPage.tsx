@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, Target, MessageCircle, Receipt, Play, BookOpen, ArrowRight, Check, ChevronDown, Star, Sparkles, Users, Clock, Zap } from 'lucide-react';
 import { useConfigStore } from '../store/configStore';
+import { useAffinityStore } from '../store/affinityStore';
 
 interface LandingPageProps {
   onGetStarted: () => void;
@@ -9,8 +10,22 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   const { freeTrialDays } = useConfigStore();
+  const { setAffinity, setUtmParams } = useAffinityStore();
   const [email, setEmail] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  
+  // Set affinity for default/platform landing page and capture UTM params
+  useEffect(() => {
+    setAffinity('platform');
+    
+    // Capture UTM params from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    setUtmParams(
+      urlParams.get('utm_source'),
+      urlParams.get('utm_medium'),
+      urlParams.get('utm_campaign')
+    );
+  }, [setAffinity, setUtmParams]);
 
   const handleGetStarted = (e: React.FormEvent) => {
     e.preventDefault();

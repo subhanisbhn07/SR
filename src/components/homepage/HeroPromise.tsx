@@ -1,12 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Clock, Receipt, ArrowRight } from 'lucide-react';
+import { useAffinityStore } from '../../store/affinityStore';
 
 interface HeroPromiseProps {
   onGetStarted?: () => void;
 }
 
 export const HeroPromise: React.FC<HeroPromiseProps> = ({ onGetStarted }) => {
+  const { getWelcomeStrip, getHeroContent } = useAffinityStore();
+  
+  // Get personalized content based on user's affinity (which landing page they came from)
+  const welcomeStrip = getWelcomeStrip();
+  const heroContent = getHeroContent();
+  
   const steps = [
     {
       icon: Clock,
@@ -27,7 +34,20 @@ export const HeroPromise: React.FC<HeroPromiseProps> = ({ onGetStarted }) => {
 
   return (
     <div className="mb-8">
-      {/* Hero Section */}
+      {/* Personalized Welcome Strip - Shows if user came from a specific landing page */}
+      {welcomeStrip && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mb-4 p-3 rounded-neumo bg-neumo-accent/10 border border-neumo-accent/20 text-center"
+        >
+          <p className="text-sm font-medium text-neumo-accent">{welcomeStrip.title}</p>
+          <p className="text-xs text-neumo-text-secondary">{welcomeStrip.subtitle}</p>
+        </motion.div>
+      )}
+      
+      {/* Hero Section - Personalized based on affinity */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -35,10 +55,10 @@ export const HeroPromise: React.FC<HeroPromiseProps> = ({ onGetStarted }) => {
         className="text-center mb-8"
       >
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-neumo-text mb-3 leading-tight">
-          Manifestation with receipts.
+          {heroContent.h1}
         </h1>
         <p className="text-lg md:text-xl text-neumo-text-secondary mb-2">
-          10 minutes daily. Actual proof when it works.
+          {heroContent.sub}
         </p>
         <p className="text-sm text-neumo-text-muted max-w-md mx-auto">
           Join thousands who've manifested their goals and have the Universe Receipts to prove it.
