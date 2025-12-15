@@ -44,9 +44,9 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
     >
       {title && (
         <div className="mb-4">
-          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{title}</h2>
+          <h2 className="text-2xl font-bold text-neumo-text">{title}</h2>
           {subtitle && (
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{subtitle}</p>
+            <p className="text-sm text-neumo-text-secondary mt-1">{subtitle}</p>
           )}
         </div>
       )}
@@ -60,14 +60,14 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                                   transition={{ duration: 0.4, delay: 0.05 * index }}
                                   whileHover={{ scale: 1.03, y: -4 }}
                                   onClick={() => onCourseSelect?.(course.id)}
-                                  className={`p-3 md:p-4 rounded-xl bg-white dark:${gradient} backdrop-blur-sm border border-neutral-200 dark:border-neutral-700/30 cursor-pointer group transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 text-left w-full shadow-sm dark:shadow-none`}
+                                  className="p-3 md:p-4 rounded-neumo bg-neumo-surface border border-neumo-border cursor-pointer group transition-all duration-300 shadow-neumo-sm hover:shadow-neumo-inset-sm text-left w-full"
                                 >
                   <div className="relative mb-3">
                     <div
-                      className="w-full aspect-square rounded-lg bg-cover bg-center"
+                      className="w-full aspect-square rounded-neumo bg-cover bg-center shadow-neumo-inset-sm"
                       style={{ backgroundImage: `url(${course.image})` }}
                     />
-                    <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 bg-neumo-text/40 rounded-neumo flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Play className="w-8 h-8 text-white" />
                     </div>
                     <div className="absolute top-2 right-2">
@@ -80,10 +80,10 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                   </div>
             
                   <div>
-                    <h3 className="text-sm md:text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-1 line-clamp-1">{course.title}</h3>
-                    <p className="text-neutral-500 dark:text-neutral-400 text-xs mb-2 line-clamp-2">{course.subtitle}</p>
+                    <h3 className="text-sm md:text-base font-semibold text-neumo-text mb-1 line-clamp-1">{course.title}</h3>
+                    <p className="text-neumo-text-secondary text-xs mb-2 line-clamp-2">{course.subtitle}</p>
               
-                    <div className="flex items-center justify-between text-xs text-neutral-500">
+                    <div className="flex items-center justify-between text-xs text-neumo-text-muted">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         <span>{course.duration}</span>
@@ -91,7 +91,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
                 
                       {course.rating && (
                         <div className="flex items-center gap-1">
-                          <Star className="w-3 h-3 text-yellow-500 fill-current" />
+                          <Star className="w-3 h-3 text-neumo-text-secondary fill-current" />
                           <span>{course.rating}</span>
                         </div>
                       )}
@@ -105,7 +105,7 @@ export const CourseSection: React.FC<CourseSectionProps> = ({
             <div className="mt-6 text-center">
               <button
                 onClick={onViewMore}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-100 dark:bg-neutral-800/50 hover:bg-neutral-200 dark:hover:bg-neutral-700/50 text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium rounded-xl transition-all duration-200 border border-neutral-200 dark:border-neutral-700/50 hover:border-neutral-300 dark:hover:border-neutral-600/50"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text-secondary hover:text-neumo-text font-medium rounded-neumo transition-all duration-200"
               >
                 View More
                 <ChevronRight className="w-4 h-4" />

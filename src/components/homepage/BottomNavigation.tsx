@@ -23,7 +23,7 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         <motion.nav
           initial={{ y: 100 }}
           animate={{ y: 0 }}
-          className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-lg border-t border-neutral-200 dark:border-neutral-700/50 z-30 md:hidden"
+          className="fixed bottom-0 left-0 right-0 bg-neumo-bg shadow-neumo z-30 md:hidden"
         >
       <div className="flex items-center justify-around py-2">
         {navItems.map((item) => {
@@ -35,21 +35,19 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
               key={item.id}
               onClick={() => onTabChange(item.id)}
               whileTap={{ scale: 0.9 }}
-              className={`flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900 ${
-                isActive
-                  ? 'text-teal-600 dark:text-gold-400'
-                  : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
+              className={`flex flex-col items-center py-2 px-3 rounded-neumo transition-all duration-200 ${
+                isActive 
+                  ? 'bg-neumo-bg shadow-neumo-inset text-neumo-text' 
+                  : 'text-neumo-text-secondary hover:text-neumo-text'
               }`}
-              aria-label={item.label}
-              aria-current={isActive ? 'page' : undefined}
             >
-              <Icon className={`w-5 h-5 mb-1 ${isActive ? 'text-teal-500 dark:text-gold-400' : ''}`} />
+              <Icon className={`w-5 h-5 mb-1 ${isActive ? 'text-neumo-text' : ''}`} />
               <span className="text-xs font-medium">{item.label}</span>
-
+              
               {isActive && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-teal-500 dark:bg-gold-400 rounded-full"
+                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-neumo-accent rounded-full"
                 />
               )}
             </motion.button>

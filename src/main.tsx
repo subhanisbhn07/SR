@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import './styles/uiverse.css';
 
 // Initialize theme from localStorage before render to prevent flash
 const savedTheme = localStorage.getItem('signroad-theme');

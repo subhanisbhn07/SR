@@ -1,276 +1,331 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'class',
+  // Light mode only - Neumorphism design
   theme: {
     extend: {
       colors: {
-        // === SIGNROAD DESIGN SYSTEM v1 ===
-        // "TRANSFORMATIVE TEAL FRAMEWORK"
+        // === SIGNROAD DESIGN SYSTEM v4.0 ===
+        // Neumorphism (Soft UI) - Light Mode Only, Grayscale
         // 
-        // COLOR USAGE RATIOS (Critical for Tier-1 Premium):
-        // - 70% NEUTRAL: Backgrounds, cards, surfaces, body text
-        // - 15% PRIMARY TEAL: Navigation, primary buttons, brand identity
-        // - 10% SECONDARY TEAL: Icons, secondary buttons, highlights, hover states
-        // - 5% GOLD: Rewards, achievements, premium CTAs, badges (SPARINGLY!)
+        // COLOR PHILOSOPHY:
+        // - Soft, embossed/debossed elements
+        // - Light gray background with dual shadows
+        // - Minimal color - grayscale only
+        // - Generous rounded corners
         //
-        // === PRIMARY BRAND COLOR - TRANSFORMATIVE TEAL ===
-        // Psychology: Calm innovation, conscious decisions, bridges nature + technology
-        // Use for: Navigation, primary buttons, brand identity, key UI chrome
-        teal: {
-          DEFAULT: '#0E7A77',
-          50: '#E6F5F4',
-          100: '#CCEBe9',
-          200: '#99D7D3',
-          300: '#66C3BD',
-          400: '#33AFA7',
-          500: '#0E7A77', // Transformative Teal - PRIMARY
-          600: '#0C6966',
-          700: '#0A5855',
-          800: '#084744',
-          900: '#063633',
-          950: '#042522',
+        // === BRAND COLORS - Transformative Teal ===
+        brand: {
+          teal: '#0E7A77',            // Primary brand color - Transformative Teal
+          'teal-light': '#17A7A2',    // Lighter teal for hover states
+          'teal-soft': '#1BA29F',     // Soft teal for backgrounds
+          'teal-dark': '#0A5C5A',     // Darker teal for emphasis
+          'teal-muted': '#E6F4F4',    // Very light teal for subtle backgrounds
         },
-        // === SECONDARY BRAND COLOR - TEAL SOFT ===
-        // Psychology: Approachability, interaction signaling, gentle invitation
-        // Use for: Icons, secondary buttons, highlights, hover states
-        'teal-soft': {
-          DEFAULT: '#17A7A2',
-          50: '#E8F7F6',
-          100: '#D1EFED',
-          200: '#A3DFDB',
-          300: '#75CFC9',
-          400: '#47BFB7',
-          500: '#17A7A2', // Teal Soft - SECONDARY
-          600: '#148F8B',
-          700: '#117774',
-          800: '#0E5F5D',
-          900: '#0B4746',
-          950: '#082F2F',
+        // === NEUMORPHIC BASE COLORS ===
+        neumo: {
+          bg: '#E0E5EC',              // Main background - soft gray
+          surface: '#E5EAF2',         // Cards - slightly lighter for depth
+          'surface-soft': '#EDF1F7',  // Inner blocks/inputs - even lighter
+          text: '#2D3436',            // Primary text - dark gray
+          'text-secondary': '#636E72', // Secondary text - medium gray
+          'text-muted': '#B2BEC3',    // Muted text - light gray
+          border: '#D1D9E6',          // Subtle borders
+          accent: '#0E7A77',          // Accent now uses brand teal
         },
-        // === ACCENT BRAND COLOR - GOLD ===
-        // Psychology: Emotional uplift, reward wiring, premium association
-        // Use for: Rewards, achievements, premium CTAs, badges (SPARINGLY - 5% max!)
+        // === BACKGROUNDS ===
+        background: {
+          DEFAULT: '#E0E5EC',
+          primary: '#E0E5EC',
+          secondary: '#E0E5EC',
+          tertiary: '#D8DDE4',
+          input: '#E0E5EC',
+        },
+        // === PRIMARY (Grayscale) ===
         gold: {
-          DEFAULT: '#EEC76A',
-          50: '#FDF9EE',
-          100: '#FBF3DD',
-          200: '#F7E7BB',
-          300: '#F3DB99',
-          400: '#EFCF77',
-          500: '#EEC76A', // Gold - ACCENT (use sparingly!)
-          600: '#DDBB5E', // Hover state
-          700: '#C9A84E',
-          800: '#A68B3E',
-          900: '#836E2E',
-          950: '#60511E',
-          // Dark mode variant (prevents harsh glare in Moon Mode)
-          'dark': '#D6B35C',
+          DEFAULT: '#636E72',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#8E9A9F',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
+          950: '#000000',
         },
-        // Legacy emerald alias (maps to teal for backward compatibility)
+        teal: {
+          DEFAULT: '#636E72',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#8E9A9F',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
+          950: '#000000',
+        },
+        lavender: {
+          DEFAULT: '#B2BEC3',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#A0ADB2',
+          500: '#8E9A9F',
+          600: '#636E72',
+          700: '#4A5568',
+          800: '#2D3436',
+          900: '#1A202C',
+        },
+        purple: {
+          DEFAULT: '#B2BEC3',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#A0ADB2',
+          500: '#8E9A9F',
+          600: '#636E72',
+          700: '#4A5568',
+          800: '#2D3436',
+          900: '#1A202C',
+        },
         emerald: {
-          DEFAULT: '#0E7A77',
-          50: '#E6F5F4',
-          100: '#CCEBe9',
-          200: '#99D7D3',
-          300: '#66C3BD',
-          400: '#33AFA7',
-          500: '#0E7A77',
-          600: '#0C6966',
-          700: '#0A5855',
-          800: '#084744',
-          900: '#063633',
-          950: '#042522',
+          DEFAULT: '#636E72',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#8E9A9F',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
+          950: '#000000',
         },
-        // === NEUTRAL PALETTE (Design System v1) ===
-        // Sun Mode (Light) and Moon Mode (Dark) specific values
+        // === NEUTRAL PALETTE ===
         neutral: {
-          white: '#FFFFFF',      // Pure white - card surfaces (light)
-          50: '#F6F7F8',         // Page Background (Sun Mode) - EXACT from spec
-          100: '#E5E9EB',        // Border/Divider (Sun Mode) - EXACT from spec
-          200: '#E5E7EB',
-          300: '#CFD8DC',        // Cool Gray - muted icons
-          400: '#8A9A9A',        // Muted/Disabled (Sun Mode) - EXACT from spec
-          500: '#5B6B6E',        // Text Secondary (Sun Mode) - EXACT from spec
-          600: '#5B6B6E',        // Secondary text alias
-          700: '#1C1F21',        // Text Primary (Sun Mode) - EXACT from spec
-          800: '#1C1F21',        // Text Primary alias
-          900: '#1C1F21',        // Primary text
-          950: '#121E1D',        // Page Background (Moon Mode) - EXACT from spec
+          white: '#FFFFFF',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#8E9A9F',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
+          950: '#000000',
         },
-        // === TEXT COLORS (Design System v1) ===
+        // === TEXT COLORS ===
         text: {
-          // Sun Mode (Light)
-          primary: '#1C1F21',    // Text Primary (Sun Mode) - EXACT from spec
-          secondary: '#5B6B6E',  // Text Secondary (Sun Mode) - EXACT from spec
-          muted: '#8A9A9A',      // Muted/Disabled (Sun Mode) - EXACT from spec
-          inverse: '#E0E4E3',    // Text on teal backgrounds
-          // Moon Mode (Dark) - use dark: prefix in components
-          'primary-dark': '#E0E4E3',    // Text Primary (Moon Mode) - EXACT from spec
-          'secondary-dark': '#A3B0AE',  // Text Secondary (Moon Mode) - EXACT from spec
-          'muted-dark': '#4A5856',      // Muted/Disabled (Moon Mode) - EXACT from spec
+          primary: '#2D3436',
+          secondary: '#636E72',
+          muted: '#B2BEC3',
+          inverse: '#FFFFFF',
         },
-        // === STATE COLORS ===
+        // === SEMANTIC COLORS (Grayscale) ===
         success: {
-          50: '#ECFDF5',
-          100: '#D1FAE5',
-          200: '#A7F3D0',
-          300: '#6EE7B7',
-          400: '#34D399',        // Success - green-mint
-          500: '#10B981',
-          600: '#059669',
-          700: '#047857',
-          800: '#065F46',
-          900: '#064E3B',
+          DEFAULT: '#636E72',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#636E72',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
         },
         warning: {
-          50: '#FFFBEB',
-          100: '#FEF3C7',
-          200: '#FDE68A',
-          300: '#FCD34D',
-          400: '#FBBF24',
-          500: '#F59E0B',        // Warning - amber
-          600: '#D97706',
-          700: '#B45309',
-          800: '#92400E',
-          900: '#78350F',
+          DEFAULT: '#636E72',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#636E72',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
         },
         error: {
-          50: '#FEF2F2',
-          100: '#FEE2E2',
-          200: '#FECACA',
-          300: '#FCA5A5',
-          400: '#F87171',
-          500: '#EF4444',        // Error - modern red
-          600: '#DC2626',
-          700: '#B91C1C',
-          800: '#991B1B',
-          900: '#7F1D1D',
+          DEFAULT: '#4A5568',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#636E72',
+          500: '#4A5568',
+          600: '#2D3436',
+          700: '#1A202C',
+          800: '#0D1117',
+          900: '#000000',
         },
         info: {
-          50: '#F0F9FF',
-          100: '#E0F2FE',
-          200: '#BAE6FD',
-          300: '#7DD3FC',
-          400: '#38BDF8',        // Info - cyan-blue
-          500: '#0EA5E9',
-          600: '#0284C7',
-          700: '#0369A1',
-          800: '#075985',
-          900: '#0C4A6E',
+          DEFAULT: '#636E72',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#636E72',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
         },
-        // === SEMANTIC SURFACE TOKENS (Design System v1) ===
-        // Sun Mode (Light) and Moon Mode (Dark) exact values from spec
+        // === SURFACE TOKENS ===
         surface: {
-          // Sun Mode (Light) - EXACT from spec
-          'page': '#F6F7F8',              // Page Background (Sun Mode)
-          'card': '#FFFFFF',              // Card Surface (Sun Mode)
-          'border': '#E5E9EB',            // Border/Divider (Sun Mode) - subtle
-          'border-strong': '#C8CED2',     // Stronger border for visible card edges (Sun Mode)
-          // Moon Mode (Dark) - EXACT from spec
-          'page-dark': '#121E1D',         // Page Background (Moon Mode)
-          'card-dark': '#1A2D2B',         // Card Surface (Moon Mode)
-          'border-dark': '#253333',       // Border/Divider (Moon Mode) - subtle
-          'border-dark-strong': '#3A4A48', // Stronger border for visible card edges (Moon Mode)
-          // Elevated surfaces
-          'elevated': '#FFFFFF',          // Elevated surfaces (light)
-          'elevated-dark': '#1A2D2B',     // Elevated surfaces (dark) - same as card-dark
-          // Footer backgrounds
-          'footer': '#F6F7F8',            // Footer (light) - same as page
-          'footer-dark': '#121E1D',       // Footer (dark) - same as page-dark
-          // Interactive states
-          'hover': '#F0F1F2',             // Hover state (light)
-          'hover-dark': '#223332',        // Hover state (dark)
-          'active': '#E5E9EB',            // Active/pressed state (light)
-          'active-dark': '#2A3B39',       // Active/pressed state (dark)
+          'page': '#E0E5EC',
+          'card': '#E0E5EC',
+          'card-dark': '#E0E5EC',
+          'card-warm': '#E0E5EC',
+          'border': '#D1D9E6',
+          'border-strong': '#B2BEC3',
+          'border-dark': '#D1D9E6',
+          'border-dark-strong': '#B2BEC3',
+          'elevated': '#E8ECF2',
+          'elevated-dark': '#E8ECF2',
+          'footer': '#D1D9E6',
+          'footer-dark': '#D1D9E6',
+          'hover': '#D8DDE4',
+          'hover-dark': '#D8DDE4',
+          'active': '#CDD4DC',
+          'active-dark': '#CDD4DC',
         },
-        // === MUTED VARIANTS FOR DARK MODE (Premium, less neon) ===
-        // Use these for dark mode surfaces to avoid crypto/game vibes
-        muted: {
-          'teal': '#0F8F87',              // Teal -20% saturation for dark mode
-          'gold': '#D6B15A',              // Gold -15% brightness for dark mode surfaces
-          'gold-surface': '#C9A84E',      // Even more muted gold for backgrounds
-        },
-        // === INTENTION TINTS (Tinted neutrals, not pastels) ===
-        // Use for Explore by Intention cards instead of pastels
-        intent: {
-          'peace': '#F3F7F6',             // Inner Peace - soft mint neutral
-          'motivation': '#F7F4EF',        // Motivation - warm sand neutral
-          'gratitude': '#F4F6FB',         // Gratitude - soft blue neutral
-          'abundance': '#F6F5F0',         // Abundance - cream neutral
-          'sleep': '#F2F4F7',             // Sleep - cool gray neutral
-          'healing': '#F5F3F6',           // Healing - soft lavender neutral
-        },
-        // === SEMANTIC COMPONENT TOKENS (Design System v1) ===
-        // Button colors - per spec
+        // === BUTTON COLORS (Teal Primary) ===
         btn: {
-          'primary': '#0E7A77',        // Transformative Teal - primary CTA
-          'primary-hover': '#0C6966',  // Teal darker - hover
-          'secondary': '#17A7A2',      // Teal Soft - secondary actions
-          'secondary-hover': '#148F8B', // Teal Soft darker - hover
-          'accent': '#EEC76A',         // Gold - reward/premium CTAs (use sparingly!)
-          'accent-hover': '#DDBB5E',   // Gold darker - hover
-          'ghost': 'transparent',      // Ghost button
-          'ghost-hover': 'rgba(14, 122, 119, 0.1)', // Ghost hover (teal tint)
+          'primary': '#0E7A77',
+          'primary-hover': '#0A5C5A',
+          'secondary': '#E0E5EC',
+          'secondary-hover': '#D1D9E6',
+          'accent': '#0E7A77',
+          'accent-hover': '#0A5C5A',
+          'ghost': 'transparent',
+          'ghost-hover': '#E6F4F4',
         },
-        // Badge colors - per Design System v1
+        // === BADGE COLORS ===
         badge: {
-          'new': '#17A7A2',            // Teal Soft - "NEW" badges
-          'popular': '#EEC76A',        // Gold - "Popular" badges
-          'premium': '#0E7A77',        // Transformative Teal - "Premium" badges
-          'free': '#10B981',           // Success green - "Free" badges
+          'new': '#636E72',
+          'popular': '#636E72',
+          'premium': '#4A5568',
+          'free': '#636E72',
         },
-        // Progress colors - per Design System v1
+        // === PROGRESS COLORS ===
         progress: {
-          'track': '#E5E9EB',          // Light track (Sun Mode border)
-          'track-dark': '#253333',     // Dark track (Moon Mode border)
-          'fill': '#0E7A77',           // Transformative Teal fill
-          'fill-gold': '#EEC76A',      // Gold fill for rewards
+          'track': '#D1D9E6',
+          'track-dark': '#D1D9E6',
+          'fill': '#636E72',
+          'fill-gold': '#636E72',
         },
-        // Legacy aliases for backward compatibility (maps to Design System v1 colors)
+        // === LEGACY ALIASES ===
         primary: {
-          50: '#E6F5F4',
-          100: '#CCEBe9',
-          200: '#99D7D3',
-          300: '#66C3BD',
-          400: '#33AFA7',
-          500: '#0E7A77', // Transformative Teal
-          600: '#0C6966',
-          700: '#0A5855',
-          800: '#084744',
-          900: '#063633',
-          950: '#042522',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#8E9A9F',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
+          950: '#000000',
         },
         secondary: {
-          50: '#E8F7F6',
-          100: '#D1EFED',
-          200: '#A3DFDB',
-          300: '#75CFC9',
-          400: '#47BFB7',
-          500: '#17A7A2', // Teal Soft
-          600: '#148F8B',
-          700: '#117774',
-          800: '#0E5F5D',
-          900: '#0B4746',
-          950: '#082F2F',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#A0ADB2',
+          500: '#8E9A9F',
+          600: '#636E72',
+          700: '#4A5568',
+          800: '#2D3436',
+          900: '#1A202C',
+          950: '#0D1117',
         },
         accent: {
-          50: '#FDF9EE',
-          100: '#FBF3DD',
-          200: '#F7E7BB',
-          300: '#F3DB99',
-          400: '#EFCF77',
-          500: '#EEC76A', // Gold
-          600: '#DDBB5E',
-          700: '#C9A84E',
-          800: '#A68B3E',
-          900: '#836E2E',
-          950: '#60511E',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#8E9A9F',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
+          950: '#000000',
+        },
+        silver: {
+          DEFAULT: '#B2BEC3',
+          50: '#F5F6F7',
+          100: '#E0E5EC',
+          200: '#D1D9E6',
+          300: '#B2BEC3',
+          400: '#8E9A9F',
+          500: '#636E72',
+          600: '#4A5568',
+          700: '#2D3436',
+          800: '#1A202C',
+          900: '#0D1117',
+        },
+        // Glass colors (mapped to neumorphic)
+        glass: {
+          'bg': '#E0E5EC',
+          'border': '#D1D9E6',
+          'border-hover': '#B2BEC3',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['DM Sans', '-apple-system', 'system-ui', 'sans-serif'],
+        display: ['DM Sans', '-apple-system', 'system-ui', 'sans-serif'],
+        body: ['DM Sans', '-apple-system', 'system-ui', 'sans-serif'],
+      },
+      // === NEUMORPHIC SHADOWS (Refined - softer, more blur, less harsh) ===
+      boxShadow: {
+        // Main raised cards - softer with more blur
+        'neumo': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        // Subtle raised (inner sections, small cards, buttons)
+        'neumo-sm': '3px 3px 10px rgba(163, 177, 198, 0.35), -3px -3px 10px rgba(255, 255, 255, 0.85)',
+        // Hero-level emphasis (top hero card only)
+        'neumo-lg': '10px 10px 28px rgba(163, 177, 198, 0.55), -10px -10px 28px rgba(255, 255, 255, 0.95)',
+        // Pressed/inset elements (inputs, active states)
+        'neumo-inset': 'inset 4px 4px 12px rgba(163, 177, 198, 0.5), inset -4px -4px 12px rgba(255, 255, 255, 0.9)',
+        'neumo-inset-sm': 'inset 2px 2px 6px rgba(163, 177, 198, 0.35), inset -2px -2px 6px rgba(255, 255, 255, 0.85)',
+        // Flat (no shadow)
+        'neumo-flat': 'none',
+        // === UIVERSE CARD STYLE - Stronger shadows for blob cards ===
+        'neumo-card': '20px 20px 60px #bebebe, -20px -20px 60px #ffffff',
+        'neumo-card-sm': '12px 12px 36px #bebebe, -12px -12px 36px #ffffff',
+        // Teal glow for CTAs and highlights
+        'teal-glow': '0 4px 20px rgba(14, 122, 119, 0.3)',
+        'teal-glow-lg': '0 8px 32px rgba(14, 122, 119, 0.4)',
+        // Legacy shadows mapped to neumorphic
+        'glow': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        'glow-lg': '10px 10px 28px rgba(163, 177, 198, 0.55), -10px -10px 28px rgba(255, 255, 255, 0.95)',
+        'glow-violet': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        'glow-mint': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+        'glass': '6px 6px 18px rgba(163, 177, 198, 0.5), -6px -6px 18px rgba(255, 255, 255, 0.9)',
+      },
+      // === BORDER RADIUS ===
+      borderRadius: {
+        'neumo': '16px',
+        'neumo-lg': '22px',
+        'neumo-xl': '28px',
+        'neumo-full': '9999px',
       },
       spacing: {
         '18': '4.5rem',
@@ -283,6 +338,9 @@ export default {
         'bounce-gentle': 'bounceGentle 2s infinite',
         'pulse-slow': 'pulse 3s infinite',
         'float': 'float 6s ease-in-out infinite',
+        'blob-bounce': 'blobBounce 5s infinite ease',
+        'dots-bounce': 'dotsBounce 0.5s alternate infinite ease',
+        'spinner-orb': 'spinnerOrb 1.7s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -301,9 +359,21 @@ export default {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-20px)' },
         },
-      },
-      backdropBlur: {
-        xs: '2px',
+        blobBounce: {
+          '0%': { transform: 'translate(-100%, -100%) translate3d(0, 0, 0)' },
+          '25%': { transform: 'translate(-100%, -100%) translate3d(100%, 0, 0)' },
+          '50%': { transform: 'translate(-100%, -100%) translate3d(100%, 100%, 0)' },
+          '75%': { transform: 'translate(-100%, -100%) translate3d(0, 100%, 0)' },
+          '100%': { transform: 'translate(-100%, -100%) translate3d(0, 0, 0)' },
+        },
+        dotsBounce: {
+          '0%': { top: '60px', height: '5px', borderRadius: '50px 50px 25px 25px', transform: 'scaleX(1.7)' },
+          '40%': { height: '20px', borderRadius: '50%', transform: 'scaleX(1)' },
+          '100%': { top: '0%' },
+        },
+        spinnerOrb: {
+          'to': { transform: 'rotate(360deg)' },
+        },
       },
     },
   },

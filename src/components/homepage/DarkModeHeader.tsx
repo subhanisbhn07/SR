@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Sparkles, Building2, ChevronDown, Home, BookOpen, Heart, PenTool, Menu } from 'lucide-react';
+import { User, Bell, Sparkles, ChevronDown, Home, BookOpen, Heart, PenTool, Menu, Compass } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
 import { LanternIcon } from '../ui/LanternIcon';
 import { ThemeToggle } from '../ui/ThemeToggle';
-import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
-import { B2BLanding } from '../enterprise/B2BLanding';
 import { MobileSidebar } from './MobileSidebar';
 
 interface DarkModeHeaderProps {
@@ -21,34 +19,39 @@ const desktopNavItems = [
   { id: 'journal', label: 'Journal', icon: PenTool },
 ];
 
+// Landing page routes for dropdown navigation
+const landingPageRoutes = [
+  { path: '/universe-receipts', label: 'Universe Receipts', description: 'Proof when it manifests' },
+  { path: '/daily-message', label: 'Daily Message', description: 'Grounded daily guidance' },
+  { path: '/daily-audio', label: 'Daily Audio', description: '10-minute sessions' },
+  { path: '/sleep-orb', label: 'Sleep Orb', description: '12 soundscapes for rest' },
+];
+
 export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'home', onTabChange }) => {
   const { user } = useAuthStore();
   const { theme } = useThemeStore();
-  const [showForTeams, setShowForTeams] = useState(false);
-  const [showB2B, setShowB2B] = useState(false);
-  const [showEnterpriseMenu, setShowEnterpriseMenu] = useState(false);
+  const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   return (
     <>
-      {/* Design System v1: Navbar - white bg (light), charcoal bg (dark), teal active underline */}
+      {/* Neumorphic Header */}
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="sticky top-0 z-40 backdrop-blur-lg border-b bg-white dark:bg-surface-card-dark border-surface-border dark:border-surface-border-dark shadow-sm transition-colors duration-200"
+        className="sticky top-0 z-40 bg-neumo-bg shadow-neumo-sm"
       >
         <div className="flex items-center justify-between px-4 py-3">
                     {/* Logo */}
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-md">
-                        <span className="text-white font-bold text-lg">S</span>
+                      <div className="w-10 h-10 bg-neumo-bg rounded-neumo flex items-center justify-center shadow-neumo-sm">
+                        <span className="text-neumo-text font-bold text-lg">S</span>
                       </div>
-                      <h1 className="text-xl font-bold text-neutral-900 dark:text-text-inverse">SignRoad</h1>
+                      <h1 className="text-xl font-bold text-neumo-text">SignRoad</h1>
                     </div>
 
                     {/* Desktop Navigation - Hidden on mobile */}
-                    <nav className="hidden md:flex items-center space-x-1">
-                      {/* Design System v1: Active = teal underline (light), gold underline (dark) */}
+                    <nav className="hidden md:flex items-center space-x-2">
                       {desktopNavItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = activeTab === item.id;
@@ -56,10 +59,10 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
                           <button
                             key={item.id}
                             onClick={() => onTabChange?.(item.id)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-150 ${
+                            className={`flex items-center gap-2 px-4 py-2 rounded-neumo transition-all duration-150 ${
                               isActive
-                                ? 'bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-gold-400 border-b-2 border-teal-500 dark:border-gold-500'
-                                : 'text-neutral-600 dark:text-neutral-200 hover:text-teal-soft-500 dark:hover:text-teal-soft-400 hover:bg-neutral-100 dark:hover:bg-surface-hover-dark'
+                                ? 'bg-neumo-bg shadow-neumo-inset text-neumo-text'
+                                : 'bg-neumo-bg shadow-neumo-sm text-neumo-text-secondary hover:shadow-neumo-inset'
                             }`}
                           >
                             <Icon className="w-4 h-4" />
@@ -71,83 +74,60 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
 
                     {/* Right Side - Desktop */}
           <div className="hidden md:flex items-center space-x-2">
-            {/* Enterprise Dropdown - Desktop only */}
+            {/* Features Dropdown */}
             <div className="relative">
               <button
-                onClick={() => setShowEnterpriseMenu(!showEnterpriseMenu)}
-                onBlur={() => setTimeout(() => setShowEnterpriseMenu(false), 150)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-teal-100 dark:bg-teal-500/20 hover:bg-teal-200 dark:hover:bg-teal-500/30 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-                aria-expanded={showEnterpriseMenu}
-                aria-haspopup="true"
+                onClick={() => setShowFeaturesMenu(!showFeaturesMenu)}
+                onBlur={() => setTimeout(() => setShowFeaturesMenu(false), 150)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
               >
-                <Building2 className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
-                <span className="text-xs font-medium text-teal-600 dark:text-teal-400">Enterprise</span>
-                <ChevronDown className={`w-3 h-3 text-teal-600 dark:text-teal-400 transition-transform ${showEnterpriseMenu ? 'rotate-180' : ''}`} />
+                <Compass className="w-3.5 h-3.5 text-neumo-text-secondary" />
+                <span className="text-xs font-medium text-neumo-text-secondary">Explore</span>
+                <ChevronDown className={`w-3 h-3 text-neumo-text-secondary transition-transform ${showFeaturesMenu ? 'rotate-180' : ''}`} />
               </button>
-
-              {showEnterpriseMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-xl overflow-hidden z-50">
-                  <button
-                    onClick={() => {
-                      setShowForTeams(true);
-                      setShowEnterpriseMenu(false);
-                    }}
-                    className="w-full px-4 py-3 text-left text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors flex items-center gap-2"
-                  >
-                    <Building2 className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                    For Teams
-                    <span className="text-xs text-neutral-500 ml-auto">Pricing</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowB2B(true);
-                      setShowEnterpriseMenu(false);
-                    }}
-                    className="w-full px-4 py-3 text-left text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors flex items-center gap-2 border-t border-neutral-200 dark:border-neutral-700"
-                  >
-                    <Building2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    Enterprise Sales
-                    <span className="text-xs text-emerald-600 dark:text-emerald-400 ml-auto">Book a Call</span>
-                  </button>
+              
+              {showFeaturesMenu && (
+                <div className="absolute right-0 mt-2 w-56 bg-neumo-bg rounded-neumo shadow-neumo-lg overflow-hidden z-50">
+                  {landingPageRoutes.map((route, index) => (
+                    <a
+                      key={route.path}
+                      href={route.path}
+                      className={`w-full px-4 py-3 text-left text-sm text-neumo-text hover:bg-neumo-border transition-colors flex items-center justify-between ${
+                        index > 0 ? 'border-t border-neumo-border' : ''
+                      }`}
+                    >
+                      <span className="font-medium">{route.label}</span>
+                      <span className="text-xs text-neumo-text-muted">{route.description}</span>
+                    </a>
+                  ))}
                 </div>
               )}
             </div>
 
             {user && (
               <>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800/50">
+                <div className="flex items-center gap-1 px-2 py-1 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm">
                   <LanternIcon health={user.lanternHealth} size="sm" />
-                  <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
+                  <span className="text-xs font-medium text-neumo-text-secondary">{user.lanternHealth}</span>
                 </div>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gold-100 dark:bg-gold-500/20">
-                  <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-500" />
-                  <span className="text-xs font-medium text-gold-600 dark:text-gold-500">{user.sparks}</span>
+                <div className="flex items-center gap-1 px-2 py-1 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm">
+                  <Sparkles className="w-4 h-4 text-neumo-text-secondary" />
+                  <span className="text-xs font-medium text-neumo-text-secondary">{user.sparks}</span>
                 </div>
               </>
             )}
 
-            <ThemeToggle />
-
-            <button
-              aria-label="Notifications"
-              className={`p-2 rounded-lg transition-colors duration-200 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 ${
-                theme === 'dark' ? 'hover:bg-emerald-900/50' : 'hover:bg-neutral-100'
-              }`}
-            >
-              <Bell className={`w-5 h-5 ${theme === 'dark' ? 'text-text-inverse' : 'text-neutral-600'}`} />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full" aria-hidden="true"></div>
-              <span className="sr-only">You have new notifications</span>
+            <button className="p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all relative">
+              <Bell className="w-5 h-5 text-neumo-text-secondary" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-neumo-accent rounded-full"></div>
             </button>
-
-            <button
-              aria-label="User profile"
-              className="w-8 h-8 rounded-full overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface-card-dark"
-            >
+            
+            <button className="w-8 h-8 rounded-full overflow-hidden shadow-neumo-sm">
               {user?.avatar ? (
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center">
-                  <User className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <div className="w-full h-full bg-neumo-bg flex items-center justify-center">
+                  <User className="w-4 h-4 text-neumo-text-secondary" />
                 </div>
               )}
             </button>
@@ -156,37 +136,23 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
           {/* Right Side - Mobile */}
           <div className="flex md:hidden items-center space-x-2">
             {user && (
-              <>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800/50">
-                  <LanternIcon health={user.lanternHealth} size="sm" />
-                  <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{user.lanternHealth}</span>
-                </div>
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-gold-100 dark:bg-gold-500/20">
-                  <Sparkles className="w-4 h-4 text-gold-600 dark:text-gold-500" />
-                  <span className="text-xs font-medium text-gold-600 dark:text-gold-500">{user.sparks}</span>
-                </div>
-              </>
+              <div className="flex items-center gap-1 px-2 py-1 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm">
+                <LanternIcon health={user.lanternHealth} size="sm" />
+                <span className="text-xs font-medium text-neumo-text-secondary">{user.lanternHealth}</span>
+              </div>
             )}
-
-            <ThemeToggle />
             
-            <button
-              aria-label="Notifications"
-              className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-emerald-900/50 transition-colors duration-200 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-            >
-              <Bell className="w-5 h-5 text-neutral-600 dark:text-text-inverse" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gold-500 rounded-full" aria-hidden="true"></div>
-              <span className="sr-only">You have new notifications</span>
+            <button className="p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all relative">
+              <Bell className="w-5 h-5 text-neumo-text-secondary" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-neumo-accent rounded-full"></div>
             </button>
 
             {/* Hamburger Menu Button */}
             <button
               onClick={() => setShowMobileSidebar(true)}
-              aria-label="Open navigation menu"
-              aria-expanded={showMobileSidebar}
-              className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+              className="p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
             >
-              <Menu className="w-5 h-5 text-neutral-700 dark:text-neutral-300" />
+              <Menu className="w-5 h-5 text-neumo-text-secondary" />
             </button>
           </div>
         </div>
@@ -198,37 +164,8 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
         onClose={() => setShowMobileSidebar(false)}
         activeTab={activeTab}
         onTabChange={onTabChange}
-        onShowForTeams={() => setShowForTeams(true)}
-        onShowB2B={() => setShowB2B(true)}
+        landingPageRoutes={landingPageRoutes}
       />
-
-      {/* For Teams Modal */}
-      <AnimatePresence>
-        {showForTeams && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 overflow-y-auto"
-          >
-            <ForTeamsLanding isModal onClose={() => setShowForTeams(false)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* B2B Landing Modal */}
-      <AnimatePresence>
-        {showB2B && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 overflow-y-auto"
-          >
-            <B2BLanding isModal onClose={() => setShowB2B(false)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };

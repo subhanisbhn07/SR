@@ -39,24 +39,24 @@ export const PersonalGreeting: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="mb-8 p-6 bg-emerald-50 dark:bg-neutral-900 rounded-2xl border border-emerald-100 dark:border-neutral-800 shadow-sm"
+      className="mb-8 p-6 bg-neumo-bg rounded-neumo-lg shadow-neumo"
     >
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <TimeIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-            <span className="text-sm text-emerald-600 dark:text-emerald-400 font-medium">{timeOfDay.message}</span>
+            <TimeIcon className="w-5 h-5 text-neumo-text-secondary" />
+            <span className="text-sm text-neumo-text-secondary font-medium">{timeOfDay.message}</span>
           </div>
-          <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
+          <h2 className="text-2xl font-bold text-neumo-text mb-2">
             {timeOfDay.greeting}, {user?.name || 'there'}
           </h2>
-          <p className="text-neutral-600 dark:text-neutral-300">
+          <p className="text-neumo-text-secondary">
             {getRoadMessage(user?.selectedRoad)} {timeOfDay.emoji}
           </p>
         </div>
         <div className="text-right">
-          <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">{user?.streak || 3}</div>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">day streak</p>
+          <div className="text-3xl font-bold text-neumo-text-secondary">{user?.streak || 3}</div>
+          <p className="text-xs text-neumo-text-muted">day streak</p>
         </div>
       </div>
     </motion.div>
