@@ -1,16 +1,21 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Home, BookOpen, Heart, PenTool, User, Building2, Settings, HelpCircle, LogOut } from 'lucide-react';
+import { X, Home, BookOpen, Heart, PenTool, User, Settings, HelpCircle, LogOut, Compass } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { LanternIcon } from '../ui/LanternIcon';
+
+interface LandingPageRoute {
+  path: string;
+  label: string;
+  description: string;
+}
 
 interface MobileSidebarProps {
   isOpen: boolean;
   onClose: () => void;
   activeTab?: string;
   onTabChange?: (tab: string) => void;
-  onShowForTeams?: () => void;
-  onShowB2B?: () => void;
+  landingPageRoutes?: LandingPageRoute[];
 }
 
 const navItems = [
@@ -26,23 +31,13 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
   onClose,
   activeTab = 'home',
   onTabChange,
-  onShowForTeams,
-  onShowB2B,
+  landingPageRoutes = [],
 }) => {
   const { user, logout } = useAuthStore();
 
   const handleNavClick = (tabId: string) => {
     onTabChange?.(tabId);
     onClose();
-  };
-
-  const handleEnterpriseClick = (type: 'teams' | 'b2b') => {
-    onClose();
-    if (type === 'teams') {
-      onShowForTeams?.();
-    } else {
-      onShowB2B?.();
-    }
   };
 
   return (
@@ -135,27 +130,26 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
                 );
               })}
 
-              {/* Enterprise Section - Hidden for B2C focus (re-enable when B2B is ready)
-              <div className="mt-6 px-3 mb-2">
-                <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">Enterprise</p>
-              </div>
-              <button
-                onClick={() => handleEnterpriseClick('teams')}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
-              >
-                <Building2 className="w-5 h-5 text-neumo-text-secondary" />
-                <span className="font-medium">For Teams</span>
-                <span className="ml-auto text-xs text-neumo-text-muted">Pricing</span>
-              </button>
-              <button
-                onClick={() => handleEnterpriseClick('b2b')}
-                className="w-full flex items-center gap-3 px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
-              >
-                <Building2 className="w-5 h-5 text-neumo-text-secondary" />
-                <span className="font-medium">Enterprise Sales</span>
-                <span className="ml-auto text-xs text-neumo-text-secondary">Book a Call</span>
-              </button>
-              */}
+              {/* Explore Features Section */}
+              {landingPageRoutes.length > 0 && (
+                <>
+                  <div className="mt-6 px-3 mb-2">
+                    <p className="text-xs font-medium text-neumo-text-muted uppercase tracking-wider px-3">Explore Features</p>
+                  </div>
+                  {landingPageRoutes.map((route) => (
+                    <a
+                      key={route.path}
+                      href={route.path}
+                      onClick={onClose}
+                      className="w-full flex items-center gap-3 px-6 py-3 text-neumo-text-secondary hover:bg-neumo-border hover:text-neumo-text transition-colors"
+                    >
+                      <Compass className="w-5 h-5 text-neumo-text-secondary" />
+                      <span className="font-medium">{route.label}</span>
+                      <span className="ml-auto text-xs text-neumo-text-muted">{route.description}</span>
+                    </a>
+                  ))}
+                </>
+              )}
 
               {/* Settings Section */}
               <div className="mt-6 px-3 mb-2">

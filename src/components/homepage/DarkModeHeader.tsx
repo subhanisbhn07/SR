@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Sparkles, Building2, ChevronDown, Home, BookOpen, Heart, PenTool, Menu } from 'lucide-react';
+import { User, Bell, Sparkles, ChevronDown, Home, BookOpen, Heart, PenTool, Menu, Compass } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
 import { LanternIcon } from '../ui/LanternIcon';
 import { ThemeToggle } from '../ui/ThemeToggle';
-import { ForTeamsLanding } from '../enterprise/ForTeamsLanding';
-import { B2BLanding } from '../enterprise/B2BLanding';
 import { MobileSidebar } from './MobileSidebar';
 
 interface DarkModeHeaderProps {
@@ -21,12 +19,18 @@ const desktopNavItems = [
   { id: 'journal', label: 'Journal', icon: PenTool },
 ];
 
+// Landing page routes for dropdown navigation
+const landingPageRoutes = [
+  { path: '/universe-receipts', label: 'Universe Receipts', description: 'Proof when it manifests' },
+  { path: '/daily-message', label: 'Daily Message', description: 'Grounded daily guidance' },
+  { path: '/daily-audio', label: 'Daily Audio', description: '10-minute sessions' },
+  { path: '/sleep-orb', label: 'Sleep Orb', description: '12 soundscapes for rest' },
+];
+
 export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'home', onTabChange }) => {
   const { user } = useAuthStore();
   const { theme } = useThemeStore();
-  const [showForTeams, setShowForTeams] = useState(false);
-  const [showB2B, setShowB2B] = useState(false);
-  const [showEnterpriseMenu, setShowEnterpriseMenu] = useState(false);
+  const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   return (
@@ -70,46 +74,35 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
 
                     {/* Right Side - Desktop */}
           <div className="hidden md:flex items-center space-x-2">
-            {/* Enterprise Dropdown - Hidden for B2C focus (re-enable when B2B is ready)
+            {/* Features Dropdown */}
             <div className="relative">
               <button
-                onClick={() => setShowEnterpriseMenu(!showEnterpriseMenu)}
-                onBlur={() => setTimeout(() => setShowEnterpriseMenu(false), 150)}
+                onClick={() => setShowFeaturesMenu(!showFeaturesMenu)}
+                onBlur={() => setTimeout(() => setShowFeaturesMenu(false), 150)}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
               >
-                <Building2 className="w-3.5 h-3.5 text-neumo-text-secondary" />
-                <span className="text-xs font-medium text-neumo-text-secondary">Enterprise</span>
-                <ChevronDown className={`w-3 h-3 text-neumo-text-secondary transition-transform ${showEnterpriseMenu ? 'rotate-180' : ''}`} />
+                <Compass className="w-3.5 h-3.5 text-neumo-text-secondary" />
+                <span className="text-xs font-medium text-neumo-text-secondary">Explore</span>
+                <ChevronDown className={`w-3 h-3 text-neumo-text-secondary transition-transform ${showFeaturesMenu ? 'rotate-180' : ''}`} />
               </button>
               
-              {showEnterpriseMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-neumo-bg rounded-neumo shadow-neumo-lg overflow-hidden z-50">
-                  <button
-                    onClick={() => {
-                      setShowForTeams(true);
-                      setShowEnterpriseMenu(false);
-                    }}
-                    className="w-full px-4 py-3 text-left text-sm text-neumo-text hover:bg-neumo-border transition-colors flex items-center gap-2"
-                  >
-                    <Building2 className="w-4 h-4 text-neumo-text-secondary" />
-                    For Teams
-                    <span className="text-xs text-neumo-text-muted ml-auto">Pricing</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowB2B(true);
-                      setShowEnterpriseMenu(false);
-                    }}
-                    className="w-full px-4 py-3 text-left text-sm text-neumo-text hover:bg-neumo-border transition-colors flex items-center gap-2 border-t border-neumo-border"
-                  >
-                    <Building2 className="w-4 h-4 text-neumo-text-secondary" />
-                    Enterprise Sales
-                    <span className="text-xs text-neumo-text-secondary ml-auto">Book a Call</span>
-                  </button>
+              {showFeaturesMenu && (
+                <div className="absolute right-0 mt-2 w-56 bg-neumo-bg rounded-neumo shadow-neumo-lg overflow-hidden z-50">
+                  {landingPageRoutes.map((route, index) => (
+                    <a
+                      key={route.path}
+                      href={route.path}
+                      className={`w-full px-4 py-3 text-left text-sm text-neumo-text hover:bg-neumo-border transition-colors flex items-center justify-between ${
+                        index > 0 ? 'border-t border-neumo-border' : ''
+                      }`}
+                    >
+                      <span className="font-medium">{route.label}</span>
+                      <span className="text-xs text-neumo-text-muted">{route.description}</span>
+                    </a>
+                  ))}
                 </div>
               )}
             </div>
-            */}
 
             {user && (
               <>
@@ -171,37 +164,8 @@ export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'hom
         onClose={() => setShowMobileSidebar(false)}
         activeTab={activeTab}
         onTabChange={onTabChange}
-        onShowForTeams={() => setShowForTeams(true)}
-        onShowB2B={() => setShowB2B(true)}
+        landingPageRoutes={landingPageRoutes}
       />
-
-      {/* For Teams Modal */}
-      <AnimatePresence>
-        {showForTeams && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 overflow-y-auto"
-          >
-            <ForTeamsLanding isModal onClose={() => setShowForTeams(false)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* B2B Landing Modal */}
-      <AnimatePresence>
-        {showB2B && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 overflow-y-auto"
-          >
-            <B2BLanding isModal onClose={() => setShowB2B(false)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };
