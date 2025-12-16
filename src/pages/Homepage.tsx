@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useThemeStore } from '../store/themeStore';
 import { useCardVisibility } from '../hooks/useCardVisibility';
+import { useAuthStore } from '../store/authStore';
+import { useFutureDropStore } from '../store/futureDropStore';
 import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
 import { HeroCarousel } from '../components/homepage/HeroCarousel';
 import { PersonalGreeting } from '../components/homepage/PersonalGreeting';
@@ -27,6 +29,9 @@ import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';
 import { JournalPage } from './JournalPage';
 import { ProfilePage } from './ProfilePage';
+import { FutureDropPrompt } from '../components/future-drop';
+import { YourWordsSection } from '../components/affirmations';
+import { FutureDropTrigger } from '../types';
 
 // Collapsible Section Component for Deep-Explore content
 interface CollapsibleSectionProps {
@@ -74,12 +79,39 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, children
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showFutureDropPrompt, setShowFutureDropPrompt] = useState(false);
+  const [futureDropTrigger, setFutureDropTrigger] = useState<FutureDropTrigger | null>(null);
+  
   const { theme } = useThemeStore();
   const { isCardVisible } = useCardVisibility();
+  const { user } = useAuthStore();
+  const { shouldShowPrompt } = useFutureDropStore();
+
+  // Check if we should show Future Drop prompt
+  useEffect(() => {
+    if (user && activeBottomTab === 'home') {
+      const trigger = shouldShowPrompt(
+        user.currentDay || 1,
+        user.lanternHealth || 100,
+        false, // hasRareSign - would come from sign store
+        false  // hasRekindled - would come from lantern store
+      );
+      
+      if (trigger) {
+        // Delay showing prompt to not interrupt initial page load
+        const timer = setTimeout(() => {
+          setFutureDropTrigger(trigger);
+          setShowFutureDropPrompt(true);
+        }, 3000);
+        
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [user, activeBottomTab, shouldShowPrompt]);
 
   const handleIntentSelect = (intent: string) => {
-    // Navigate to courses with the selected intent filter
-    setActiveBottomTab('courses');
+    // Navigate to daily audio with the selected intent filter
+    setActiveBottomTab('daily-audio');
   };
 
   const renderContent = () => {
@@ -141,6 +173,9 @@ export const Homepage: React.FC = () => {
             <section className="mb-8">
               {/* Personal Greeting - Contextual motivation */}
               {isCardVisible('personalGreeting') && <PersonalGreeting />}
+              
+              {/* Your Words - User's affirmations */}
+              <YourWordsSection />
               
               {/* Explore by Intention - Discovery navigation (no show more/less) */}
               {isCardVisible('exploreByIntention') && (
@@ -224,10 +259,22 @@ export const Homepage: React.FC = () => {
         onClose={() => setShowOnboarding(false)}
         onComplete={() => {
           setShowOnboarding(false);
-          // Navigate to courses after onboarding
-          setActiveBottomTab('courses');
+          // Navigate to daily-audio after onboarding
+          setActiveBottomTab('daily-audio');
         }}
       />
+      
+      {/* Future You Drop-In Prompt - Triggered at key moments */}
+      {futureDropTrigger && (
+        <FutureDropPrompt
+          isOpen={showFutureDropPrompt}
+          onClose={() => {
+            setShowFutureDropPrompt(false);
+            setFutureDropTrigger(null);
+          }}
+          trigger={futureDropTrigger}
+        />
+      )}
     </div>
   );
 };

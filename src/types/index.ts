@@ -328,6 +328,41 @@ export interface TeamAnalytics {
   }[];
 }
 
+// === FUTURE YOU DROP-IN TYPES ===
+export type FutureDropTrigger = 
+  | 'day_7' 
+  | 'day_14' 
+  | 'day_30' 
+  | 'rare_sign' 
+  | 'rekindle' 
+  | 'milestone';
+
+export interface FutureDrop {
+  id: string;
+  userId: string;
+  messageText: string;
+  triggerContext: FutureDropTrigger;
+  relatedSignId?: string;
+  writtenAt: Date;
+  deliverAfter: Date;
+  delivered: boolean;
+  deliveredAt?: Date;
+  skipped?: boolean;
+}
+
+// === USER AFFIRMATION TYPES ===
+export interface UserAffirmation {
+  id: string;
+  userId: string;
+  originalText: string;
+  groundedText?: string;
+  transformationRuleUsed?: string;
+  isActive: boolean;
+  shownCount: number;
+  createdAt: Date;
+  archivedAt?: Date;
+}
+
 // === API RESPONSE TYPES ===
 export interface ApiResponse<T> {
   success: boolean;

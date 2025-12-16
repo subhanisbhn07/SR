@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, MessageCircle } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { NeumoCard } from '../ui/NeumoCard';
+import { FutureDropChecker } from '../future-drop';
 
 // Barnum-style messages that feel personal but apply broadly
 // Grouped by road type for more relevance
@@ -74,6 +75,9 @@ export const DailyMessageCard: React.FC = () => {
       className="mb-6"
     >
       <NeumoCard showBlob={false}>
+        {/* Future You Drop-In - shows messages from past self */}
+        <FutureDropChecker />
+        
         <div className="flex items-start gap-4">
           <div className="w-10 h-10 rounded-neumo bg-neumo-surface-soft flex items-center justify-center shadow-neumo-inset-sm flex-shrink-0">
             <MessageCircle className="w-5 h-5 text-brand-teal" />
