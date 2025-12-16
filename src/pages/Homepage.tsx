@@ -150,10 +150,18 @@ export const Homepage: React.FC = () => {
               {/* Daily Message with Barnum effect - personalized feel */}
               <DailyMessageCard />
               
-              {/* Desktop: 2-column layout for Sparks + Tribe */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-                {isCardVisible('sparksRewards') && <SparksRewards />}
-                {isCardVisible('tribesCard') && <TribesCard />}
+              {/* Desktop: 2-column layout for Sparks + Tribe - equal heights */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-stretch">
+                {isCardVisible('sparksRewards') && (
+                  <div className="h-full">
+                    <SparksRewards />
+                  </div>
+                )}
+                {isCardVisible('tribesCard') && (
+                  <div className="h-full">
+                    <TribesCard />
+                  </div>
+                )}
               </div>
               
               {/* Latest Win - Social proof & celebration */}

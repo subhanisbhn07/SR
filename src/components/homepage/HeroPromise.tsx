@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Clock, Receipt, ArrowRight } from 'lucide-react';
 import { useAffinityStore } from '../../store/affinityStore';
+import { useAuthStore } from '../../store/authStore';
 
 interface HeroPromiseProps {
   onGetStarted?: () => void;
@@ -9,6 +10,9 @@ interface HeroPromiseProps {
 
 export const HeroPromise: React.FC<HeroPromiseProps> = ({ onGetStarted }) => {
   const { getWelcomeStrip, getHeroContent } = useAffinityStore();
+  const { isAuthenticated, user } = useAuthStore();
+  
+  const isLoggedIn = isAuthenticated && !!user;
   
   // Get personalized content based on user's affinity (which landing page they came from)
   const welcomeStrip = getWelcomeStrip();
@@ -31,6 +35,10 @@ export const HeroPromise: React.FC<HeroPromiseProps> = ({ onGetStarted }) => {
       description: 'When it manifests, get a Universe Receipt to prove it.',
     },
   ];
+
+  if (isLoggedIn) {
+    return null;
+  }
 
   return (
     <div className="mb-8">

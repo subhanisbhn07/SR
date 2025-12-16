@@ -81,9 +81,9 @@ export const TribesCard: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-6"
+        className="mb-6 h-full"
       >
-        <NeumoCard showBlob={true} blobColor="teal">
+        <NeumoCard showBlob={true} blobColor="teal" className="h-full flex flex-col">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-neumo bg-brand-teal flex items-center justify-center shadow-teal-glow">

@@ -5,68 +5,49 @@ import { useAuthStore } from '../../store/authStore';
 import { NeumoCard } from '../ui/NeumoCard';
 import { FutureDropChecker } from '../future-drop';
 
-// Barnum-style messages that feel personal but apply broadly
-// Grouped by road type for more relevance
 const barnumMessages: Record<string, string[]> = {
   sleep: [
-    "You carry more than you show, yet tonight your mind is ready to rest. A small sign today will remind you that peace is closer than you think.",
-    "You've been holding tension you didn't even notice. Today, something will catch your eye and remind you to let go.",
-    "Others see your strength, but you know the nights have been hard. Today's sign will feel like permission to finally rest.",
-    "You're the kind of person who gives more than you take. Tonight, the universe wants to give something back.",
-    "There's a stillness waiting for you that you've been too busy to notice. Today, you'll see a sign that invites you in.",
+    `{name}, there's something you've been carrying lately that others don't fully see. You show up every day with a quiet strength that people admire, but underneath, you know the nights have been harder than you let on. Your mind races when it should rest, replaying conversations, planning tomorrow before today is even done. But here's what the universe wants you to know: tonight is different. Something is shifting. Today, you'll notice a small sign—maybe a cloud shape, a word on a billboard, or a moment of unexpected stillness—that will remind you that peace isn't something you have to chase. It's already waiting for you. Your Lantern is glowing because you showed up again, and that matters more than you realize. Let tonight be the night you finally exhale. The road is long, but you don't have to walk it exhausted. Rest is coming, {name}. Watch for the sign.`,
+    `{name}, you've been giving more than you've been receiving lately, and your body knows it even if your mind hasn't caught up. The tension in your shoulders, the way sleep feels just out of reach—these are signals, not failures. Today, the universe is sending you a gentle reminder: you are allowed to rest without earning it first. Watch for a sign that feels like permission—a feather, a moment of quiet, a stranger's kindness. When you see it, let it be your cue to soften. Your Lantern doesn't dim when you rest; it recharges. The road ahead needs you whole, not depleted. Tonight, {name}, let go of the day's weight. The sign you'll see today is the universe's way of saying: "You've done enough. Now rest."`,
   ],
   burnout: [
-    "You've been running on empty longer than anyone knows. Today, a small sign will remind you that slowing down isn't giving up.",
-    "You often carry more than you admit, yet others see you as strong. A simple ritual today will feel like a weight off your shoulders.",
-    "The world asks a lot of you, and you rarely say no. Today's sign will feel like the universe saying 'you've done enough.'",
-    "You're closer to a breakthrough than you realize. Watch for a sign that confirms you're on the right path.",
-    "Rest isn't something you earn—it's something you deserve. Today, something will remind you of that.",
+    `{name}, let's be honest: you've been running on fumes longer than anyone around you realizes. You're the one people lean on, the one who shows up even when you're empty, the one who says "I'm fine" when you're anything but. But here's the truth the universe wants you to hear today: slowing down isn't giving up. It's not weakness. It's wisdom. Today, you'll notice a sign—something small but unmistakable—that will feel like the universe giving you permission to pause. Maybe it's a red light that lasts just long enough for you to breathe. Maybe it's a song that catches you off guard. Whatever it is, {name}, let it be your reminder that you matter beyond what you produce. Your Lantern is still lit because you're still here, still trying. That's enough. Today, watch for the sign that says: "Rest now. The road will wait."`,
+    `{name}, the world asks a lot of you, and you rarely say no. You've built a reputation for reliability, for strength, for being the one who holds things together. But underneath that, there's an exhaustion you don't talk about. Today is different. Today, the universe is conspiring to give you a moment of relief. Watch for a sign—it might be a cloud that looks like something meaningful, a number that keeps appearing, or a moment where everything just... pauses. When you see it, {name}, let it sink in: you are not your productivity. You are not your to-do list. You are a person on a road, and that road includes rest stops. Your Lantern glows not because you're perfect, but because you're present. Today, let the sign remind you: you've earned a breath. Take it.`,
   ],
   manifest: [
-    "You're the kind of person who feels deeply, but doesn't always show it. Today, a small sign will remind you you're on the right road.",
-    "You've been thinking about a change for a while. Today, you'll notice a sign that nudges you one step closer.",
-    "Something you've been hoping for is closer than it appears. Today's sign will feel like confirmation.",
-    "You have a vision others don't fully understand yet. Today, the universe will wink at you.",
-    "The doubt you feel sometimes is just the gap between where you are and where you're going. Today, a sign will bridge that gap.",
+    `{name}, there's something you've been quietly hoping for—something you haven't fully said out loud because part of you wonders if you're allowed to want it. Maybe it's a change, a new beginning, or simply proof that you're on the right path. Here's what the universe wants you to know: you're closer than you think. The doubt you feel isn't a sign that you're wrong; it's the natural gap between where you are and where you're going. Today, you'll see a sign that bridges that gap. It might be subtle—a word that catches your eye, a moment of unexpected clarity, a feeling that says "yes, keep going." When you notice it, {name}, let it be confirmation. Your Lantern is lit because you've been showing up, day after day, even when it felt pointless. It wasn't pointless. The road is responding. Watch for your sign today, and trust that what you're manifesting is already on its way.`,
+    `{name}, you have a vision that others don't fully understand yet. You see possibilities where others see obstacles, and sometimes that feels lonely. But today, the universe is going to wink at you. Watch for a sign—something that feels almost too coincidental to be random. A number, a symbol, a moment where the world seems to pause and say: "I see you, {name}. I see what you're building." Your Lantern glows because you've been faithful to your road, even when the destination felt unclear. That faithfulness is being noticed. The sign you'll see today isn't just encouragement; it's evidence. Evidence that the invisible forces you've been trusting are real, and they're working on your behalf. Keep walking, {name}. The manifestation is closer than it appears.`,
   ],
   healing: [
-    "You've been carrying something heavy that others can't see. Today, a sign will remind you that healing isn't linear.",
-    "Forgiveness has been on your mind, even if you haven't said it out loud. Today's sign will feel like permission.",
-    "You're stronger than the story you've been telling yourself. Today, something will remind you of who you really are.",
-    "The wound you're healing is also becoming your wisdom. Today, you'll see a sign that honors both.",
-    "You've been waiting for the right moment to let go. Today might be that moment.",
+    `{name}, you've been carrying something heavy that others can't see. Maybe it's a wound from the past, a relationship that still echoes, or a version of yourself you're trying to forgive. Healing isn't linear, and some days it feels like you're moving backward. But here's what the universe wants you to know today: you're not stuck. You're integrating. The pain you've felt is becoming wisdom, and the cracks are where the light gets in. Today, watch for a sign that honors both your wound and your growth. It might be a moment of unexpected peace, a memory that surfaces without the usual sting, or a stranger who says exactly what you needed to hear. When you see it, {name}, let it remind you: healing is happening, even when you can't feel it. Your Lantern glows because you've chosen to keep walking, and that choice matters. Today's sign is the universe saying: "You're doing better than you think."`,
+    `{name}, forgiveness has been on your mind lately, even if you haven't said it out loud. Maybe it's forgiving someone else, or maybe—harder still—it's forgiving yourself. The weight of holding on is exhausting, and part of you is ready to let go. Today, the universe is sending you a sign that feels like permission. Watch for it: a moment of lightness, a symbol of release, a feeling that says "it's okay to move forward now." Your Lantern doesn't require you to be healed to glow; it glows because you're healing. That's the difference. You're not waiting to be whole before you walk the road—you're becoming whole by walking it. Today, {name}, let the sign remind you: you are stronger than the story you've been telling yourself. A new chapter is beginning.`,
   ],
   spiritual: [
-    "You sense things others miss, and sometimes that feels lonely. Today, a sign will remind you that you're not alone.",
-    "Your intuition has been trying to tell you something. Today, pay attention—the universe is speaking.",
-    "You're being called to something bigger, even if you can't name it yet. Today's sign will feel like a breadcrumb on the path.",
-    "The discipline you're building isn't just habit—it's transformation. Today, you'll see evidence of that.",
-    "You've always known there's more to life than what's visible. Today, the invisible will make itself known.",
+    `{name}, you sense things others miss. You notice patterns, feel energies, and sometimes know things before they happen. This gift can feel isolating—like you're tuned to a frequency no one else can hear. But today, the universe wants to remind you: you're not alone. There are others walking this road, and the signs you see are real. Today, pay attention. Your intuition has been trying to tell you something, and the universe is about to confirm it. Watch for a sign that feels like a direct message—a symbol that's been appearing repeatedly, a moment of synchronicity that makes you pause, or a feeling of deep knowing that washes over you. When you notice it, {name}, trust it. Your Lantern glows brighter than most because you've been listening to the whispers others ignore. Today's sign is the universe speaking back. You're on the right path, and you're not walking it alone.`,
+    `{name}, you've always known there's more to life than what's visible. While others focus on the surface, you've been drawn to the depths—the meaning behind the moment, the purpose behind the pain. This spiritual sensitivity is your superpower, even when it feels like a burden. Today, the invisible is going to make itself known. Watch for a sign that confirms what you've been sensing: a breakthrough is coming. It might be a dream that lingers, a number sequence that keeps appearing, or a moment where time seems to slow down just for you. When you see it, {name}, let it anchor you. Your Lantern glows because you've been faithful to something bigger than yourself. The universe sees that faithfulness, and today, it's responding. Keep walking. The path is unfolding exactly as it should.`,
   ],
   default: [
-    "You're the kind of person who feels deeply, but doesn't always show it. Today, a small sign will remind you you're on the right road.",
-    "You often carry more than you admit, yet others see you as strong. A simple ritual today will feel like a weight off your shoulders.",
-    "You've been thinking about a change for a while. Today, you'll notice a sign that nudges you one step closer.",
-    "Something you've been hoping for is closer than it appears. Today's sign will feel like confirmation.",
-    "The doubt you feel sometimes is just the gap between where you are and where you're going. Today, a sign will bridge that gap.",
+    `{name}, there's something you've been quietly hoping for—a change, a sign, a confirmation that you're on the right path. You don't always talk about it, but it's there, underneath the surface of your daily life. Here's what the universe wants you to know today: you're closer than you think. The doubt you feel sometimes isn't a sign that you're wrong; it's the natural tension between where you are and where you're going. Today, you'll notice a sign that bridges that gap. It might be subtle—a word that catches your eye, a moment of unexpected clarity, a feeling that says "yes, keep going." When you notice it, {name}, let it be confirmation. Your Lantern is lit because you've been showing up, day after day, even when it felt pointless. It wasn't pointless. The road is responding. Watch for your sign today, and trust that what you're hoping for is already on its way to you.`,
+    `{name}, you carry more than you show. Others see your strength, your reliability, your ability to keep going when things get hard. But underneath that, there's a part of you that wonders: "Is this working? Am I on the right road?" Today, the universe is going to answer that question. Watch for a sign—something small but unmistakable—that feels like a direct message to you. It might be a cloud shape, a number that keeps appearing, or a moment where everything just... clicks. When you see it, {name}, let it sink in: you are exactly where you need to be. Your Lantern glows not because you're perfect, but because you're present. You're walking the road, and that's what matters. Today's sign is the universe's way of saying: "I see you, {name}. Keep going. You're doing better than you know."`,
   ],
 };
 
 export const DailyMessageCard: React.FC = () => {
   const { user, selectedRoad } = useAuthStore();
   
-  // Select a message based on day of year and road type for consistency
+  const displayName = user?.name?.split(' ')[0] || 'friend';
+  
   const dailyMessage = useMemo(() => {
     const roadType = selectedRoad || 'default';
     const messages = barnumMessages[roadType] || barnumMessages.default;
     
-    // Use day of year + user id hash for consistent daily message
     const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
     const userHash = user?.id ? user.id.charCodeAt(0) : 0;
     const messageIndex = (dayOfYear + userHash) % messages.length;
     
-    return messages[messageIndex];
-  }, [selectedRoad, user?.id]);
+    const rawMessage = messages[messageIndex];
+    return rawMessage.replace(/\{name\}/g, displayName);
+  }, [selectedRoad, user?.id, displayName]);
 
   return (
     <motion.div
