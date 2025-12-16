@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Home, BookOpen, Heart, PenTool, User } from 'lucide-react';
+import { Home, Headphones, Heart, PenTool, User } from 'lucide-react';
 
 const navItems = [
   { id: 'home', label: 'Home', icon: Home },
-  { id: 'courses', label: 'Courses', icon: BookOpen },
+  { id: 'daily-audio', label: 'Daily Audio', icon: Headphones },
   { id: 'mood', label: 'Mood', icon: Heart },
   { id: 'journal', label: 'Journal', icon: PenTool },
   { id: 'profile', label: 'Profile', icon: User }

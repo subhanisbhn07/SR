@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Bell, Sparkles, ChevronDown, Home, BookOpen, Heart, PenTool, Menu, Compass } from 'lucide-react';
+import { User, Bell, Sparkles, ChevronDown, Home, Headphones, Heart, PenTool, Menu, Compass } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
 import { LanternIcon } from '../ui/LanternIcon';
@@ -14,7 +14,7 @@ interface DarkModeHeaderProps {
 
 const desktopNavItems = [
   { id: 'home', label: 'Home', icon: Home },
-  { id: 'courses', label: 'Courses', icon: BookOpen },
+  { id: 'daily-audio', label: 'Daily Audio', icon: Headphones },
   { id: 'mood', label: 'Mood', icon: Heart },
   { id: 'journal', label: 'Journal', icon: PenTool },
 ];

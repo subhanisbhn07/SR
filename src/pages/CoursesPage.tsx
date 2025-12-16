@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Clock, Star, Lock, Play, X, Users, Sparkles } from 'lucide-react';
+import { Headphones, Clock, Star, Lock, Play, X, Users, Sparkles } from 'lucide-react';
 import { VoiceSessionModal } from '../components/voice/VoiceSessionModal';
 
 interface Course {
@@ -107,8 +107,8 @@ export const CoursesPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6"
       >
-        <h1 className="text-2xl font-bold text-neumo-text mb-2">Courses</h1>
-        <p className="text-neumo-text-secondary text-sm">Explore guided sessions for your journey</p>
+        <h1 className="text-2xl font-bold text-neumo-text mb-2">Daily Audio</h1>
+        <p className="text-neumo-text-secondary text-sm">Your daily guided audio session</p>
       </motion.div>
 
       <div className="flex gap-2 overflow-x-auto pb-4 mb-6 scrollbar-hide">
@@ -140,7 +140,7 @@ export const CoursesPage: React.FC = () => {
             >
               <div className="flex items-start gap-3">
                 <div className="w-12 h-12 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm flex items-center justify-center flex-shrink-0">
-                  <BookOpen className="w-6 h-6 text-neumo-text-secondary" />
+                  <Headphones className="w-6 h-6 text-neumo-text-secondary" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -194,7 +194,7 @@ export const CoursesPage: React.FC = () => {
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-neumo bg-neumo-bg shadow-neumo-inset-sm flex items-center justify-center">
-                  <BookOpen className="w-8 h-8 text-neumo-text-secondary" />
+                  <Headphones className="w-8 h-8 text-neumo-text-secondary" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -237,11 +237,11 @@ export const CoursesPage: React.FC = () => {
 
             {/* Description */}
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-neumo-text mb-2">About this course</h3>
+              <h3 className="text-sm font-semibold text-neumo-text mb-2">About this session</h3>
               <p className="text-sm text-neumo-text-secondary leading-relaxed">
                 This guided session will help you {selectedCourse.subtitle.toLowerCase()}. 
-                Perfect for your {selectedCourse.category.toLowerCase()} journey, this course combines 
-                soothing audio guidance with powerful visualization techniques to help you manifest 
+                Perfect for your {selectedCourse.category.toLowerCase()} journey, this audio session combines 
+                soothing guidance with powerful visualization techniques to help you manifest 
                 your intentions and transform your mindset.
               </p>
             </div>

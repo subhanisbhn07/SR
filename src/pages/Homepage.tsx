@@ -78,13 +78,13 @@ export const Homepage: React.FC = () => {
   const { isCardVisible } = useCardVisibility();
 
   const handleIntentSelect = (intent: string) => {
-    // Navigate to courses with the selected intent filter
-    setActiveBottomTab('courses');
+    // Navigate to daily audio with the selected intent filter
+    setActiveBottomTab('daily-audio');
   };
 
   const renderContent = () => {
     switch (activeBottomTab) {
-      case 'courses':
+      case 'daily-audio':
         return <CoursesPage />;
       case 'mood':
         return <MoodPage />;
@@ -104,7 +104,7 @@ export const Homepage: React.FC = () => {
             <HeroPromise onGetStarted={() => setShowOnboarding(true)} />
             
             {/* Day-Based Nudge - Contextual messaging based on user's step */}
-            <DayBasedNudge onAction={() => setActiveBottomTab('courses')} />
+            <DayBasedNudge onAction={() => setActiveBottomTab('daily-audio')} />
             
             {/* ============================================
                 SECTION 1: MUST-SEE (Above the Fold)
@@ -162,7 +162,7 @@ export const Homepage: React.FC = () => {
               {/* Hero Carousel - Moved to deep-explore, less critical */}
               {isCardVisible('heroCarousel') && (
                 <div className="hidden md:block mb-6">
-                  <HeroCarousel onStartNow={() => setActiveBottomTab('courses')} />
+                  <HeroCarousel onStartNow={() => setActiveBottomTab('daily-audio')} />
                 </div>
               )}
               
@@ -224,8 +224,8 @@ export const Homepage: React.FC = () => {
         onClose={() => setShowOnboarding(false)}
         onComplete={() => {
           setShowOnboarding(false);
-          // Navigate to courses after onboarding
-          setActiveBottomTab('courses');
+          // Navigate to daily audio after onboarding
+          setActiveBottomTab('daily-audio');
         }}
       />
     </div>

@@ -88,8 +88,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </a>
               </li>
               <li>
-                <a href="#" onClick={(e) => handleLinkClick(e, 'courses')} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
-                  Courses
+                <a href="#" onClick={(e) => handleLinkClick(e, 'daily-audio')} className="text-neumo-text-secondary hover:text-neumo-text text-sm transition-colors">
+                  Daily Audio
                 </a>
               </li>
               <li>
