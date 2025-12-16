@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkles, MessageCircle } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, MessageCircle, HelpCircle, X } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { NeumoCard } from '../ui/NeumoCard';
 import { FutureDropChecker } from '../future-drop';
@@ -34,6 +34,7 @@ const barnumMessages: Record<string, string[]> = {
 
 export const DailyMessageCard: React.FC = () => {
   const { user, selectedRoad } = useAuthStore();
+  const [showHowItWorks, setShowHowItWorks] = useState(false);
   
   const displayName = user?.name?.split(' ')[0] || 'friend';
   
@@ -64,11 +65,20 @@ export const DailyMessageCard: React.FC = () => {
             <MessageCircle className="w-5 h-5 text-brand-teal" />
           </div>
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs font-medium text-neumo-text-muted uppercase tracking-wide">
-                Today's Message
-              </span>
-              <Sparkles className="w-3 h-3 text-brand-teal" />
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-neumo-text-muted uppercase tracking-wide">
+                  Today's Message
+                </span>
+                <Sparkles className="w-3 h-3 text-brand-teal" />
+              </div>
+              <button
+                onClick={() => setShowHowItWorks(true)}
+                className="flex items-center gap-1 text-xs text-neumo-text-muted hover:text-brand-teal transition-colors"
+              >
+                <HelpCircle className="w-3 h-3" />
+                <span>How this works</span>
+              </button>
             </div>
             <p className="text-sm text-neumo-text leading-relaxed italic">
               "{dailyMessage}"
@@ -76,6 +86,83 @@ export const DailyMessageCard: React.FC = () => {
           </div>
         </div>
       </NeumoCard>
+
+      <AnimatePresence>
+        {showHowItWorks && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neumo-text/50"
+            onClick={() => setShowHowItWorks(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="w-full max-w-md bg-neumo-bg rounded-neumo-lg shadow-neumo-lg overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between p-4 border-b border-neumo-border">
+                <div className="flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5 text-brand-teal" />
+                  <span className="font-semibold text-neumo-text">How Daily Messages Work</span>
+                </div>
+                <button
+                  onClick={() => setShowHowItWorks(false)}
+                  className="p-2 rounded-neumo bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+                >
+                  <X className="w-4 h-4 text-neumo-text-secondary" />
+                </button>
+              </div>
+              
+              <div className="p-5 space-y-4">
+                <div>
+                  <h3 className="font-semibold text-neumo-text mb-2">Personalized, Not Psychic</h3>
+                  <p className="text-sm text-neumo-text-secondary leading-relaxed">
+                    Your daily message is crafted using a technique called the "Barnum effect"—statements 
+                    that feel deeply personal but are designed to resonate with many people. This isn't 
+                    magic or mind-reading; it's thoughtful writing that meets you where you are.
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="font-semibold text-neumo-text mb-2">Why It Works</h3>
+                  <p className="text-sm text-neumo-text-secondary leading-relaxed">
+                    Research shows that messages framed as personal insights can help us reflect more 
+                    deeply on our lives. When you read something that "gets you," it opens a door to 
+                    self-examination—regardless of how the message was created.
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="font-semibold text-neumo-text mb-2">Our Commitment to Transparency</h3>
+                  <p className="text-sm text-neumo-text-secondary leading-relaxed">
+                    We believe in honesty. These messages are written by humans (not AI) and selected 
+                    based on your chosen road and the day of your journey. The meaning you find in them 
+                    is real—even if the mechanism is simple.
+                  </p>
+                </div>
+                
+                <div className="pt-2 border-t border-neumo-border">
+                  <p className="text-xs text-neumo-text-muted italic">
+                    "The value isn't in how the message was made—it's in what it helps you see."
+                  </p>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-neumo-surface">
+                <button
+                  onClick={() => setShowHowItWorks(false)}
+                  className="w-full px-4 py-2 rounded-neumo bg-brand-teal text-white font-medium shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+                >
+                  Got it
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

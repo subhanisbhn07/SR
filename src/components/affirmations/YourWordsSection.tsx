@@ -227,13 +227,26 @@ const AffirmationCard: React.FC<AffirmationCardProps> = ({
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      <p className="text-sm text-neumo-text pr-20">"{displayText}"</p>
-      
-      {/* Show evolution if grounded text differs */}
-      {affirmation.groundedText && affirmation.groundedText !== affirmation.originalText && (
-        <p className="text-xs text-neumo-text-muted mt-1 line-through">
-          Original: "{affirmation.originalText}"
-        </p>
+      {/* Show evolution view if grounded text differs from original */}
+      {affirmation.groundedText && affirmation.groundedText !== affirmation.originalText ? (
+        <div className="pr-20">
+          <div className="flex items-start gap-2 mb-2">
+            <span className="text-xs text-neumo-text-muted uppercase tracking-wide flex-shrink-0 mt-0.5">Before:</span>
+            <p className="text-sm text-neumo-text-muted line-through italic">"{affirmation.originalText}"</p>
+          </div>
+          <div className="flex items-start gap-2">
+            <span className="text-xs text-brand-teal uppercase tracking-wide flex-shrink-0 mt-0.5">After:</span>
+            <p className="text-sm text-neumo-text font-medium">"{affirmation.groundedText}"</p>
+          </div>
+          {affirmation.transformationRuleUsed && (
+            <p className="text-xs text-neumo-text-muted mt-2 flex items-center gap-1">
+              <Wand2 className="w-3 h-3" />
+              Improved with {affirmation.transformationRuleUsed.replace('_', ' ')} rule
+            </p>
+          )}
+        </div>
+      ) : (
+        <p className="text-sm text-neumo-text pr-20">"{displayText}"</p>
       )}
       
       <div className="flex items-center gap-2 mt-2">
