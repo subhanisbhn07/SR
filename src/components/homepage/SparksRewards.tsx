@@ -91,7 +91,7 @@ export const SparksRewards: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         className="mb-6 h-full"
       >
-        <NeumoCard showBlob={true} blobColor="teal" className="h-full flex flex-col">
+        <NeumoCard showBlob={true} blobColor="teal" className="h-full">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-neumo bg-brand-teal flex items-center justify-center shadow-teal-glow">
@@ -150,7 +150,7 @@ export const SparksRewards: React.FC = () => {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 mt-auto bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white font-semibold rounded-neumo transition-all flex items-center justify-center gap-2"
         >
           Unlock More Rewards
           <ChevronRight className="w-4 h-4" />
