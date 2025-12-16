@@ -335,7 +335,8 @@ export type FutureDropTrigger =
   | 'day_30' 
   | 'rare_sign' 
   | 'rekindle' 
-  | 'milestone';
+  | 'milestone'
+  | 'manual';
 
 export interface FutureDrop {
   id: string;

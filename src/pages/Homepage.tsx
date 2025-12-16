@@ -29,9 +29,11 @@ import { CoursesPage } from './CoursesPage';
 import { MoodPage } from './MoodPage';
 import { JournalPage } from './JournalPage';
 import { ProfilePage } from './ProfilePage';
-import { FutureDropPrompt } from '../components/future-drop';
+import { FutureDropPrompt, FutureDropChecker } from '../components/future-drop';
 import { YourWordsSection } from '../components/affirmations';
 import { FutureDropTrigger } from '../types';
+import { Clock, ChevronRight } from 'lucide-react';
+import { NeumoCard } from '../components/ui/NeumoCard';
 
 // Collapsible Section Component for Deep-Explore content
 interface CollapsibleSectionProps {
@@ -109,10 +111,15 @@ export const Homepage: React.FC = () => {
     }
   }, [user, activeBottomTab, shouldShowPrompt]);
 
-  const handleIntentSelect = (intent: string) => {
-    // Navigate to daily audio with the selected intent filter
-    setActiveBottomTab('daily-audio');
-  };
+    const handleIntentSelect = (intent: string) => {
+      // Navigate to daily audio with the selected intent filter
+      setActiveBottomTab('daily-audio');
+    };
+
+    const handleOpenFutureDrop = () => {
+      setFutureDropTrigger('manual');
+      setShowFutureDropPrompt(true);
+    };
 
   const renderContent = () => {
     switch (activeBottomTab) {
@@ -147,10 +154,43 @@ export const Homepage: React.FC = () => {
               {/* Today Card - HERO of the page, visually dominant */}
               {isCardVisible('todayCard') && <TodayCard />}
               
-              {/* Daily Message with Barnum effect - personalized feel */}
-              <DailyMessageCard />
+                            {/* Daily Message with Barnum effect - personalized feel */}
+                            <DailyMessageCard />
               
-              {/* Desktop: 2-column layout for Sparks + Tribe */}
+                            {/* Future Drop Checker - Shows delivered messages from past self */}
+                            <FutureDropChecker />
+              
+                            {/* Write a message to your future self - CTA Card */}
+                            {user && (
+                              <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mb-6"
+                              >
+                                <NeumoCard showBlob={false}>
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-10 h-10 rounded-neumo bg-brand-teal/10 flex items-center justify-center shadow-neumo-inset-sm">
+                                        <Clock className="w-5 h-5 text-brand-teal" />
+                                      </div>
+                                      <div>
+                                        <h3 className="text-sm font-semibold text-neumo-text">Write a message to your future self</h3>
+                                        <p className="text-xs text-neumo-text-secondary">It will arrive when you need it most</p>
+                                      </div>
+                                    </div>
+                                    <button
+                                      onClick={handleOpenFutureDrop}
+                                      className="flex items-center gap-1 px-4 py-2 bg-brand-teal text-white text-sm font-medium rounded-neumo shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+                                    >
+                                      Write
+                                      <ChevronRight className="w-4 h-4" />
+                                    </button>
+                                  </div>
+                                </NeumoCard>
+                              </motion.div>
+                            )}
+              
+                            {/* Desktop: 2-column layout for Sparks + Tribe */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 items-stretch">
                 {isCardVisible('sparksRewards') && <SparksRewards />}
                 {isCardVisible('tribesCard') && <TribesCard />}

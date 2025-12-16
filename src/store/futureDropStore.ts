@@ -45,6 +45,9 @@ const calculateDeliveryDate = (trigger: FutureDropTrigger): Date => {
     case 'milestone':
       daysToAdd = 21; // Show 3 weeks later
       break;
+    case 'manual':
+      daysToAdd = 14; // Show 2 weeks later for manual entries
+      break;
   }
   
   const deliveryDate = new Date(now);
@@ -84,6 +87,11 @@ export const getPromptCopy = (trigger: FutureDropTrigger): { title: string; subt
       return {
         title: 'You reached a milestone. What got you here?',
         subtitle: 'Capture this feeling for when the road gets hard.',
+      };
+    case 'manual':
+      return {
+        title: 'Write a message to your future self.',
+        subtitle: 'It will arrive in 2 weeks when you need it most.',
       };
     default:
       return {

@@ -1,22 +1,89 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Sparkles, Archive, Trash2, RotateCcw, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Sparkles, Archive, Trash2, RotateCcw, ChevronDown, ChevronUp, Wand2 } from 'lucide-react';
 import { useAffirmationsStore } from '../../store/affirmationsStore';
 import { AffirmationInput } from './AffirmationInput';
 import { NeumoCard } from '../ui/NeumoCard';
 import { UserAffirmation } from '../../types';
 
+const improveAffirmationText = (text: string): { groundedText: string; ruleName: string } => {
+  let improved = text.trim();
+  let ruleName = 'grounded';
+  
+    const futurePatterns = [
+      { pattern: /\bI will be\b/gi, replacement: 'I am' },
+      { pattern: /\bI will\b/gi, replacement: 'I' },
+      { pattern: /\bI'm going to be\b/gi, replacement: 'I am' },
+      { pattern: /\bI'm going to\b/gi, replacement: 'I' },
+      { pattern: /\bI am going to be\b/gi, replacement: 'I am' },
+      { pattern: /\bI am going to\b/gi, replacement: 'I' },
+      { pattern: /\bI want to be\b/gi, replacement: 'I am' },
+      { pattern: /\bI want to\b/gi, replacement: 'I' },
+      { pattern: /\bI hope to be\b/gi, replacement: 'I am' },
+      { pattern: /\bI hope to\b/gi, replacement: 'I' },
+      { pattern: /\bI wish to be\b/gi, replacement: 'I am' },
+      { pattern: /\bI wish to\b/gi, replacement: 'I' },
+    ];
+  
+  for (const { pattern, replacement } of futurePatterns) {
+    if (pattern.test(improved)) {
+      improved = improved.replace(pattern, replacement);
+      ruleName = 'present_tense';
+    }
+  }
+  
+  const negativePatterns = [
+    { pattern: /\bI am not\b/gi, replacement: 'I am' },
+    { pattern: /\bI don't\b/gi, replacement: 'I' },
+    { pattern: /\bI won't\b/gi, replacement: 'I' },
+    { pattern: /\bI can't\b/gi, replacement: 'I can' },
+    { pattern: /\bnot\b/gi, replacement: '' },
+    { pattern: /\bnever\b/gi, replacement: 'always' },
+  ];
+  
+  for (const { pattern, replacement } of negativePatterns) {
+    if (pattern.test(improved)) {
+      improved = improved.replace(pattern, replacement);
+      ruleName = 'positive_framing';
+    }
+  }
+  
+  const hasBodyLanguage = /\b(feel|body|heart|breath|hands|chest|calm|warm|strong|grounded|centered)\b/i.test(improved);
+  if (!hasBodyLanguage && improved.length < 80) {
+    const bodyPhrases = ['I feel it in my body.', 'I feel this deeply.', 'My body knows this.'];
+    const randomPhrase = bodyPhrases[Math.floor(Math.random() * bodyPhrases.length)];
+    improved = `${improved} ${randomPhrase}`;
+    ruleName = 'body_anchored';
+  }
+  
+  if (!improved.toLowerCase().startsWith('i ') && !improved.toLowerCase().startsWith('i\'')) {
+    improved = `I ${improved.charAt(0).toLowerCase()}${improved.slice(1)}`;
+    ruleName = 'first_person';
+  }
+  
+  improved = improved.replace(/\s+/g, ' ').trim();
+  
+  if (!improved.endsWith('.') && !improved.endsWith('!')) {
+    improved = `${improved}.`;
+  }
+  
+  improved = improved.charAt(0).toUpperCase() + improved.slice(1);
+  
+  return { groundedText: improved, ruleName };
+};
+
 export const YourWordsSection: React.FC = () => {
   const [showInput, setShowInput] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
   
-  const {
-    getActiveAffirmations,
-    getArchivedAffirmations,
-    archiveAffirmation,
-    toggleActive,
-    deleteAffirmation,
-  } = useAffirmationsStore();
+    const {
+      getActiveAffirmations,
+      getArchivedAffirmations,
+      archiveAffirmation,
+      toggleActive,
+      deleteAffirmation,
+      updateAffirmation,
+    } = useAffirmationsStore();
   
   const activeAffirmations = getActiveAffirmations();
   const archivedAffirmations = getArchivedAffirmations();
@@ -66,14 +133,20 @@ export const YourWordsSection: React.FC = () => {
             </div>
           ) : (
             <div className="space-y-3">
-              {activeAffirmations.map((affirmation) => (
-                <AffirmationCard
-                  key={affirmation.id}
-                  affirmation={affirmation}
-                  onArchive={() => archiveAffirmation(affirmation.id)}
-                  onDelete={() => deleteAffirmation(affirmation.id)}
-                />
-              ))}
+                            {activeAffirmations.map((affirmation) => (
+                              <AffirmationCard
+                                key={affirmation.id}
+                                affirmation={affirmation}
+                                onArchive={() => archiveAffirmation(affirmation.id)}
+                                onDelete={() => deleteAffirmation(affirmation.id)}
+                                onImprove={() => {
+                                  if (!affirmation.groundedText) {
+                                    const { groundedText, ruleName } = improveAffirmationText(affirmation.originalText);
+                                    updateAffirmation(affirmation.id, { groundedText, transformationRuleUsed: ruleName });
+                                  }
+                                }}
+                              />
+                            ))}
             </div>
           )}
           
@@ -130,16 +203,19 @@ interface AffirmationCardProps {
   affirmation: UserAffirmation;
   onArchive: () => void;
   onDelete: () => void;
+  onImprove: () => void;
 }
 
 const AffirmationCard: React.FC<AffirmationCardProps> = ({
   affirmation,
   onArchive,
   onDelete,
+  onImprove,
 }) => {
   const [showActions, setShowActions] = useState(false);
   
   const displayText = affirmation.groundedText || affirmation.originalText;
+  const canImprove = !affirmation.groundedText;
   
   return (
     <motion.div
@@ -151,7 +227,7 @@ const AffirmationCard: React.FC<AffirmationCardProps> = ({
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      <p className="text-sm text-neumo-text pr-16">"{displayText}"</p>
+      <p className="text-sm text-neumo-text pr-20">"{displayText}"</p>
       
       {/* Show evolution if grounded text differs */}
       {affirmation.groundedText && affirmation.groundedText !== affirmation.originalText && (
@@ -164,6 +240,15 @@ const AffirmationCard: React.FC<AffirmationCardProps> = ({
         <span className="text-xs text-neumo-text-muted">
           Shown {affirmation.shownCount} time{affirmation.shownCount !== 1 ? 's' : ''}
         </span>
+        {canImprove && (
+          <button
+            onClick={onImprove}
+            className="flex items-center gap-1 text-xs text-brand-teal hover:underline"
+          >
+            <Wand2 className="w-3 h-3" />
+            Improve
+          </button>
+        )}
       </div>
       
       {/* Action buttons */}
@@ -175,6 +260,15 @@ const AffirmationCard: React.FC<AffirmationCardProps> = ({
             exit={{ opacity: 0 }}
             className="absolute top-2 right-2 flex gap-1"
           >
+            {canImprove && (
+              <button
+                onClick={onImprove}
+                className="p-1.5 bg-neumo-bg rounded-neumo shadow-neumo-sm hover:shadow-neumo-inset transition-all"
+                title="Improve this affirmation"
+              >
+                <Wand2 className="w-3.5 h-3.5 text-brand-teal" />
+              </button>
+            )}
             <button
               onClick={onArchive}
               className="p-1.5 bg-neumo-bg rounded-neumo shadow-neumo-sm hover:shadow-neumo-inset transition-all"
