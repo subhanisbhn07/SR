@@ -2,6 +2,20 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Info } from 'lucide-react';
 
+/**
+ * Living Lantern Icon Component
+ * Aligned with Master Documentation Section 5.4
+ *
+ * Brightness States (CORRECTED per master doc):
+ * - 80-100 points: Bright (Active today)
+ * - 60-79 points: Steady (1 day missed)
+ * - 40-59 points: Dimming (2 days missed)
+ * - 20-39 points: Fading (3+ days missed)
+ * - 0-19 points: Ember (7+ days missed, NEVER extinguishes)
+ *
+ * Colors: Luminous Gold (#E8B54A) per master doc
+ */
+
 interface LanternIconProps {
   health: number;
   size?: 'xs' | 'sm' | 'md' | 'lg';
@@ -10,8 +24,8 @@ interface LanternIconProps {
   streakDays?: number;
 }
 
-export const LanternIcon: React.FC<LanternIconProps> = ({ 
-  health, 
+export const LanternIcon: React.FC<LanternIconProps> = ({
+  health,
   size = 'md',
   showLabel = false,
   showTooltip = false,
@@ -19,11 +33,13 @@ export const LanternIcon: React.FC<LanternIconProps> = ({
 }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
+  // CORRECTED: Brightness thresholds per master doc Section 5.4
   const getState = () => {
-    if (health >= 70) return 'bright';
-    if (health >= 50) return 'glowing';
-    if (health >= 30) return 'dimming';
-    return 'needs-rekindling';
+    if (health >= 80) return 'bright';        // 80-100: Active today
+    if (health >= 60) return 'steady';        // 60-79: 1 day missed
+    if (health >= 40) return 'dimming';       // 40-59: 2 days missed
+    if (health >= 20) return 'fading';        // 20-39: 3+ days missed
+    return 'ember';                           // 0-19: 7+ days missed
   };
 
   const getStreakChapter = () => {
@@ -42,33 +58,41 @@ export const LanternIcon: React.FC<LanternIconProps> = ({
     lg: 'w-10 h-10',
   };
 
+  // CORRECTED: Glow intensities using Luminous Gold per master doc Section 5.4
   const glowIntensity = {
-    bright: 'shadow-[0_0_20px_rgba(250,165,70,0.8)]',
-    glowing: 'shadow-[0_0_12px_rgba(250,165,70,0.5)]',
-    dimming: 'shadow-[0_0_6px_rgba(250,165,70,0.3)]',
-    'needs-rekindling': 'shadow-none',
+    bright: 'shadow-lantern-bright',    // 0 0 30px rgba(232, 181, 74, 0.6)
+    steady: 'shadow-lantern-steady',    // 0 0 20px rgba(232, 181, 74, 0.4)
+    dimming: 'shadow-lantern-dimming',  // 0 0 15px rgba(184, 146, 58, 0.3)
+    fading: 'shadow-lantern-fading',    // 0 0 8px rgba(136, 104, 40, 0.2)
+    ember: 'shadow-none',
   };
 
+  // CORRECTED: Using Luminous Gold (#E8B54A) and proper gradients
   const flameColors = {
-    bright: 'from-yellow-300 via-orange-400 to-orange-500',
-    glowing: 'from-yellow-400 via-orange-500 to-orange-600',
-    dimming: 'from-orange-400 via-orange-600 to-red-600',
-    'needs-rekindling': 'from-red-500 via-red-700 to-red-900',
+    bright: { start: '#FFFBF0', mid: '#E8B54A', end: '#DBA940' },     // 100% Bright
+    steady: { start: '#E8B54A', mid: '#DBA940', end: '#C99A38' },     // 80% Bright
+    dimming: { start: '#DBA940', mid: '#C99A38', end: '#B8923A' },    // 60% Bright
+    fading: { start: '#A07830', mid: '#886828', end: '#705820' },     // 40% Bright
+    ember: { start: '#705820', mid: '#584818', end: '#3D3210' },      // 20% Bright (ember)
   };
 
   const stateLabels = {
     bright: 'Bright',
-    glowing: 'Glowing',
+    steady: 'Steady',
     dimming: 'Dimming',
-    'needs-rekindling': 'Rekindle',
+    fading: 'Fading',
+    ember: 'Rekindle',
   };
 
   const stateMessages = {
     bright: 'Your Lantern is shining bright! Keep up the amazing work.',
-    glowing: 'Your Lantern is glowing steadily. Stay consistent!',
+    steady: 'Your Lantern is glowing steadily. Stay consistent!',
     dimming: 'Your Lantern is dimming. A quick session will brighten it.',
-    'needs-rekindling': 'Your Lantern needs rekindling. Start a session to bring it back.',
+    fading: 'Your Lantern is fading. Return soon to restore your flame.',
+    ember: 'Your Lantern needs rekindling. Start a session to bring it back.',
   };
+
+  const currentColors = flameColors[state];
 
   return (
     <div className="relative flex items-center gap-2">
@@ -85,24 +109,33 @@ export const LanternIcon: React.FC<LanternIconProps> = ({
           fill="none"
           className={`w-full h-full ${glowIntensity[state]} rounded-full`}
         >
-          <path
-            d="M12 2C12 2 8 6 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 6 12 2 12 2Z"
-            className={`fill-current bg-gradient-to-b ${flameColors[state]}`}
-            style={{
-              fill: state === 'bright' ? '#fbbf24' : 
-                    state === 'glowing' ? '#f97316' : 
-                    state === 'dimming' ? '#ea580c' : '#dc2626'
-            }}
-          />
+          {/* Flame shape */}
+          <defs>
+            <linearGradient id={`flameGradient-${state}`} x1="12" y1="2" x2="12" y2="14" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor={currentColors.start} />
+              <stop offset="50%" stopColor={currentColors.mid} />
+              <stop offset="100%" stopColor={currentColors.end} />
+            </linearGradient>
+          </defs>
+
+          {/* Animated flame */}
           <motion.path
             d="M12 2C12 2 8 6 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 6 12 2 12 2Z"
-            fill="url(#flameGradient)"
-            animate={state !== 'needs-rekindling' ? { 
-              opacity: [0.8, 1, 0.8],
-              scale: [1, 1.02, 1]
+            fill={`url(#flameGradient-${state})`}
+            animate={state !== 'ember' ? {
+              opacity: [0.85, 1, 0.85],
             } : {}}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{
+              duration: state === 'bright' ? 2 : state === 'steady' ? 3 : 4,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
           />
+
+          {/* Lantern base (wick holder) */}
+          <rect x="9" y="13" width="6" height="2" rx="0.5" fill="#78716c" />
+
+          {/* Lantern stem */}
           <path
             d="M10 14V20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20V14"
             stroke="#78716c"
@@ -110,31 +143,27 @@ export const LanternIcon: React.FC<LanternIconProps> = ({
             strokeLinecap="round"
             fill="#a8a29e"
           />
-          <rect x="9" y="13" width="6" height="2" rx="0.5" fill="#78716c" />
-          <defs>
-            <linearGradient id="flameGradient" x1="12" y1="2" x2="12" y2="14" gradientUnits="userSpaceOnUse">
-              <stop stopColor={state === 'bright' ? '#fef08a' : state === 'glowing' ? '#fcd34d' : state === 'dimming' ? '#fdba74' : '#fca5a5'} />
-              <stop offset="0.5" stopColor={state === 'bright' ? '#fbbf24' : state === 'glowing' ? '#f97316' : state === 'dimming' ? '#ea580c' : '#dc2626'} />
-              <stop offset="1" stopColor={state === 'bright' ? '#f97316' : state === 'glowing' ? '#ea580c' : state === 'dimming' ? '#b91c1c' : '#7f1d1d'} />
-            </linearGradient>
-          </defs>
         </svg>
+
+        {/* Bright state glow animation */}
         {state === 'bright' && (
           <motion.div
-            className="absolute inset-0 rounded-full bg-yellow-400/20"
+            className="absolute inset-0 rounded-full"
+            style={{ backgroundColor: 'rgba(232, 181, 74, 0.2)' }}
             animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           />
         )}
       </motion.div>
-      
+
       {showLabel && (
         <div className="flex flex-col">
           <span className={`text-xs font-medium ${
-            state === 'bright' ? 'text-yellow-400' :
-            state === 'glowing' ? 'text-orange-400' :
-            state === 'dimming' ? 'text-orange-600' :
-            'text-red-500'
+            state === 'bright' ? 'text-gold-500' :
+            state === 'steady' ? 'text-gold-600' :
+            state === 'dimming' ? 'text-gold-700' :
+            state === 'fading' ? 'text-gold-800' :
+            'text-gold-900'
           }`}>
             {stateLabels[state]}
           </span>
@@ -149,23 +178,24 @@ export const LanternIcon: React.FC<LanternIconProps> = ({
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64 bg-neutral-800 border border-neutral-700 rounded-xl p-4 shadow-xl z-50"
+            className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64 bg-cosmos text-neutral-snow border border-neutral-700 rounded-xl p-4 shadow-xl z-50"
           >
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-neutral-800 border-l border-t border-neutral-700 rotate-45" />
-            
+            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-cosmos border-l border-t border-neutral-700 rotate-45" />
+
             <div className="relative">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-semibold text-white">Your Lantern</h4>
                 <span className={`text-sm font-medium ${
-                  state === 'bright' ? 'text-yellow-400' :
-                  state === 'glowing' ? 'text-orange-400' :
-                  state === 'dimming' ? 'text-orange-600' :
-                  'text-red-500'
+                  state === 'bright' ? 'text-gold-400' :
+                  state === 'steady' ? 'text-gold-500' :
+                  state === 'dimming' ? 'text-gold-600' :
+                  state === 'fading' ? 'text-gold-700' :
+                  'text-gold-800'
                 }`}>
                   {health}/100
                 </span>
               </div>
-              
+
               <p className="text-sm text-neutral-400 mb-3">
                 {stateMessages[state]}
               </p>
