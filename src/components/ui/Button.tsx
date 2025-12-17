@@ -2,19 +2,25 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * SignRoad Button Component (Design System v1)
- * 
- * Variants follow the 70/15/10/5 brand color distribution:
- * - primary: Transformative Teal (#0E7A77) - Main CTAs, form submissions
- * - secondary: Teal Soft (#17A7A2) - Secondary actions, alternative paths
- * - accent: Gold (#EEC76A) - Reward CTAs, premium upsells, celebrations (use sparingly - 5% max!)
- * - outline: Teal border - Tertiary actions, cancel buttons
- * - ghost: Text only - Minimal emphasis, inline actions
- * 
- * Motion: 120ms ease-in-out hover transitions per spec
+ * SignRoad Button Component (Design System v5.0)
+ * "Soft Mystical Minimalism" Framework
+ *
+ * Variants:
+ * - primary: Transformative Teal (#0E9A91) - Main CTAs, interactive elements
+ * - secondary: Transparent with teal border - Alternative actions
+ * - gold: Luminous Gold (#E8B54A) - HIGH-VALUE CONVERSION ONLY (paywall, viral moments)
+ * - ghost: Text only - Tertiary actions
+ *
+ * CRITICAL: Gold CTA reserved for:
+ * - Paywall primary CTA
+ * - "Continue Journey" after trial
+ * - "Share Receipt" (viral moment)
+ * - "Rekindle Lantern" (return action)
+ *
+ * Animations: 120ms hover, scale effects per design guide
  */
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'gold' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   fullWidth?: boolean;
@@ -35,25 +41,26 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   ...props
 }) => {
-  const baseClasses = `inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed ${fullWidth ? 'w-full' : ''}`;
-  
+  const baseClasses = `inline-flex items-center justify-center font-medium rounded-xl transition-all duration-fast focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed ${fullWidth ? 'w-full' : ''}`;
+
   const variants = {
-    // Primary - Neumorphic raised button with proper depth
-    primary: 'bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text focus:ring-neumo-accent',
-    // Secondary - Neumorphic subtle button
-    secondary: 'bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text-secondary focus:ring-neumo-accent',
-    // Accent - Neumorphic accent button with border
-    accent: 'bg-neumo-surface shadow-neumo-sm hover:shadow-neumo-inset-sm active:shadow-neumo-inset-sm text-neumo-text border border-neumo-border focus:ring-neumo-accent font-semibold',
-    // Outline - Neumorphic border button
-    outline: 'border border-neumo-border text-neumo-text-secondary hover:bg-neumo-surface-soft focus:ring-neumo-accent',
-    // Ghost - Minimal emphasis
-    ghost: 'text-neumo-text-secondary hover:bg-neumo-surface-soft focus:ring-neumo-accent',
+    // PRIMARY BUTTON - Transformative Teal
+    primary: 'bg-brand-teal text-white shadow-btn hover:bg-brand-teal-dark hover:shadow-btn-hover active:bg-brand-teal-darker active:scale-98',
+
+    // SECONDARY BUTTON - Transparent with teal border
+    secondary: 'bg-transparent border-[1.5px] border-brand-teal text-brand-teal hover:bg-btn-secondary-hover active:bg-[rgba(14,154,145,0.12)]',
+
+    // GOLD CTA BUTTON - High-value conversion only
+    gold: 'bg-gold text-charcoal font-semibold shadow-btn-gold hover:bg-gold-dark hover:shadow-btn-gold-hover active:bg-gold-darker active:scale-98',
+
+    // GHOST BUTTON - Tertiary
+    ghost: 'bg-transparent text-slate hover:text-charcoal hover:underline',
   };
-  
+
   const sizes = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg',
+    sm: 'px-4 py-2.5 text-sm',
+    md: 'px-6 py-3.5 text-base',
+    lg: 'px-7 py-4 text-base',
   };
   
   return (
