@@ -1,7 +1,9 @@
 // SignRoad API Service
 // This service handles all API calls to the backend
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+// Use relative URL for API calls - Vite proxy will forward to the API server
+// This avoids CORS and cross-origin cookie issues when using tunnel URLs
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 interface ApiResponse<T> {
   success: boolean;

@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2, Copy, Check, Trophy, Download, Star } from 'lucide-react';
+import { Share2, Copy, Check, Trophy, Download, Star, X } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import html2canvas from 'html2canvas';
-import { NeumoCard } from '../ui/NeumoCard';
+import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
 
 interface ManifestationData {
   id: string;
@@ -150,29 +151,33 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-neumo-surface rounded-neumo-lg p-5 mb-6 shadow-neumo border border-neumo-border"
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="mb-6"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-neumo bg-neumo-surface-soft flex items-center justify-center">
-            <Trophy className="w-6 h-6 text-neumo-text-secondary" />
+        <Card variant="flat" padding="lg">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-xl bg-neutral-100 flex items-center justify-center">
+              <Trophy className="w-6 h-6 text-neutral-500" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-neutral-900">Universe Receipt</h2>
+              <p className="text-sm text-neutral-500">Share your manifestation wins</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-semibold text-neumo-text">Universe Receipt</h2>
-            <p className="text-sm text-neumo-text-secondary">Share your manifestation wins</p>
-          </div>
-        </div>
 
-        <p className="text-sm text-neumo-text-secondary mb-4">
-          When you manifest something on your road, you'll get a Universe Receipt to share 
-          with the world. It shows the odds you beat and your journey stats.
-        </p>
+          <p className="text-sm text-neutral-600 mb-4">
+            When you manifest something on your road, you'll get a Universe Receipt to share 
+            with the world. It shows the odds you beat and your journey stats.
+          </p>
 
-        <button
-          onClick={() => setHasManifestation(true)}
-          className="w-full py-2.5 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all"
-        >
-          Log a Manifestation
-        </button>
+          <Button
+            onClick={() => setHasManifestation(true)}
+            variant="secondary"
+            fullWidth
+          >
+            Log a Manifestation
+          </Button>
+        </Card>
       </motion.div>
     );
   }
@@ -182,59 +187,63 @@ Start your road: signroad.com
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
         className="mb-6"
       >
-        <NeumoCard showBlob={true} blobColor="gold">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-neumo bg-brand-teal flex items-center justify-center shadow-teal-glow">
-              <Trophy className="w-6 h-6 text-white" />
+        <Card variant="flat" padding="lg">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-[#0E9A91] flex items-center justify-center shadow-lg">
+                <Trophy className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-neutral-900">Latest Win</h2>
+                <p className="text-sm text-neutral-500">You manifested something!</p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold text-neumo-text">Latest Win</h2>
-              <p className="text-sm text-neumo-text-secondary">You manifested something!</p>
+            <div className="flex items-center gap-1 px-3 py-1.5 bg-[#E8B54A]/10 rounded-full border border-[#E8B54A]/20">
+              <Star className="w-4 h-4 text-[#E8B54A] fill-[#E8B54A]" />
+              <span className="text-sm font-medium text-[#E8B54A]">New</span>
             </div>
           </div>
-          <div className="flex items-center gap-1 bg-neumo-surface-soft px-3 py-1.5 rounded-full shadow-neumo-inset-sm">
-            <Star className="w-4 h-4 text-neumo-text-secondary fill-neumo-text-secondary" />
-            <span className="text-sm font-medium text-neumo-text">New</span>
-          </div>
-        </div>
 
-        <div className="bg-neumo-surface-soft rounded-neumo p-4 mb-4 shadow-neumo-inset-sm">
-          <p className="text-neumo-text font-medium mb-2">"{manifestation.title}"</p>
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-neumo-text-secondary">{manifestation.daysToManifest} days</span>
-            <span className="text-neumo-text-secondary">{manifestation.signsLogged} signs</span>
-            <span className="text-neumo-text font-medium">Beat {100 - manifestation.probability}% odds</span>
+          <div className="bg-neutral-50 rounded-xl p-4 mb-4 border border-neutral-100">
+            <p className="text-neutral-900 font-medium mb-2">"{manifestation.title}"</p>
+            <div className="flex items-center gap-4 text-sm">
+              <span className="text-neutral-500">{manifestation.daysToManifest} days</span>
+              <span className="text-neutral-500">{manifestation.signsLogged} signs</span>
+              <span className="text-neutral-900 font-semibold">Beat {100 - manifestation.probability}% odds</span>
+            </div>
           </div>
-        </div>
 
-        <button
-          onClick={() => setShowModal(true)}
-          className="w-full py-2.5 bg-brand-teal shadow-teal-glow hover:bg-brand-teal-dark text-white font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
-        >
-          <Share2 className="w-4 h-4" />
-          Share Universe Receipt
-        </button>
-        </NeumoCard>
+          <Button
+            onClick={() => setShowModal(true)}
+            variant="gold"
+            fullWidth
+            className="flex items-center justify-center gap-2"
+          >
+            <Share2 className="w-4 h-4" />
+            Share Universe Receipt
+          </Button>
+        </Card>
       </motion.div>
 
+      {/* Universe Receipt Modal - Uses glass variant for ceremonial moment */}
       <AnimatePresence>
         {showModal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-neumo-text/30 p-4 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto"
             onClick={() => setShowModal(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="w-full max-w-sm bg-neumo-bg rounded-neumo-lg overflow-hidden my-4 shadow-neumo-lg"
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="w-full max-w-sm bg-white/95 backdrop-blur-xl rounded-2xl overflow-hidden my-4 shadow-2xl border border-white/50"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Old-school Receipt Design - 9:18 ratio */}
@@ -351,13 +360,15 @@ Start your road: signroad.com
                 />
               </div>
 
-              {/* Action buttons */}
-              <div className="p-4 bg-neumo-bg">
+              {/* Action buttons - Clean flat design */}
+              <div className="p-4 bg-white border-t border-neutral-100">
                 <div className="flex flex-col gap-3">
-                  <button
+                  <Button
                     onClick={handleShareReceipt}
                     disabled={isGenerating}
-                    className="w-full py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset disabled:opacity-50 text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
+                    variant="primary"
+                    fullWidth
+                    className="flex items-center justify-center gap-2"
                   >
                     {isGenerating ? (
                       <span>Generating...</span>
@@ -367,23 +378,25 @@ Start your road: signroad.com
                         Share as Image
                       </>
                     )}
-                  </button>
+                  </Button>
                   <div className="flex gap-3">
-                    <button
+                    <Button
                       onClick={handleDownloadReceipt}
                       disabled={isGenerating}
-                      className="flex-1 py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
+                      variant="secondary"
+                      className="flex-1 flex items-center justify-center gap-2"
                     >
                       <Download className="w-4 h-4" />
                       Download
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={handleCopyReceipt}
-                      className="flex-1 py-3 bg-neumo-bg shadow-neumo-sm hover:shadow-neumo-inset text-neumo-text font-medium rounded-neumo transition-all flex items-center justify-center gap-2"
+                      variant="secondary"
+                      className="flex-1 flex items-center justify-center gap-2"
                     >
                       {copied ? (
                         <>
-                          <Check className="w-4 h-4 text-neumo-text" />
+                          <Check className="w-4 h-4 text-emerald-600" />
                           Copied!
                         </>
                       ) : (
@@ -392,11 +405,11 @@ Start your road: signroad.com
                           Copy Text
                         </>
                       )}
-                    </button>
+                    </Button>
                   </div>
                   <button
                     onClick={() => setShowModal(false)}
-                    className="w-full py-2 text-neumo-text-secondary text-sm hover:text-neumo-text transition-colors"
+                    className="w-full py-2 text-neutral-500 text-sm hover:text-neutral-900 transition-colors"
                   >
                     Close
                   </button>

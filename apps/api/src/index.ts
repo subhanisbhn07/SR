@@ -7,9 +7,35 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
-// CORS configuration
+// CORS configuration - handle multiple origins and tunnel URLs
 app.use(cors({
-  origin: config.corsOrigin,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Allow all devinapps.com tunnel URLs
+    if (origin.includes('devinapps.com')) {
+      return callback(null, true);
+    }
+    
+    // Check against configured origins
+    const allowedOrigins = Array.isArray(config.corsOrigin) 
+      ? config.corsOrigin 
+      : [config.corsOrigin];
+    
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    // For development, allow localhost on any port
+    if (origin.startsWith('http://localhost:')) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -44,6 +70,9 @@ app.use(errorHandler);
 
 // Start server
 app.listen(config.port, () => {
+  const corsDisplay = Array.isArray(config.corsOrigin) 
+    ? `${config.corsOrigin.length} origins (+ devinapps.com)`
+    : config.corsOrigin;
   console.log(`
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
@@ -52,7 +81,7 @@ app.listen(config.port, () => {
 ║                                                           ║
 ║   Server running on port ${config.port}                          ║
 ║   Environment: ${config.nodeEnv.padEnd(20)}                ║
-║   CORS Origin: ${config.corsOrigin.padEnd(20)}             ║
+║   CORS: ${String(corsDisplay).padEnd(27)}             ║
 ║                                                           ║
 ║   Note: Using in-memory database.                         ║
 ║   Data will be lost on server restart.                    ║

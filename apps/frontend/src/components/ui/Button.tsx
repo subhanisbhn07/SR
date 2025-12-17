@@ -2,30 +2,34 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * SignRoad Button Component (Design System v5.0)
- * "Soft Mystical Minimalism" Framework
+ * SignRoad Button Component (Design System v6.0)
+ * Apple-Style Modern Flat Design
+ *
+ * Design Philosophy:
+ * - Buttons are ALWAYS clearly tappable with high contrast
+ * - No neumorphism on buttons (reserved for non-critical surfaces)
+ * - Clean, predictable hover/active states
+ * - Restrained motion (subtle scale, no bounce)
  *
  * Variants:
  * - primary: Transformative Teal (#0E9A91) - Main CTAs, interactive elements
- * - secondary: Transparent with teal border - Alternative actions
- * - gold: Luminous Gold (#E8B54A) - HIGH-VALUE CONVERSION ONLY (paywall, viral moments)
- * - ghost: Text only - Tertiary actions
+ * - secondary: Light background with teal text - Alternative actions
+ * - gold: Luminous Gold (#E8B54A) - HIGH-VALUE CONVERSION ONLY
+ * - ghost: Text only with underline on hover - Tertiary actions
+ * - outline: Transparent with border - Secondary emphasis
  *
  * CRITICAL: Gold CTA reserved for:
  * - Paywall primary CTA
  * - "Continue Journey" after trial
  * - "Share Receipt" (viral moment)
  * - "Rekindle Lantern" (return action)
- *
- * Animations: 120ms hover, scale effects per design guide
  */
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'gold' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'gold' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   fullWidth?: boolean;
   children: React.ReactNode;
-  /** Accessible label for screen readers when button content is not descriptive */
   ariaLabel?: string;
 }
 
@@ -41,33 +45,74 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   ...props
 }) => {
-  const baseClasses = `inline-flex items-center justify-center font-medium rounded-xl transition-all duration-fast focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed ${fullWidth ? 'w-full' : ''}`;
+  const baseClasses = `
+    inline-flex items-center justify-center 
+    font-semibold tracking-tight
+    rounded-xl 
+    transition-all duration-200 ease-out
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+    ${fullWidth ? 'w-full' : ''}
+  `.replace(/\s+/g, ' ').trim();
 
   const variants = {
-    // PRIMARY BUTTON - Transformative Teal
-    primary: 'bg-brand-teal text-white shadow-btn hover:bg-brand-teal-dark hover:shadow-btn-hover active:bg-brand-teal-darker active:scale-98',
+    // PRIMARY - Solid teal, Apple-style clean
+    primary: `
+      bg-[#0E9A91] text-white
+      shadow-sm
+      hover:bg-[#0C8A82] hover:shadow-md
+      active:bg-[#0A7A72] active:shadow-sm
+      focus-visible:ring-[#0E9A91]
+    `,
 
-    // SECONDARY BUTTON - Transparent with teal border
-    secondary: 'bg-transparent border-[1.5px] border-brand-teal text-brand-teal hover:bg-btn-secondary-hover active:bg-[rgba(14,154,145,0.12)]',
+    // SECONDARY - Light teal background, teal text
+    secondary: `
+      bg-[#0E9A91]/10 text-[#0E9A91]
+      border border-transparent
+      hover:bg-[#0E9A91]/15 hover:border-[#0E9A91]/20
+      active:bg-[#0E9A91]/20
+      focus-visible:ring-[#0E9A91]
+    `,
 
-    // GOLD CTA BUTTON - High-value conversion only
-    gold: 'bg-gold text-charcoal font-semibold shadow-btn-gold hover:bg-gold-dark hover:shadow-btn-gold-hover active:bg-gold-darker active:scale-98',
+    // OUTLINE - Transparent with border
+    outline: `
+      bg-transparent text-[#0E9A91]
+      border-2 border-[#0E9A91]
+      hover:bg-[#0E9A91]/5
+      active:bg-[#0E9A91]/10
+      focus-visible:ring-[#0E9A91]
+    `,
 
-    // GHOST BUTTON - Tertiary
-    ghost: 'bg-transparent text-slate hover:text-charcoal hover:underline',
+    // GOLD - High-value conversion only
+    gold: `
+      bg-[#E8B54A] text-[#1A2B4A]
+      shadow-sm
+      hover:bg-[#D4A43F] hover:shadow-md
+      active:bg-[#C09435] active:shadow-sm
+      focus-visible:ring-[#E8B54A]
+    `,
+
+    // GHOST - Text only, minimal
+    ghost: `
+      bg-transparent text-neutral-600
+      hover:text-neutral-900 hover:bg-neutral-100
+      active:bg-neutral-200
+      focus-visible:ring-neutral-400
+    `,
   };
 
   const sizes = {
-    sm: 'px-4 py-2.5 text-sm',
-    md: 'px-6 py-3.5 text-base',
-    lg: 'px-7 py-4 text-base',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-5 py-2.5 text-base',
+    lg: 'px-6 py-3 text-base',
   };
   
   return (
     <motion.button
-      whileHover={{ scale: disabled || isLoading ? 1 : 1.02 }}
-      whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
-      className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`}
+      whileHover={{ scale: disabled || isLoading ? 1 : 1.01 }}
+      whileTap={{ scale: disabled || isLoading ? 1 : 0.99 }}
+      transition={{ duration: 0.15 }}
+      className={`${baseClasses} ${variants[variant].replace(/\s+/g, ' ').trim()} ${sizes[size]} ${className}`}
       disabled={disabled || isLoading}
       type={type}
       aria-label={ariaLabel}
@@ -75,7 +120,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {isLoading ? (
-        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" aria-hidden="true" />
+        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" aria-hidden="true" />
       ) : null}
       {children}
     </motion.button>
