@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthenticatedRequest } from '../middleware/auth.js';
-import { dailyMessages, users, generateDailyMessage, dailyMessageTemplates } from '../db/inMemoryDb.js';
+import { dailyMessages, users, generateDailyMessage } from '../db/inMemoryDb.js';
 import type { DailyMessage, MessageCategory } from '@signroad/shared';
 
 export async function getDailyMessage(req: AuthenticatedRequest, res: Response): Promise<void> {

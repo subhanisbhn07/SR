@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Sign, SignRarity } from '../types';
+import { api } from '../services/api';
 
 // SignCategory type for reference (exported from types)
 export type SignCategory = 'nature' | 'numbers' | 'animals' | 'symbols' | 'colors' | 'sounds' | 'synchronicity';
@@ -160,12 +161,15 @@ interface SignsGoalsState {
   activeSigns: ActiveSign[];
   foundSigns: ActiveSign[];
   goals: Goal[];
+  isLoading: boolean;
   
   // Sign actions
   assignInitialSigns: () => void;
-  markSignFound: (signId: string) => void;
+  markSignFound: (signId: string, locationNote?: string) => Promise<void>;
   maybeAssignNewSign: () => void;
   getRandomSign: () => SignDefinition;
+  fetchActiveSigns: () => Promise<void>;
+  fetchSignLogs: () => Promise<void>;
   
   // Goal actions
   addGoal: (title: string) => void;
@@ -184,6 +188,52 @@ export const useSignsGoalsStore = create<SignsGoalsState>()(
       activeSigns: [],
       foundSigns: [],
       goals: [],
+      isLoading: false,
+      
+      fetchActiveSigns: async () => {
+        set({ isLoading: true });
+        try {
+          const response = await api.getActiveSigns();
+          if (response.success && response.data) {
+            const activeSigns = response.data.signs.map((sign: any) => ({
+              id: sign.id,
+              definitionId: sign.id,
+              label: sign.name,
+              emoji: sign.emoji,
+              assignedAt: new Date().toISOString(),
+            }));
+            set({ activeSigns, isLoading: false });
+          } else {
+            set({ isLoading: false });
+          }
+        } catch (error) {
+          console.error('Failed to fetch active signs:', error);
+          set({ isLoading: false });
+        }
+      },
+      
+      fetchSignLogs: async () => {
+        set({ isLoading: true });
+        try {
+          const response = await api.getUserSignLogs();
+          if (response.success && response.data) {
+            const foundSigns = response.data.logs.map((log: any) => ({
+              id: log.id,
+              definitionId: log.signId,
+              label: log.sign?.name || 'Unknown Sign',
+              emoji: log.sign?.emoji || '✨',
+              assignedAt: log.createdAt,
+              foundAt: log.foundAt,
+            }));
+            set({ foundSigns, isLoading: false });
+          } else {
+            set({ isLoading: false });
+          }
+        } catch (error) {
+          console.error('Failed to fetch sign logs:', error);
+          set({ isLoading: false });
+        }
+      },
       
       getRandomSign: () => {
         const { activeSigns, foundSigns } = get();
@@ -217,7 +267,7 @@ export const useSignsGoalsStore = create<SignsGoalsState>()(
         set({ activeSigns: [newSign] });
       },
       
-      markSignFound: (signId: string) => {
+      markSignFound: async (signId: string, locationNote?: string) => {
         const { activeSigns, foundSigns } = get();
         const signIndex = activeSigns.findIndex(s => s.id === signId);
         
@@ -228,10 +278,18 @@ export const useSignsGoalsStore = create<SignsGoalsState>()(
           foundAt: new Date().toISOString(),
         };
         
+        // Update local state immediately for responsive UI
         const newActiveSigns = activeSigns.filter(s => s.id !== signId);
         const newFoundSigns = [foundSign, ...foundSigns];
-        
         set({ activeSigns: newActiveSigns, foundSigns: newFoundSigns });
+        
+        // Log to API in background
+        try {
+          await api.logSign(foundSign.definitionId, locationNote);
+        } catch (error) {
+          console.error('Failed to log sign to API:', error);
+          // Keep local state even if API fails
+        }
         
         // Automatically assign a new sign after finding one
         get().maybeAssignNewSign();

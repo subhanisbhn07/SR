@@ -8,8 +8,8 @@ import type { User, LoginRequest, SignUpRequest, SubscriptionTier, SubscriptionS
 
 function generateAccessToken(userId: string, email: string): string {
   return jwt.sign({ userId, email }, config.jwtSecret, {
-    expiresIn: config.jwtAccessExpiresIn,
-  });
+    expiresIn: config.jwtAccessExpiresIn as string,
+  } as jwt.SignOptions);
 }
 
 function generateRefreshToken(userId: string): string {

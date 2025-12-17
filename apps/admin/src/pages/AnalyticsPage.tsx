@@ -1,13 +1,35 @@
-import { TrendingUp, TrendingDown, Users, DollarSign, Flame, Sparkles } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { TrendingUp, TrendingDown, Users, DollarSign, Flame, Sparkles, Loader2 } from 'lucide-react';
+import { adminApi } from '../services/api';
 
-const metrics = [
+interface Metric {
+  label: string;
+  value: string;
+  change: string;
+  trend: 'up' | 'down';
+  icon: any;
+}
+
+interface TopSign {
+  name: string;
+  emoji: string;
+  count: number;
+}
+
+interface RetentionPoint {
+  day: string;
+  rate: number;
+}
+
+// Fallback mock data for when API is unavailable
+const mockMetrics: Metric[] = [
   { label: 'Monthly Active Users', value: '8,432', change: '+12.5%', trend: 'up', icon: Users },
   { label: 'Monthly Revenue', value: '$47,892', change: '+8.3%', trend: 'up', icon: DollarSign },
   { label: 'Trial Conversion', value: '18.7%', change: '-2.1%', trend: 'down', icon: TrendingUp },
   { label: 'Avg Session Length', value: '6.2 min', change: '+15%', trend: 'up', icon: Flame },
 ];
 
-const topSigns = [
+const mockTopSigns: TopSign[] = [
   { name: '11:11', emoji: '🕚', count: 12453 },
   { name: 'White Feather', emoji: '🪶', count: 8432 },
   { name: 'Butterfly', emoji: '🦋', count: 6721 },
@@ -15,7 +37,7 @@ const topSigns = [
   { name: '222', emoji: '2️⃣', count: 2891 },
 ];
 
-const retentionData = [
+const mockRetentionData: RetentionPoint[] = [
   { day: 'Day 1', rate: 100 },
   { day: 'Day 7', rate: 68 },
   { day: 'Day 14', rate: 52 },
@@ -25,6 +47,51 @@ const retentionData = [
 ];
 
 export default function AnalyticsPage() {
+  const [metrics, setMetrics] = useState<Metric[]>(mockMetrics);
+  const [topSigns, setTopSigns] = useState<TopSign[]>(mockTopSigns);
+  const [retentionData, setRetentionData] = useState<RetentionPoint[]>(mockRetentionData);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, []);
+
+  const fetchAnalytics = async () => {
+    setIsLoading(true);
+    try {
+      const response = await adminApi.getAnalytics('month');
+      if (response.success && response.data) {
+        const data = response.data as any;
+        if (data.metrics) {
+          setMetrics(data.metrics.map((m: any) => ({
+            ...m,
+            icon: m.icon === 'Users' ? Users : 
+                  m.icon === 'DollarSign' ? DollarSign :
+                  m.icon === 'TrendingUp' ? TrendingUp : Flame,
+          })));
+        }
+        if (data.topSigns) {
+          setTopSigns(data.topSigns);
+        }
+        if (data.retention) {
+          setRetentionData(data.retention);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch analytics:', error);
+      // Keep mock data as fallback
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-24">
+        <Loader2 className="w-8 h-8 text-brand-teal animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="mb-8">
