@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, Star, Clock, Users, ChevronRight } from 'lucide-react';
-import { Button } from '../ui/Button';
+import { Play, Star, Clock, ChevronRight } from 'lucide-react';
 import { Badge } from '../ui/Badge';
 
 interface Course {
@@ -20,17 +19,15 @@ interface CourseSectionProps {
   title: string;
   subtitle?: string;
   courses: Course[];
-  gradient?: string;
   onCourseSelect?: (courseId: number) => void;
   onViewMore?: () => void;
   compact?: boolean;
 }
 
-export const CourseSection: React.FC<CourseSectionProps> = ({ 
-  title, 
+export const CourseSection: React.FC<CourseSectionProps> = ({
+  title,
   subtitle,
-  courses, 
-  gradient = "bg-neutral-800/30",
+  courses,
   onCourseSelect,
   onViewMore,
   compact = false

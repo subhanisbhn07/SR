@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, Target, MessageCircle, Receipt, Play, BookOpen, ArrowRight, Check, ChevronDown, Star, Sparkles, Users, Clock, Zap, Menu, X } from 'lucide-react';
-import { useConfigStore } from '../store/configStore';
+import { Eye, Target, MessageCircle, Receipt, Play, ArrowRight, Check, ChevronDown, Menu, X } from 'lucide-react';
 import { useAffinityStore } from '../store/affinityStore';
-
-// Landing page routes for navigation
-const landingPageRoutes = [
-  { path: '/universe-receipts', label: 'Universe Receipts', description: 'Proof when it manifests' },
-  { path: '/daily-message', label: 'Daily Message', description: 'Grounded daily guidance' },
-  { path: '/daily-audio', label: 'Daily Audio', description: '10-minute sessions' },
-  { path: '/sleep-orb', label: 'Sleep Orb', description: '12 soundscapes for rest' },
-];
+import { LANDING_PAGE_ROUTES as landingPageRoutes } from '../constants/routes';
 
 interface LandingPageProps {
   onGetStarted: () => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
-  const { freeTrialDays } = useConfigStore();
   const { setAffinity, setUtmParams } = useAffinityStore();
   const [email, setEmail] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(null);

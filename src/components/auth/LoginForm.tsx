@@ -17,7 +17,11 @@ interface LoginFormProps {
 export const LoginForm: React.FC<LoginFormProps> = ({ onBack }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login, mode } = useAuthStore();
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+  const { login, signup, resetPassword, mode } = useAuthStore();
   const { freeTrialDays } = useConfigStore();
   
   const {
@@ -29,9 +33,26 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onBack }) => {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     try {
-      await login(data.email, data.password);
+      if (isSignUp) {
+        await signup(data.email, data.password);
+      } else {
+        await login(data.email, data.password);
+      }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error(`${isSignUp ? 'Signup' : 'Login'} failed:`, error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      await resetPassword(resetEmail);
+      setResetSent(true);
+    } catch (error) {
+      console.error('Password reset failed:', error);
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +61,108 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onBack }) => {
   const handleSocialLogin = (provider: 'facebook' | 'google') => {
     console.log(`${provider} login - Coming soon`);
   };
-  
+
+  const toggleMode = () => {
+    setIsSignUp(!isSignUp);
+    setShowForgotPassword(false);
+    setResetSent(false);
+  };
+
+  const handleShowForgotPassword = () => {
+    setShowForgotPassword(true);
+    setResetSent(false);
+  };
+
+  const handleBackToLogin = () => {
+    setShowForgotPassword(false);
+    setResetSent(false);
+    setResetEmail('');
+  };
+
+  // Forgot Password View
+  if (showForgotPassword) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md mx-auto"
+      >
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-neumo-text-secondary hover:text-neumo-text mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-sm">Back to home</span>
+          </button>
+        )}
+
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 bg-brand-teal rounded-full flex items-center justify-center mx-auto mb-4 shadow-teal-glow">
+            <Lock className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-neumo-text mb-1">
+            Reset Password
+          </h1>
+          <p className="text-neumo-text-secondary text-sm">
+            Enter your email and we'll send you a reset link
+          </p>
+        </div>
+
+        <div className="sr-login-form mx-auto">
+          {resetSent ? (
+            <div className="text-center p-6">
+              <div className="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-6 h-6 text-green-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-neumo-text mb-2">Check your email</h3>
+              <p className="text-sm text-neumo-text-secondary mb-4">
+                We've sent a password reset link to <strong>{resetEmail}</strong>
+              </p>
+              <button
+                onClick={handleBackToLogin}
+                className="sr-login-btn-primary w-full"
+              >
+                Back to Login
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleForgotPassword} className="space-y-4">
+              <div className="sr-login-field">
+                <Mail className="sr-login-icon" />
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="sr-login-input"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="sr-login-btn-primary w-full"
+                disabled={isLoading || !resetEmail}
+              >
+                {isLoading ? 'Sending...' : 'Send Reset Link'}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleBackToLogin}
+                className="sr-login-btn-forgot w-full"
+              >
+                Back to Login
+              </button>
+            </form>
+          )}
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -74,8 +196,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onBack }) => {
       </div>
       
       <div className="sr-login-form mx-auto">
-        <h2 className="sr-login-heading">Sign In</h2>
-        
+        <h2 className="sr-login-heading">{isSignUp ? 'Create Account' : 'Sign In'}</h2>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="sr-login-field">
             <Mail className="sr-login-icon" />
@@ -128,19 +250,29 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onBack }) => {
               className="sr-login-btn-primary flex-1"
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Login'}
+              {isLoading
+                ? (isSignUp ? 'Creating account...' : 'Signing in...')
+                : (isSignUp ? 'Sign Up' : 'Login')
+              }
             </button>
             <button
               type="button"
+              onClick={toggleMode}
               className="sr-login-btn-secondary flex-1"
             >
-              Sign Up
+              {isSignUp ? 'Login' : 'Sign Up'}
             </button>
           </div>
-          
-          <button type="button" className="sr-login-btn-forgot w-full">
-            Forgot Password?
-          </button>
+
+          {!isSignUp && (
+            <button
+              type="button"
+              onClick={handleShowForgotPassword}
+              className="sr-login-btn-forgot w-full"
+            >
+              Forgot Password?
+            </button>
+          )}
         </form>
         
         <div className="sr-login-social-group">

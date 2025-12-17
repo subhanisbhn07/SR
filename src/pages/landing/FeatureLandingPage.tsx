@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Check, Eye, Target, MessageCircle, Receipt, Play, Clock, Sparkles, Moon, Headphones } from 'lucide-react';
+import { ArrowRight, ChevronDown, Check, Eye, Target, MessageCircle, Receipt, Clock, Sparkles, Moon, Headphones } from 'lucide-react';
 import { useAffinityStore, AffinityType } from '../../store/affinityStore';
 import { useConfigStore } from '../../store/configStore';
 
@@ -196,7 +196,6 @@ interface FeatureLandingPageProps {
 export const FeatureLandingPage: React.FC<FeatureLandingPageProps> = ({ affinityType, onGetStarted }) => {
   const { setAffinity, setUtmParams } = useAffinityStore();
   const { freeTrialDays } = useConfigStore();
-  const [email, setEmail] = useState('');
 
   // Get config for this landing page type
   const config = landingPageConfigs[affinityType || 'platform'];

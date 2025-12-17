@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { User, Bell, Sparkles, ChevronDown, Home, BookOpen, Heart, PenTool, Menu, Compass } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
-import { useThemeStore } from '../../store/themeStore';
 import { LanternIcon } from '../ui/LanternIcon';
-import { ThemeToggle } from '../ui/ThemeToggle';
 import { MobileSidebar } from './MobileSidebar';
 
 interface DarkModeHeaderProps {
@@ -29,7 +27,6 @@ const landingPageRoutes = [
 
 export const DarkModeHeader: React.FC<DarkModeHeaderProps> = ({ activeTab = 'home', onTabChange }) => {
   const { user } = useAuthStore();
-  const { theme } = useThemeStore();
   const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
