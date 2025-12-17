@@ -1,20 +1,20 @@
-/* SignRoad UI Components - Based on uiverse.io designs */
+/* SignRoad UI Components v5.0 - "Soft Mystical Minimalism" */
 /* All classes prefixed with 'sr-' to avoid collisions */
 
 /* ============================================
  * NEUMO CARD - Animated blob card effect
- * From: uiverse.io/dylanharriscameron/stupid-mole-90
+ * Updated with Design System v5.0 colors
  * ============================================ */
 .sr-neumo-card {
   position: relative;
-  border-radius: 14px;
+  border-radius: 16px;
   z-index: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: stretch;
-  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+  box-shadow: 0 4px 16px rgba(42, 47, 51, 0.08);
   background: transparent;
 }
 
@@ -22,10 +22,10 @@
   position: relative;
   z-index: 2;
   margin: 5px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  background: #FFFEF9;
   backdrop-filter: blur(24px);
-  outline: 2px solid white;
+  outline: 1px solid #E8E4DF;
   padding: 1.5rem;
 }
 
@@ -37,7 +37,7 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, #0E7A77 0%, #17A7A2 50%, transparent 70%);
+  background: radial-gradient(circle at center, #0E9A91 0%, #5FBFB8 50%, transparent 70%);
   opacity: 0.8;
   filter: blur(12px);
   animation: sr-blob-bounce 5s infinite ease;
@@ -53,7 +53,7 @@
 
 /* Card size variants */
 .sr-neumo-card-sm {
-  box-shadow: 12px 12px 36px #bebebe, -12px -12px 36px #ffffff;
+  box-shadow: 0 2px 8px rgba(42, 47, 51, 0.04);
 }
 
 .sr-neumo-card-sm .sr-neumo-card-blob {
@@ -62,7 +62,7 @@
 }
 
 .sr-neumo-card-lg {
-  box-shadow: 24px 24px 72px #bebebe, -24px -24px 72px #ffffff;
+  box-shadow: 0 8px 24px rgba(42, 47, 51, 0.12);
 }
 
 .sr-neumo-card-lg .sr-neumo-card-blob {
@@ -71,24 +71,25 @@
 }
 
 /* ============================================
- * LOGIN FORM - Dark teal-tinted card
- * From: uiverse.io/Praashoo7/brave-moose-56
+ * LOGIN FORM - Deep cosmos themed
+ * Updated with Design System v5.0
  * ============================================ */
 .sr-login-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 2em;
-  background-color: #0E2E2D;
-  border-radius: 25px;
-  transition: 0.4s ease-in-out;
+  background-color: #1A2B4A;
+  border-radius: 20px;
+  transition: 0.3s ease-out;
   max-width: 320px;
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sr-login-form:hover {
   transform: scale(1.02);
-  border: 1px solid #0E7A77;
+  border: 1px solid #0E9A91;
 }
 
 .sr-login-heading {
@@ -104,19 +105,19 @@
   align-items: center;
   justify-content: center;
   gap: 0.5em;
-  border-radius: 25px;
+  border-radius: 12px;
   padding: 0.8em 1em;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   outline: none;
   color: white;
-  background-color: #0A2322;
-  box-shadow: inset 2px 5px 10px rgb(5, 30, 28);
+  background-color: #0F1A2E;
+  box-shadow: inset 2px 5px 10px rgba(15, 26, 46, 0.5);
 }
 
 .sr-login-icon {
   height: 1.3em;
   width: 1.3em;
-  fill: #17A7A2;
+  fill: #5FBFB8;
 }
 
 .sr-login-input {
@@ -124,12 +125,12 @@
   border: none;
   outline: none;
   width: 100%;
-  color: #d3d3d3;
+  color: #FAFAF8;
   font-size: 1rem;
 }
 
 .sr-login-input::placeholder {
-  color: #8E9A9F;
+  color: #9A9590;
 }
 
 .sr-login-btn-group {
@@ -142,51 +143,52 @@
 
 .sr-login-btn-primary {
   padding: 0.7em 1.5em;
-  border-radius: 8px;
+  border-radius: 12px;
   border: none;
   outline: none;
-  transition: 0.4s ease-in-out;
-  background-color: #0E7A77;
+  transition: 0.2s ease-out;
+  background-color: #0E9A91;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(14, 154, 145, 0.25);
 }
 
 .sr-login-btn-primary:hover {
-  background-color: #0A5C5A;
-  box-shadow: 0 4px 20px rgba(14, 122, 119, 0.4);
+  background-color: #0C8880;
+  box-shadow: 0 4px 12px rgba(14, 154, 145, 0.3);
 }
 
 .sr-login-btn-secondary {
   padding: 0.7em 1.5em;
-  border-radius: 8px;
-  border: none;
+  border-radius: 12px;
+  border: 1.5px solid #0E9A91;
+  background-color: transparent;
   outline: none;
-  transition: 0.4s ease-in-out;
-  background-color: #1A3D3C;
+  transition: 0.2s ease-out;
   color: white;
   cursor: pointer;
 }
 
 .sr-login-btn-secondary:hover {
-  background-color: #0E7A77;
+  background-color: rgba(14, 154, 145, 0.08);
 }
 
 .sr-login-btn-forgot {
   margin-top: 1em;
   padding: 0.5em;
-  border-radius: 5px;
+  border-radius: 8px;
   border: none;
   outline: none;
-  transition: 0.4s ease-in-out;
+  transition: 0.2s ease-out;
   background-color: transparent;
-  color: #8E9A9F;
+  color: #9A9590;
   cursor: pointer;
   font-size: 0.9em;
 }
 
 .sr-login-btn-forgot:hover {
-  color: #17A7A2;
+  color: #5FBFB8;
 }
 
 /* Social login buttons */
@@ -241,13 +243,13 @@
 }
 
 .sr-login-btn-google:hover {
-  background-color: #0E2E2D;
-  border-color: #0E7A77;
+  background-color: #0F1A2E;
+  border-color: #0E9A91;
 }
 
 /* ============================================
  * PAGE LOADER - Bouncing balls
- * From: uiverse.io/mobinkakei/grumpy-turtle-41
+ * Updated with Design System v5.0
  * ============================================ */
 .sr-page-loader {
   position: fixed;
@@ -256,7 +258,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(224, 229, 236, 0.9);
+  background-color: rgba(250, 250, 248, 0.95);
   backdrop-filter: blur(8px);
 }
 
@@ -272,7 +274,7 @@
   height: 20px;
   position: absolute;
   border-radius: 50%;
-  background-color: #0E7A77;
+  background-color: #0E9A91;
   left: 15%;
   transform-origin: 50%;
   animation: sr-dots-bounce 0.5s alternate infinite ease;
@@ -310,7 +312,7 @@
   width: 20px;
   height: 4px;
   border-radius: 50%;
-  background-color: rgba(14, 122, 119, 0.3);
+  background-color: rgba(14, 154, 145, 0.3);
   position: absolute;
   top: 62px;
   transform-origin: 50%;
@@ -347,7 +349,7 @@
 
 /* ============================================
  * AUDIO ORB LOADER - Spinning gradient
- * From: uiverse.io/xXJollyHAKERXx/lucky-falcon-75
+ * Updated with Design System v5.0
  * ============================================ */
 .sr-audio-orb-container {
   display: flex;
@@ -357,18 +359,18 @@
 }
 
 .sr-audio-orb-spinner {
-  background-image: linear-gradient(#0E7A77 35%, #17A7A2);
+  background-image: linear-gradient(#0E9A91 35%, #5FBFB8);
   width: 100px;
   height: 100px;
   animation: sr-spinner-orb 1.7s linear infinite;
   text-align: center;
   border-radius: 50px;
   filter: blur(1px);
-  box-shadow: 0px -5px 20px 0px #0E7A77, 0px 5px 20px 0px #17A7A2;
+  box-shadow: 0px -5px 20px 0px #0E9A91, 0px 5px 20px 0px #5FBFB8;
 }
 
 .sr-audio-orb-inner {
-  background-color: #E0E5EC;
+  background-color: #FAFAF8;
   width: 100px;
   height: 100px;
   border-radius: 50px;
@@ -413,7 +415,7 @@
   width: 1.15em;
   height: 13em;
   border-radius: 50px;
-  background: #E0E5EC;
+  background: #F5F5F3;
 }
 
 .sr-voice-loader-track::after {
@@ -423,12 +425,12 @@
   top: 0;
   width: 1.15em;
   height: 5em;
-  background: #E0E5EC;
+  background: #F5F5F3;
   border-radius: 50px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid #E8E4DF;
   box-shadow:
-    inset 5px 5px 15px #d3d2d2ab,
-    inset -5px -5px 15px #e9e9e9ab;
+    inset 5px 5px 15px rgba(232, 228, 223, 0.7),
+    inset -5px -5px 15px rgba(255, 255, 255, 0.7);
   mask-image: linear-gradient(to bottom, black calc(100% - 48px), transparent 100%);
 }
 
@@ -439,12 +441,12 @@
   right: 0;
   width: 1.15em;
   height: 4.5em;
-  background: #E0E5EC;
+  background: #F5F5F3;
   border-radius: 50px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid #E8E4DF;
   box-shadow:
-    inset 5px 5px 15px #d3d2d2ab,
-    inset -5px -5px 15px #e9e9e9ab;
+    inset 5px 5px 15px rgba(232, 228, 223, 0.7),
+    inset -5px -5px 15px rgba(255, 255, 255, 0.7);
   mask-image: linear-gradient(to top, black calc(100% - 48px), transparent 100%);
 }
 
@@ -452,9 +454,9 @@
   width: 1.15em;
   height: 1.15em;
   box-shadow:
-    rgba(14, 122, 119, 0.17) 0px -10px 10px 0px inset,
-    rgba(14, 122, 119, 0.15) 0px -15px 15px 0px inset,
-    rgba(14, 122, 119, 0.1) 0px -40px 20px 0px inset,
+    rgba(14, 154, 145, 0.17) 0px -10px 10px 0px inset,
+    rgba(14, 154, 145, 0.15) 0px -15px 15px 0px inset,
+    rgba(14, 154, 145, 0.1) 0px -40px 20px 0px inset,
     rgba(0, 0, 0, 0.06) 0px 2px 1px,
     rgba(0, 0, 0, 0.09) 0px 4px 2px,
     rgba(0, 0, 0, 0.09) 0px 8px 4px,
@@ -463,7 +465,7 @@
     0px -1px 15px -8px rgba(0, 0, 0, 0.09);
   border-radius: 50%;
   transition: transform 800ms cubic-bezier(1, -0.4, 0, 1.4);
-  background-color: #0E7A77;
+  background-color: #0E9A91;
   animation: sr-ball-move 3.63s move ease-in-out infinite;
 }
 
@@ -495,6 +497,7 @@
 
 /* ============================================
  * 404 PAGE STYLES
+ * Updated with Design System v5.0
  * ============================================ */
 .sr-404-container {
   display: flex;
@@ -503,36 +506,37 @@
   justify-content: center;
   min-height: 100vh;
   padding: 2rem;
-  background-color: #E0E5EC;
+  background-color: #FAFAF8;
 }
 
 .sr-404-card {
   text-align: center;
   padding: 3rem;
   border-radius: 20px;
-  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
-  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 24px rgba(42, 47, 51, 0.12);
+  background: #FFFEF9;
+  border: 1px solid #E8E4DF;
   max-width: 400px;
 }
 
 .sr-404-number {
   font-size: 6rem;
   font-weight: 700;
-  color: #0E7A77;
+  color: #0E9A91;
   line-height: 1;
   margin-bottom: 1rem;
-  text-shadow: 4px 4px 8px rgba(14, 122, 119, 0.2);
+  text-shadow: 0 4px 12px rgba(14, 154, 145, 0.2);
 }
 
 .sr-404-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2D3436;
+  color: #2A2F33;
   margin-bottom: 0.5rem;
 }
 
 .sr-404-message {
-  color: #636E72;
+  color: #5A6169;
   margin-bottom: 2rem;
 }
 
@@ -541,52 +545,54 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: #0E7A77;
+  background-color: #0E9A91;
   color: white;
   border-radius: 12px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(14, 122, 119, 0.3);
+  transition: all 0.2s ease-out;
+  box-shadow: 0 2px 8px rgba(14, 154, 145, 0.25);
 }
 
 .sr-404-btn:hover {
-  background-color: #0A5C5A;
+  background-color: #0C8880;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(14, 122, 119, 0.4);
+  box-shadow: 0 4px 12px rgba(14, 154, 145, 0.3);
 }
 
 /* ============================================
  * TEAL ACCENT UTILITIES
+ * Updated with Design System v5.0
  * ============================================ */
 .sr-teal-text {
-  color: #0E7A77;
+  color: #0E9A91;
 }
 
 .sr-teal-bg {
-  background-color: #0E7A77;
+  background-color: #0E9A91;
 }
 
 .sr-teal-border {
-  border-color: #0E7A77;
+  border-color: #0E9A91;
 }
 
 .sr-teal-glow {
-  box-shadow: 0 4px 20px rgba(14, 122, 119, 0.3);
+  box-shadow: 0 0 20px rgba(14, 154, 145, 0.25);
 }
 
 .sr-teal-btn {
-  background-color: #0E7A77;
+  background-color: #0E9A91;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease-out;
+  box-shadow: 0 2px 8px rgba(14, 154, 145, 0.25);
 }
 
 .sr-teal-btn:hover {
-background-color: #0A5C5A;
-box-shadow: 0 4px 20px rgba(14, 122, 119, 0.4);
+  background-color: #0C8880;
+  box-shadow: 0 4px 12px rgba(14, 154, 145, 0.3);
 }
