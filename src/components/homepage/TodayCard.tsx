@@ -6,6 +6,7 @@ import { useConfigStore } from '../../store/configStore';
 import { useSignsGoalsStore } from '../../store/signsGoalsStore';
 import { LanternIcon } from '../ui/LanternIcon';
 import { NeumoCard } from '../ui/NeumoCard';
+import { MeditationPlayer } from '../meditation';
 
 interface TodayCardProps {
   onStartSession?: () => void;
@@ -18,6 +19,7 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
   const [signLogged, setSignLogged] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [showReward, setShowReward] = useState(false);
+  const [showMeditationPlayer, setShowMeditationPlayer] = useState(false);
 
   // Initialize signs on first load
   useEffect(() => {
@@ -54,12 +56,17 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
   };
 
   const handleStartSession = () => {
-    if (onStartSession) {
-      onStartSession();
-    }
+    setShowMeditationPlayer(true);
+  };
+
+  const handleMeditationComplete = () => {
+    setShowMeditationPlayer(false);
     setSessionCompleted(true);
     setShowReward(true);
     setTimeout(() => setShowReward(false), 2000);
+    if (onStartSession) {
+      onStartSession();
+    }
   };
 
   const isFreeTrialDay = roadStep <= freeTrialDays;
@@ -274,6 +281,16 @@ export const TodayCard: React.FC<TodayCardProps> = ({ onStartSession }) => {
       </AnimatePresence>
         </div>
       </NeumoCard>
+
+      {/* Meditation Player Modal */}
+      <MeditationPlayer
+        isOpen={showMeditationPlayer}
+        onClose={handleMeditationComplete}
+        dayNumber={roadStep}
+        title="5-min Evening Wind Down"
+        duration={300}
+        signEmoji={todaySign.emoji}
+      />
     </motion.div>
   );
 };
