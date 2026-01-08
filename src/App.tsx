@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { LoginForm } from './components/auth/LoginForm';
 import { Homepage } from './pages/Homepage';
 import { LandingPage } from './pages/LandingPage';
-import { 
-  UniverseReceiptsLanding, 
-  DailyMessageLanding, 
-  DailyAudioLanding, 
+import {
+  UniverseReceiptsLanding,
+  DailyMessageLanding,
+  DailyAudioLanding,
   SleepOrbLanding,
-  PlatformLanding 
+  PlatformLanding
 } from './pages/landing';
 import { ChooseYourRoad } from './components/onboarding/ChooseYourRoad';
 import { AdminSettings } from './pages/AdminSettings';
-import { NotFoundPage } from './pages/NotFoundPage';
 import { PageLoader } from './components/ui/PageLoader';
+import { ErrorBoundary } from './components/error/ErrorBoundary';
 
 // Inner component that has access to router hooks
 const AppContent: React.FC = () => {
@@ -93,9 +93,11 @@ const AppContent: React.FC = () => {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <AppContent />
+      </Router>
+    </ErrorBoundary>
   );
 }
 

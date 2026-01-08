@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Settings, Calendar, Sun, Moon, ArrowLeft, Monitor, Tablet, Smartphone, LayoutGrid, RotateCcw } from 'lucide-react';
-import { useConfigStore, CardVisibilitySettings, CardVisibility } from '../store/configStore';
+import { useConfigStore, CardVisibilitySettings } from '../store/configStore';
 import { useThemeStore } from '../store/themeStore';
 import { useNavigate } from 'react-router-dom';
 

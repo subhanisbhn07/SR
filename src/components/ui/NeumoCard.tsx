@@ -8,20 +8,14 @@ interface NeumoCardProps {
   blobColor?: 'teal' | 'purple' | 'gold';
 }
 
-export function NeumoCard({ 
-  children, 
-  className = '', 
+export function NeumoCard({
+  children,
+  className = '',
   size = 'md',
   showBlob = true,
   blobColor = 'teal'
 }: NeumoCardProps) {
   const sizeClass = size === 'sm' ? 'sr-neumo-card-sm' : size === 'lg' ? 'sr-neumo-card-lg' : '';
-  
-  const blobColorClass = {
-    teal: 'from-brand-teal to-brand-teal-light',
-    purple: 'from-purple-500 to-purple-400',
-    gold: 'from-amber-500 to-amber-400',
-  }[blobColor];
 
   return (
     <div className={`sr-neumo-card ${sizeClass} ${className}`}>

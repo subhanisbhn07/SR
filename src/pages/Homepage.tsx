@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useThemeStore } from '../store/themeStore';
 import { useCardVisibility } from '../hooks/useCardVisibility';
 import { DarkModeHeader } from '../components/homepage/DarkModeHeader';
 import { HeroCarousel } from '../components/homepage/HeroCarousel';
@@ -74,10 +73,9 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, children
 export const Homepage: React.FC = () => {
   const [activeBottomTab, setActiveBottomTab] = useState('home');
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const { theme } = useThemeStore();
   const { isCardVisible } = useCardVisibility();
 
-  const handleIntentSelect = (intent: string) => {
+  const handleIntentSelect = () => {
     // Navigate to courses with the selected intent filter
     setActiveBottomTab('courses');
   };

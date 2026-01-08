@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, Eye, Headphones, ArrowRight, Check } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
 import { useSignsGoalsStore } from '../../store/signsGoalsStore';
 
 interface OnboardingWizardProps {
@@ -36,7 +35,6 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
   const [selectedIntention, setSelectedIntention] = useState<string | null>(null);
   const [revealedSign, setRevealedSign] = useState<typeof firstSigns[0] | null>(null);
   const [isRevealing, setIsRevealing] = useState(false);
-  const { user } = useAuthStore();
   const { assignNewSign } = useSignsGoalsStore();
 
   const handleIntentionSelect = (intentionId: string) => {
